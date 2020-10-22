@@ -1,0 +1,11 @@
+{
+  "title.label": "Ingresar",
+  "dni.label": "DNI",
+  "password.label": "Contraseña",
+  "dni.placeholder": "Ingresar DNI",
+  "password.placeholder": "Ingresar Contraseña",
+  "dni.invalid": "Dni inválido",
+  "password.invalid": "Contraseña inválida",
+  "password.forget": "¿Olvidaste tu contraseña?",
+  "btn.login": "Ingresar"
+}

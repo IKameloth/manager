@@ -1,0 +1,11 @@
+{
+  "title.label": "Login",
+  "dni.label": "Dni",
+  "password.label": "Password",
+  "dni.placeholder": "Dni input",
+  "password.placeholder": "Password input",
+  "dni.invalid": "This Dni is invalid",
+  "password.invalid": "This password is invalid",
+  "password.forget": "Forgot your password?",
+  "btn.login": "Login"
+}
