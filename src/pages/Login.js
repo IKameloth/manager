@@ -1,10 +1,11 @@
 import React from "react";
+import {Link} from "react-router-dom";
+import "../assets/style/Login.scss";
 import ProgressBar from "../components/ProgressBar";
 import Logo from "../assets/images/autentia-logo.svg";
 import LoginImage from "../assets/images/img-login.svg";
 import { useTranslation } from "react-i18next"
-import {Link} from "react-router-dom";
-import "../assets/style/design/index.scss";
+import LanguajeSelector from "../components/LanguageSelector"
 
 const Login = () => {
   const { t } = useTranslation();
@@ -43,6 +44,7 @@ const Login = () => {
             <p className="help is-danger">{t('password.invalid')}</p>
           </div>
 
+          <LanguajeSelector/>
           <a className="forgot" href="/">{`${t('password.forget')}`}</a>
 
           <div className="field submit">

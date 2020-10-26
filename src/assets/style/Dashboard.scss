@@ -1,0 +1,460 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
+
+@mixin caption {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+@mixin button {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+$btn-transition: all 250ms cubic-bezier(0.27, 0.01, 0.38, 1.06);
+
+$dark-base-600: hsb(210, 15, 42, 1);
+
+$text-black-medium-emphasis: hsb(210, 8, 46, 1);
+$text-black-high-emphasis: hsb(210, 20, 16, 1);
+
+*,
+*:after,
+*:before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "DM Sans", sans-serif;
+  background: #fafafa;
+  display: grid;
+  grid-gap: 8px;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  height: 100vh;
+
+  @media screen and (min-width: 48em) {
+    grid-gap: 16px;
+  }
+
+  @media screen and (min-width: 64em) {
+    grid-gap: 32px;
+  }
+}
+
+.navigation {
+  height: 3.875em;
+  background-color: white;
+  display: flex;
+  align-content: center;
+  border-bottom: 1px solid #e0e0e0;
+  grid-column: 1 / last-line;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+
+  .logo {
+    grid-column: 2 / 3;
+  }
+}
+
+.main {
+  grid-column: 2 / 12;
+  grid-row: 2 / 8;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+  overflow-x: scroll;
+  position: relative;
+
+  @media screen and (min-width: 48em) {
+    grid-column: 5 / 12;
+  }
+
+  @media screen and (min-width: 64em) {
+    grid-column: 4 / 12;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 2em;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
+    margin-bottom: 2em;
+  }
+
+  &__content {
+    width: 100%;
+  }
+
+  .table th,
+  .table td {
+    vertical-align: middle;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+
+    .tag {
+      margin-right: 8px;
+    }
+
+    .buttons {
+      opacity: 0;
+      justify-content: flex-end;
+    }
+  }
+
+  .table tr {
+    &:hover {
+      .buttons {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.sidebar {
+  position: absolute;
+  left: -200px;
+  padding-top: 1rem;
+  border-radius: 8px;
+  display: inline-block;
+  background: #fff;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+  padding-bottom: 1em;
+
+  @media screen and (min-width: 48em) {
+    grid-column: 2 / span 3;
+    position: static;
+  }
+
+  @media screen and (min-width: 64em) {
+    grid-column: 2 / span 2;
+  }
+
+  .footer__profile {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 1em;
+    padding-right: 1em;
+
+    a {
+      margin-left: auto;
+    }
+  }
+
+  .profile__avatar {
+    height: 32px;
+    width: 32px;
+    background-color: #c3d3ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.5em;
+  }
+
+  .profile__name {
+    font-size: 16px;
+    color: #222a44;
+    display: block;
+    line-height: 0.75;
+  }
+
+  .profile__role {
+    font-size: 12px;
+    color: #6e6e6e;
+  }
+
+  &__header {
+    margin-bottom: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    h4 {
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgb(110, 110, 110);
+      margin-bottom: 0.5rem;
+    }
+
+    button {
+      border: none;
+      background-color: transparent;
+      color: rgb(50, 115, 220);
+      font-weight: 300;
+      font-size: 0.75rem;
+      text-decoration: none;
+      margin-left: 1rem;
+      padding: 0.5rem 0.5rem;
+      cursor: pointer;
+      border-radius: 0.25rem;
+
+      &:hover {
+        background: rgb(240, 244, 255);
+      }
+    }
+  }
+
+  .nav {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-bottom: 1px solid rgb(232, 232, 232);
+    margin-bottom: 2rem;
+
+    &__link {
+      border-radius: 8px;
+      padding: 0.625rem;
+      text-decoration: none;
+      font-weight: 300;
+      color: rgb(110, 110, 110);
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      border: 1px solid transparent;
+
+      &:last-child {
+        margin-bottom: 0rem;
+      }
+
+      i {
+        width: 20px;
+        text-align: center;
+        margin-right: 0.25rem;
+      }
+
+      &:hover {
+        background: rgb(245, 245, 245);
+      }
+    }
+
+    .active {
+      color: rgb(41, 98, 255);
+      background: rgb(240, 244, 255);
+      border: 1px solid rgb(195, 211, 255);
+    }
+  }
+}
+
+.footer {
+  &__pagination {
+    display: flex;
+    align-items: center;
+
+    .input-group {
+      margin: 0rem 0.4rem;
+    }
+  }
+
+  &__results {
+    @include caption;
+    color: $text-black-medium-emphasis;
+    text-align: right;
+    display: flex;
+    align-items: center;
+
+    p {
+      margin-right: 0.5rem;
+    }
+  }
+
+  &__total {
+    @include caption;
+    color: $text-black-medium-emphasis;
+    text-align: right;
+  }
+}
+
+.body__footer {
+  width: 100%;
+  position: absolute;
+  height: 4rem;
+  background: whitesmoke;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  bottom: 0px;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+
+  p {
+    line-height: 32px;
+    background: white;
+    font-weight: 500;
+    font-size: 13.47px;
+    color: $text-black-medium-emphasis;
+    letter-spacing: 0.5px;
+    padding: 0rem 0.4rem;
+
+    span {
+      color: $text-black-high-emphasis;
+    }
+  }
+
+  &-prepend {
+    margin-right: -1px;
+
+    i {
+      border-radius: 0.25rem 0 0 0.25rem;
+    }
+  }
+
+  &-append {
+    margin-left: -1px;
+
+    i {
+      border-radius: 0 0.25rem 0.25rem 0;
+    }
+  }
+
+  &-text {
+    display: flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: $dark-base-600;
+    text-align: center;
+    white-space: nowrap;
+    background-color: white;
+    cursor: pointer;
+    transition: all 250ms cubic-bezier(0.27, 0.01, 0.38, 1.06);
+
+    &:hover {
+      background: darken(white, 4%);
+    }
+  }
+
+  &-number {
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    border: none;
+    background: white;
+    width: 2rem;
+    padding: 0 0.4rem;
+    text-align: center;
+    font-weight: 500;
+    font-size: 13.47px;
+    color: $text-black-medium-emphasis;
+    letter-spacing: 0.5px;
+  }
+}
+
+.btn {
+  display: inline-block;
+  @include button;
+  text-align: center;
+  white-space: nowrap;
+  user-select: none;
+  border-radius: 0.5rem;
+  transition: $btn-transition;
+
+  &-white {
+    background-color: white;
+    border-radius: 4px;
+
+    i {
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: $text-black-medium-emphasis;
+      padding: 0.25rem 0.75rem;
+    }
+
+    &:hover {
+      background: darken(white, 4%);
+    }
+  }
+}
+
+.modal .table {
+  td {
+    vertical-align: middle;
+
+    &:first-child {
+      border-right-width: 0px;
+    }
+
+    &:last-child {
+      border-left-width: 0px;
+      text-align: right;
+    }
+  }
+}
+
+/**
+ * Tooltip Styles
+ */
+
+/* Add this attribute to the element that needs a tooltip */
+[data-tooltip] {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+  white-space: normal !important;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before,
+[data-tooltip]:after {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  margin-bottom: 5px;
+  margin-left: -80px;
+  padding: 7px;
+  width: 160px;
+  border-radius: 3px;
+  background-color: #000;
+  background-color: hsla(0, 0%, 20%, 0.9);
+  color: #fff;
+  content: attr(data-tooltip);
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+/* Triangle hack to make tooltip look like a speech bubble */
+[data-tooltip]:after {
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -5px;
+  width: 0;
+  border-top: 5px solid #000;
+  border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  content: " ";
+  font-size: 0;
+  line-height: 0;
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+  visibility: visible;
+  opacity: 1;
+}
