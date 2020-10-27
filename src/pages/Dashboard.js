@@ -1,6 +1,5 @@
 import React from "react";
 import ProgressBar from "../components/ProgressBar";
-import "../assets/style/Dashboard.scss";
 
 const Dashboard = () => {
   return (

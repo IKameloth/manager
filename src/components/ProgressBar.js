@@ -1,6 +1,6 @@
 import React from "react";
 import { NProgress } from '@tanem/react-nprogress' 
-import "../assets/style/progressBar/spinner.scss"
+// import "../assets/style/progressBar/spinner.scss"
 
 const Container = ({ children, isFinished, animationDuration }) => (
   <div

@@ -9,9 +9,9 @@ const LanguageSelector = () => {
   }
 
   return (
-    <div class="field">
-      <div class="control">
-        <div class="select is-info">
+    <div className="field">
+      <div className="control">
+        <div className="select is-info">
           <select onChange={changeLanguage}>
             <option value="en" name="language">English</option>
             <option value="es" name="language">Español</option>
