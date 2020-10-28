@@ -1,60 +1,78 @@
 import React from "react";
 import ProgressBar from "../components/ProgressBar";
+import { 
+  Navigation, 
+  LogoNavBar, 
+  Main, 
+  SideBar, 
+  FooterProfile, 
+  ProfileAvatar, 
+  ProfileName,
+  ProfileRole,
+  SideBarHeader,
+  H4,
+  Nav,
+  NavLink,
+  I
+} from "../assets/styled/dashboard";
 
 const Dashboard = () => {
   return (
     <React.Fragment>
       <ProgressBar />
-      <nav className="navigation">
-        <img className="logo" src="https://console-dev.autentia.cl/assets/autentia-logo-8fd24211ef9c763a935fd9e9544ed71e7ccaf7baed2fd53877c574275ece3712.svg" alt="Autentia Logo" />
-      </nav>
-      <div className="sidebar">
-        <div className="sidebar__header">
-          <h4>Administración de</h4>
+      <Navigation>
+        <LogoNavBar />
+      </Navigation>
+      <SideBar>
+        <SideBarHeader>
+          <H4>Administración de</H4>
           <div className="select" style={{width: "100%"}}>
             <select style={{width: "100%"}}>
               <option value="@AUTENTIAX">@AUTENTIAX</option>
               <option value="AUTENTIA">AUTENTIA</option>
             </select>
           </div>
-        </div>
-        <nav className="nav">
-          <a className="nav__link active" href="/">
-            <i className="fal fa-user-friends"></i>
+        </SideBarHeader>
+
+        <Nav>
+          <NavLink className="active" href="/">
+            <I className="fal fa-user-friends"></I>
             <span>Usuarios</span>
-          </a>
-          <a className="nav__link" href="/">
-            <i className="fal fa-building"></i>
+          </NavLink>
+          <NavLink href="/">
+            <I className="fal fa-building"></I>
             <span>Institución</span>
-          </a>
-          <a className="nav__link" href="/">
-            <i className="fal fa-users"></i>
+          </NavLink>
+          <NavLink href="/">
+            <I className="fal fa-users"></I>
             <span>Personas</span>
-          </a>
-        </nav>
-        <nav className="nav">
-          <a className="nav__link" href="/">
-            <i className="fal fa-id-card"></i>
+          </NavLink>
+        </Nav>
+        <Nav>
+          <NavLink href="/">
+            <I className="fal fa-id-card"></I>
             <span>Identidad</span>
-          </a>
-          <a className="nav__link" href="/">
-            <i className="fal fa-fingerprint"></i>
+          </NavLink>
+          <NavLink href="/">
+            <I className="fal fa-fingerprint"></I>
             <span>Sensores</span>
-          </a>
-        </nav>
+          </NavLink>
+        </Nav>
+
         <div className="sidebar__footer">
-          <div className="footer__profile">
-            <span className="profile__avatar">CB</span>
+          <FooterProfile>
+            <ProfileAvatar>CB</ProfileAvatar>
             <div className="profile__data">
-              <span className="profile__name">Camilo Bravo</span>
-              <span className="profile__role">Administrador</span>
+              <ProfileName>Erick Matteo</ProfileName>
+              <ProfileRole>Administrador</ProfileRole>
             </div>
             <a href="/">
-              <i className="fal fa-sign-out-alt"></i>
+              <I className="fal fa-sign-out-alt"></I>
             </a>
-          </div>
+          </FooterProfile>
         </div>
-      </div>
+      </SideBar>
+      
       <main className="main">
         <div className="main__header">
           <h3 className="title is-3">Usuarios</h3>
