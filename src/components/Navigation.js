@@ -1,13 +1,16 @@
 import React from "react";
-import Logo from "../assets/images/autentia-logo.svg";
 import { Link } from "react-router-dom";
+import { NavBar } from "../assets/styled/navigation";
+import Logo from "../assets/images/autentia-logo.svg";
 
-const Navbar = () => {
+const Navigation = () => {
   return (
     <React.Fragment>
-      <nav className="navigation">
-        <Link to="/index" className="logo"><img src={Logo} alt="Logo Autentia" /></Link>
-      </nav>
+      <NavBar>
+        <Link className="logo" to="/index">
+          <img src={Logo} alt="Logo Autentia" />
+        </Link>
+      </NavBar>
       <div className="sidebar">
         
         <div className="sidebar__header">
@@ -66,4 +69,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar;
+export default Navigation;

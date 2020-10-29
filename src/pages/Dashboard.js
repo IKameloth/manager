@@ -1,79 +1,14 @@
 import React from "react";
 import ProgressBar from "../components/ProgressBar";
-import { 
-  Navigation, 
-  LogoNavBar, 
-  Main, 
-  SideBar, 
-  FooterProfile, 
-  ProfileAvatar, 
-  ProfileName,
-  ProfileRole,
-  SideBarHeader,
-  H4,
-  Nav,
-  NavLink,
-  I
-} from "../assets/styled/dashboard";
+import { Main, Table } from "../assets/styled/dashboard";
+import Navigation from "../components/Navigation";
 
 const Dashboard = () => {
   return (
     <React.Fragment>
       <ProgressBar />
-      <Navigation>
-        <LogoNavBar />
-      </Navigation>
-      <SideBar>
-        <SideBarHeader>
-          <H4>Administración de</H4>
-          <div className="select" style={{width: "100%"}}>
-            <select style={{width: "100%"}}>
-              <option value="@AUTENTIAX">@AUTENTIAX</option>
-              <option value="AUTENTIA">AUTENTIA</option>
-            </select>
-          </div>
-        </SideBarHeader>
-
-        <Nav>
-          <NavLink className="active" href="/">
-            <I className="fal fa-user-friends"></I>
-            <span>Usuarios</span>
-          </NavLink>
-          <NavLink href="/">
-            <I className="fal fa-building"></I>
-            <span>Institución</span>
-          </NavLink>
-          <NavLink href="/">
-            <I className="fal fa-users"></I>
-            <span>Personas</span>
-          </NavLink>
-        </Nav>
-        <Nav>
-          <NavLink href="/">
-            <I className="fal fa-id-card"></I>
-            <span>Identidad</span>
-          </NavLink>
-          <NavLink href="/">
-            <I className="fal fa-fingerprint"></I>
-            <span>Sensores</span>
-          </NavLink>
-        </Nav>
-
-        <div className="sidebar__footer">
-          <FooterProfile>
-            <ProfileAvatar>CB</ProfileAvatar>
-            <div className="profile__data">
-              <ProfileName>Erick Matteo</ProfileName>
-              <ProfileRole>Administrador</ProfileRole>
-            </div>
-            <a href="/">
-              <I className="fal fa-sign-out-alt"></I>
-            </a>
-          </FooterProfile>
-        </div>
-      </SideBar>
-      
-      <main className="main">
+      <Navigation />
+      <Main>
         <div className="main__header">
           <h3 className="title is-3">Usuarios</h3>
           <div className="field" style={{marginLeft: "auto"}}>
@@ -86,7 +21,7 @@ const Dashboard = () => {
           </div>
           <button className="button is-primary" id="modal2" style={{marginLeft: "16px"}}>Crear rol</button>
         </div>
-        <table className="table main__content">
+        <Table className="table main__content">
           <thead>
             <tr>
               <th>Nombre</th>
@@ -140,7 +75,7 @@ const Dashboard = () => {
               </td>
             </tr>
           </tbody>
-        </table>
+        </Table>
         <div className="body__footer">
           <div className="footer__results">
             <p>Mostrando</p>
@@ -175,7 +110,7 @@ const Dashboard = () => {
             <p>Mostrando 1 - 20 de 150 resultados</p>
           </div>
         </div>
-      </main>
+      </Main>
     </React.Fragment>
   );
 };
