@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { NavBar } from "../assets/styled/navigation";
+import { NavBar, Sidebar, SidebarHeader } from "../assets/styled/navigation";
 import Logo from "../assets/images/autentia-logo.svg";
 
 const Navigation = () => {
@@ -11,9 +11,9 @@ const Navigation = () => {
           <img src={Logo} alt="Logo Autentia" />
         </Link>
       </NavBar>
-      <div className="sidebar">
-        
-        <div className="sidebar__header">
+
+      <Sidebar className="sidebar">
+        <SidebarHeader>
           <h4>Administración de</h4>
           <div className="select" style={{width: "100%"}}>
             <select style={{width: "100%"}}>
@@ -21,7 +21,7 @@ const Navigation = () => {
               <option value="AUTENTIA">AUTENTIA</option>
             </select>
           </div>
-        </div>
+        </SidebarHeader>
         
         <nav className="nav">
           <a className="nav__link active" href="/">
@@ -52,7 +52,7 @@ const Navigation = () => {
           </a>
         </nav>
 
-        <div className="sidebar__footer">
+        <div>
           <div className="footer__profile">
             <span className="profile__avatar">CB</span>
             <div className="profile__data">
@@ -64,7 +64,7 @@ const Navigation = () => {
           </div>
         </div>
 
-      </div>
+      </Sidebar>
     </React.Fragment>
   )
 }
