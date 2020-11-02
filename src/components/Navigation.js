@@ -1,7 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { NavBar, Sidebar, SidebarHeader } from "../assets/styled/navigation";
 import Logo from "../assets/images/autentia-logo.svg";
+import { 
+  NavBar, 
+  Sidebar, 
+  SidebarHeader, 
+  FooterProfile, 
+  ProfileAvatar,
+  ProfileName, 
+  ProfileRole,
+  Nav,
+  StyledLink
+} from "../assets/styled/navigation";
 
 const Navigation = () => {
   return (
@@ -12,7 +22,7 @@ const Navigation = () => {
         </Link>
       </NavBar>
 
-      <Sidebar className="sidebar">
+      <Sidebar>
         <SidebarHeader>
           <h4>Administración de</h4>
           <div className="select" style={{width: "100%"}}>
@@ -23,45 +33,46 @@ const Navigation = () => {
           </div>
         </SidebarHeader>
         
-        <nav className="nav">
-          <a className="nav__link active" href="/">
+        <Nav>
+          <StyledLink to="/users">
             <i className="fal fa-user-friends"></i>
             <span>Usuarios</span>
-          </a>
+          </StyledLink>
           
-          <a className="nav__link" href="/institution.html">
+          <Link to="/institutions">
             <i className="fal fa-building"></i>
             <span>Institución</span>
-          </a>
+          </Link>
           
-          <a className="nav__link" href="/">
+          <Link to="/persons">
             <i className="fal fa-users"></i>
             <span>Personas</span>
-          </a>
-        </nav>
+          </Link>
+        </Nav>
 
-        <nav className="nav">
-          <a className="nav__link" href="/">
+        <Nav>
+          <Link to="/identities">
             <i className="fal fa-id-card"></i>
             <span>Identidad</span>
-          </a>
+          </Link>
 
-          <a className="nav__link" href="/">
+          <Link to="/sensors">
             <i className="fal fa-fingerprint"></i>
             <span>Sensores</span>
-          </a>
-        </nav>
+          </Link>
+        </Nav>
 
         <div>
-          <div className="footer__profile">
-            <span className="profile__avatar">CB</span>
-            <div className="profile__data">
-              <span className="profile__name">Camilo Bravo</span>
-              <span className="profile__role">Administrador</span>
+          <FooterProfile>
+            <ProfileAvatar>CB</ProfileAvatar>
+            <div>
+              <ProfileName>Camilo Bravo</ProfileName>
+              <ProfileRole>Administrador</ProfileRole>
             </div>
-            
-            <a href="/login.html"><i className="fal fa-sign-out-alt"></i></a>
-          </div>
+            <Link to="/login">
+              <i className="fal fa-sign-out-alt"></i>
+            </Link>
+          </FooterProfile>
         </div>
 
       </Sidebar>
