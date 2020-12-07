@@ -29,7 +29,7 @@ const GlobalStyle = createGlobalStyle`
   $text-black-medium-emphasis: hsb(210, 8, 46, 1);
   $text-black-high-emphasis: hsb(210, 20, 16, 1);
 
-  body {
+  #root {
     font-family: 'DM Sans', sans-serif;
     background: #fafafa;
     display: grid;
@@ -53,6 +53,12 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+  }
+
+  .focus-link {
+    color: rgb(41, 98, 255);
+    background: rgb(240, 244, 255);
+    border: 1px solid rgb(195, 211, 255);
   }
 `;
 

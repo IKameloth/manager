@@ -13,14 +13,19 @@ import {
 } from "../assets/styled/content";
 import ProgressBar from "../components/ProgressBar"
 
+const randomRoles = (arr) => {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
 const Content = () => {
+  const roles = ["Admin", "Sys", "JP", "User"];
+
   return (
     <React.Fragment>
       <ProgressBar />
       <Main>
 
         <MainHeader>
-          <h3 className="title is-3">Usuarios</h3>
+          <h3 className="title is-3">Admin Roles</h3>
           <div className="field" style={{marginLeft: "auto"}}>
             <p className="control has-icons-left has-icons-right">
               <input className="input" type="text" placeholder="Buscar por RUT o nombre" />
@@ -29,7 +34,6 @@ const Content = () => {
               </span>
             </p>
           </div>
-          <button className="button is-primary" id="modal2" style={{marginLeft: "16px"}}>Crear rol</button>
         </MainHeader>
         
         <TableMain className="table">
@@ -37,50 +41,46 @@ const Content = () => {
             <tr>
               <th>Nombre</th>
               <th>Rut</th>
-              <th>Rol</th>
+              <th>Autentia Rol</th>
               <th></th>
             </tr>
           </THead>
           <TBody>
             <tr>
-              <td><a href="/" title="AutentiaX">AutentiaX</a></td>
+              <td><a href="/" title="AutentiaX">Aurelio</a></td>
               <td>15.156.887-6</td>
               <td data-rol="role">
-                <span className="tag is-light">Admin</span>
-                <span className="tag is-light">Admin</span>
-                <span className="tag is-light">Admin</span>
-                <span className="tag is-light" data-tooltip="Admin, Verificador, Elemento 1, Elemento 2">+5</span>
+                <span className="tag is-light">{randomRoles(roles)}</span>
               </td>
               <td>
                 <div className="buttons are-small">
-                  <button className="button is-info is-inverted" data-role="modal">Asignar rol</button>
+                  <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
                   <button className="button is-danger is-inverted">Eliminar</button>
                 </div>
               </td>
             </tr>
             <tr>
-              <td><a href="/" title="AutentiaX">AutentiaX</a></td>
+              <td><a href="/" title="AutentiaX">Bjean</a></td>
               <td>15.156.887-6</td>
               <td data-rol="role">
-                <span className="tag is-light">Admin</span>
-                <span className="tag is-light">Admin</span>
-                <span className="tag is-light">Admin</span>
-                <span className="tag is-light" data-tooltip="Admin, Verificador, Elemento 1, Elemento 2">+5</span>
+                <span className="tag is-light">{randomRoles(roles)}</span>
               </td>
               <td>
                 <div className="buttons are-small">
-                  <button className="button is-info is-inverted" data-role="modal">Asignar rol</button>
+                  <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
                   <button className="button is-danger is-inverted">Eliminar</button>
                 </div>
               </td>
             </tr>
             <tr>
-              <td><a href="/" title="AutentiaX">I-med</a></td>
+              <td><a href="/" title="AutentiaX">Lolito</a></td>
               <td><span>15.789.988-6</span></td>
-              <td data-rol="role"><span className="tag is-light">Admin</span></td>
+              <td data-rol="role">
+                <span className="tag is-light">{randomRoles(roles)}</span>
+              </td>
               <td>
                 <div className="buttons are-small">
-                  <button className="button is-info is-inverted" data-role="modal">Asignar rol</button>
+                  <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
                   <button className="button is-danger is-inverted">Eliminar</button>
                 </div>
               </td>
