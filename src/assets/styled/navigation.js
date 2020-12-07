@@ -1,4 +1,14 @@
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+`;
 
 export const NavBar = styled.nav`
   height: 3.875em;
@@ -9,6 +19,7 @@ export const NavBar = styled.nav`
   grid-column: 1 / last-line;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
+  animation: 1s ${fadeIn} ease-in;
   
   .logo {
     grid-column: 2 / 3;
@@ -24,6 +35,7 @@ export const Sidebar = styled.div`
   background: #fff;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
   padding-bottom: 1em;
+  animation: 1s ${fadeIn} ease-in;
 
   @media ${({ theme }) => theme.mediaQueries.minWidth768} {
     grid-column: 2 / span 3;
@@ -97,23 +109,7 @@ export const ProfileRole = styled.span`
   color: #6e6e6e;
 `;
 
-const NavLink = styled.a`
-  border-radius: 8px;
-  padding: 0.625rem;
-  text-decoration: none;
-  font-weight: 300;
-  color: rgb(110, 110, 110);
-  font-size: 0.875rem;
-  margin-bottom: 0.5rem;
-  cursor: pointer;
-  transition: background 0.2s ease;
-  border: 1px solid transparent;
-  &:last-child {
-    margin-bottom: 0rem;
-  }
-`;
-
-export const Nav = styled(NavLink)`
+export const Nav = styled.div`
   display: flex;
   flex-direction: column;
   padding-bottom: 1rem;

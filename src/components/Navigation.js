@@ -9,8 +9,7 @@ import {
   ProfileAvatar,
   ProfileName, 
   ProfileRole,
-  Nav,
-  StyledLink
+  Nav
 } from "../assets/styled/navigation";
 
 const Navigation = () => {
@@ -34,12 +33,12 @@ const Navigation = () => {
         </SidebarHeader>
         
         <Nav>
-          <StyledLink to="/users">
+          <Link to="/index" className="focus-link">
             <i className="fal fa-user-friends"></i>
             <span>Usuarios</span>
-          </StyledLink>
+          </Link>
           
-          <Link to="/institutions">
+          <Link to="/index">
             <i className="fal fa-building"></i>
             <span>Institución</span>
           </Link>
