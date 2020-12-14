@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/images/autentia-logo.svg";
 import { 
@@ -27,18 +27,25 @@ const Navigation = () => {
           <div className="select" style={{width: "100%"}}>
             <select style={{width: "100%"}}>
               <option value="@AUTENTIAX">@AUTENTIAX</option>
-              <option value="AUTENTIA">AUTENTIA</option>
+              <option value="BONO">BONO</option>
+              <option value="ACEPTA">ACEPTA</option>
             </select>
           </div>
         </SidebarHeader>
         
         <Nav>
-          <Link to="/index" className="focus-link">
+          {/* className="focus-link" */}
+          <Link to="/admin">
+            <i className="fal fa-user-circle"></i>
+            <span>Admin Roles</span>
+          </Link>
+
+          <Link to="/users">
             <i className="fal fa-user-friends"></i>
             <span>Usuarios</span>
           </Link>
           
-          <Link to="/index">
+          <Link to="/institutions">
             <i className="fal fa-building"></i>
             <span>Institución</span>
           </Link>
