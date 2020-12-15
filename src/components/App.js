@@ -15,7 +15,8 @@ const App = withRouter(({ location }) => {
   return(
     <Switch>
       <Suspense fallback={null}>
-        {location.pathname !== "/login" && <Navbar />}
+        {location.pathname !== "/login" && location.pathname !== "/"  && <Navbar />}
+        <Route exact path="/" component={Login} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/users" component={Users} />
         <Route exact path="/institutions" component={Institutions} />

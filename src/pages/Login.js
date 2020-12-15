@@ -50,7 +50,7 @@ const Login = () => {
 
             <SectionLink className="field">
               <div className="control">
-                <Link to="/index" className="button is-link">{t('btn.login')}</Link>
+                <Link to="/users" className="button is-link">{t('btn.login')}</Link>
               </div>
             </SectionLink>
 
