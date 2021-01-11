@@ -12,25 +12,39 @@ import {
   InputAppend
 } from "../assets/styled/content";
 
-const randomRoles = (arr) => {
+const randomSelect = (arr) => {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 const Content = () => {
   const roles = ["Admin", "Sys", "JP", "User"];
+  const inst = ["@AUTENTIAX", "BONO_ECUADOR", "BONO", "ACEPTA"]
 
   return (
     <React.Fragment>
       <Main>
 
         <MainHeader>
-          <h3 className="title is-3">Admin Roles</h3>
-          <div className="field" style={{marginLeft: "auto"}}>
-            <p className="control has-icons-left has-icons-right">
-              <input className="input" type="text" placeholder="Buscar por RUT o nombre" />
-              <span className="icon is-small is-left">
-                <i className="fal fa-search"></i>
-              </span>
-            </p>
+          <div className="container">
+            <div className="columns">
+              <div className="column">
+                <div className="field">
+                  <h3 className="title">Admin Roles</h3>
+                </div>
+              </div>
+              <div className="column">
+                <div className="field">
+                  <p className="control has-icons-left has-icons-right">
+                    <input className="input" type="text" placeholder="Buscar por RUT o nombre" />
+                    <span className="icon is-small is-left">
+                      <i className="fal fa-search"></i>
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div className="column is-2-fullhd">
+                <button className="button is-primary" id="modal2" style={{marginLeft: "16px"}}>Crear Rol</button>
+              </div>
+            </div>
           </div>
         </MainHeader>
         
@@ -40,6 +54,7 @@ const Content = () => {
               <th>Nombre</th>
               <th>Rut</th>
               <th>Autentia Rol</th>
+              <th>Institution</th>
               <th></th>
             </tr>
           </THead>
@@ -48,7 +63,10 @@ const Content = () => {
               <td><a href="/" title="AutentiaX">Aurelio</a></td>
               <td>15.156.887-6</td>
               <td data-rol="role">
-                <span className="tag is-light">{randomRoles(roles)}</span>
+                <span className="tag is-light">{randomSelect(roles)}</span>
+              </td>
+              <td>
+                <label>{randomSelect(inst)}</label>
               </td>
               <td>
                 <div className="buttons are-small">
@@ -61,7 +79,10 @@ const Content = () => {
               <td><a href="/" title="AutentiaX">Bjean</a></td>
               <td>15.156.887-6</td>
               <td data-rol="role">
-                <span className="tag is-light">{randomRoles(roles)}</span>
+                <span className="tag is-light">{randomSelect(roles)}</span>
+              </td>
+              <td>
+                <label>{randomSelect(inst)}</label>
               </td>
               <td>
                 <div className="buttons are-small">
@@ -74,7 +95,10 @@ const Content = () => {
               <td><a href="/" title="AutentiaX">Lolito</a></td>
               <td><span>15.789.988-6</span></td>
               <td data-rol="role">
-                <span className="tag is-light">{randomRoles(roles)}</span>
+                <span className="tag is-light">{randomSelect(roles)}</span>
+              </td>
+              <td>
+                <label>{randomSelect(inst)}</label>
               </td>
               <td>
                 <div className="buttons are-small">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/images/autentia-logo.svg";
 import { 
@@ -16,7 +16,7 @@ const Navigation = () => {
   return (
     <React.Fragment>
       <NavBar>
-        <Link className="logo" to="/index">
+        <Link className="logo" to="/users">
           <img src={Logo} alt="Logo Autentia" />
         </Link>
       </NavBar>

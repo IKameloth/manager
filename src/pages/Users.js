@@ -17,16 +17,28 @@ const Users = () => {
     <React.Fragment>
       <Main>
         <MainHeader>
-          <h3 className="title is-3">Usuarios</h3>
-          <div className="field" style={{marginLeft: "auto"}}>
-            <p className="control has-icons-left has-icons-right">
-              <input className="input" type="text" placeholder="Buscar por RUT o nombre" />
-              <span className="icon is-small is-left">
-                <i className="fal fa-search"></i>
-              </span>
-            </p>
+          <div className="container">
+            <div className="columns">
+              <div className="column">
+                <div className="field">
+                  <h3 className="title is-3">Usuarios</h3>
+                </div>
+              </div>
+              <div className="column">
+                <div className="field">
+                  <p className="control has-icons-left has-icons-right">
+                    <input className="input" type="text" placeholder="Buscar por RUT o nombre" />
+                    <span className="icon is-small is-left">
+                      <i className="fal fa-search"></i>
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div className="column is-2-fullhd">
+                <button className="button is-primary" id="modal2" style={{marginLeft: "16px"}}>Asignar Rol</button>
+              </div>
+            </div>
           </div>
-          <button className="button is-primary" id="modal2" style={{marginLeft: "16px"}}>Crear rol</button>
         </MainHeader>
         
         <TableMain className="table">

@@ -17,7 +17,7 @@ export const Main = styled.main`
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
   overflow-x: scroll;
   position: relative;
-  animation: 1s ${fadeIn} ease-in;
+  animation: 0.5s ${fadeIn} ease-in;
 
   @media ${({ theme }) => theme.mediaQueries.minWidth768} {
     grid-column: 5 / 12;

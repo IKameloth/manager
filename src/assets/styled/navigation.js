@@ -19,7 +19,7 @@ export const NavBar = styled.nav`
   grid-column: 1 / last-line;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  animation: 1s ${fadeIn} ease-in;
+  animation: 0.5s ${fadeIn} ease-in;
   
   .logo {
     grid-column: 2 / 3;
