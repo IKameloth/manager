@@ -11,22 +11,28 @@ import {
   InputPrepend,
   InputAppend
 } from "../assets/styled/content";
-import RegisterUserRolesModal from "../components/modals/RegisterUserRolesModal";
+import RegisterAdminRolesModal from "../components/modals/RegisterAdminRolesModal";
 
-
-class Users extends Component {
+class AdminRoles extends Component {
   state = {
     loading: false,
     error: null,
     data: undefined,
     modalIsOpen: false
-  };
-
+  }
+  
   toggleModal = (e) => {
+    e.preventDefault();
     this.setState({modalIsOpen: !this.state.modalIsOpen});
   };
-
+  
   render(){
+    const randomSelect = (arr) => {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+    const roles = ["Admin", "Sys", "JP", "User"];
+    const inst = ["@AUTENTIAX", "BONO_ECUADOR", "BONO", "ACEPTA"]
+
     return (
       <React.Fragment>
         <Main>
@@ -35,7 +41,7 @@ class Users extends Component {
               <div className="columns">
                 <div className="column">
                   <div className="field">
-                    <h3 className="title is-3">Usuarios</h3>
+                    <h3 className="title">Admin Roles</h3>
                   </div>
                 </div>
                 <div className="column">
@@ -49,8 +55,8 @@ class Users extends Component {
                   </div>
                 </div>
                 <div className="column is-2-fullhd">
-                  <button onClick={this.toggleModal} className="button is-primary" style={{marginLeft: "16px"}}>Crear nuevo rol</button>
-                  <RegisterUserRolesModal modalIsOpen={this.state.modalIsOpen} onClose={this.toggleModal} />
+                  <button onClick={this.toggleModal} className="button is-primary" style={{marginLeft: "16px"}}>Crear Rol</button>
+                  <RegisterAdminRolesModal modalIsOpen={this.state.modalIsOpen} onClose={this.toggleModal} />
                 </div>
               </div>
             </div>
@@ -61,50 +67,56 @@ class Users extends Component {
               <tr>
                 <th>Nombre</th>
                 <th>Rut</th>
-                <th>Rol</th>
+                <th>Autentia Rol</th>
+                <th>Institution</th>
                 <th></th>
               </tr>
             </THead>
             <TBody>
               <tr>
-                <td><a href="/" title="AutentiaX">AutentiaX</a></td>
+                <td><a href="/" title="AutentiaX">Aurelio</a></td>
                 <td>15.156.887-6</td>
                 <td data-rol="role">
-                  <span className="tag is-light">Admin</span>
-                  <span className="tag is-light">Admin</span>
-                  <span className="tag is-light">Admin</span>
-                  <span className="tag is-light" data-tooltip="Admin, Verificador, Elemento 1, Elemento 2">+5</span>
+                  <span className="tag is-light">{randomSelect(roles)}</span>
+                </td>
+                <td>
+                  <label>{randomSelect(inst)}</label>
                 </td>
                 <td>
                   <div className="buttons are-small">
-                    <button className="button is-info is-inverted" data-role="modal">Asignar rol</button>
+                    <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
                     <button className="button is-danger is-inverted">Eliminar</button>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td><a href="/" title="AutentiaX">AutentiaX</a></td>
+                <td><a href="/" title="AutentiaX">Bjean</a></td>
                 <td>15.156.887-6</td>
                 <td data-rol="role">
-                  <span className="tag is-light">Admin</span>
-                  <span className="tag is-light">Admin</span>
-                  <span className="tag is-light">Admin</span>
-                  <span className="tag is-light" data-tooltip="Admin, Verificador, Elemento 1, Elemento 2">+5</span>
+                  <span className="tag is-light">{randomSelect(roles)}</span>
+                </td>
+                <td>
+                  <label>{randomSelect(inst)}</label>
                 </td>
                 <td>
                   <div className="buttons are-small">
-                    <button className="button is-info is-inverted" data-role="modal">Asignar rol</button>
+                    <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
                     <button className="button is-danger is-inverted">Eliminar</button>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td><a href="/" title="AutentiaX">I-med</a></td>
+                <td><a href="/" title="AutentiaX">Lolito</a></td>
                 <td><span>15.789.988-6</span></td>
-                <td data-rol="role"><span className="tag is-light">Admin</span></td>
+                <td data-rol="role">
+                  <span className="tag is-light">{randomSelect(roles)}</span>
+                </td>
+                <td>
+                  <label>{randomSelect(inst)}</label>
+                </td>
                 <td>
                   <div className="buttons are-small">
-                    <button className="button is-info is-inverted" data-role="modal">Asignar rol</button>
+                    <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
                     <button className="button is-danger is-inverted">Eliminar</button>
                   </div>
                 </td>
@@ -153,4 +165,4 @@ class Users extends Component {
   }
 };
 
-export default Users;
+export default AdminRoles;

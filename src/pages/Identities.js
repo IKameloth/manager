@@ -44,7 +44,6 @@ const Identities = () => {
                       <option>Cédula y BD</option>
                     </select>
                   </div>
-
                   <span className="icon is-small is-left">
                     <i className="fas fa-user-check"></i>
                   </span>

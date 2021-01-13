@@ -3,7 +3,7 @@ import {withRouter, Switch, Route} from "react-router-dom";
 import "../i18n";
 
 import Navbar from "../components/Navigation";
-import Admin from "../pages/Admin";
+import AdminRoles from "../pages/AdminRoles";
 import Identities from "../pages/Identities";
 import Institutions from "../pages/Intitutions";
 import Login from "../pages/Login";
@@ -17,7 +17,7 @@ const Routes = withRouter(({location}) => {
       <Suspense fallback={null} >
         {location.pathname !== "/login" && location.pathname !== "/" && <Navbar />}
         <Route exact path="/" component={Login} />
-        <Route exact path="/admin" component={Admin} />
+        <Route exact path="/admin" component={AdminRoles} />
         <Route exact path="/identities" component={Identities} />
         <Route exact path="/institutions" component={Institutions} />
         <Route exact path="/persons" component={Person} />
