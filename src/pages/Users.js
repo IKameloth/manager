@@ -49,7 +49,7 @@ class Users extends Component {
                   </div>
                 </div>
                 <div className="column is-2-fullhd">
-                  <button onClick={this.toggleModal} className="button is-primary" style={{marginLeft: "16px"}}>Crear nuevo rol</button>
+                  <button onClick={this.toggleModal} className="button is-primary">Crear nuevo rol</button>
                   <RegisterUserRolesModal modalIsOpen={this.state.modalIsOpen} onClose={this.toggleModal} />
                 </div>
               </div>

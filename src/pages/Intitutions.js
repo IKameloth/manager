@@ -35,7 +35,7 @@ const Institutions = () => {
                 </div>
               </div>
               <div className="column is-2-fullhd">
-                <button className="button is-primary" id="modal2" style={{marginLeft: "16px"}}>Crear institutición</button>
+                <button className="button is-primary" id="modal2">Crear institutición</button>
               </div>
             </div>
           </div>

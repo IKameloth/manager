@@ -27,7 +27,15 @@ export const NavBar = styled.nav`
 
   @media (max-width: 768px) {
     .logo {
-      grid-column: 5 / 8;
+      grid-column: 6 / 8;
+      width: max-content;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .logo {
+      grid-column: 5 / 7;
       width: max-content;
       justify-content: center;
     }
@@ -56,7 +64,7 @@ export const Sidebar = styled.div`
   }
 
   @media (max-width: 768px) {
-    z-index: 2;
+    z-index: 6;
     transform: ${({open}) => open ? "translateX(100%)" : "translate(0)"};
     transition: transform 0.3s ease-in-out;
     top: 61px;

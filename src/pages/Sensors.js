@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { 
   Main,
+  MainHeader,
 } from "../assets/styled/content";
 import RegisterSensorModal from "../components/modals/RegisterSensorModal";
 
@@ -20,29 +21,27 @@ class Sensors extends Component {
     return (
       <React.Fragment>
         <Main>
-          <section className="hero">
-            <div className="hero-body">
-              <div className="container">
-                <div className="columns">
-                  <div className="column">
-                    <div className="field">
-                      <h3 className="title">Sensores</h3>
-                    </div>
+          <MainHeader>
+            <div className="container">
+              <div className="columns">
+                <div className="column">
+                  <div className="field">
+                    <h3 className="title">Sensores</h3>
                   </div>
-                  <div className="column is-2-fullhd">
-                    <button onClick={this.toggleModal} className="button is-primary">Registrar Sensor</button>
-                    <RegisterSensorModal
-                      modalIsOpen={this.state.modalIsOpen}
-                      onClose={this.toggleModal}
-                      // onRegisterSensor={this.onRegisterSensor}
-                    />
-                  </div>
+                </div>
+                <div className="column is-2-fullhd">
+                  <button onClick={this.toggleModal} className="button is-primary">Registrar Sensor</button>
+                  <RegisterSensorModal
+                    modalIsOpen={this.state.modalIsOpen}
+                    onClose={this.toggleModal}
+                    // onRegisterSensor={this.onRegisterSensor}
+                  />
                 </div>
               </div>
             </div>
-          </section>
+          </MainHeader>
   
-          <div className="columns is-centered">
+          <div className="columns is-centered" style={{width: "100%"}}>
             <div className="column is-7-desktop is-10-mobile is-offset-1-mobile is-10-tablet is-5-fullhd">
               <div className="container">
   

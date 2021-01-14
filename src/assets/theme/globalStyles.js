@@ -45,6 +45,18 @@ const GlobalStyle = createGlobalStyle`
     @media ${({ theme }) => theme.mediaQueries.minWidth768} {
       grid-gap: 16px;
     }
+
+    @media (max-width: 768px) {
+      grid-gap: 16px;
+    }
+
+    .control.has-icons-left .icon, .control.has-icons-right .icon {
+      z-index: 1;
+    }
+
+    .modal-background {
+      z-index: 6;
+    }
   }
 
   *,

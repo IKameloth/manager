@@ -20,19 +20,23 @@ const StyledBurger = styled.div`
   position: fixed;
   top: 15px;
   left: 20px;
-  display: flex;
+  display: none;
   justify-content: space-around;
   flex-flow: column nowrap;
-  z-index: 2;
+  z-index: 6;
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
 
   div {
+    display: none;
     width: 2rem;
     height: 0.25rem;
     background-color: ${({ open }) => open ? "red" : "#2962ff"};
     border-color: transparent;
     transform-origin: 1px;
     transition: all 0.3s linear;
-    display: none;
 
     @media (max-width: 768px) {
       display: flex;
@@ -58,8 +62,9 @@ const Navigation = () => {
 
   return (
     <React.Fragment>
-      { open && 
-        <div className="modal-background" style={{zIndex: 1}} onClick={() => setOpen(false)}></div> 
+      {
+        open && 
+        <div className="modal-background" onClick={() => setOpen(false)}></div> 
       }
 
       <NavBar>
@@ -86,7 +91,7 @@ const Navigation = () => {
           </div>
         </SidebarHeader>
         
-        <Nav>
+        <Nav onClick={() => setOpen(false)}>
           {/* className="focus-link" */}
           <Link to="/admin">
             <i className="fal fa-user-circle"></i>
@@ -109,7 +114,7 @@ const Navigation = () => {
           </Link>
         </Nav>
 
-        <Nav>
+        <Nav onClick={() => setOpen(false)}>
           <Link to="/identities">
             <i className="fal fa-id-card"></i>
             <span>Identidad</span>

@@ -55,7 +55,7 @@ class AdminRoles extends Component {
                   </div>
                 </div>
                 <div className="column is-2-fullhd">
-                  <button onClick={this.toggleModal} className="button is-primary" style={{marginLeft: "16px"}}>Crear Rol</button>
+                  <button onClick={this.toggleModal} className="button is-primary">Crear Rol</button>
                   <RegisterAdminRolesModal modalIsOpen={this.state.modalIsOpen} onClose={this.toggleModal} />
                 </div>
               </div>
@@ -73,6 +73,246 @@ class AdminRoles extends Component {
               </tr>
             </THead>
             <TBody>
+              <tr>
+                <td><a href="/" title="AutentiaX">Aurelio</a></td>
+                <td>15.156.887-6</td>
+                <td data-rol="role">
+                  <span className="tag is-light">{randomSelect(roles)}</span>
+                </td>
+                <td>
+                  <label>{randomSelect(inst)}</label>
+                </td>
+                <td>
+                  <div className="buttons are-small">
+                    <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
+                    <button className="button is-danger is-inverted">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="/" title="AutentiaX">Bjean</a></td>
+                <td>15.156.887-6</td>
+                <td data-rol="role">
+                  <span className="tag is-light">{randomSelect(roles)}</span>
+                </td>
+                <td>
+                  <label>{randomSelect(inst)}</label>
+                </td>
+                <td>
+                  <div className="buttons are-small">
+                    <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
+                    <button className="button is-danger is-inverted">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="/" title="AutentiaX">Lolito</a></td>
+                <td><span>15.789.988-6</span></td>
+                <td data-rol="role">
+                  <span className="tag is-light">{randomSelect(roles)}</span>
+                </td>
+                <td>
+                  <label>{randomSelect(inst)}</label>
+                </td>
+                <td>
+                  <div className="buttons are-small">
+                    <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
+                    <button className="button is-danger is-inverted">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="/" title="AutentiaX">Aurelio</a></td>
+                <td>15.156.887-6</td>
+                <td data-rol="role">
+                  <span className="tag is-light">{randomSelect(roles)}</span>
+                </td>
+                <td>
+                  <label>{randomSelect(inst)}</label>
+                </td>
+                <td>
+                  <div className="buttons are-small">
+                    <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
+                    <button className="button is-danger is-inverted">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="/" title="AutentiaX">Bjean</a></td>
+                <td>15.156.887-6</td>
+                <td data-rol="role">
+                  <span className="tag is-light">{randomSelect(roles)}</span>
+                </td>
+                <td>
+                  <label>{randomSelect(inst)}</label>
+                </td>
+                <td>
+                  <div className="buttons are-small">
+                    <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
+                    <button className="button is-danger is-inverted">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="/" title="AutentiaX">Lolito</a></td>
+                <td><span>15.789.988-6</span></td>
+                <td data-rol="role">
+                  <span className="tag is-light">{randomSelect(roles)}</span>
+                </td>
+                <td>
+                  <label>{randomSelect(inst)}</label>
+                </td>
+                <td>
+                  <div className="buttons are-small">
+                    <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
+                    <button className="button is-danger is-inverted">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="/" title="AutentiaX">Aurelio</a></td>
+                <td>15.156.887-6</td>
+                <td data-rol="role">
+                  <span className="tag is-light">{randomSelect(roles)}</span>
+                </td>
+                <td>
+                  <label>{randomSelect(inst)}</label>
+                </td>
+                <td>
+                  <div className="buttons are-small">
+                    <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
+                    <button className="button is-danger is-inverted">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="/" title="AutentiaX">Bjean</a></td>
+                <td>15.156.887-6</td>
+                <td data-rol="role">
+                  <span className="tag is-light">{randomSelect(roles)}</span>
+                </td>
+                <td>
+                  <label>{randomSelect(inst)}</label>
+                </td>
+                <td>
+                  <div className="buttons are-small">
+                    <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
+                    <button className="button is-danger is-inverted">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="/" title="AutentiaX">Lolito</a></td>
+                <td><span>15.789.988-6</span></td>
+                <td data-rol="role">
+                  <span className="tag is-light">{randomSelect(roles)}</span>
+                </td>
+                <td>
+                  <label>{randomSelect(inst)}</label>
+                </td>
+                <td>
+                  <div className="buttons are-small">
+                    <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
+                    <button className="button is-danger is-inverted">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="/" title="AutentiaX">Aurelio</a></td>
+                <td>15.156.887-6</td>
+                <td data-rol="role">
+                  <span className="tag is-light">{randomSelect(roles)}</span>
+                </td>
+                <td>
+                  <label>{randomSelect(inst)}</label>
+                </td>
+                <td>
+                  <div className="buttons are-small">
+                    <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
+                    <button className="button is-danger is-inverted">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="/" title="AutentiaX">Bjean</a></td>
+                <td>15.156.887-6</td>
+                <td data-rol="role">
+                  <span className="tag is-light">{randomSelect(roles)}</span>
+                </td>
+                <td>
+                  <label>{randomSelect(inst)}</label>
+                </td>
+                <td>
+                  <div className="buttons are-small">
+                    <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
+                    <button className="button is-danger is-inverted">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="/" title="AutentiaX">Lolito</a></td>
+                <td><span>15.789.988-6</span></td>
+                <td data-rol="role">
+                  <span className="tag is-light">{randomSelect(roles)}</span>
+                </td>
+                <td>
+                  <label>{randomSelect(inst)}</label>
+                </td>
+                <td>
+                  <div className="buttons are-small">
+                    <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
+                    <button className="button is-danger is-inverted">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="/" title="AutentiaX">Aurelio</a></td>
+                <td>15.156.887-6</td>
+                <td data-rol="role">
+                  <span className="tag is-light">{randomSelect(roles)}</span>
+                </td>
+                <td>
+                  <label>{randomSelect(inst)}</label>
+                </td>
+                <td>
+                  <div className="buttons are-small">
+                    <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
+                    <button className="button is-danger is-inverted">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="/" title="AutentiaX">Bjean</a></td>
+                <td>15.156.887-6</td>
+                <td data-rol="role">
+                  <span className="tag is-light">{randomSelect(roles)}</span>
+                </td>
+                <td>
+                  <label>{randomSelect(inst)}</label>
+                </td>
+                <td>
+                  <div className="buttons are-small">
+                    <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
+                    <button className="button is-danger is-inverted">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><a href="/" title="AutentiaX">Lolito</a></td>
+                <td><span>15.789.988-6</span></td>
+                <td data-rol="role">
+                  <span className="tag is-light">{randomSelect(roles)}</span>
+                </td>
+                <td>
+                  <label>{randomSelect(inst)}</label>
+                </td>
+                <td>
+                  <div className="buttons are-small">
+                    <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
+                    <button className="button is-danger is-inverted">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
               <tr>
                 <td><a href="/" title="AutentiaX">Aurelio</a></td>
                 <td>15.156.887-6</td>

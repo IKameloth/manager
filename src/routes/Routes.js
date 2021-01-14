@@ -17,6 +17,7 @@ const Routes = withRouter(({location}) => {
       <Suspense fallback={null} >
         {location.pathname !== "/login" && location.pathname !== "/" && <Navbar />}
         <Route exact path="/" component={Login} />
+        <Route exact path="/login" component={Login} />
         <Route exact path="/admin" component={AdminRoles} />
         <Route exact path="/identities" component={Identities} />
         <Route exact path="/institutions" component={Institutions} />

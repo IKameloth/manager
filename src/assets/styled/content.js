@@ -27,15 +27,25 @@ export const Main = styled.main`
   @media ${({ theme }) => theme.mediaQueries.minWidth1024} {
     grid-column: 4 / 12;
   }
+
+  @media (max-width: 768px) {
+    grid-row: 2 / 9;
+    margin-bottom: 30px;
+    margin-right: -17px;
+  }
 `;
 
 export const MainHeader = styled.div`
   display: flex;
-  justify-content: space-between;
   padding-top: 2em;
   padding-right: 1.5em;
   padding-left: 1.5em;
+  padding-bottom: 1.5em;
   margin-bottom: 2em;
+
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 `;
 
 export const TableMain = styled.table`

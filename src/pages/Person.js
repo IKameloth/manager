@@ -41,7 +41,7 @@ class Persons extends Component {
             </div>
           </MainHeader>
   
-          <div className="columns is-centered">
+          <div className="columns is-centered" style={{width: "100%"}}>
             <div className="column is-7-desktop is-10-mobile is-offset-1-mobile is-10-tablet is-5-fullhd">
               <div className="container">
                 <div className="field">
