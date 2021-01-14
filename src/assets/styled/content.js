@@ -10,6 +10,7 @@ const fadeIn = keyframes`
 `;
 
 export const Main = styled.main`
+  z-index: 0.1;
   grid-column: 2 / 12;
   grid-row: 2 / 8;
   border-radius: 8px;

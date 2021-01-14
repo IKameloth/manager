@@ -24,6 +24,14 @@ export const NavBar = styled.nav`
   .logo {
     grid-column: 2 / 3;
   }
+
+  @media (max-width: 768px) {
+    .logo {
+      grid-column: 5 / 8;
+      width: max-content;
+      justify-content: center;
+    }
+  }
 `;
 
 export const Sidebar = styled.div`
@@ -35,15 +43,30 @@ export const Sidebar = styled.div`
   background: #fff;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
   padding-bottom: 1em;
-  animation: 1s ${fadeIn} ease-in;
 
   @media ${({ theme }) => theme.mediaQueries.minWidth768} {
+    animation: 1s ${fadeIn} ease-in;
     grid-column: 2 / span 3;
     position: static;
   }
 
   @media ${({ theme }) => theme.mediaQueries.minWidth1024} {
+    animation: 1s ${fadeIn} ease-in;
     grid-column: 2 / span 2;
+  }
+
+  @media (max-width: 768px) {
+    z-index: 2;
+    transform: ${({open}) => open ? "translateX(100%)" : "translate(0)"};
+    transition: transform 0.3s ease-in-out;
+    top: 61px;
+    left: -300px;
+    height: 100%;
+    width: 300px;
+    position: fixed;
+    flex-flow: column nowrap;
+    padding-top: 1rem;
+    border-radius: 0px 15px;
   }
 `;
 

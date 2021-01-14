@@ -12,7 +12,7 @@ const fadeIn = keyframes`
 `;
 
 const ModalContent = styled.div`
-  animation: 0.5s ${fadeIn} ease-in;
+  animation: 0.5s ${fadeIn} ease-in-out;
 `;
 
 const Modal = (props) => {

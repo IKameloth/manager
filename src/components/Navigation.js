@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useState} from "react";
+import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Logo from "../assets/images/autentia-logo.svg";
 import { 
@@ -12,16 +13,68 @@ import {
   Nav
 } from "../assets/styled/navigation";
 
+
+const StyledBurger = styled.div`
+  width: 2rem;
+  height: 2rem;
+  position: fixed;
+  top: 15px;
+  left: 20px;
+  display: flex;
+  justify-content: space-around;
+  flex-flow: column nowrap;
+  z-index: 2;
+
+  div {
+    width: 2rem;
+    height: 0.25rem;
+    background-color: ${({ open }) => open ? "red" : "#2962ff"};
+    border-color: transparent;
+    transform-origin: 1px;
+    transition: all 0.3s linear;
+    display: none;
+
+    @media (max-width: 768px) {
+      display: flex;
+    }
+
+    &:nth-child(1) {
+      transform: ${({open}) => open ? "rotate(45deg)" : "rotate(0)"};
+    }
+
+    &:nth-child(2) {
+      transform: ${({open}) => open ? "translateX(100%)" : "translateX(0)"};
+      opacity: ${({open}) => open ? 0 : 1};
+    }
+
+    &:nth-child(3) {
+      transform: ${({open}) => open ? "rotate(-45deg)" : "rotate(0)"};
+    }
+  }
+`;
+
 const Navigation = () => {
+  const [open, setOpen] = useState(false);
+
   return (
     <React.Fragment>
+      { open && 
+        <div className="modal-background" style={{zIndex: 1}} onClick={() => setOpen(false)}></div> 
+      }
+
       <NavBar>
         <Link className="logo" to="/users">
           <img src={Logo} alt="Logo Autentia" />
         </Link>
       </NavBar>
-
-      <Sidebar>
+ 
+      <StyledBurger open={open} onClick={() => setOpen(!open)}>
+        <div />
+        <div />
+        <div />
+      </StyledBurger>
+      
+      <Sidebar open={open}>
         <SidebarHeader>
           <h4>Administración de</h4>
           <div className="select" style={{width: "100%"}}>
