@@ -57,20 +57,17 @@ export const TableMain = styled.table`
       }
     }
   }
+
+  @media (max-width: 768px) {
+ 
+  }
 `;
 
 export const THead = styled.thead`
-  th {
+  tr {
     vertical-align: middle;
     padding-left: 1.5em;
     padding-right: 1.5em;
-    .tag {
-      margin-right: 8px;
-    }
-    .buttons {
-      opacity: 0;
-      justify-content: flex-end;
-    }
   }
 `;
 
@@ -83,7 +80,7 @@ export const TBody = styled.tbody`
       margin-right: 8px;
     }
     .buttons {
-      opacity: 0;
+      opacity: 1;
       justify-content: flex-end;
     }
   }
