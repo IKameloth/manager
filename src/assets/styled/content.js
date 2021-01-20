@@ -57,10 +57,6 @@ export const TableMain = styled.table`
       }
     }
   }
-
-  @media (max-width: 768px) {
- 
-  }
 `;
 
 export const THead = styled.thead`
