@@ -11,11 +11,11 @@
     "i18next": "^19.8.2",
     "i18next-xhr-backend": "^3.2.2",
     "react": "^16.14.0",
-    "react-data-table-component": "^7.0.0-alpha-4",
     "react-dom": "^16.14.0",
     "react-i18next": "^11.7.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "react-table": "^7.6.3",
     "styled-components": "^5.2.0"
   },
   "scripts": {
