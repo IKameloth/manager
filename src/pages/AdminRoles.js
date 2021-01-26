@@ -26,7 +26,7 @@ class AdminRoles extends Component {
   }
 
   fetchData = async() => {
-    const urlFake = "http://localhost:3031/users";
+    const urlFake = "http://localhost:3003/users";
     this.setState({loading: true, error: null});
     try {
       const response = await fetch(urlFake);
@@ -68,8 +68,8 @@ class AdminRoles extends Component {
                 </div>
                 <div className="column">
                   <div className="field">
-                    <p className="control has-icons-left has-icons-right">
-                      <input className="input" type="text" placeholder="Buscar por RUT o nombre" />
+                    <p className="control has-icons-left has-icons-right is-hidden">
+                      <input id="inputSearch" className="input" type="text" placeholder="Buscar por RUT o nombre" />
                       <span className="icon is-small is-left">
                         <i className="fal fa-search"></i>
                       </span>

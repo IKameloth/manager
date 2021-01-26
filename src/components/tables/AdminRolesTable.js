@@ -1,42 +1,28 @@
 import React from 'react';
-import styled from "styled-components";
 import {useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useAsyncDebounce} from "react-table";
-
-const TableStyle = styled.div`
-  table {
-    width: 100%;
-  }
-
-  table > thead {
-    position: sticky;
-  top: 0;
-  z-index: 1;
-  }
-`;
+import {TableMain, THead, TBody} from "../../assets/styled/content";
 
 const GlobalFilter = ({preGlobalFilteredRows, globalFilter, setGlobalFilter}) => {
-  const count = preGlobalFilteredRows.length
+  // const count = preGlobalFilteredRows.length
   const [value, setValue] = React.useState(globalFilter)
   const onChange = useAsyncDebounce(value => {
     setGlobalFilter(value || undefined)
   }, 200);
 
   return (
-    <span>
-      Search:{' '}
-      <input
-        value={value || ""}
-        onChange={e => {
-          setValue(e.target.value);
-          onChange(e.target.value);
-        }}
-        placeholder={`${count} records...`}
-        style={{
-          fontSize: '1.1rem',
-          border: '0',
-        }}
-      />
-    </span>
+    <div className="column is-6">
+      <p className="control has-icons-left has-icons-right">
+        <input className="input" type="text" placeholder="Buscar por RUT o nombre" value={value || ""} onChange={
+          e => {
+            setValue(e.target.value);
+            onChange(e.target.value);
+          }
+        } />
+        <span className="icon is-small is-left">
+          <i className="fal fa-search"></i>
+        </span>
+      </p>
+    </div>
   )
 };
 
@@ -81,94 +67,77 @@ const Table = ({columns, data}) => {
         setGlobalFilter={setGlobalFilter}
       />
       {/* TABLE */}
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                // SORTBY
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  {column.render('Header')}
-                  {/* SORT DIRECTION */}
-                  <span>
-                    {
-                      column.isSorted
-                        ? column.isSortedDesc
-                          ? ' FAR'
-                          : ' FAB'
-                        : ''
-                    }
-                  </span>
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {page.map((row, i) => {
-            prepareRow(row)
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                })}
+      <div className="table-container">
+        <TableMain className="table is-hoverable is-mobile" {...getTableProps()}>
+          <THead>
+            {headerGroups.map(headerGroup => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map(column => (
+                  // SORTBY
+                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                    {column.render('Header')}
+                    {/* SORT DIRECTION */}
+                    <span>
+                      {
+                        column.isSorted
+                          ? column.isSortedDesc
+                            ? <i className="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                            : <i className="fa fa-arrow-circle-down" aria-hidden="true"></i>
+                          : ''
+                      }
+                    </span>
+                  </th>
+                ))}
               </tr>
-            )
-          })}
-        </tbody>
-      </table>
-      <br />
-      
-      {/* 
-        Pagination can be built however you'd like. 
-        This is just a very basic UI implementation:
-      */}
-      <div className="pagination">
-        
-        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {'<<'}
-        </button>{' '}
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {'<'}
-        </button>{' '}
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
-          {'>'}
-        </button>{' '}
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          {'>>'}
-        </button>{' '}
-        <span>
-          Page{' '}
-          <strong>
-            {pageIndex + 1} of {pageOptions.length}
-          </strong>{' '}
-        </span>
-        <span>
-          | Go to page:{' '}
-          <input
-            type="number"
-            defaultValue={pageIndex + 1}
-            onChange={e => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0
-              gotoPage(page)
-            }}
-            style={{ width: '100px' }}
-          />
-        </span>{' '}
-        <select
-          value={pageSize}
-          onChange={e => {
-            setPageSize(Number(e.target.value))
-          }}
-        >
-          {[10, 20, 30, 40].map(pageSize => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
-        <div>Showing the first {pageSize} results of {rows.length} rows</div>
+            ))}
+          </THead>
+          <TBody {...getTableBodyProps()}>
+            {page.map((row, i) => {
+              prepareRow(row)
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map(cell => {
+                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  })}
+                </tr>
+              )
+            })}
+          </TBody>
+        </TableMain>
       </div>
+ 
+      <div className="level has-background-light">
+        <div className="level-item has-text-centered">
+          <div className="select is-rounded">
+            <select value={pageSize} onChange={e => { setPageSize(Number(e.target.value))}}>
+              {[10, 20, 30, 40].map(pageSize => (
+                <option key={pageSize} value={pageSize}>
+                  Mostrar {pageSize}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="level-item has-text-centered">
+          <button className="button is-white" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+            {<i className="fas fa-chevron-double-left"></i>}
+          </button>
+          <button className="button is-white" onClick={() => previousPage()} disabled={!canPreviousPage}>
+            {<i className="input-group-text fas fa-chevron-left"></i>}
+          </button>
+          <p><span>{pageSize >= rows.length ? rows.length : pageSize}</span> de {rows.length}</p>
+          <button className="button is-white" onClick={() => nextPage()} disabled={!canNextPage}>
+            {<i className="input-group-text fas fa-chevron-right"></i>}
+          </button>
+          <button className="button is-white" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+            {<i className="fas fa-chevron-double-right"></i>}
+          </button>
+        </div>
+        <div className="level-item has-text-centered ">
+          <p className="">Mostrando {pageIndex + 1} de {pageOptions.length} páginas</p>
+        </div>        
+      </div>
+
     </React.Fragment>
   );
 };
@@ -188,6 +157,9 @@ const columns = [
     Header: "Rol",
     accessor: "role",
     id: 'role',
+    Cell: ({ cell }) => (
+      <span className="tag is-light">{cell.row.values.role}</span>
+    ),
   },
   {
     Header: "Institución",
@@ -197,6 +169,20 @@ const columns = [
   {
     Header: "",
     id: "action",
+    Cell: ({ cell }) => (
+      <div className="field is-grouped">
+        <p className="control">
+          <button className="button is-info is-outlined is-small">
+            Asignar Rol
+          </button>
+        </p>
+        <p className="control">
+          <button className="button is-danger is-outlined is-small">
+            Eliminar
+          </button>
+        </p>
+      </div>
+    ),
   }
   
 ];
@@ -204,12 +190,10 @@ const columns = [
 const AdminRolesTable = (props) => {
   if (props.data) {
     return (
-        <TableStyle>
-          <Table
-          columns={columns}
-          data={props.data}
-        />
-        </TableStyle>
+      <Table
+        columns={columns}
+        data={props.data}
+      />
     );
   } else {
     return(
