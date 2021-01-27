@@ -12,17 +12,17 @@ const fadeIn = keyframes`
 
 export const NavBar = styled.nav`
   height: 3.875em;
-  background-color: white;
+  background-color: #fff;
+  display: -webkit-box;
   display: flex;
   align-content: center;
   border-bottom: 1px solid #e0e0e0;
   grid-column: 1 / last-line;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  animation: 0.5s ${fadeIn} ease-in;
-  
+
   .logo {
-    grid-column: 2 / 3;
+    grid-column: 2/3;
   }
 
   @media (max-width: 768px) {

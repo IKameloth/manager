@@ -5,6 +5,8 @@ import {
 } from "../assets/styled/content";
 import RegisterAdminRolesModal from "../components/modals/RegisterAdminRolesModal";
 import AdminRolesTable from "../components/tables/AdminRolesTable";
+import Loading from "../components/Loading";
+import Error from "../components/Error";
 
 class AdminRoles extends Component {
   state = {
@@ -18,8 +20,41 @@ class AdminRoles extends Component {
     e.preventDefault();
     this.setState({modalIsOpen: !this.state.modalIsOpen});
   };
+
+  componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData = async() => {
+    const urlFake = "http://localhost:3003/users";
+    this.setState({loading: true, error: null});
+    try {
+      const response = await fetch(urlFake);
+      const dataJson = await response.json();
+      setTimeout(() => {
+        this.setState({loading: false, data: dataJson});
+      }, 2500)
+    } catch(error) {
+      setTimeout(() => {
+        this.setState({loading: false, error: error.message});
+      },2500)
+    }
+  }
+
   
   render(){
+    const { error, loading, data } = this.state;
+    
+    if (loading === true && !data) {
+      return <Loading />;
+    };
+
+    if (error) {
+      return(
+        <Error message={error} />
+      );
+    };
+
     return (
       <React.Fragment>
         <Main id="main">
@@ -33,8 +68,8 @@ class AdminRoles extends Component {
                 </div>
                 <div className="column">
                   <div className="field">
-                    <p className="control has-icons-left has-icons-right">
-                      <input className="input" type="text" placeholder="Buscar por RUT o nombre" />
+                    <p className="control has-icons-left has-icons-right is-hidden">
+                      <input id="inputSearch" className="input" type="text" placeholder="Buscar por RUT o nombre" />
                       <span className="icon is-small is-left">
                         <i className="fal fa-search"></i>
                       </span>
@@ -48,11 +83,11 @@ class AdminRoles extends Component {
               </div>
             </div>
           </MainHeader>
-          <AdminRolesTable/>
+          <AdminRolesTable data={data} />
         </Main>
       </React.Fragment>
-    )
-  }
+    );
+  };
 };
 
 export default AdminRoles;

@@ -1,325 +1,205 @@
 import React from 'react';
-import {
-  TableMain, 
-  THead,
-  TBody
-} from "../../assets/styled/content";
+import {useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useAsyncDebounce} from "react-table";
+import {TableMain, THead, TBody} from "../../assets/styled/content";
 
-const AdminRolesTable = () => {
-  // data example
-  const randomSelect = (arr) => {
-    return arr[Math.floor(Math.random() * arr.length)];
-  }
-  const roles = ["Admin", "Sys", "JP", "User"];
-  const inst = ["@AUTENTIAX", "BONO_ECUADOR", "BONO", "ACEPTA"]
+const GlobalFilter = ({preGlobalFilteredRows, globalFilter, setGlobalFilter}) => {
+  // const count = preGlobalFilteredRows.length
+  const [value, setValue] = React.useState(globalFilter)
+  const onChange = useAsyncDebounce(value => {
+    setGlobalFilter(value || undefined)
+  }, 200);
+
+  return (
+    <div className="column is-6">
+      <p className="control has-icons-left has-icons-right">
+        <input className="input" type="text" placeholder="Buscar por RUT o nombre" value={value || ""} onChange={
+          e => {
+            setValue(e.target.value);
+            onChange(e.target.value);
+          }
+        } />
+        <span className="icon is-small is-left">
+          <i className="fal fa-search"></i>
+        </span>
+      </p>
+    </div>
+  )
+};
+
+const Table = ({columns, data}) => {
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    page,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    preGlobalFilteredRows,
+    setGlobalFilter,
+    state,
+    state: { pageIndex, pageSize },
+  } = useTable(
+    {
+      columns,
+      data,
+      initialState: { pageIndex: 0 },
+    },
+    useFilters,
+    useGlobalFilter,
+    useSortBy,
+    usePagination,
+  )
 
   return (
     <React.Fragment>
-      <TableMain className="table">
-        <THead className="sticky">
-          <tr>
-            <th>Nombre</th>
-            <th>Rut</th>
-            <th>Autentia Rol</th>
-            <th>Institution</th>
-            <th></th>
-          </tr>
-        </THead>
+      {/* FILTER */}
+      <GlobalFilter
+        preGlobalFilteredRows={preGlobalFilteredRows}
+        globalFilter={state.globalFilter}
+        setGlobalFilter={setGlobalFilter}
+      />
+      {/* TABLE */}
+      <div className="table-container">
+        <TableMain className="table is-hoverable is-mobile" {...getTableProps()}>
+          <THead>
+            {headerGroups.map(headerGroup => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map(column => (
+                  // SORTBY
+                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                    {column.render('Header')}
+                    {/* SORT DIRECTION */}
+                    <span>
+                      {
+                        column.isSorted
+                          ? column.isSortedDesc
+                            ? <i className="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                            : <i className="fa fa-arrow-circle-down" aria-hidden="true"></i>
+                          : ''
+                      }
+                    </span>
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </THead>
+          <TBody {...getTableBodyProps()}>
+            {page.map((row, i) => {
+              prepareRow(row)
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map(cell => {
+                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  })}
+                </tr>
+              )
+            })}
+          </TBody>
+        </TableMain>
+      </div>
+ 
+      <div className="level has-background-light">
+        <div className="level-item has-text-centered">
+          <div className="select is-rounded">
+            <select value={pageSize} onChange={e => { setPageSize(Number(e.target.value))}}>
+              {[10, 20, 30, 40].map(pageSize => (
+                <option key={pageSize} value={pageSize}>
+                  Mostrar {pageSize}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="level-item has-text-centered">
+          <button className="button is-white" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+            {<i className="fas fa-chevron-double-left"></i>}
+          </button>
+          <button className="button is-white" onClick={() => previousPage()} disabled={!canPreviousPage}>
+            {<i className="input-group-text fas fa-chevron-left"></i>}
+          </button>
+          <p><span>{pageSize >= rows.length ? rows.length : pageSize}</span> de {rows.length}</p>
+          <button className="button is-white" onClick={() => nextPage()} disabled={!canNextPage}>
+            {<i className="input-group-text fas fa-chevron-right"></i>}
+          </button>
+          <button className="button is-white" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+            {<i className="fas fa-chevron-double-right"></i>}
+          </button>
+        </div>
+        <div className="level-item has-text-centered ">
+          <p className="">Mostrando {pageIndex + 1} de {pageOptions.length} páginas</p>
+        </div>        
+      </div>
 
-        <TBody className="content">
-          <tr>
-            <td><a href="/" title="AutentiaX">Aurelio</a></td>
-            <td>15.156.887-6</td>
-            <td data-rol="role">
-              <span className="tag is-light">{randomSelect(roles)}</span>
-            </td>
-            <td>
-              <label>{randomSelect(inst)}</label>
-            </td>
-            <td>
-              <div className="buttons are-small">
-                <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
-                <button className="button is-danger is-inverted">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="/" title="AutentiaX">Bjean</a></td>
-            <td>15.156.887-6</td>
-            <td data-rol="role">
-              <span className="tag is-light">{randomSelect(roles)}</span>
-            </td>
-            <td>
-              <label>{randomSelect(inst)}</label>
-            </td>
-            <td>
-              <div className="buttons are-small">
-                <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
-                <button className="button is-danger is-inverted">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="/" title="AutentiaX">Lolito</a></td>
-            <td><span>15.789.988-6</span></td>
-            <td data-rol="role">
-              <span className="tag is-light">{randomSelect(roles)}</span>
-            </td>
-            <td>
-              <label>{randomSelect(inst)}</label>
-            </td>
-            <td>
-              <div className="buttons are-small">
-                <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
-                <button className="button is-danger is-inverted">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="/" title="AutentiaX">Aurelio</a></td>
-            <td>15.156.887-6</td>
-            <td data-rol="role">
-              <span className="tag is-light">{randomSelect(roles)}</span>
-            </td>
-            <td>
-              <label>{randomSelect(inst)}</label>
-            </td>
-            <td>
-              <div className="buttons are-small">
-                <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
-                <button className="button is-danger is-inverted">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="/" title="AutentiaX">Bjean</a></td>
-            <td>15.156.887-6</td>
-            <td data-rol="role">
-              <span className="tag is-light">{randomSelect(roles)}</span>
-            </td>
-            <td>
-              <label>{randomSelect(inst)}</label>
-            </td>
-            <td>
-              <div className="buttons are-small">
-                <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
-                <button className="button is-danger is-inverted">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="/" title="AutentiaX">Lolito</a></td>
-            <td><span>15.789.988-6</span></td>
-            <td data-rol="role">
-              <span className="tag is-light">{randomSelect(roles)}</span>
-            </td>
-            <td>
-              <label>{randomSelect(inst)}</label>
-            </td>
-            <td>
-              <div className="buttons are-small">
-                <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
-                <button className="button is-danger is-inverted">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="/" title="AutentiaX">Aurelio</a></td>
-            <td>15.156.887-6</td>
-            <td data-rol="role">
-              <span className="tag is-light">{randomSelect(roles)}</span>
-            </td>
-            <td>
-              <label>{randomSelect(inst)}</label>
-            </td>
-            <td>
-              <div className="buttons are-small">
-                <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
-                <button className="button is-danger is-inverted">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="/" title="AutentiaX">Bjean</a></td>
-            <td>15.156.887-6</td>
-            <td data-rol="role">
-              <span className="tag is-light">{randomSelect(roles)}</span>
-            </td>
-            <td>
-              <label>{randomSelect(inst)}</label>
-            </td>
-            <td>
-              <div className="buttons are-small">
-                <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
-                <button className="button is-danger is-inverted">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="/" title="AutentiaX">Lolito</a></td>
-            <td><span>15.789.988-6</span></td>
-            <td data-rol="role">
-              <span className="tag is-light">{randomSelect(roles)}</span>
-            </td>
-            <td>
-              <label>{randomSelect(inst)}</label>
-            </td>
-            <td>
-              <div className="buttons are-small">
-                <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
-                <button className="button is-danger is-inverted">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="/" title="AutentiaX">Aurelio</a></td>
-            <td>15.156.887-6</td>
-            <td data-rol="role">
-              <span className="tag is-light">{randomSelect(roles)}</span>
-            </td>
-            <td>
-              <label>{randomSelect(inst)}</label>
-            </td>
-            <td>
-              <div className="buttons are-small">
-                <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
-                <button className="button is-danger is-inverted">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="/" title="AutentiaX">Bjean</a></td>
-            <td>15.156.887-6</td>
-            <td data-rol="role">
-              <span className="tag is-light">{randomSelect(roles)}</span>
-            </td>
-            <td>
-              <label>{randomSelect(inst)}</label>
-            </td>
-            <td>
-              <div className="buttons are-small">
-                <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
-                <button className="button is-danger is-inverted">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="/" title="AutentiaX">Lolito</a></td>
-            <td><span>15.789.988-6</span></td>
-            <td data-rol="role">
-              <span className="tag is-light">{randomSelect(roles)}</span>
-            </td>
-            <td>
-              <label>{randomSelect(inst)}</label>
-            </td>
-            <td>
-              <div className="buttons are-small">
-                <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
-                <button className="button is-danger is-inverted">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="/" title="AutentiaX">Aurelio</a></td>
-            <td>15.156.887-6</td>
-            <td data-rol="role">
-              <span className="tag is-light">{randomSelect(roles)}</span>
-            </td>
-            <td>
-              <label>{randomSelect(inst)}</label>
-            </td>
-            <td>
-              <div className="buttons are-small">
-                <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
-                <button className="button is-danger is-inverted">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="/" title="AutentiaX">Bjean</a></td>
-            <td>15.156.887-6</td>
-            <td data-rol="role">
-              <span className="tag is-light">{randomSelect(roles)}</span>
-            </td>
-            <td>
-              <label>{randomSelect(inst)}</label>
-            </td>
-            <td>
-              <div className="buttons are-small">
-                <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
-                <button className="button is-danger is-inverted">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="/" title="AutentiaX">Lolito</a></td>
-            <td><span>15.789.988-6</span></td>
-            <td data-rol="role">
-              <span className="tag is-light">{randomSelect(roles)}</span>
-            </td>
-            <td>
-              <label>{randomSelect(inst)}</label>
-            </td>
-            <td>
-              <div className="buttons are-small">
-                <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
-                <button className="button is-danger is-inverted">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="/" title="AutentiaX">Aurelio</a></td>
-            <td>15.156.887-6</td>
-            <td data-rol="role">
-              <span className="tag is-light">{randomSelect(roles)}</span>
-            </td>
-            <td>
-              <label>{randomSelect(inst)}</label>
-            </td>
-            <td>
-              <div className="buttons are-small">
-                <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
-                <button className="button is-danger is-inverted">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="/" title="AutentiaX">Bjean</a></td>
-            <td>15.156.887-6</td>
-            <td data-rol="role">
-              <span className="tag is-light">{randomSelect(roles)}</span>
-            </td>
-            <td>
-              <label>{randomSelect(inst)}</label>
-            </td>
-            <td>
-              <div className="buttons are-small">
-                <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
-                <button className="button is-danger is-inverted">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="/" title="AutentiaX">Lolito</a></td>
-            <td><span>15.789.988-6</span></td>
-            <td data-rol="role">
-              <span className="tag is-light">{randomSelect(roles)}</span>
-            </td>
-            <td>
-              <label>{randomSelect(inst)}</label>
-            </td>
-            <td>
-              <div className="buttons are-small">
-                <button className="button is-info is-inverted" data-role="modal">Modificar rol</button>
-                <button className="button is-danger is-inverted">Eliminar</button>
-              </div>
-            </td>
-          </tr>
-        </TBody>
-        
-      </TableMain>
     </React.Fragment>
   );
+};
+
+const columns = [
+  {
+    Header: 'Nombre',
+    accessor: 'name',
+    id: 'name',
+  },
+  {
+    Header: 'Rut',
+    accessor: 'rut',
+    id: 'rut',
+  },
+  {
+    Header: "Rol",
+    accessor: "role",
+    id: 'role',
+    Cell: ({ cell }) => (
+      <span className="tag is-light">{cell.row.values.role}</span>
+    ),
+  },
+  {
+    Header: "Institución",
+    accessor: "institution",
+    id: 'institution',
+  },
+  {
+    Header: "",
+    id: "action",
+    Cell: ({ cell }) => (
+      <div className="field is-grouped">
+        <p className="control">
+          <button className="button is-info is-outlined is-small">
+            Asignar Rol
+          </button>
+        </p>
+        <p className="control">
+          <button className="button is-danger is-outlined is-small">
+            Eliminar
+          </button>
+        </p>
+      </div>
+    ),
+  }
+  
+];
+
+const AdminRolesTable = (props) => {
+  if (props.data) {
+    return (
+      <Table
+        columns={columns}
+        data={props.data}
+      />
+    );
+  } else {
+    return(
+      <h2>Nada para mostrar!</h2>
+    )
+  }
 };
 
 export default AdminRolesTable;
