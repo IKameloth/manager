@@ -6,7 +6,7 @@ import {
 import RegisterUserRolesModal from "../components/modals/RegisterUserRolesModal";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
-import UserList from "../components/UsersList";
+import UsersTable from "../components/tables/UsersTable";
 
 class Users extends Component {
   state = {
@@ -26,7 +26,7 @@ class Users extends Component {
   }
 
   fetchData = async() => {
-    const urlFake = "http://localhost:3031/users";
+    const urlFake = "http://localhost:3003/users";
     this.setState({loading: true, error: null});
     try {
       const response = await fetch(urlFake);
@@ -67,7 +67,7 @@ class Users extends Component {
                 </div>
                 <div className="column">
                   <div className="field">
-                    <p className="control has-icons-left has-icons-right">
+                    <p className="control has-icons-left has-icons-right is-hidden">
                       <input className="input" type="text" placeholder="Buscar por RUT o nombre" />
                       <span className="icon is-small is-left">
                         <i className="fal fa-search"></i>
@@ -82,7 +82,7 @@ class Users extends Component {
               </div>
             </div>
           </MainHeader>
-          <UserList data={data} />        
+          <UsersTable data={data} />        
         </Main>
       </React.Fragment>
     )

@@ -187,7 +187,7 @@ const columns = [
   
 ];
 
-const AdminRolesTable = (props) => {
+const UsersTable = (props) => {
   if (props.data) {
     return (
       <Table
@@ -202,4 +202,4 @@ const AdminRolesTable = (props) => {
   }
 };
 
-export default AdminRolesTable;
+export default UsersTable;

@@ -2,8 +2,7 @@ import React from 'react';
 import {useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useAsyncDebounce} from "react-table";
 import {TableMain, THead, TBody} from "../../assets/styled/content";
 
-const GlobalFilter = ({preGlobalFilteredRows, globalFilter, setGlobalFilter}) => {
-  // const count = preGlobalFilteredRows.length
+const GlobalFilter = ({globalFilter, setGlobalFilter}) => {
   const [value, setValue] = React.useState(globalFilter)
   const onChange = useAsyncDebounce(value => {
     setGlobalFilter(value || undefined)
@@ -154,17 +153,9 @@ const columns = [
     id: 'rut',
   },
   {
-    Header: "Rol",
-    accessor: "role",
-    id: 'role',
-    Cell: ({ cell }) => (
-      <span className="tag is-light">{cell.row.values.role}</span>
-    ),
-  },
-  {
-    Header: "Institución",
-    accessor: "institution",
-    id: 'institution',
+    Header: "País",
+    accessor: "country",
+    id: 'country',
   },
   {
     Header: "",
@@ -173,12 +164,7 @@ const columns = [
       <div className="field is-grouped">
         <p className="control">
           <button className="button is-info is-outlined is-small">
-            Asignar Rol
-          </button>
-        </p>
-        <p className="control">
-          <button className="button is-danger is-outlined is-small">
-            Eliminar
+            Detalles <i class="fa fa-search" aria-hidden="true"></i>
           </button>
         </p>
       </div>
@@ -187,7 +173,7 @@ const columns = [
   
 ];
 
-const AdminRolesTable = (props) => {
+const UsersTable = (props) => {
   if (props.data) {
     return (
       <Table
@@ -202,4 +188,4 @@ const AdminRolesTable = (props) => {
   }
 };
 
-export default AdminRolesTable;
+export default UsersTable;
