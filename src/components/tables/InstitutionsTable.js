@@ -1,6 +1,7 @@
 import React from 'react';
 import {useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useAsyncDebounce} from "react-table";
-import {TableMain, THead, TBody} from "../../assets/styled/content";
+import {TableMain, THead, TBody, ContainerElement} from "../../assets/styled/content";
+import {Link} from "react-router-dom";
 
 const GlobalFilter = ({globalFilter, setGlobalFilter}) => {
   const [value, setValue] = React.useState(globalFilter)
@@ -164,7 +165,7 @@ const columns = [
       <div className="field is-grouped">
         <p className="control">
           <button className="button is-info is-outlined is-small">
-            Detalles <i class="fa fa-search" aria-hidden="true"></i>
+            Detalles <i className="fa fa-search" aria-hidden="true"></i>
           </button>
         </p>
       </div>
@@ -174,7 +175,7 @@ const columns = [
 ];
 
 const UsersTable = (props) => {
-  if (props.data) {
+  if (props.data && props.data.length > 0) {
     return (
       <Table
         columns={columns}
@@ -183,9 +184,20 @@ const UsersTable = (props) => {
     );
   } else {
     return(
-      <h2>No se encontraron datos.</h2>
-    )
-  }
+      <ContainerElement>
+        <div className="level has-baclground-light">
+          <div className="level-item has-text-centered">
+            <i className="field">
+              <i className="far fa-surprise"></i>
+              <h3 className="title">No se encuentran registros.</h3>
+              <h2>Prueba registrando una nueva institución</h2><br></br>
+              <Link to="/institution/new">Registrar institutición</Link>
+            </i>
+          </div>
+        </div>
+      </ContainerElement>
+    );
+  };
 };
 
 export default UsersTable;

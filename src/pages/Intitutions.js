@@ -32,7 +32,7 @@ class Institutions extends Component {
   };
 
   componentDidMount() {
-    // this.fetchData();
+    this.fetchData();
   };
 
   render() {
@@ -67,8 +67,8 @@ class Institutions extends Component {
                     </p>
                   </div>
                 </div>
-                <div className="column is-2-fullhd">
-                  <Link to="/institution/new" className="button is-primary">Crear institutición</Link>
+                <div className="column is-3">
+                  <Link to="/institution/new" className="button is-primary">Registrar institutición</Link>
                 </div>
               </div>
             </div>
