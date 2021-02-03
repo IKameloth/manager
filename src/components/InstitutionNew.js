@@ -21,7 +21,6 @@ class InstitutionNew extends Component {
   };
   
   handleChange = (e) => {
-    console.log(this.state.form);
     this.setState({
       form: {
         ...this.state.form,
@@ -43,8 +42,9 @@ class InstitutionNew extends Component {
       fetch("http://localhost:4000/institutions", requestOptions)
         .then(async response => {
           const data = await response.json();
+          console.log(data);
 
-          if(response.errors) {
+          if(data.errors) {
             const error = (data && data.errors) || response.status;
             return Promise.reject(error);
           };
@@ -56,9 +56,9 @@ class InstitutionNew extends Component {
         })
         .catch(error => {
           setTimeout(() => {
-            this.setState({loading: false, error: error});
+            this.setState({loading: false});
             console.log(error);
-            alert(`Error: ${error}`);
+            alert(`Error: Not valid data`);
           }, 1000);
         });
     } catch (error) {
@@ -70,8 +70,6 @@ class InstitutionNew extends Component {
 
   handleSubmit = async(e) => {
     e.preventDefault();
-    this.setState({loading: false});
-    console.log(this.state.form);
     this.fetchPostData();
   };
 
