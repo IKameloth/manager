@@ -100,13 +100,15 @@ class InstitutionNew extends Component {
           </MainHeader>
 
           <div className="columns is-centered" style={{width: "100%"}}>
-            <div className="column is-6">
-              <InstitutionForm
-                onChange={this.handleChange}
-                onSubmit={this.handleSubmit}
-                formValues={this.state.form}
-                error={this.state.error} 
-              />
+            <div className="column is-7-desktop is-11-mobile is-offset-1-mobile is-10-tablet is-5-fullhd">
+              <div className="container">
+                <InstitutionForm
+                  onChange={this.handleChange}
+                  onSubmit={this.handleSubmit}
+                  formValues={this.state.form}
+                  error={this.state.error} 
+                />
+              </div>
             </div>
           </div>
         </Main>

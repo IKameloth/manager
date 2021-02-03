@@ -4,7 +4,7 @@ class InstitutionForm extends Component {
   render() {
     return(
       <React.Fragment>
-        <form className="box" onSubmit={this.props.onSubmit}>
+        <form onSubmit={this.props.onSubmit}>
           <div className="field">
             <label className="label">Nombre</label>
             <div className="control has-icons-left has-icons-right">

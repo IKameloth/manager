@@ -165,7 +165,7 @@ const columns = [
       <div className="field is-grouped">
         <p className="control">
           <button className="button is-info is-outlined is-small">
-            Detalles <i className="fa fa-search" aria-hidden="true"></i>
+            Detalles
           </button>
         </p>
       </div>
@@ -187,12 +187,12 @@ const UsersTable = (props) => {
       <ContainerElement>
         <div className="level has-baclground-light">
           <div className="level-item has-text-centered">
-            <i className="field">
+            <div className="control">
               <i className="far fa-surprise"></i>
               <h3 className="title">No se encuentran registros.</h3>
               <h2>Prueba registrando una nueva institución</h2><br></br>
               <Link to="/institution/new">Registrar institutición</Link>
-            </i>
+            </div>
           </div>
         </div>
       </ContainerElement>

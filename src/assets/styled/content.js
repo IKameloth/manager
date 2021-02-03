@@ -322,6 +322,13 @@ export const InputAppend = styled.div`
 
 export const ContainerElement = styled.div`
   margin-top: 15%;
+
+  div {
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+  }
+
   i {
     font-size: 100px;
     color: #0f4fff;
