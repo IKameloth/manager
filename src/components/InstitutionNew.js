@@ -48,16 +48,18 @@ class InstitutionNew extends Component {
             const error = (data && data.errors) || response.status;
             return Promise.reject(error);
           };
-
-          this.setState({loading: false});
-          console.log("Success save data");
-          this.props.history.push("/institutions");
+          
+          setTimeout(() => {
+            this.setState({loading: false});
+            this.props.history.push("/institutions");
+          }, 1000);
         })
         .catch(error => {
-          this.setState({loading: false, error: error});
-          console.log("error en el fetch");
-          console.log(error);
-          alert(`Error: ${error}`);
+          setTimeout(() => {
+            this.setState({loading: false, error: error});
+            console.log(error);
+            alert(`Error: ${error}`);
+          }, 1000);
         });
     } catch (error) {
       this.setState({loading: false, error: error.message});

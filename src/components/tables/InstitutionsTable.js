@@ -191,7 +191,7 @@ const UsersTable = (props) => {
               <i className="far fa-surprise"></i>
               <h3 className="title">No se encuentran registros.</h3>
               <h2>Prueba registrando una nueva institución</h2><br></br>
-              <Link to="/institution/new">Registrar institutición</Link>
+              <Link to="/institution/new">Registrar institución</Link>
             </div>
           </div>
         </div>

@@ -23,11 +23,11 @@ class Institutions extends Component {
 
       setTimeout(() => {
         this.setState({loading: false, data: dataJson});
-      });
+      }, 2000);
     } catch (error) {
       setTimeout(() => {
         this.setState({loading: false, error: error.message});
-      });
+      }, 2000);
     }
   };
 
@@ -68,7 +68,7 @@ class Institutions extends Component {
                   </div>
                 </div>
                 <div className="column is-3">
-                  <Link to="/institution/new" className="button is-primary">Registrar institutición</Link>
+                  <Link to="/institution/new" className="button is-primary">Registrar institución</Link>
                 </div>
               </div>
             </div>
