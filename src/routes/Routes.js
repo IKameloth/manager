@@ -11,6 +11,7 @@ import Person from "../pages/Person";
 import Sensors from "../pages/Sensors";
 import Users from "../pages/Users";
 import InstitutionNew from "../components/InstitutionNew";
+import InstitutionDetails from "../components/InstitutionDetails";
 
 const Routes = withRouter(({location}) => {
   return (
@@ -23,6 +24,7 @@ const Routes = withRouter(({location}) => {
         <Route exact path="/identities" component={Identities} />
         <Route exact path="/institutions" component={Institutions} />
         <Route exact path="/institution/new" component={InstitutionNew} />
+        <Route exact path="/institution/:institutionID" component={InstitutionDetails} />
         <Route exact path="/persons" component={Person} />
         <Route exact path="/sensors" component={Sensors} />
         <Route exact path="/users" component={Users} />

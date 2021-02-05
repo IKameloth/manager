@@ -164,16 +164,15 @@ const columns = [
     Cell: ({ cell }) => (
       <div className="field is-grouped">
         <p className="control">
-          <button className="button is-info is-outlined is-small">
+          <Link to={`/institution/${cell.row.values.rut}`} className="button is-info is-outlined is-small">
             Detalles
-          </button>
+          </Link>
         </p>
       </div>
     ),
   }
-  
 ];
-
+// cell.row.values.rut
 const UsersTable = (props) => {
   if (props.data && props.data.length > 0) {
     return (

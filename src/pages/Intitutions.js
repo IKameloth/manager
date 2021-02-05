@@ -4,13 +4,14 @@ import Loading from "../components/Loading";
 import Error from "../components/Error";
 import InstitutionsTable from "../components/tables/InstitutionsTable";
 import {Link} from "react-router-dom";
+import InstitutionModal from "../components/modals/InstitutionModal";
 
 class Institutions extends Component {
   state = {
     loading: false,
     error: null,
     data: undefined,
-    modalIsOpen: false
+    modalIsOpen: false,
   };
 
   fetchData = async() => {
@@ -20,9 +21,11 @@ class Institutions extends Component {
     try {
       const response = await fetch(urlFaker);
       const dataJson = await response.json();
+      const dataResult = [] 
+      dataJson.data.map((attr) => dataResult.push(attr.attributes));
 
       setTimeout(() => {
-        this.setState({loading: false, data: dataJson});
+        this.setState({loading: false, data: dataResult});
       }, 2000);
     } catch (error) {
       setTimeout(() => {
@@ -33,6 +36,15 @@ class Institutions extends Component {
 
   componentDidMount() {
     this.fetchData();
+  };
+
+  handleModal = () => {
+    this.setState({modalIsOpen: !this.state.modalIsOpen});
+  }
+
+  handleDeleteInstitution = async() => {
+    // this.setState({loading: true, error: null});
+    alert("DELETE!");
   };
 
   render() {
@@ -73,7 +85,8 @@ class Institutions extends Component {
               </div>
             </div>
           </MainHeader>
-          <InstitutionsTable data={data} />
+          <InstitutionsTable data={data} toggleModal={this.toggleModal} />
+          <InstitutionModal isOpen={this.state.modalIsOpen} onClose={this.handleModal} deleteInstitution={this.handleDeleteInstitution} />
         </Main>
       </React.Fragment>
     );
