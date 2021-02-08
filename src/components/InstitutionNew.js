@@ -17,7 +17,7 @@ class InstitutionNew extends Component {
       description: "",
       status: "",
       flag: "",
-    }
+    },
   };
   
   handleChange = (e) => {
@@ -30,6 +30,7 @@ class InstitutionNew extends Component {
   };
 
   fetchPostData = () => {
+    console.log("CREATE NEW POST");
     this.setState({loading: true});
 
     const requestOptions = {
@@ -42,7 +43,6 @@ class InstitutionNew extends Component {
       fetch("http://localhost:4000/institutions", requestOptions)
         .then(async response => {
           const data = await response.json();
-          console.log(data);
 
           if(data.errors) {
             const error = (data && data.errors) || response.status;
@@ -72,6 +72,14 @@ class InstitutionNew extends Component {
     e.preventDefault();
     this.fetchPostData();
   };
+
+  componentDidMount() {
+    console.log("COMPONENT POST");
+  }
+
+  componentWillUnmount() {
+    console.log("SALIENDO POST");
+  }
 
   render() {
     const { error, loading } = this.state;

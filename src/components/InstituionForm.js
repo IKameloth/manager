@@ -2,6 +2,9 @@ import React, {Component} from "react";
 
 class InstitutionForm extends Component {
   render() {
+    const flagChecked =  this.props.formValues.flag;
+    const statusChecked =  this.props.formValues.status;
+
     return(
       <React.Fragment>
         <form onSubmit={this.props.onSubmit}>
@@ -123,11 +126,11 @@ class InstitutionForm extends Component {
                 <div className="control">
                   <label className="label">Estado</label>
                   <label className="radio">
-                    <input value="0" type="radio" name="status" onChange={this.props.onChange} />
+                    <input value="0" type="radio" name="status" onChange={this.props.onChange} checked={statusChecked === "0"}/>
                     0
                   </label>
                   <label className="radio">
-                    <input value="1" type="radio" name="status" onChange={this.props.onChange} />
+                    <input value="1" type="radio" name="status" onChange={this.props.onChange} checked={statusChecked === "1"} />
                     1
                   </label>
                 </div>
@@ -136,11 +139,11 @@ class InstitutionForm extends Component {
                 <div className="control">
                 <label className="label">Flag</label>
                   <label className="radio">
-                    <input value="0" type="radio" name="flag" onChange={this.props.onChange} />
+                    <input value="0" type="radio" name="flag" onChange={this.props.onChange} checked={flagChecked === "0"} />
                     0
                   </label>
                   <label className="radio">
-                    <input value="1" type="radio" name="flag" onChange={this.props.onChange} />
+                    <input value="1" type="radio" name="flag" onChange={this.props.onChange} checked={flagChecked === "1"} />
                     1
                   </label>
                 </div>
@@ -152,11 +155,11 @@ class InstitutionForm extends Component {
           <div className="field">
             <div className="level is-centered">
               <div className="level-item">
-                <button 
-                  className="button is-primary" 
-                  type="submit"
-                  onClick={this.handleClick}
-                >Registrar</button>
+                {
+                  this.props.isEditing
+                    ? <button className="button is-primary" type="submit">Editar</button> 
+                    : <button className="button is-primary" type="submit">Registrar</button>
+                }
               </div>
             </div>
           </div>

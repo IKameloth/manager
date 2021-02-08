@@ -24,7 +24,7 @@ const Routes = withRouter(({location}) => {
         <Route exact path="/identities" component={Identities} />
         <Route exact path="/institutions" component={Institutions} />
         <Route exact path="/institution/new" component={InstitutionNew} />
-        <Route exact path="/institution/:institutionID" component={InstitutionDetails} />
+        <Route exact path="/institution/:institutionID/edit" component={InstitutionDetails} />
         <Route exact path="/persons" component={Person} />
         <Route exact path="/sensors" component={Sensors} />
         <Route exact path="/users" component={Users} />

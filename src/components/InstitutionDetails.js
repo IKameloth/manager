@@ -17,10 +17,10 @@ class InstitutionDetails extends Component {
       description: "",
       status: "",
       flag: "",
-    }
+    },
+    btnEdit: false,
   };
 
-  // post data
   handleChange = (e) => {
     this.setState({
       form: {
@@ -30,20 +30,19 @@ class InstitutionDetails extends Component {
     });
   };
 
-  fetchPostData = () => {
+  fetchEditInstitution = () => {
     this.setState({loading: true});
 
     const requestOptions = {
-      method: "POST",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(this.state.form ),
     };
 
     try {
-      fetch("http://localhost:4000/institutions", requestOptions)
+      fetch(`http://localhost:4000/institutions/${this.props.match.params.institutionID}`, requestOptions)
         .then(async response => {
           const data = await response.json();
-          console.log(data);
 
           if(data.errors) {
             const error = (data && data.errors) || response.status;
@@ -69,23 +68,22 @@ class InstitutionDetails extends Component {
     }
   };
 
-  handleSubmit = async(e) => {
+  handleEditInstitution = async(e) => {
     e.preventDefault();
-    this.fetchPostData();
+    console.log("Entra al handle edit");
+    this.fetchEditInstitution();
   };
-
   // get data
   fetchData = async() => {
-    // concatenar la id a la url
-    const url = "http://localhost:4000/institutions/institutionID";
+    const url = `http://localhost:4000/institutions/${this.props.match.params.institutionID}`;
 
     try {
       const response = await fetch(url);
       const dataJson = await response.json();
+      const result = dataJson.data[0].attributes;
 
       setTimeout(() => {
-        // asignar data al form
-        this.setState({loading: false, form: dataJson});
+        this.setState({loading: false, form: result, btnEdit: true});
       }, 2000);
     } catch (err) {
       setTimeout(() => {
@@ -95,11 +93,16 @@ class InstitutionDetails extends Component {
   };
 
   componentDidMount() {
-    // this.fetchData();
+    console.log("EDITING COMPONENT");
+    this.setState({loading: true});
+    this.fetchData();
   };
 
+  componentWillUnmount(){
+    console.log("EXIT EDITING COMPONENT");
+  }
+
   render() {
-    console.log(this.props);
     const { error, loading } = this.state;
 
     if (loading === true) {
@@ -130,9 +133,10 @@ class InstitutionDetails extends Component {
               <div className="container">
                 <InstitutionForm
                   onChange={this.handleChange}
-                  onSubmit={this.handleSubmit}
+                  onSubmit={this.handleEditInstitution}
                   formValues={this.state.form}
                   error={this.state.error} 
+                  isEditing={this.state.btnEdit}
                 />
               </div>
             </div>

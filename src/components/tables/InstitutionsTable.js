@@ -164,7 +164,7 @@ const columns = [
     Cell: ({ cell }) => (
       <div className="field is-grouped">
         <p className="control">
-          <Link to={`/institution/${cell.row.values.rut}`} className="button is-info is-outlined is-small">
+          <Link to={`/institution/${cell.row.values.rut}/edit`} className="button is-info is-outlined is-small">
             Detalles
           </Link>
         </p>
