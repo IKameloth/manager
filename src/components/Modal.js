@@ -13,6 +13,16 @@ const fadeIn = keyframes`
 
 const ModalContent = styled.div`
   animation: 0.5s ${fadeIn} ease-in-out;
+
+  .modal-card-head {
+    background-color: #fff;
+    text-align: center;
+    border-bottom: none;
+  }
+
+  .modal-card-foot {
+    border-top: none;
+  }
 `;
 
 const Modal = (props) => {

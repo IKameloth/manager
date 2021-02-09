@@ -3,6 +3,7 @@ import Loading from "./Loading";
 import Error from "./Error";
 import {Main, MainHeader} from "../assets/styled/content";
 import InstitutionForm from "./InstituionForm";
+import {Link} from "react-router-dom";
 
 class InstitutionNew extends Component {
   state = {
@@ -102,6 +103,16 @@ class InstitutionNew extends Component {
                   <div className="field">
                     <h3 className="title">Registrar Institución</h3>
                   </div>
+                </div>
+              </div>
+              <div className="level is-mobile">
+                <div className="level-left has-text-centered">
+                  <Link to="/institutions" className="button is-light is-small">
+                    <span className="icon">
+                    <i className="fas fa-arrow-circle-left"></i>
+                    </span>
+                    <span>Volver</span>
+                  </Link>
                 </div>
               </div>
             </div>

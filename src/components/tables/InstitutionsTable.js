@@ -4,7 +4,8 @@ import {TableMain, THead, TBody, ContainerElement} from "../../assets/styled/con
 import {Link} from "react-router-dom";
 
 const GlobalFilter = ({globalFilter, setGlobalFilter}) => {
-  const [value, setValue] = React.useState(globalFilter)
+  const [value, setValue] = React.useState(globalFilter);
+
   const onChange = useAsyncDebounce(value => {
     setGlobalFilter(value || undefined)
   }, 200);
@@ -26,7 +27,7 @@ const GlobalFilter = ({globalFilter, setGlobalFilter}) => {
   )
 };
 
-const Table = ({columns, data}) => {
+const Table = ({columns, data, toggleModal}) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -142,42 +143,54 @@ const Table = ({columns, data}) => {
   );
 };
 
-const columns = [
-  {
-    Header: 'Nombre',
-    accessor: 'name',
-    id: 'name',
-  },
-  {
-    Header: 'Rut',
-    accessor: 'rut',
-    id: 'rut',
-  },
-  {
-    Header: "País",
-    accessor: "country",
-    id: 'country',
-  },
-  {
-    Header: "",
-    id: "action",
-    Cell: ({ cell }) => (
-      <div className="field is-grouped">
-        <p className="control">
-          <Link to={`/institution/${cell.row.values.rut}/edit`} className="button is-info is-outlined is-small">
-            Detalles
-          </Link>
-        </p>
-      </div>
-    ),
-  }
-];
-// cell.row.values.rut
 const UsersTable = (props) => {
   if (props.data && props.data.length > 0) {
+
+    const modalIdContent = (values) => {
+      const {country, name, rut} = values;
+      const data = {
+        country: country,
+        name: name,
+        rut: rut,
+      };
+      props.dataToModal(data);
+    };
+
     return (
       <Table
-        columns={columns}
+        columns={[
+          {
+            Header: 'Nombre',
+            accessor: 'name',
+            id: 'name',
+          },
+          {
+            Header: 'Rut',
+            accessor: 'rut',
+            id: 'rut',
+          },
+          {
+            Header: "País",
+            accessor: "country",
+            id: 'country',
+          },
+          {
+            Header: "",
+            id: "action",
+            Cell: ({ cell }) => (
+              <div className="field is-grouped">
+                <p className="buttons">
+                  <Link to={`/institution/${cell.row.values.rut}/edit`} className="button is-info is-outlined is-small">
+                    Modificar
+                  </Link>
+                  <button onClick={() => modalIdContent(cell.row.values)} className="button is-danger is-outlined is-small">
+                    Remover
+                  </button>
+                </p>
+              </div>
+            ),
+          }
+        ]}
         data={props.data}
       />
     );

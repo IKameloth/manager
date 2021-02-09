@@ -3,6 +3,7 @@ import Loading from "./Loading";
 import Error from "./Error";
 import {Main, MainHeader} from "../assets/styled/content";
 import InstitutionForm from "./InstituionForm";
+import {Link} from "react-router-dom";
 
 class InstitutionDetails extends Component {
   state = {
@@ -36,7 +37,7 @@ class InstitutionDetails extends Component {
     const requestOptions = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(this.state.form ),
+      body: JSON.stringify(this.state.form),
     };
 
     try {
@@ -125,9 +126,19 @@ class InstitutionDetails extends Component {
                   </div>
                 </div>
               </div>
+              <div className="level is-mobile">
+                <div className="level-left has-text-centered">
+                  <Link to="/institutions" className="button is-light is-small">
+                    <span className="icon">
+                    <i className="fas fa-arrow-circle-left"></i>
+                    </span>
+                    <span>Volver</span>
+                  </Link>
+                </div>
+              </div>
             </div>
           </MainHeader>
-
+          
           <div className="columns is-centered" style={{width: "100%"}}>
             <div className="column is-7-desktop is-11-mobile is-offset-1-mobile is-10-tablet is-5-fullhd">
               <div className="container">
