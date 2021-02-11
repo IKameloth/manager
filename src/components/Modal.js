@@ -1,34 +1,44 @@
-import React from "react";
+import React from 'react';
 import ReactDOM from "react-dom";
-import styled, { keyframes } from "styled-components";
-
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-`;
+import Rodal from 'rodal';
+// include styles
+import 'rodal/lib/rodal.css';
+import styled from "styled-components";
 
 const ModalContent = styled.div`
-  animation: 0.5s ${fadeIn} ease-in-out;
-`;
-
-const Modal = (props) => {
-  if (!props.isOpen) {
-    return null;
+  .modal-card-head {
+    background-color: #fff;
+    text-align: center;
+    border-bottom: none;
   }
 
+  .modal-card-foot {
+    border-top: none;
+  }
+`;
+ 
+const ModalOPE = (props) => {
   return ReactDOM.createPortal(
-    <ModalContent className="modal is-active">
-      <div className="modal-background" onClick={props.onClose}></div>
-      <div className="modal-card">
-        {props.children}
-      </div>
-    </ModalContent>,
+    <div>
+      <Rodal 
+        visible={props.isOpen} 
+        onClose={props.onClose}
+        closeOnEsc={true}
+        animation={"fade"}
+        duration={350}
+        width={0}
+        height={0}
+      > 
+        <ModalContent className="modal is-active">
+          <div className="modal-background" onClick={props.onClose}></div>
+          <div className="modal-card">
+            {props.children}
+          </div>
+        </ModalContent>
+      </Rodal>
+    </div>,
     document.getElementById("modal")
   );
 };
 
-export default Modal;
+export default ModalOPE;

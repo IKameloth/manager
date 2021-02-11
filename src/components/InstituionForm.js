@@ -1,7 +1,80 @@
 import React, {Component} from "react";
+import styled from "styled-components";
+
+const RadioButtons = styled.div`
+  margin-top: 2.5%;
+
+  .radio {
+    display: grid;
+    grid-template-columns: min-content auto;
+    grid-gap: 0.5em;
+    font-size: 1rem;
+    color: var(--color);
+
+    &:focus-within {
+      .radio__label {
+        transform: scale(1.5);
+        opacity: 1;
+      }
+    }
+  }
+
+  .radio__label {
+    line-height: 1;
+    transition: 180ms all ease-in-out;
+    opacity: 0.8;
+  }
+
+  .radio__input {
+    display: flex;
+
+    input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+
+      &:focus + .radio__control {
+        box-shadow: 0 0 0 0.05em #2962ff, 0 0 0.15em 0.1em #2962ff;
+      }
+    }
+  }
+
+  .radio-before {
+    .radio__control {
+      display: grid;
+      place-items: center;
+    }
+
+    input + .radio__control::before {
+      content: "";
+      width: 0.5em;
+      height: 0.5em;
+      box-shadow: inset 0.5em 0.5em #2962ff;
+      border-radius: 50%;
+      transition: 180ms transform ease-in-out;
+      transform: scale(0);
+    }
+
+    input:checked + .radio__control::before {
+      transform: scale(1);
+    }
+  }
+
+  .radio__control {
+    display: block;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    border: 0.1em solid #2962ff;
+    transform: translateY(-0.05em);
+  }
+`;
 
 class InstitutionForm extends Component {
   render() {
+    const flagChecked =  this.props.formValues.flag;
+    const statusChecked =  this.props.formValues.status;
+
     return(
       <React.Fragment>
         <form onSubmit={this.props.onSubmit}>
@@ -9,6 +82,7 @@ class InstitutionForm extends Component {
             <label className="label">Nombre</label>
             <div className="control has-icons-left has-icons-right">
               <input
+                autoComplete="off"
                 onChange={this.props.onChange}
                 className="input" 
                 type="text" 
@@ -29,6 +103,7 @@ class InstitutionForm extends Component {
             <label className="label">Rut</label>
             <div className="control has-icons-left has-icons-right">
               <input
+                autoComplete="off"
                 onChange={this.props.onChange}
                 className="input" 
                 type="text" 
@@ -49,6 +124,7 @@ class InstitutionForm extends Component {
             <label className="label">Email</label>
             <div className="control has-icons-left has-icons-right">
               <input 
+                autoComplete="off"
                 onChange={this.props.onChange}
                 className="input" 
                 type="email" 
@@ -68,7 +144,8 @@ class InstitutionForm extends Component {
           <div className="field">
             <label className="label">Descripción</label>
             <div className="control has-icons-left has-icons-right">
-              <textarea 
+              <textarea
+                autoComplete="off"
                 onChange={this.props.onChange}
                 className="textarea" 
                 placeholder="Ingresar Descripción" 
@@ -82,7 +159,8 @@ class InstitutionForm extends Component {
           <div className="field"> 
             <label className="label">NEMO</label>
             <div className="control has-icons-left has-icons-right">
-              <input 
+              <input
+                autoComplete="off"
                 onChange={this.props.onChange}
                 className="input" 
                 type="text" 
@@ -119,31 +197,49 @@ class InstitutionForm extends Component {
 
           <div className="field">
             <div className="level is-mobile">
-              <div className="level-item">
-                <div className="control">
+              <div className="container">
+                <div className="level-item">
                   <label className="label">Estado</label>
-                  <label className="radio">
-                    <input value="0" type="radio" name="status" onChange={this.props.onChange} />
-                    0
-                  </label>
-                  <label className="radio">
-                    <input value="1" type="radio" name="status" onChange={this.props.onChange} />
-                    1
-                  </label>
                 </div>
+                <RadioButtons className="level-item">
+                  <label className="radio radio-before">
+                    <span className="radio__input">
+                    <input value="0" type="radio" name="status" onChange={this.props.onChange} checked={statusChecked === "0"}/>
+                      <span className="radio__control"></span>
+                    </span>
+                    <span className="radio__label">0</span>
+                  </label>
+
+                  <label className="radio radio-before">
+                    <span className="radio__input">
+                    <input value="1" type="radio" name="status" onChange={this.props.onChange} checked={statusChecked === "1"}/>
+                      <span className="radio__control"></span>
+                    </span>
+                    <span className="radio__label">1</span>
+                  </label>
+                </RadioButtons>
               </div>
-              <div className="level-item">
-                <div className="control">
-                <label className="label">Flag</label>
-                  <label className="radio">
-                    <input value="0" type="radio" name="flag" onChange={this.props.onChange} />
-                    0
-                  </label>
-                  <label className="radio">
-                    <input value="1" type="radio" name="flag" onChange={this.props.onChange} />
-                    1
-                  </label>
+              <div className="container">
+                <div className="level-item">
+                  <label className="label">Flag</label>
                 </div>
+                <RadioButtons className="level-item">
+                  <label className="radio radio-before">
+                    <span className="radio__input">
+                    <input value="0" type="radio" name="flag" onChange={this.props.onChange} checked={flagChecked === "0"}/>
+                      <span className="radio__control"></span>
+                    </span>
+                    <span className="radio__label">0</span>
+                  </label>
+
+                  <label className="radio radio-before">
+                    <span className="radio__input">
+                    <input value="1" type="radio" name="flag" onChange={this.props.onChange} checked={flagChecked === "1"}/>
+                      <span className="radio__control"></span>
+                    </span>
+                    <span className="radio__label">1</span>
+                  </label>
+                </RadioButtons>
               </div>
             </div>
           </div>
@@ -152,11 +248,11 @@ class InstitutionForm extends Component {
           <div className="field">
             <div className="level is-centered">
               <div className="level-item">
-                <button 
-                  className="button is-primary" 
-                  type="submit"
-                  onClick={this.handleClick}
-                >Registrar</button>
+                {
+                  this.props.isEditing
+                    ? <button className="button is-primary" type="submit">Editar</button> 
+                    : <button className="button is-primary" type="submit">Registrar</button>
+                }
               </div>
             </div>
           </div>

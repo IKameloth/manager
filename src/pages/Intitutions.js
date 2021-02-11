@@ -4,13 +4,15 @@ import Loading from "../components/Loading";
 import Error from "../components/Error";
 import InstitutionsTable from "../components/tables/InstitutionsTable";
 import {Link} from "react-router-dom";
+import InstitutionModal from "../components/modals/InstitutionModal";
 
 class Institutions extends Component {
   state = {
     loading: false,
     error: null,
     data: undefined,
-    modalIsOpen: false
+    modalIsOpen: false,
+    dataModal: undefined,
   };
 
   fetchData = async() => {
@@ -20,9 +22,11 @@ class Institutions extends Component {
     try {
       const response = await fetch(urlFaker);
       const dataJson = await response.json();
+      const dataResult = [] 
+      dataJson.data.map((attr) => dataResult.push(attr.attributes));
 
       setTimeout(() => {
-        this.setState({loading: false, data: dataJson});
+        this.setState({loading: false, data: dataResult});
       }, 2000);
     } catch (error) {
       setTimeout(() => {
@@ -33,6 +37,42 @@ class Institutions extends Component {
 
   componentDidMount() {
     this.fetchData();
+  };
+
+  handleModal = () => {
+    this.setState({modalIsOpen: !this.state.modalIsOpen});
+  };
+
+  handleTest = (data) => {
+    data &&
+      this.setState({modalData: data});
+      this.handleModal();
+  }
+
+  handleDeleteInstitution = async() => {
+    const urlRequest = `http://localhost:4000/institutions/${this.state.modalData.rut}`;
+    const requestOptions = {
+      method: "DELETE",
+    };
+
+    try {
+      fetch(urlRequest, requestOptions).then(async response => {
+        const result = await response.json();
+
+        if (result.errors) {
+          const error = (result && result.errors) || response.status;
+          return Promise.reject(error);
+        };
+
+        setTimeout(() => {
+          this.fetchData();
+          this.setState({modalIsOpen: false});
+        });
+      });
+    } catch(err) {
+      this.setState({loading: false, error: err.message});
+      console.log(`Error: ${err}`);
+    }
   };
 
   render() {
@@ -73,7 +113,13 @@ class Institutions extends Component {
               </div>
             </div>
           </MainHeader>
-          <InstitutionsTable data={data} />
+          <InstitutionsTable data={data} dataToModal={this.handleTest} />
+          <InstitutionModal 
+            modalIsOpen={this.state.modalIsOpen} 
+            onClose={this.handleModal} 
+            dataModal={this.state.modalData}
+            deleteInstitution={this.handleDeleteInstitution}
+          />
         </Main>
       </React.Fragment>
     );
