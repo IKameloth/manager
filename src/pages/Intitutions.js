@@ -41,7 +41,7 @@ class Institutions extends Component {
 
   handleModal = () => {
     this.setState({modalIsOpen: !this.state.modalIsOpen});
-  }
+  };
 
   handleTest = (data) => {
     data &&

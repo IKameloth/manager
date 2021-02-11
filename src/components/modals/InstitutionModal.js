@@ -38,9 +38,7 @@ const InstitutionModal = (props) => {
       </Modal>
     )
   } else {
-    return (
-      ""
-    )
+    return null;
   }
 };
 
