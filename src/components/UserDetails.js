@@ -1,26 +1,46 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import Loading from "./Loading";
 import Error from "./Error";
 import {Main, MainHeader} from "../assets/styled/content";
-import InstitutionForm from "./InstituionForm";
+import UserForm from "./UserForm";
 import {Link} from "react-router-dom";
 
-class InstitutionNew extends Component {
+class UserDetails extends Component {
   state = {
     loading: false,
-    error: null,
+    error: undefined,
     form: {
       name: "",
       rut: "",
       email: "",
-      nemo: "",
-      country: "",
-      description: "",
-      status: "",
-      flag: "",
     },
+    btnEdit: false,
   };
-  
+
+  componentDidMount() {
+    console.log("Details user component");
+    this.setState({loading: true});
+    this.fetchData();
+  };
+
+  componentWillUnmount(){
+    console.log("EXIT DETAILS USER COMPONENT");
+  }
+
+  fetchData = async() => {
+    const url = `http://localhost:4000/users/${this.props.match.params.userID}`
+    try {
+      const response = await fetch(url);
+      const result = await response.json();
+      const userData = result.data.attributes;
+      setTimeout(() => {
+        this.setState({loading: false, form: userData, btnEdit: true});
+      }, 1000);
+    } catch(err) {
+      this.setState({loading: false, error: err.message});
+    };
+  };
+
   handleChange = (e) => {
     this.setState({
       form: {
@@ -30,29 +50,28 @@ class InstitutionNew extends Component {
     });
   };
 
-  fetchPostData = () => {
-    console.log("CREATE NEW POST");
+  fetchEditUser = () => {
     this.setState({loading: true});
 
     const requestOptions = {
-      method: "POST",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(this.state.form ),
+      body: JSON.stringify(this.state.form),
     };
 
     try {
-      fetch("http://localhost:4000/institutions", requestOptions)
+      fetch(`http://localhost:4000/users/${this.props.match.params.userID}`, requestOptions)
         .then(async response => {
           const data = await response.json();
 
           if(data.errors) {
-            const error = (data && data.errors) || response.detail;
+            const error = (data && data.errors) || response.status;
             return Promise.reject(error);
           };
           
           setTimeout(() => {
             this.setState({loading: false});
-            this.props.history.push("/institutions");
+            this.props.history.push("/persons");
           }, 1000);
         })
         .catch(error => {
@@ -69,29 +88,21 @@ class InstitutionNew extends Component {
     }
   };
 
-  handleSubmit = async(e) => {
+  handleEditUser = async(e) => {
     e.preventDefault();
-    this.fetchPostData();
+    this.fetchEditUser();
   };
 
-  componentDidMount() {
-    console.log("COMPONENT POST");
-  }
-
-  componentWillUnmount() {
-    console.log("SALIENDO POST");
-  }
-
   render() {
-    const { error, loading } = this.state;
+    const { loading, error } = this.state;
 
-    if (loading === true) {
-        return <Loading />
+    if (loading) {
+      return <Loading />;
     };
 
     if (error) {
-        return ( <Error message={error} /> );
-    }
+      return <Error message={error} />;
+    };
 
     return (
       <React.Fragment>
@@ -101,13 +112,13 @@ class InstitutionNew extends Component {
               <div className="columns">
                 <div className="column">
                   <div className="field">
-                    <h3 className="title">Registrar Institución</h3>
+                    <h3 className="title">Datos Usuario</h3>
                   </div>
                 </div>
               </div>
               <div className="level is-mobile">
                 <div className="level-left has-text-centered">
-                  <Link to="/institutions" className="button is-light is-small">
+                  <Link to="/persons" className="button is-light is-small">
                     <span className="icon">
                     <i className="fas fa-arrow-circle-left"></i>
                     </span>
@@ -121,11 +132,12 @@ class InstitutionNew extends Component {
           <div className="columns is-centered" style={{width: "100%"}}>
             <div className="column is-7-desktop is-11-mobile is-offset-1-mobile is-10-tablet is-5-fullhd">
               <div className="container">
-                <InstitutionForm
+                <UserForm
                   onChange={this.handleChange}
-                  onSubmit={this.handleSubmit}
+                  onSubmit={this.handleEditUser}
                   formValues={this.state.form}
-                  error={this.state.error} 
+                  error={this.state.error}
+                  isEdit={this.state.btnEdit}
                 />
               </div>
             </div>
@@ -134,6 +146,6 @@ class InstitutionNew extends Component {
       </React.Fragment>
     );
   };
-};
+}
 
-export default InstitutionNew;
+export default UserDetails;

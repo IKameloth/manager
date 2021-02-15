@@ -22,7 +22,7 @@ class Institutions extends Component {
     try {
       const response = await fetch(urlFaker);
       const dataJson = await response.json();
-      const dataResult = [] 
+      const dataResult = [];
       dataJson.data.map((attr) => dataResult.push(attr.attributes));
 
       setTimeout(() => {

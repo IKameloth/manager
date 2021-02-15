@@ -250,7 +250,7 @@ class InstitutionForm extends Component {
               <div className="level-item">
                 {
                   this.props.isEditing
-                    ? <button className="button is-primary" type="submit">Editar</button> 
+                    ? <button className="button is-primary" type="submit">Modificar</button> 
                     : <button className="button is-primary" type="submit">Registrar</button>
                 }
               </div>

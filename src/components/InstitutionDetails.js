@@ -71,7 +71,6 @@ class InstitutionDetails extends Component {
 
   handleEditInstitution = async(e) => {
     e.preventDefault();
-    console.log("Entra al handle edit");
     this.fetchEditInstitution();
   };
   // get data

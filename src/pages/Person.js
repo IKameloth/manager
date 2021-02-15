@@ -1,9 +1,6 @@
 import React, {Component} from "react";
-import { 
-  Main,
-  MainHeader
-} from "../assets/styled/content";
-import RegisterUserModal from "../components/modals/RegisterUserModal";
+import { Main, MainHeader } from "../assets/styled/content";
+import {Link} from "react-router-dom";
 
 class Persons extends Component {
   state = {
@@ -11,13 +8,65 @@ class Persons extends Component {
     error: null,
     data: undefined,
     modalIsOpen: false,
+    query: "",
+    results: [],
   };
 
-  toggleModal = (e) => {
-    this.setState({modalIsOpen: !this.state.modalIsOpen});
-  }
+  handleInputChange = () => {
+    this.setState({
+      query: this.search.value
+    }, () => {
+      if (this.state.query && this.state.query.length > 1) {
+        if (this.state.query.length % 2 === 0) {
+          this.fetchGetInfo();
+        }
+      } else {
+        this.setState({results: []});
+      };
+    })
+  };
+
+  fetchGetInfo = async() => {
+    const urlFake = "http://localhost:4000/users";
+
+    try {
+      const response = await fetch(urlFake);
+      const dataJson = await response.json();
+      const dataResult = [];
+      dataJson.data.map((attr) => dataResult.push(attr.attributes));
+
+      setTimeout(() => {
+        this.setState({results: dataResult});
+      }, 2000)
+    } catch(error) {
+      setTimeout(() => {
+        this.setState({error: error.message});
+      },2500)
+    }
+  };
 
   render() {
+    const Suggestions = (props) => {
+      const options = props.results.map(res => (
+        <li key={res.rut}>
+          <Link to={`/users/${res.rut}/details`}>
+              {res.rut}
+          </Link>
+        </li>
+      ));
+
+      return (
+        options.length > 0 
+        ? <div className="field">
+            <label className="label">Sugerencias</label>
+            <div className="control has-icons-left has-icons-right">
+              <ul>{options}</ul>
+            </div>
+          </div>
+        : ""
+      );
+    };
+
     return (
       <React.Fragment>
         <Main>
@@ -30,12 +79,7 @@ class Persons extends Component {
                   </div>
                 </div>
                 <div className="column is-2-fullhd">
-                  <button onClick={this.toggleModal} className="button is-primary" >Registrar Usuario</button>
-                  <RegisterUserModal
-                    modalIsOpen={this.state.modalIsOpen}
-                    onClose={this.toggleModal}
-                    // onRegisterUser={this.onRegisterUser}
-                  />
+                  <Link to="/users/new" className="button is-primary" >Registrar Usuario</Link>
                 </div>
               </div>
             </div>
@@ -47,22 +91,20 @@ class Persons extends Component {
                 <div className="field">
                   <label className="label">Rut</label>
                   <div className="control has-icons-left has-icons-right">
-                    <input className="input is-danger" type="text" placeholder="Ingresar Rut" />
+                    <input 
+                      className="input is-primary" 
+                      type="text" 
+                      placeholder="Buscar por rut" 
+                      ref={input => this.search = input}
+                      onChange={this.handleInputChange}
+                    />
                     <span className="icon is-small is-left">
                       <i className="fas fa-fingerprint"></i>
                     </span>
-                    <span className="icon is-small is-right">
-                      <i className="fas fa-exclamation-triangle"></i>
-                    </span>
                   </div>
-                  <p className="help is-danger">Rut no válido</p>
                 </div>
                 <hr></hr>
-                <div className="field is-grouped">
-                  <div className="control">
-                    <button className="button is-link">Buscar</button>
-                  </div>
-                </div>
+                <Suggestions results={this.state.results} />
               </div>      
             </div>
           </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useAsyncDebounce} from "react-table";
-import {TableMain, THead, TBody} from "../../assets/styled/content";
+import {TableMain, THead, TBody, ContainerElement} from "../../assets/styled/content";
 
 const GlobalFilter = ({preGlobalFilteredRows, globalFilter, setGlobalFilter}) => {
   // const count = preGlobalFilteredRows.length
@@ -142,62 +142,72 @@ const Table = ({columns, data}) => {
   );
 };
 
-const columns = [
-  {
-    Header: 'Nombre',
-    accessor: 'name',
-    id: 'name',
-  },
-  {
-    Header: 'Rut',
-    accessor: 'rut',
-    id: 'rut',
-  },
-  {
-    Header: "Rol",
-    accessor: "role",
-    id: 'role',
-    Cell: ({ cell }) => (
-      <span className="tag is-light">{cell.row.values.role}</span>
-    ),
-  },
-  {
-    Header: "Institución",
-    accessor: "institution",
-    id: 'institution',
-  },
-  {
-    Header: "",
-    id: "action",
-    Cell: ({ cell }) => (
-      <div className="field is-grouped">
-        <p className="control">
-          <button className="button is-info is-outlined is-small">
-            Asignar Rol
-          </button>
-        </p>
-        <p className="control">
-          <button className="button is-danger is-outlined is-small">
-            Eliminar
-          </button>
-        </p>
-      </div>
-    ),
-  }
-  
-];
-
 const UsersTable = (props) => {
-  if (props.data) {
+  if (props.data && props.data.length > 0) {
+    const modalContent = (values) => {
+      props.dataToModal(values);
+    };
+
     return (
       <Table
-        columns={columns}
+        columns={[
+          {
+            Header: 'Nombre',
+            accessor: 'name',
+            id: 'name',
+          },
+          {
+            Header: 'Rut',
+            accessor: 'rut',
+            id: 'rut',
+          },
+          {
+            Header: 'Email',
+            accessor: 'email',
+            id: 'email'
+          },
+          {
+            Header: "Rol",
+            accessor: "role",
+            id: 'role',
+            Cell: ({ cell }) => (
+              <span className="tag is-light">{cell.row.values.role}</span>
+            ),
+          },
+          {
+            Header: "Institución",
+            accessor: "institution",
+            id: 'institution',
+          },
+          {
+            Header: "",
+            id: "action",
+            Cell: ({ cell }) => (
+              <div className="field is-grouped">
+                <p className="control">
+                  <button onClick={() => modalContent(cell.row.values)} className="button is-info is-outlined is-small">
+                    Asignar Rol
+                  </button>
+                </p>
+              </div>
+            ),
+          }
+        ]}
         data={props.data}
       />
     );
   } else {
     return(
-      <h2>No se encontraron datos.</h2>
+      <ContainerElement>
+        <div className="level has-baclground-light">
+          <div className="level-item has-text-centered">
+            <div className="control">
+              <i className="far fa-surprise"></i>
+              <h3 className="title">No se encuentran registros.</h3>
+            </div>
+          </div>
+        </div>
+      </ContainerElement>
     )
   }
 };

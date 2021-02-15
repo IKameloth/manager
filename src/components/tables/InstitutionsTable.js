@@ -179,10 +179,12 @@ const UsersTable = (props) => {
             id: "action",
             Cell: ({ cell }) => (
               <div className="field is-grouped">
-                <p className="buttons">
+                <p className="control">
                   <Link to={`/institution/${cell.row.values.rut}/edit`} className="button is-info is-outlined is-small">
                     Modificar
                   </Link>
+                </p>
+                <p className="control">
                   <button onClick={() => modalIdContent(cell.row.values)} className="button is-danger is-outlined is-small">
                     Remover
                   </button>

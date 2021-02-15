@@ -13,33 +13,107 @@ class Users extends Component {
     loading: false,
     error: null,
     data: undefined,
-    modalIsOpen: false
-  };
-
-  toggleModal = (e) => {
-    e.preventDefault();
-    this.setState({modalIsOpen: !this.state.modalIsOpen});
+    modalIsOpen: false,
+    modalContent: undefined,
+    form: {
+      rut: "",
+      role: "",
+    },
   };
 
   componentDidMount() {
     this.fetchData();
-  }
+  };
 
   fetchData = async() => {
-    const urlFake = "http://localhost:3003/users";
-    this.setState({loading: true, error: null});
+    const urlFake = "http://localhost:4000/users";
+    this.setState({loading: true});
+
     try {
       const response = await fetch(urlFake);
       const dataJson = await response.json();
+      const dataResult = [];
+      dataJson.data.map((attr) => dataResult.push(attr.attributes));
+
       setTimeout(() => {
-        this.setState({loading: false, data: dataJson});
-      }, 2500)
+        this.setState({loading: false, data: dataResult});
+      }, 2000)
     } catch(error) {
       setTimeout(() => {
         this.setState({loading: false, error: error.message});
       },2500)
     }
-  }
+  };
+
+  handleModal = () => {
+    this.setState({modalIsOpen: !this.state.modalIsOpen});
+    this.state.modalIsOpen && this.setState({form: { rut: "", role: ""}});
+  };
+
+  handleModalData = (data) => {
+    data &&
+      this.setState({modalContent: data});
+      this.handleModal();
+  };
+
+  fetchPostAsignRole = () => {
+    console.log("Handle Assign Roles");
+
+    this.setState({loading: true});
+    const urlRequest = `http://localhost:4000/roles/${this.state.form.rut}`;
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(this.state.form ),
+    };
+
+    try {
+      fetch(urlRequest, requestOptions)
+        .then(async response => {
+          const data = await response.json();
+
+          if(data.errors) {
+            const error = (data && data.errors) || response.detail;
+            return Promise.reject(error);
+          };
+          
+          setTimeout(() => {
+            this.setState({loading: false});
+            this.props.history.push("/users");
+          }, 1000);
+        })
+        .catch(error => {
+          setTimeout(() => {
+            this.setState({loading: false});
+            console.log(error);
+            alert(`Error: Not valid data`);
+          }, 1000);
+        });
+    } catch (error) {
+      this.setState({loading: false, error: error.message});
+      console.log("error fuera del fetch");
+      console.log(error);
+    };
+  };
+
+  fetchDeleteRole = () => {
+    console.log("REmove Role");
+  };
+
+  handleChange = (e) => {
+    this.setState({
+      form: {
+        ...this.state.form,
+        [e.target.name]: e.target.value,
+      }
+    });
+  };
+
+  handleSubmit = async(e) => {
+    e.preventDefault();
+    this.fetchPostAsignRole();
+  };
 
   render(){
     const { error, loading, data } = this.state;
@@ -76,13 +150,19 @@ class Users extends Component {
                   </div>
                 </div>
                 <div className="column is-3">
-                  <button onClick={this.toggleModal} className="button is-primary">Crear nuevo rol</button>
-                  <RegisterUserRolesModal modalIsOpen={this.state.modalIsOpen} onClose={this.toggleModal} />
+                  <button onClick={this.handleModal} className="button is-primary">Crear nuevo rol</button>
+                  <RegisterUserRolesModal 
+                    modalIsOpen={this.state.modalIsOpen} 
+                    onClose={this.handleModal} 
+                    formValues={this.state.form}
+                    onSubmit={this.handleSubmit}
+                    onChange={this.handleChange}
+                  />
                 </div>
               </div>
             </div>
           </MainHeader>
-          <UsersTable data={data} />        
+          <UsersTable data={data} dataToModal={this.handleModalData} />
         </Main>
       </React.Fragment>
     )

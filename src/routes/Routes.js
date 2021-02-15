@@ -10,6 +10,8 @@ import Login from "../pages/Login";
 import Person from "../pages/Person";
 import Sensors from "../pages/Sensors";
 import Users from "../pages/Users";
+import UserNew from "../components/UserNew";
+import UserDetails from "../components/UserDetails";
 import InstitutionNew from "../components/InstitutionNew";
 import InstitutionDetails from "../components/InstitutionDetails";
 
@@ -28,6 +30,8 @@ const Routes = withRouter(({location}) => {
         <Route exact path="/persons" component={Person} />
         <Route exact path="/sensors" component={Sensors} />
         <Route exact path="/users" component={Users} />
+        <Route exact path="/users/new" component={UserNew} />
+        <Route exact path="/users/:userID/details" component={UserDetails} />
       </Suspense>
     </Switch>
   )
