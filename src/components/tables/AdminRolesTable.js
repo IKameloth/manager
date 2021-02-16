@@ -1,6 +1,6 @@
 import React from 'react';
 import {useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useAsyncDebounce} from "react-table";
-import {TableMain, THead, TBody} from "../../assets/styled/content";
+import {TableMain, THead, TBody, ContainerElement} from "../../assets/styled/content";
 
 const GlobalFilter = ({preGlobalFilteredRows, globalFilter, setGlobalFilter}) => {
   // const count = preGlobalFilteredRows.length
@@ -142,62 +142,77 @@ const Table = ({columns, data}) => {
   );
 };
 
-const columns = [
-  {
-    Header: 'Nombre',
-    accessor: 'name',
-    id: 'name',
-  },
-  {
-    Header: 'Rut',
-    accessor: 'rut',
-    id: 'rut',
-  },
-  {
-    Header: "Rol",
-    accessor: "role",
-    id: 'role',
-    Cell: ({ cell }) => (
-      <span className="tag is-light">{cell.row.values.role}</span>
-    ),
-  },
-  {
-    Header: "Institución",
-    accessor: "institution",
-    id: 'institution',
-  },
-  {
-    Header: "",
-    id: "action",
-    Cell: ({ cell }) => (
-      <div className="field is-grouped">
-        <p className="control">
-          <button className="button is-info is-outlined is-small">
-            Asignar Rol
-          </button>
-        </p>
-        <p className="control">
-          <button className="button is-danger is-outlined is-small">
-            Eliminar
-          </button>
-        </p>
-      </div>
-    ),
-  }
-  
-];
-
 const AdminRolesTable = (props) => {
+  const modalIdContent = values => {
+    props.dataToModal(values);
+  };
+
+  const modalToEdit = values => {
+    props.dataEditModal(values);
+  }
+
   if (props.data) {
     return (
       <Table
-        columns={columns}
+        columns={[
+          {
+            Header: 'Nombre',
+            accessor: 'name',
+            id: 'name',
+          },
+          {
+            Header: 'Rut',
+            accessor: 'rut',
+            id: 'rut',
+          },
+          {
+            Header: "Rol",
+            accessor: "role",
+            id: 'role',
+            Cell: ({ cell }) => (
+              <span className="tag is-light">{cell.row.values.role}</span>
+            ),
+          },
+          {
+            Header: "Institución",
+            accessor: "institution",
+            id: "institution"
+          },
+          {
+            Header: "",
+            id: "action",
+            Cell: ({ cell }) => (
+              <div className="field is-grouped">
+                <p className="control">
+                  <button onClick={() => modalToEdit(cell.row.values)} className="button is-info is-outlined is-small">
+                    Modificar Rol
+                  </button>
+                </p>
+                <p className="control">
+                  <button onClick={() => modalIdContent(cell.row.values)} className="button is-danger is-outlined is-small">
+                    Desactivar
+                  </button>
+                </p>
+              </div>
+            ),
+          }
+          
+        ]}
         data={props.data}
       />
     );
   } else {
     return(
-      <h2>No se encontraron datos.</h2>
+      <ContainerElement>
+        <div className="level has-baclground-light">
+          <div className="level-item has-text-centered">
+            <div className="control">
+              <i className="far fa-surprise"></i>
+              <h3 className="title">No se encuentran registros.</h3>
+            </div>
+          </div>
+        </div>
+      </ContainerElement>
     )
   }
 };
