@@ -1,9 +1,9 @@
 import React from 'react';
 import {useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useAsyncDebounce} from "react-table";
 import {TableMain, THead, TBody, ContainerElement} from "../../assets/styled/content";
+import {Link} from "react-router-dom";
 
-const GlobalFilter = ({preGlobalFilteredRows, globalFilter, setGlobalFilter}) => {
-  // const count = preGlobalFilteredRows.length
+const GlobalFilter = ({globalFilter, setGlobalFilter}) => {
   const [value, setValue] = React.useState(globalFilter)
   const onChange = useAsyncDebounce(value => {
     setGlobalFilter(value || undefined)
@@ -185,9 +185,9 @@ const UsersTable = (props) => {
             Cell: ({ cell }) => (
               <div className="field is-grouped">
                 <p className="control">
-                  <button onClick={() => modalContent(cell.row.values)} className="button is-info is-outlined is-small">
-                    Asignar Rol
-                  </button>
+                  <Link to={`/users/${cell.row.values.rut}/roles`} className="button is-info is-outlined is-small">
+                    Gestionar Roles
+                  </Link>
                 </p>
               </div>
             ),

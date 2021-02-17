@@ -1,8 +1,5 @@
 import React, {Component} from "react";
-import { 
-  Main,
-  MainHeader,
-} from "../assets/styled/content";
+import { Main, MainHeader } from "../assets/styled/content";
 import RegisterUserRolesModal from "../components/modals/RegisterUserRolesModal";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
@@ -23,6 +20,10 @@ class Users extends Component {
 
   componentDidMount() {
     this.fetchData();
+  };
+
+  componentWillUnmount() {
+    console.log("Exit users component");
   };
 
   fetchData = async() => {
@@ -47,7 +48,6 @@ class Users extends Component {
 
   handleModal = () => {
     this.setState({modalIsOpen: !this.state.modalIsOpen});
-    this.state.modalIsOpen && this.setState({form: { rut: "", role: ""}});
   };
 
   handleModalData = (data) => {
@@ -57,8 +57,6 @@ class Users extends Component {
   };
 
   fetchPostAsignRole = () => {
-    console.log("Handle Assign Roles");
-
     this.setState({loading: true});
     const urlRequest = `http://localhost:4000/roles/${this.state.form.rut}`;
 

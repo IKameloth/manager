@@ -12,6 +12,7 @@ import Sensors from "../pages/Sensors";
 import Users from "../pages/Users";
 import UserNew from "../components/UserNew";
 import UserDetails from "../components/UserDetails";
+import RoleDetails from "../components/RoleDetails";
 import InstitutionNew from "../components/InstitutionNew";
 import InstitutionDetails from "../components/InstitutionDetails";
 
@@ -32,6 +33,7 @@ const Routes = withRouter(({location}) => {
         <Route exact path="/users" component={Users} />
         <Route exact path="/users/new" component={UserNew} />
         <Route exact path="/users/:userID/details" component={UserDetails} />
+        <Route exact path="/users/:userID/roles" component={RoleDetails} />
       </Suspense>
     </Switch>
   )

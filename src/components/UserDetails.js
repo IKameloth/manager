@@ -28,7 +28,7 @@ class UserDetails extends Component {
   }
 
   fetchData = async() => {
-    const url = `http://localhost:4000/users/${this.props.match.params.userID}`
+    const url = `http://localhost:4000/users/${this.props.match.params.userID}`;
     try {
       const response = await fetch(url);
       const result = await response.json();
