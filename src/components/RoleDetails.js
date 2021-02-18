@@ -13,7 +13,6 @@ class RoleDetails extends Component {
   };
 
   componentDidMount() {
-    console.log("Roles user");
     this.setState({loading: true});
     this.fetchGetUser();
   };

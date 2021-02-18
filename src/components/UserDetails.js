@@ -13,6 +13,7 @@ class UserDetails extends Component {
       name: "",
       rut: "",
       email: "",
+      roles: [],
     },
     btnEdit: false,
   };

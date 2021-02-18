@@ -11,7 +11,6 @@ class Users extends Component {
     error: null,
     data: undefined,
     modalIsOpen: false,
-    modalContent: undefined,
     form: {
       rut: "",
       role: "",
@@ -48,12 +47,6 @@ class Users extends Component {
 
   handleModal = () => {
     this.setState({modalIsOpen: !this.state.modalIsOpen});
-  };
-
-  handleModalData = (data) => {
-    data &&
-      this.setState({modalContent: data});
-      this.handleModal();
   };
 
   fetchPostAsignRole = () => {
@@ -160,7 +153,7 @@ class Users extends Component {
               </div>
             </div>
           </MainHeader>
-          <UsersTable data={data} dataToModal={this.handleModalData} />
+          <UsersTable data={data} />
         </Main>
       </React.Fragment>
     )

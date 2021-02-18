@@ -144,10 +144,6 @@ const Table = ({columns, data}) => {
 
 const UsersTable = (props) => {
   if (props.data && props.data.length > 0) {
-    const modalContent = (values) => {
-      props.dataToModal(values);
-    };
-
     return (
       <Table
         columns={[
@@ -168,10 +164,12 @@ const UsersTable = (props) => {
           },
           {
             Header: "Rol",
-            accessor: "role",
-            id: 'role',
+            accessor: "roles",
+            id: 'roles',
             Cell: ({ cell }) => (
-              <span className="tag is-light">{cell.row.values.role}</span>
+              cell.row.values.roles.map((role) => (
+                <span className="tag is-light" key={role._id}>{role.name}</span>
+              ))
             ),
           },
           {

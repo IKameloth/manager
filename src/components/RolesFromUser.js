@@ -37,16 +37,17 @@ const RolesFromUser = (props) => {
   const [open, setOpen] = useState(false);
   const [roleName, setRoleName] = useState("");
 
-  const { name, email, rut, role } = props.userData;
+  const { name, email, rut, roles} = props.userData;
+
   let profName = ProfileName(name);
 
   const toggleModal = () => {
     !open ? setOpen(true) : setOpen(false);
   };
 
-  const handleModal = (role) => {
-    if (role) {
-      setRoleName(role);
+  const handleModal = (name) => {
+    if (name) {
+      setRoleName(name);
       toggleModal();
     };
   };
@@ -81,15 +82,25 @@ const RolesFromUser = (props) => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>{role}</td>
-                  <td className="level-right">
-                    <button onClick={() => handleModal(role)} className="delete has-background-danger is-medium"></button>
-                  </td>
-                </tr>
+                { 
+                  roles && roles.length > 0 && roles.map((role) => (
+                    <tr key={role._id}>
+                      <td>{role.name}</td>
+                      <td className="level-right">
+                        <button onClick={() => handleModal(role.name)} className="delete has-background-danger is-medium"></button>
+                      </td>
+                    </tr>
+                  )) 
+                }
               </tbody>
             </table>
           </div>
+        </div>
+      </div>
+      <br></br>
+      <div className="level is-centered">
+        <div className="level-item">
+          <button className="button is-info is-outlined is-small">Asignar Rol</button>
         </div>
       </div>
       <RoleRemoveModal isOpen={open} onClose={() => toggleModal()} dataModal={roleName} />
