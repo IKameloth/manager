@@ -9,6 +9,8 @@ class RoleDetails extends Component {
   state = {
     loading: false,
     error: undefined,
+    modalRemoveOpen: false,
+    modalAssignOpen: false,
     userData: {},
   };
 
@@ -19,7 +21,7 @@ class RoleDetails extends Component {
 
   componentWillUnmount() {
     this.setState({userData: {}});
-    console.log("Roles user exit");
+    console.log("EXIT ROLE COMPONENT");
   };
 
   fetchGetUser = async() =>{
@@ -37,6 +39,35 @@ class RoleDetails extends Component {
       console.log(err);
       this.setState({loading: false, error: err.message});
     };
+  };
+
+  fetchRemoveRole = async(roleObj) => {
+    const url = `http://localhost:4000/roles/${roleObj._id}`;
+    const requestOptions = {
+      method: "DELETE",
+    };
+  
+    try {
+      fetch(url, requestOptions).then(async response => {
+        await response;
+        setTimeout(() => {
+          this.setState({modalIsOpen: false});
+        });
+      });
+    } catch (err) {
+      console.log(err);
+      this.setState({loading: false, error: err.message});
+    };
+  };
+
+  toggleModalRemove = () => {
+    this.setState({modalRemoveOpen: !this.state.modalRemoveOpen});
+  }
+
+  handleRemoveRole = (roleObj) => {
+    this.fetchRemoveRole(roleObj);
+    this.toggleModalRemove();
+    this.componentDidMount();
   };
 
   render() {
@@ -78,7 +109,12 @@ class RoleDetails extends Component {
           <div className="columns is-centered" style={{width: "100%"}}>
             <div className="column is-7-desktop is-11-mobile is-offset-1-mobile is-10-tablet is-5-fullhd">
               <div className="container">
-                <RolesFromUser userData={this.state.userData} />
+                <RolesFromUser 
+                  isOpen={this.state.modalRemoveOpen}
+                  handleRemoveModal={this.toggleModalRemove}
+                  userData={this.state.userData} 
+                  handleRemoveRole={this.handleRemoveRole} 
+                />
               </div>
             </div>
           </div>

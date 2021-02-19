@@ -34,24 +34,20 @@ const ProfileName = (name = 'name default') => {
 };
 
 const RolesFromUser = (props) => {
-  const [open, setOpen] = useState(false);
-  const [roleName, setRoleName] = useState("");
+  // const [open, setOpen] = useState(false);
+  const [roleData, setRoleData] = useState([]);
 
   const { name, email, rut, roles} = props.userData;
 
   let profName = ProfileName(name);
 
-  const toggleModal = () => {
-    !open ? setOpen(true) : setOpen(false);
-  };
-
-  const handleModal = (name) => {
-    if (name) {
-      setRoleName(name);
-      toggleModal();
+  const handleModal = (role) => {
+    if (role.name) {
+      setRoleData(role);
+      props.handleRemoveModal();
     };
   };
-
+  
   return(
     <React.Fragment>
       <div className="box">
@@ -84,10 +80,10 @@ const RolesFromUser = (props) => {
               <tbody>
                 { 
                   roles && roles.length > 0 && roles.map((role) => (
-                    <tr key={role._id}>
+                    <tr className="level" key={role._id}>
                       <td>{role.name}</td>
                       <td className="level-right">
-                        <button onClick={() => handleModal(role.name)} className="delete has-background-danger is-medium"></button>
+                        <button onClick={() => handleModal(role)} className="delete has-background-danger is-medium"></button>
                       </td>
                     </tr>
                   )) 
@@ -98,12 +94,13 @@ const RolesFromUser = (props) => {
         </div>
       </div>
       <br></br>
+
       <div className="level is-centered">
         <div className="level-item">
           <button className="button is-info is-outlined is-small">Asignar Rol</button>
         </div>
       </div>
-      <RoleRemoveModal isOpen={open} onClose={() => toggleModal()} dataModal={roleName} />
+      <RoleRemoveModal isOpen={props.isOpen} onClose={() => props.handleRemoveModal()} dataModal={roleData} removeRole={() => props.handleRemoveRole(roleData) } />
     </React.Fragment>
   );
 };

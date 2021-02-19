@@ -21,14 +21,14 @@ const RemoveRoleModal = (props) => {
             <div className="column is-7-mobile is-offset-2-mobile is-7-tablet is-7-desktop is-7-fullhd">
               <div className="container">
                 <div className="field has-text-centered">
-                  <p className="is-size-3 is-capitalized has-text-weight-bold has-text-link">{props.dataModal}</p>
+                  <p className="is-size-3 is-capitalized has-text-weight-bold has-text-link">{props.dataModal.name}</p>
                 </div>
               </div>
             </div>
           </div>
         </section>
         <ModalCardFoot className="modal-card-foot">
-          <button onClick={() => alert("Pronto")} className="button is-danger">Remover</button>
+          <button onClick={props.removeRole} className="button is-danger">Remover</button>
           <button onClick={props.onClose} className="button">Cancelar</button>
         </ModalCardFoot>
       </Modal>
