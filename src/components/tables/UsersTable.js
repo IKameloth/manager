@@ -167,15 +167,22 @@ const UsersTable = (props) => {
             accessor: "roles",
             id: 'roles',
             Cell: ({ cell }) => (
-              cell.row.values.roles.map((role) => (
-                <span className="tag is-light" key={role._id}>{role.name}</span>
-              ))
+              cell.row.values.roles && cell.row.values.roles.length > 0 
+                ? cell.row.values.roles.map((role) => (
+                    <span className="tag is-light" key={role._id}>{role.name}</span>
+                  ))
+                : <span className="tag is-warning">Vacio</span>
             ),
           },
           {
             Header: "Institución",
             accessor: "institution",
             id: 'institution',
+            Cell: ({cell}) => (
+              cell.row.values.institution && cell.row.values.institution.length > 0 
+                ? <label>{cell.row.values.institution}</label>
+                : <span className="tag is-warning">Vacio</span>
+            )
           },
           {
             Header: "",

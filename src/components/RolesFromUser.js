@@ -34,9 +34,7 @@ const ProfileName = (name = 'name default') => {
 };
 
 const RolesFromUser = (props) => {
-  // const [open, setOpen] = useState(false);
   const [roleData, setRoleData] = useState([]);
-
   const { name, email, rut, roles} = props.userData;
 
   let profName = ProfileName(name);
@@ -70,7 +68,7 @@ const RolesFromUser = (props) => {
       <div className="card">
         <div className="card-content">
           <div className="content">
-            <table>
+            <table className="table is-hoverable is-mobile">
               <thead>
                 <tr>
                   <th>Rol</th>
@@ -79,14 +77,17 @@ const RolesFromUser = (props) => {
               </thead>
               <tbody>
                 { 
-                  roles && roles.length > 0 && roles.map((role) => (
+                  roles && roles.length > 0 ? roles.map((role) => (
                     <tr className="level" key={role._id}>
-                      <td>{role.name}</td>
+                      <td className="level-item">{role.name}</td>
                       <td className="level-right">
                         <button onClick={() => handleModal(role)} className="delete has-background-danger is-medium"></button>
                       </td>
                     </tr>
-                  )) 
+                  ))
+                  : <tr className="level is-centered">
+                    <td>Sin roles</td>
+                  </tr> 
                 }
               </tbody>
             </table>
@@ -94,12 +95,6 @@ const RolesFromUser = (props) => {
         </div>
       </div>
       <br></br>
-
-      <div className="level is-centered">
-        <div className="level-item">
-          <button className="button is-info is-outlined is-small">Asignar Rol</button>
-        </div>
-      </div>
       <RoleRemoveModal isOpen={props.isOpen} onClose={() => props.handleRemoveModal()} dataModal={roleData} removeRole={() => props.handleRemoveRole(roleData) } />
     </React.Fragment>
   );

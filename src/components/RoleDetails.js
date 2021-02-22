@@ -4,6 +4,7 @@ import Error from "./Error";
 import {Main, MainHeader} from "../assets/styled/content";
 import {Link} from "react-router-dom";
 import RolesFromUser from "./RolesFromUser";
+import RegisterUserRolesModal from "../components/modals/RegisterUserRolesModal";
 
 class RoleDetails extends Component {
   state = {
@@ -12,6 +13,10 @@ class RoleDetails extends Component {
     modalRemoveOpen: false,
     modalAssignOpen: false,
     userData: {},
+    formAsignRole: {
+      rut: "",
+      role: "",
+    }
   };
 
   componentDidMount() {
@@ -20,7 +25,7 @@ class RoleDetails extends Component {
   };
 
   componentWillUnmount() {
-    this.setState({userData: {}});
+    this.setState({userData: {}, formAsignRole: {rut: "", role: ""}});
     console.log("EXIT ROLE COMPONENT");
   };
 
@@ -33,7 +38,11 @@ class RoleDetails extends Component {
       const userDataJson = result.data.attributes;
       
       setTimeout(() => {
-        this.setState({loading: false, userData: userDataJson});
+        this.setState({
+          loading: false, 
+          userData: userDataJson,
+          formAsignRole: {rut: userDataJson.rut, role: ""}
+        });
       },1000)
     } catch (err) {
       console.log(err);
@@ -52,6 +61,7 @@ class RoleDetails extends Component {
         await response;
         setTimeout(() => {
           this.setState({modalIsOpen: false});
+          this.componentDidMount();
         });
       });
     } catch (err) {
@@ -60,14 +70,72 @@ class RoleDetails extends Component {
     };
   };
 
+  fetchAsignRole = (data) => {
+    const url = `http://localhost:4000/roles`;
+    const requestOptions = {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(data),
+    };
+
+    try {
+      fetch(url, requestOptions)
+        .then(async response => {
+          const res = await response.json();
+
+          if(res.errors) {
+            const error = (res && res.errors) || response.detail;
+            return Promise.reject(error);
+          };
+
+          setTimeout(() => {
+            this.setState({loading: false, modalAssignOpen: false});
+            this.componentDidMount();
+          });
+        })
+        .catch (err => {
+          console.log(err);
+          this.setState({loading: false});
+          alert(err[0].detail);
+        });
+    } catch (err) {
+      console.log(err);
+      this.setState({loading: false});
+      alert("Error asign role fetch");
+    };
+  };
+
   toggleModalRemove = () => {
     this.setState({modalRemoveOpen: !this.state.modalRemoveOpen});
   }
+
+  toggleModalAsign = () => {
+    this.setState({modalAssignOpen: !this.state.modalAssignOpen});
+  };
 
   handleRemoveRole = (roleObj) => {
     this.fetchRemoveRole(roleObj);
     this.toggleModalRemove();
     this.componentDidMount();
+  };
+
+  handleAsignRole = (e) => {
+    e.preventDefault();
+    const reData = {
+      user: this.state.formAsignRole.rut,
+      name: this.state.formAsignRole.role
+    };
+    
+    this.fetchAsignRole(reData);
+  };
+
+  handleChange = (e) => {
+    this.setState({
+      formAsignRole: {
+        ...this.state.formAsignRole,
+        [e.target.name]: e.target.value,
+      }
+    });
   };
 
   render() {
@@ -116,6 +184,18 @@ class RoleDetails extends Component {
                   handleRemoveRole={this.handleRemoveRole} 
                 />
               </div>
+              <div className="level is-centered">
+                <div className="level-item">
+                  <button onClick={() => this.toggleModalAsign()} className="button is-info is-outlined is-small">Asignar Rol</button>
+                </div>
+              </div>
+              <RegisterUserRolesModal 
+                modalIsOpen={this.state.modalAssignOpen} 
+                onClose={this.toggleModalAsign} 
+                formValues={this.state.formAsignRole}
+                onSubmit={this.handleAsignRole}
+                onChange={this.handleChange}
+              />
             </div>
           </div>
         </Main>

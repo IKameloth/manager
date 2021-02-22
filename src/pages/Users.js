@@ -13,7 +13,7 @@ class Users extends Component {
     modalIsOpen: false,
     form: {
       rut: "",
-      role: "",
+      role: [],
     },
   };
 
@@ -86,10 +86,6 @@ class Users extends Component {
       console.log("error fuera del fetch");
       console.log(error);
     };
-  };
-
-  fetchDeleteRole = () => {
-    console.log("REmove Role");
   };
 
   handleChange = (e) => {

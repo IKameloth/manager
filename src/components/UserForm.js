@@ -79,15 +79,14 @@ class UserForm extends Component {
         <div className={`field ${this.props.isEdit && "is-hidden"}`}>
           <label className="label">Institución</label>
           <div className="control has-icons-left has-icons-right">
-            <input 
-              autoComplete="off"
-              onChange={this.props.onChange}
-              className="input"
-              type="text"
-              name="institution"
-              placeholder="Ingresar Institución"
-              value={this.props.formValues.institution}
-            />
+            <div className="select is-primary is-fullwidth">
+              <select name="institution" onChange={this.props.onChange} value={this.props.formValues.institution}>
+                <option>Seleccionar</option>
+                {this.props.institutionList.length > 0 && this.props.institutionList.map((name) => (
+                  <option key={name}>{name}</option>
+                ))}
+              </select>
+            </div>
             <span className="icon is-small is-left">
               <i className="fas fa-building"></i>
             </span>

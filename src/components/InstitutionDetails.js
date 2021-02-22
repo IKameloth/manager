@@ -80,7 +80,8 @@ class InstitutionDetails extends Component {
     try {
       const response = await fetch(url);
       const dataJson = await response.json();
-      const result = dataJson.data[0].attributes;
+      const result = dataJson.data.attributes;
+      console.log(result);
 
       setTimeout(() => {
         this.setState({loading: false, form: result, btnEdit: true});

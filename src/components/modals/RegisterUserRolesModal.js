@@ -31,6 +31,7 @@ const RegisterUserRolesModal = (props) => {
                       type="text" 
                       placeholder="Ingresar Rut" 
                       value={props.formValues.rut}
+                      name="rut"
                     />
                     <span className="icon is-small is-left">
                       <i className="fas fa-fingerprint"></i>
@@ -48,6 +49,7 @@ const RegisterUserRolesModal = (props) => {
                       type="text" 
                       placeholder="Ingresar rol" 
                       value={props.formValues.role}
+                      name="role"
                     />
                     <span className="icon is-small is-left">
                       <i className="fas fa-user-tag"></i>

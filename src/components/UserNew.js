@@ -9,12 +9,13 @@ class UserNew extends Component {
   state = {
     loading: false,
     error: null,
+    institutionList: [],
     form: {
       name: "",
       rut: "",
       email: "",
       role: "",
-      institution: ""
+      institution: "",
     },
   };
 
@@ -28,7 +29,6 @@ class UserNew extends Component {
   };
 
   fetchPostNewUser = () => {
-    console.log("CREATE NEW USER");
     this.setState({loading: true});
 
     const requestOptions = {
@@ -73,11 +73,28 @@ class UserNew extends Component {
   };
 
   componentDidMount() {
+    this.getInstitutionList();
     console.log("Component Post");
   };
 
   componentWillUnmount(){
+    this.setState({institutionList: {}});
     console.log("Exit from Post Users");
+  };
+
+  getInstitutionList = async() => {
+    const url = `http://localhost:4000/institutions`;
+    try {
+      const response = await fetch(url);
+      const result = await response.json();
+      const data = result.data;
+
+      const listNamesInst = [...new Set(data.map(it => it.attributes.name))];
+
+      this.setState({institutionList: listNamesInst});
+    } catch(err) {
+      this.setState({loading: false, error: err.message});
+    };
   };
 
   render() {
@@ -124,6 +141,7 @@ class UserNew extends Component {
                   onSubmit={this.handleSubmit}
                   formValues={this.state.form}
                   error={this.state.error} 
+                  institutionList={this.state.institutionList}
                 />
               </div>
             </div>
