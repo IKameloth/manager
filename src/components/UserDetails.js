@@ -16,17 +16,35 @@ class UserDetails extends Component {
       roles: [],
     },
     btnEdit: false,
+    institutionList: [],
   };
 
   componentDidMount() {
     console.log("Details user component");
     this.setState({loading: true});
     this.fetchData();
+    this.getInstitutionList();
   };
 
   componentWillUnmount(){
+    this.setState({institutionList: {}});
     console.log("EXIT DETAILS USER COMPONENT");
   }
+
+  getInstitutionList = async() => {
+    const url = `http://localhost:4000/institutions`;
+    try {
+      const response = await fetch(url);
+      const result = await response.json();
+      const data = result.data;
+
+      const listNamesInst = [...new Set(data.map(it => it.attributes.name))];
+
+      this.setState({institutionList: listNamesInst});
+    } catch(err) {
+      this.setState({loading: false, error: err.message});
+    };
+  };
 
   fetchData = async() => {
     const url = `http://localhost:4000/users/${this.props.match.params.userID}`;
@@ -139,6 +157,7 @@ class UserDetails extends Component {
                   formValues={this.state.form}
                   error={this.state.error}
                   isEdit={this.state.btnEdit}
+                  institutionList={this.state.institutionList}
                 />
               </div>
             </div>

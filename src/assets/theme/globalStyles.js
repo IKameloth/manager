@@ -72,6 +72,7 @@ const GlobalStyle = createGlobalStyle`
     background: rgb(240, 244, 255);
     border: 1px solid rgb(195, 211, 255);
   }
+
 `;
 
 export default GlobalStyle;

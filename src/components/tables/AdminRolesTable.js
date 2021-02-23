@@ -170,13 +170,22 @@ const AdminRolesTable = (props) => {
             accessor: "role",
             id: 'role',
             Cell: ({ cell }) => (
-              <span className="tag is-light">{cell.row.values.role}</span>
+              cell.row.values.roles && cell.row.values.roles.length > 0 
+                ? cell.row.values.roles.map((role) => (
+                    <span className="tag is-light" key={role._id}>{role.name}</span>
+                  ))
+                : <span className="tag is-warning">No asignado</span>
             ),
           },
           {
             Header: "Institución",
             accessor: "institution",
-            id: "institution"
+            id: "institution",
+            Cell: ({cell}) => (
+              cell.row.values.institution.name.length > 0
+                ? <label>{cell.row.values.institution.name}</label>
+                : <span className="tag is-warning">No asignado</span>
+            )
           },
           {
             Header: "",
