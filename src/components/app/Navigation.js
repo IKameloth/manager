@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import Logo from "../assets/images/autentia-logo.svg";
+import Logo from "../../assets/images/autentia-logo.svg";
 import { 
   NavBar, 
   Sidebar, 
@@ -11,7 +11,7 @@ import {
   ProfileName, 
   ProfileRole,
   Nav
-} from "../assets/styled/navigation";
+} from "../../assets/styled/navigation";
 
 
 const StyledBurger = styled.div`

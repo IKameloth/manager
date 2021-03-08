@@ -1,20 +1,19 @@
 import React, {Suspense} from "react";
 import {withRouter, Switch, Route} from "react-router-dom";
-import "../i18n";
 
-import Navbar from "../components/Navigation";
-import AdminRoles from "../pages/AdminRoles";
-import Identities from "../pages/Identities";
-import Institutions from "../pages/Intitutions";
-import Login from "../pages/Login";
-import Person from "../pages/Person";
-import Sensors from "../pages/Sensors";
-import Users from "../pages/Users";
-import UserNew from "../components/UserNew";
-import UserDetails from "../components/UserDetails";
-import RoleDetails from "../components/RoleDetails";
-import InstitutionNew from "../components/InstitutionNew";
-import InstitutionDetails from "../components/InstitutionDetails";
+import Navbar from "../components/app/Navigation";
+import UserManager from "../components/userManager/UserManagerPage";
+import Identities from "../components/identity/IdentitiesPage";
+import Institutions from "../components/institution/IntitutionsPage";
+import Login from "../components/login/LoginPage";
+import Person from "../components/person/PersonPage";
+import Sensors from "../components/sensor/SensorsPage";
+import Users from "../components/user/UsersPage";
+import UserNew from "../components/user/UserNew";
+import UserDetails from "../components/user/UserDetails";
+import RoleDetails from "../components/role/RoleDetailsPage";
+import InstitutionNew from "../components/institution/InstitutionNew";
+import InstitutionDetails from "../components/institution/InstitutionDetails";
 
 const Routes = withRouter(({location}) => {
   return (
@@ -23,7 +22,7 @@ const Routes = withRouter(({location}) => {
         {location.pathname !== "/login" && location.pathname !== "/" && <Navbar />}
         <Route exact path="/" component={Login} />
         <Route exact path="/login" component={Login} />
-        <Route exact path="/admin" component={AdminRoles} />
+        <Route exact path="/admin" component={UserManager} />
         <Route exact path="/identities" component={Identities} />
         <Route exact path="/institutions" component={Institutions} />
         <Route exact path="/institution/new" component={InstitutionNew} />

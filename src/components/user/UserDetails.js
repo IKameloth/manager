@@ -1,25 +1,63 @@
-import React, { Component } from "react";
-import Loading from "./Loading";
-import Error from "./Error";
-import {Main, MainHeader} from "../assets/styled/content";
-import InstitutionForm from "./InstituionForm";
+import React, {Component} from "react";
+import Loading from "../app/common/Loading";
+import Error from "../app/common/Error";
+import {Main, MainHeader} from "../../assets/styled/content";
+import UserForm from "./UserForm";
 import {Link} from "react-router-dom";
 
-class InstitutionDetails extends Component {
+class UserDetails extends Component {
   state = {
     loading: false,
-    error: null,
+    error: undefined,
     form: {
       name: "",
       rut: "",
       email: "",
-      nemo: "",
-      country: "",
-      description: "",
-      status: "",
-      flag: "",
+      roles: [],
     },
     btnEdit: false,
+    institutionList: [],
+  };
+
+  componentDidMount() {
+    console.log("Details user component");
+    this.setState({loading: true});
+    this.fetchData();
+    this.getInstitutionList();
+  };
+
+  componentWillUnmount(){
+    this.setState({institutionList: {}});
+    console.log("EXIT DETAILS USER COMPONENT");
+  }
+
+  getInstitutionList = async() => {
+    const url = `http://localhost:4000/institutions`;
+    try {
+      const response = await fetch(url);
+      const result = await response.json();
+      const data = result.data;
+
+      const listNamesInst = [...new Set(data.map(it => it.attributes.name))];
+
+      this.setState({institutionList: listNamesInst});
+    } catch(err) {
+      this.setState({loading: false, error: err.message});
+    };
+  };
+
+  fetchData = async() => {
+    const url = `http://localhost:4000/users/${this.props.match.params.userID}`;
+    try {
+      const response = await fetch(url);
+      const result = await response.json();
+      const userData = result.data.attributes;
+      setTimeout(() => {
+        this.setState({loading: false, form: userData, btnEdit: true});
+      }, 1000);
+    } catch(err) {
+      this.setState({loading: false, error: err.message});
+    };
   };
 
   handleChange = (e) => {
@@ -31,7 +69,7 @@ class InstitutionDetails extends Component {
     });
   };
 
-  fetchEditInstitution = () => {
+  fetchEditUser = () => {
     this.setState({loading: true});
 
     const requestOptions = {
@@ -41,7 +79,7 @@ class InstitutionDetails extends Component {
     };
 
     try {
-      fetch(`http://localhost:4000/institutions/${this.props.match.params.institutionID}`, requestOptions)
+      fetch(`http://localhost:4000/users/${this.props.match.params.userID}`, requestOptions)
         .then(async response => {
           const data = await response.json();
 
@@ -52,7 +90,7 @@ class InstitutionDetails extends Component {
           
           setTimeout(() => {
             this.setState({loading: false});
-            this.props.history.push("/institutions");
+            this.props.history.push("/persons");
           }, 1000);
         })
         .catch(error => {
@@ -69,50 +107,21 @@ class InstitutionDetails extends Component {
     }
   };
 
-  handleEditInstitution = async(e) => {
+  handleEditUser = async(e) => {
     e.preventDefault();
-    this.fetchEditInstitution();
+    this.fetchEditUser();
   };
-  // get data
-  fetchData = async() => {
-    const url = `http://localhost:4000/institutions/${this.props.match.params.institutionID}`;
-
-    try {
-      const response = await fetch(url);
-      const dataJson = await response.json();
-      const result = dataJson.data.attributes;
-      console.log(result);
-
-      setTimeout(() => {
-        this.setState({loading: false, form: result, btnEdit: true});
-      }, 2000);
-    } catch (err) {
-      setTimeout(() => {
-        this.setState({loading: false, error: err.message});
-      }, 2000);
-    };
-  };
-
-  componentDidMount() {
-    console.log("EDITING COMPONENT");
-    this.setState({loading: true});
-    this.fetchData();
-  };
-
-  componentWillUnmount(){
-    console.log("EXIT EDITING COMPONENT");
-  }
 
   render() {
-    const { error, loading } = this.state;
+    const { loading, error } = this.state;
 
-    if (loading === true) {
-        return <Loading />
+    if (loading) {
+      return <Loading />;
     };
 
     if (error) {
-        return ( <Error message={error} /> );
-    }
+      return <Error message={error} />;
+    };
 
     return (
       <React.Fragment>
@@ -122,13 +131,13 @@ class InstitutionDetails extends Component {
               <div className="columns">
                 <div className="column">
                   <div className="field">
-                    <h3 className="title">Editar Institución</h3>
+                    <h3 className="title">Datos Usuario</h3>
                   </div>
                 </div>
               </div>
               <div className="level is-mobile">
                 <div className="level-left has-text-centered">
-                  <Link to="/institutions" className="button is-light is-small">
+                  <Link to="/persons" className="button is-light is-small">
                     <span className="icon">
                     <i className="fas fa-arrow-circle-left"></i>
                     </span>
@@ -138,16 +147,17 @@ class InstitutionDetails extends Component {
               </div>
             </div>
           </MainHeader>
-          
+
           <div className="columns is-centered" style={{width: "100%"}}>
             <div className="column is-7-desktop is-11-mobile is-offset-1-mobile is-10-tablet is-5-fullhd">
               <div className="container">
-                <InstitutionForm
+                <UserForm
                   onChange={this.handleChange}
-                  onSubmit={this.handleEditInstitution}
+                  onSubmit={this.handleEditUser}
                   formValues={this.state.form}
-                  error={this.state.error} 
-                  isEditing={this.state.btnEdit}
+                  error={this.state.error}
+                  isEdit={this.state.btnEdit}
+                  institutionList={this.state.institutionList}
                 />
               </div>
             </div>
@@ -156,6 +166,6 @@ class InstitutionDetails extends Component {
       </React.Fragment>
     );
   };
-};
+}
 
-export default InstitutionDetails;
+export default UserDetails;

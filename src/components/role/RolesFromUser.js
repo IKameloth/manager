@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import styled from "styled-components";
-import RoleRemoveModal from "../components/modals/RemoveRoleModal";
+import RoleRemoveModal from "./RemoveRoleModal";
 
 const Avatar = styled.span`
   height: 64px;

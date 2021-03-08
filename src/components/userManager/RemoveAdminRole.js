@@ -1,6 +1,7 @@
 import React from "react";
-import Modal from "../Modal";
+import Modal from "../app/common/Modal";
 import styled from "styled-components";
+
 
 const ModalCardFoot = styled.footer`
   background-color: #fff;
@@ -8,12 +9,12 @@ const ModalCardFoot = styled.footer`
   align-items: center;
 `;
 
-const RemoveRoleModal = (props) => {
+const RemoveAdminRole = (props) => {
   if (props.dataModal) {
     return (
-      <Modal isOpen={props.isOpen} onClose={props.onClose}>
+      <Modal isOpen={props.modalIsOpen} onClose={props.onClose}>
         <header className="modal-card-head">
-          <p className="modal-card-title">¿Remover Rol?</p>
+          <p className="modal-card-title">¿Desactivar Rol?</p>
           <button onClick={props.onClose} className="delete" aria-label="close"></button>
         </header>
         <section className="modal-card-body">
@@ -22,20 +23,25 @@ const RemoveRoleModal = (props) => {
               <div className="container">
                 <div className="field has-text-centered">
                   <p className="is-size-3 is-capitalized has-text-weight-bold has-text-link">{props.dataModal.name}</p>
+                  <p className="is-size-4 is-capitalized has-text-link">{props.dataModal.role}</p>
+                  <p className="is-size-4">{props.dataModal.rut}</p>
+                </div>
+                <div className="field">
+                  <p className="is-size-5">Se le asignará automaticamente el rol "USER" al desactivar.</p>
                 </div>
               </div>
             </div>
           </div>
         </section>
         <ModalCardFoot className="modal-card-foot">
-          <button onClick={props.removeRole} className="button is-danger">Remover</button>
+          <button onClick={() => alert("Pronto")} className="button is-danger">Desactivar</button>
           <button onClick={props.onClose} className="button">Cancelar</button>
         </ModalCardFoot>
       </Modal>
-    );
+    )
   } else {
     return null;
-  };
+  }
 };
 
-export default RemoveRoleModal;
+export default RemoveAdminRole;

@@ -1,10 +1,10 @@
 import React, {Component} from "react";
-import { Main, MainHeader } from "../assets/styled/content";
-import Loading from "../components/Loading";
-import Error from "../components/Error";
-import InstitutionsTable from "../components/tables/InstitutionsTable";
+import { Main, MainHeader } from "../../assets/styled/content";
+import Loading from "../app/common/Loading";
+import Error from "../app/common/Error";
+import InstitutionsTable from "./InstitutionsTable";
 import {Link} from "react-router-dom";
-import InstitutionModal from "../components/modals/InstitutionModal";
+import InstitutionModal from "./InstitutionModal";
 
 class Institutions extends Component {
   state = {

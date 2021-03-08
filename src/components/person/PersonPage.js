@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Main, MainHeader } from "../assets/styled/content";
+import { Main, MainHeader } from "../../assets/styled/content";
 import {Link} from "react-router-dom";
 
 class Persons extends Component {
@@ -78,7 +78,7 @@ class Persons extends Component {
                     <h3 className="title">Personas</h3>
                   </div>
                 </div>
-                <div className="column is-2-fullhd">
+                <div className="column is-3">
                   <Link to="/users/new" className="button is-primary" >Registrar Usuario</Link>
                 </div>
               </div>

@@ -1,15 +1,12 @@
 import React, {Component} from "react";
-import { 
-  Main,
-  MainHeader
-} from "../assets/styled/content";
-import RegisterAdminRolesModal from "../components/modals/RegisterAdminRolesModal";
-import RemoveModal from "../components/modals/RemoveAdminRole";
-import AdminRolesTable from "../components/tables/AdminRolesTable";
-import Loading from "../components/Loading";
-import Error from "../components/Error";
+import { Main, MainHeader } from "../../assets/styled/content";
+import RegisterAdminRolesModal from "./RegisterAdminRolesModal";
+import RemoveModal from "./RemoveAdminRole";
+import AdminRolesTable from "./AdminRolesTable";
+import Loading from "../app/common/Loading";
+import Error from "../app/common/Error";
 
-class AdminRoles extends Component {
+class UserManager extends Component {
   state = {
     loading: false,
     error: null,
@@ -175,4 +172,4 @@ class AdminRoles extends Component {
   };
 };
 
-export default AdminRoles;
+export default UserManager;

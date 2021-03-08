@@ -1,9 +1,9 @@
 import React, {Component} from "react";
-import { Main, MainHeader } from "../assets/styled/content";
-import RegisterUserRolesModal from "../components/modals/RegisterUserRolesModal";
-import Loading from "../components/Loading";
-import Error from "../components/Error";
-import UsersTable from "../components/tables/UsersTable";
+import { Main, MainHeader } from "../../assets/styled/content";
+import RegisterUserRolesModal from "./RegisterUserRolesModal";
+import Loading from "../app/common/Loading";
+import Error from "../app/common/Error";
+import UsersTable from "./UsersTable";
 
 class Users extends Component {
   state = {
@@ -18,6 +18,7 @@ class Users extends Component {
   };
 
   componentDidMount() {
+    console.log("didmount-user")
     this.fetchData();
   };
 

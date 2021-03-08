@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import Loading from "./Loading";
-import Error from "./Error";
-import {Main, MainHeader} from "../assets/styled/content";
+import Loading from "../app/common/Loading";
+import Error from "../app/common/Error";
+import {Main, MainHeader} from "../../assets/styled/content";
 import InstitutionForm from "./InstituionForm";
 import {Link} from "react-router-dom";
 
-class InstitutionNew extends Component {
+class InstitutionDetails extends Component {
   state = {
     loading: false,
     error: null,
@@ -19,8 +19,9 @@ class InstitutionNew extends Component {
       status: "",
       flag: "",
     },
+    btnEdit: false,
   };
-  
+
   handleChange = (e) => {
     this.setState({
       form: {
@@ -30,23 +31,22 @@ class InstitutionNew extends Component {
     });
   };
 
-  fetchPostData = () => {
-    console.log("CREATE NEW POST");
+  fetchEditInstitution = () => {
     this.setState({loading: true});
 
     const requestOptions = {
-      method: "POST",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(this.state.form ),
+      body: JSON.stringify(this.state.form),
     };
 
     try {
-      fetch("http://localhost:4000/institutions", requestOptions)
+      fetch(`http://localhost:4000/institutions/${this.props.match.params.institutionID}`, requestOptions)
         .then(async response => {
           const data = await response.json();
 
           if(data.errors) {
-            const error = (data && data.errors) || response.detail;
+            const error = (data && data.errors) || response.status;
             return Promise.reject(error);
           };
           
@@ -69,17 +69,38 @@ class InstitutionNew extends Component {
     }
   };
 
-  handleSubmit = async(e) => {
+  handleEditInstitution = async(e) => {
     e.preventDefault();
-    this.fetchPostData();
+    this.fetchEditInstitution();
+  };
+  // get data
+  fetchData = async() => {
+    const url = `http://localhost:4000/institutions/${this.props.match.params.institutionID}`;
+
+    try {
+      const response = await fetch(url);
+      const dataJson = await response.json();
+      const result = dataJson.data.attributes;
+      console.log(result);
+
+      setTimeout(() => {
+        this.setState({loading: false, form: result, btnEdit: true});
+      }, 2000);
+    } catch (err) {
+      setTimeout(() => {
+        this.setState({loading: false, error: err.message});
+      }, 2000);
+    };
   };
 
   componentDidMount() {
-    console.log("COMPONENT POST");
-  }
+    console.log("EDITING COMPONENT");
+    this.setState({loading: true});
+    this.fetchData();
+  };
 
-  componentWillUnmount() {
-    console.log("SALIENDO POST");
+  componentWillUnmount(){
+    console.log("EXIT EDITING COMPONENT");
   }
 
   render() {
@@ -101,7 +122,7 @@ class InstitutionNew extends Component {
               <div className="columns">
                 <div className="column">
                   <div className="field">
-                    <h3 className="title">Registrar Institución</h3>
+                    <h3 className="title">Editar Institución</h3>
                   </div>
                 </div>
               </div>
@@ -117,15 +138,16 @@ class InstitutionNew extends Component {
               </div>
             </div>
           </MainHeader>
-
+          
           <div className="columns is-centered" style={{width: "100%"}}>
             <div className="column is-7-desktop is-11-mobile is-offset-1-mobile is-10-tablet is-5-fullhd">
               <div className="container">
                 <InstitutionForm
                   onChange={this.handleChange}
-                  onSubmit={this.handleSubmit}
+                  onSubmit={this.handleEditInstitution}
                   formValues={this.state.form}
                   error={this.state.error} 
+                  isEditing={this.state.btnEdit}
                 />
               </div>
             </div>
@@ -136,4 +158,4 @@ class InstitutionNew extends Component {
   };
 };
 
-export default InstitutionNew;
+export default InstitutionDetails;

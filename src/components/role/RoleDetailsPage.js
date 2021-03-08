@@ -1,10 +1,10 @@
 import React, {Component} from "react";
-import Loading from "./Loading";
-import Error from "./Error";
-import {Main, MainHeader} from "../assets/styled/content";
+import Loading from "../app/common/Loading";
+import Error from "../app/common/Error";
+import {Main, MainHeader} from "../../assets/styled/content";
 import {Link} from "react-router-dom";
 import RolesFromUser from "./RolesFromUser";
-import RegisterUserRolesModal from "../components/modals/RegisterUserRolesModal";
+import RegisterUserRolesModal from "../user/RegisterUserRolesModal";
 
 class RoleDetails extends Component {
   state = {

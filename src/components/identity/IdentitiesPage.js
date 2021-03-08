@@ -2,7 +2,7 @@ import React from "react";
 import { 
   Main,
   MainHeader,
-} from "../assets/styled/content";
+} from "../../assets/styled/content";
 
 const Identities = () => {
   return (
