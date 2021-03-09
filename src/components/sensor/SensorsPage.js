@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-import { 
-  Main,
-  MainHeader,
-} from "../../assets/styled/content";
+import { Main, MainHeader } from "../../assets/styled/content";
 import RegisterSensorModal from "./RegisterSensorModal";
 
 class Sensors extends Component {

@@ -1,21 +1,8 @@
 import React from 'react';
 import ReactDOM from "react-dom";
 import Rodal from 'rodal';
-// include styles
 import 'rodal/lib/rodal.css';
-import styled from "styled-components";
-
-const ModalContent = styled.div`
-  .modal-card-head {
-    background-color: #fff;
-    text-align: center;
-    border-bottom: none;
-  }
-
-  .modal-card-foot {
-    border-top: none;
-  }
-`;
+import { ModalContent } from "../../../assets/styled/modal";
  
 const ModalOPE = (props) => {
   return ReactDOM.createPortal(

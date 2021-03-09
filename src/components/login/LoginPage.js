@@ -4,6 +4,7 @@ import ProgressBar from "../app/common/ProgressBar";
 import { Main, Form, H1, Forgot, LogoImage, LoginImage } from "../../assets/styled/login";
 
 const Login = () => {
+  const countries = ["CHILE", "ECUADOR", "COLOMBIA", "RDOMINICANA"]
   return (
     <React.Fragment>
       <ProgressBar />
@@ -29,6 +30,24 @@ const Login = () => {
                   <input className="input is-primary" type="password" placeholder="Ingresar contraseña" />
                   <span className="icon is-small is-left">
                     <i className="fas fa-key"></i>
+                  </span>
+                </div>
+              </div>
+
+              <div className="field">
+                <label className="label">País</label>
+                <div className="control has-icons-left has-icons-right">
+                  <div className="select is-primary is-fullwidth">
+                    <select name="institution">
+                      {
+                        countries.map((country) => {
+                          return <option value={country} key={country}>{country}</option>
+                        })
+                      }
+                    </select>
+                  </div>
+                  <span className="icon is-small is-left">
+                    <i className="far fa-flag"></i>
                   </span>
                 </div>
               </div>

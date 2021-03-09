@@ -1,8 +1,5 @@
 import React from "react";
-import { 
-  Main,
-  MainHeader,
-} from "../../assets/styled/content";
+import { Main, MainHeader } from "../../assets/styled/content";
 
 const Identities = () => {
   return (

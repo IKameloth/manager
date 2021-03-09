@@ -1,13 +1,6 @@
 import React from "react";
 import Modal from "../app/common/Modal";
-import styled from "styled-components";
-
-
-const ModalCardFoot = styled.footer`
-  background-color: #fff;
-  justify-content: center;
-  align-items: center;
-`;
+import { ModalCardFoot } from "../../assets/styled/modal";
 
 const RegisterUserRolesModal = (props) => {
   return (
