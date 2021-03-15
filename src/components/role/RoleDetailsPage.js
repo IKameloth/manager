@@ -4,7 +4,7 @@ import Error from "../app/common/Error";
 import {Main, MainHeader} from "../../assets/styled/content";
 import {Link} from "react-router-dom";
 import RolesFromUser from "./RolesFromUser";
-import RegisterUserRolesModal from "../user/RegisterUserRolesModal";
+import RegisterUserRolesModal from "../user/UserModal";
 
 class RoleDetails extends Component {
   state = {

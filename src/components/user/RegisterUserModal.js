@@ -1,5 +1,5 @@
 import React from "react";
-import Modal from "../Modal";
+import Modal from "../app/common/Modal";
 import { ModalCardHead, ModalCardFoot } from "../../assets/styled/modal";
 
 const RegisterUserModal = (props) => {

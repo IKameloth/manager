@@ -8,10 +8,11 @@ import Institutions from "../components/institution/IntitutionsPage";
 import Login from "../components/login/LoginPage";
 import Person from "../components/person/PersonPage";
 import Sensors from "../components/sensor/SensorsPage";
-import Users from "../components/user/UsersPage";
+import Users from "../components/user/UserPage";
 import UserNew from "../components/user/UserNew";
 import UserDetails from "../components/user/UserDetails";
 import RoleDetails from "../components/role/RoleDetailsPage";
+import UserRoles from "../components/role/userRoles";
 import InstitutionNew from "../components/institution/InstitutionNew";
 import InstitutionDetails from "../components/institution/InstitutionDetails";
 
@@ -33,6 +34,7 @@ const Routes = withRouter(({location}) => {
         <Route exact path="/users/new" component={UserNew} />
         <Route exact path="/users/:userID/details" component={UserDetails} />
         <Route exact path="/users/:userID/roles" component={RoleDetails} />
+        <Route exact path="/users/:userID/roles/test" component={UserRoles} />
       </Suspense>
     </Switch>
   )
