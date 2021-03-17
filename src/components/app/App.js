@@ -1,14 +1,11 @@
 import React from "react";
-import { Provider } from "react-redux";
-import generateStore from "../../redux/store";
 import Routes from "../../routes/Routes";
+import { BrowserRouter as Router} from "react-router-dom";
 
 export default function App() {
-  const store = generateStore();
-
   return (
-    <Provider store={store}>
+    <Router>
       <Routes />
-    </Provider>
-  )
+    </Router>
+  );
 };

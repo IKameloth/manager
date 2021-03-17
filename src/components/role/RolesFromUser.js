@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { Avatar } from "../../assets/styled/role";
 import RoleRemoveModal from "./RemoveRoleModal";
 
-const ProfileName = (name = 'name default') => {
+const ProfileName = (name = 'unknow') => {
   let nameSplited = name.split(" ");
   if (nameSplited.length > 1) {
     const result = nameSplited.map((name) => name.trim().charAt(0).toUpperCase());
@@ -14,7 +14,7 @@ const ProfileName = (name = 'name default') => {
 
 const RolesFromUser = (props) => {
   const [roleData, setRoleData] = useState([]);
-  const { name, email, rut, roles} = props.userData;
+  const { name, email, rut, roles} = props.user;
 
   let profName = ProfileName(name);
 
@@ -61,7 +61,10 @@ const RolesFromUser = (props) => {
                       <tr key={role._id}>
                         <td>{role.name}</td>
                         <td className="level-right">
-                          <button onClick={() => handleModal(role)} className="delete has-background-danger is-medium"></button>
+                          <button 
+                            onClick={ () => handleModal(role) } 
+                            className="delete has-background-danger is-medium">
+                          </button>
                         </td>
                       </tr>
                     ))

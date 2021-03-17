@@ -1,57 +1,17 @@
-// constant
-const INITIAL_STATE = {
-  loading: false,
-  error: null,
-  data: [],
-};
+import { GET_USERS, POST_ROLE_USER } from "../types/usersType";
+import { LOADING, ERROR, CLEANER } from "../types/commonType";
 
-// types
-const LOADING = "LOADING";
-const ERROR = "ERROR";
-const GET_USERS = "GET_USERS";
-const POST_ROLE_USER = "POST_ROLE_USER";
-
-// reducers
-export default function userReducer(state = INITIAL_STATE, action) {
-  switch (action.type) {
-    case GET_USERS:
-      return {
-        ...state,
-        data: action.payload,
-        loading: false,
-        error: null
-      }
-    case POST_ROLE_USER:
-      return {
-        ...state,
-        loading: false,
-        data: action.payload,
-        error: null
-      }
-    case LOADING:
-      return { ...state, loading: true }
-    case ERROR:
-      return { ...state, loading: false, error: action.payload }
-    default:
-      return state;
-  }
-};
-
-// actions
-export const getUsersAction = () => async(dispatch, getState) => {
+export const getUsersAction = () => async(dispatch) => {
   dispatch({
-    type: LOADING,
-    payload: {
-      loading: true
-    }
+    type: LOADING
   });
 
   try {
     const url = "http://localhost:4000/users";
-
-    const response = await fetch(url).then(response => response.json());
+    const response = await fetch(url);
+    const data = await response.json();
     const dataResult = [];
-    response.data.map((attr) => dataResult.push(attr.attributes));
+    data.data.map((attr) => dataResult.push(attr.attributes));
 
     dispatch({
       type: GET_USERS,
@@ -68,8 +28,7 @@ export const getUsersAction = () => async(dispatch, getState) => {
 
 export const registerRoleAction = (params) => async(dispatch, getState) => {
   dispatch({
-    type: LOADING,
-    payload: { loading: true }
+    type: LOADING
   });
 
   try {
@@ -85,8 +44,6 @@ export const registerRoleAction = (params) => async(dispatch, getState) => {
     fetch(urlRequest, requestOptions)
       .then(async response => {
         const data = await response.json();
-
-        console.log(data);
         
         if(data.errors) {
           const error = (data && data.errors) || response.detail;
@@ -111,4 +68,10 @@ export const registerRoleAction = (params) => async(dispatch, getState) => {
       payload: err.message
     })
   };
+};
+
+export const cleanerUsersAction = () => (dispatch) => {
+  dispatch({
+    type: CLEANER
+  });
 };

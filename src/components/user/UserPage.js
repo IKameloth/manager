@@ -1,38 +1,53 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Main, MainHeader } from "../../assets/styled/content";
 import Loading from "../app/common/Loading";
 import Error from "../app/common/Error";
 import UsersTable from "./UsersTable";
-import { useDispatch, useSelector } from "react-redux";
-import { getUsersAction, registerRoleAction } from "../../redux/userDuck";
 import UserModal from "./UserModal";
+import { connect } from "react-redux";
+import * as usersAction from "../../actions/usersAction";
+import * as alertAction from "../../actions/alertAction";
 
-export default function Users() {
-  const dispatch = useDispatch();
+const { setAlert } = alertAction
+const { getUsersAction, registerRoleAction, cleanerUsersAction } = usersAction;
 
-  useEffect(() => {
-    dispatch(getUsersAction());
-  }, [dispatch]);
-  
+function Users(props) {
   const [openModal, setOpenModal] = useState(false);
-  
+
+  const { loading, error, users} = props.usersReducer;
+
   const handleToggleModal = () => {
     setOpenModal(!openModal);
   };
 
-  const handleOnSubmit = (rut, role) => {
+  useEffect(() => {
+    console.log("mount users")
+    const getUsers = async() => {
+      if (!users.length) {
+        await props.getUsersAction();
+      };
+    };
+    
+    getUsers().catch(null);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      console.log("unmount user component");
+      props.cleanerUsersAction();
+    };
+  }, []);
+
+  const handleOnSubmit = async (rut, role) => {
     if (rut.trim().length !== 0 && role.trim().length !== 0) {
       const form = { rut: rut, role: [role] };
       setOpenModal(false);
-      dispatch(registerRoleAction(form));
+      await registerRoleAction(form);
     } else {
-      alert("ERROR: Empty data");
+      props.setAlert("Favor llenar los datos requeridos", "warning");
     };
   };
-
-  const users = useSelector(store => store.users.data);
-  const loading = useSelector(store => store.users.loading);
-  const error = useSelector(store => store.users.error);
 
   const showContent = () => {
     if (loading) {
@@ -43,9 +58,7 @@ export default function Users() {
       return <Error message={error} />
     };
 
-    if (users?.length > 0) {
-      return <UsersTable data={users} />
-    };
+    return <UsersTable data={users} />
   };
 
   return (
@@ -85,6 +98,21 @@ export default function Users() {
         }
       </Main>
     </React.Fragment>
-    )
+  );
 };
 
+const mapStateToProps = ({ usersReducer, alertsReducer }) => {
+  return {
+    usersReducer,
+    alertsReducer,
+  };
+};
+
+const mapDispatchToProps = {
+  setAlert,
+  getUsersAction,
+  registerRoleAction,
+  cleanerUsersAction,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Users);

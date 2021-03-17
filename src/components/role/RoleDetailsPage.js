@@ -1,207 +1,142 @@
-import React, {Component} from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import Loading from "../app/common/Loading";
 import Error from "../app/common/Error";
 import {Main, MainHeader} from "../../assets/styled/content";
 import {Link} from "react-router-dom";
-import RolesFromUser from "./RolesFromUser";
-import RegisterUserRolesModal from "../user/UserModal";
+import RoleList from "./RoleList";
+import UserInfo from "./UserInfo";
+import { connect } from "react-redux";
+import UserModal from "../user/UserModal";
+import * as alertAction from "../../actions/alertAction";
+import * as rolesAction from "../../actions/rolesAction";
 
-class RoleDetails extends Component {
-  state = {
-    loading: false,
-    error: undefined,
-    modalRemoveOpen: false,
-    modalAssignOpen: false,
-    userData: {},
-    formAsignRole: {
-      rut: "",
-      role: "",
-    }
-  };
+const { setAlert } = alertAction;
+const { getUserDataAction, cleanerRolesAction, removeRoleAction, asignRoleAction, updateRolesAction } = rolesAction;
 
-  componentDidMount() {
-    this.setState({loading: true});
-    this.fetchGetUser();
-  };
+function RoleDetails(props) {
+  const [modalForAssign, setModalForAssign] = useState(false);
+  const { loading, error, userData, reload } = props.rolesReducer;
 
-  componentWillUnmount() {
-    this.setState({userData: {}, formAsignRole: {rut: "", role: ""}});
-    console.log("EXIT ROLE COMPONENT");
-  };
-
-  fetchGetUser = async() =>{
-    const url = `http://localhost:4000/users/${this.props.match.params.userID}`;
-
-    try {
-      const response = await fetch(url);
-      const result = await response.json();
-      const userDataJson = result.data.attributes;
-      
-      setTimeout(() => {
-        this.setState({
-          loading: false, 
-          userData: userDataJson,
-          formAsignRole: {rut: userDataJson.rut, role: ""}
-        });
-      },1000)
-    } catch (err) {
-      console.log(err);
-      this.setState({loading: false, error: err.message});
+  const getInitUsers = async() => {
+    if (!userData.length) {
+      await props.getUserDataAction(props.match.params.userID);
     };
   };
 
-  fetchRemoveRole = async(roleObj) => {
-    const url = `http://localhost:4000/roles/${roleObj._id}`;
-    const requestOptions = {
-      method: "DELETE",
+  useEffect(() => {
+    console.log("did-mount role component");
+    getInitUsers().catch(null);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      console.log("will-unmount role component");
+      props.cleanerRolesAction();
     };
-  
-    try {
-      fetch(url, requestOptions).then(async response => {
-        await response;
-        setTimeout(() => {
-          this.setState({modalIsOpen: false});
-          this.componentDidMount();
-        });
-      });
-    } catch (err) {
-      console.log(err);
-      this.setState({loading: false, error: err.message});
+  }, []);
+
+  useEffect(() => {
+    if (userData.length === 0 && reload) {
+      console.log("did-update role component");
+      getInitUsers().catch(null);
     };
+  }, [userData]);
+
+
+  const toggleModalAsign = () => {
+    setModalForAssign(!modalForAssign);
   };
 
-  fetchAsignRole = (data) => {
-    const url = `http://localhost:4000/roles`;
-    const requestOptions = {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(data),
-    };
-
-    try {
-      fetch(url, requestOptions)
-        .then(async response => {
-          const res = await response.json();
-
-          if(res.errors) {
-            const error = (res && res.errors) || response.detail;
-            return Promise.reject(error);
-          };
-
-          setTimeout(() => {
-            this.setState({loading: false, modalAssignOpen: false});
-            this.componentDidMount();
-          });
-        })
-        .catch (err => {
-          console.log(err);
-          this.setState({loading: false});
-          alert(err[0].detail);
-        });
-    } catch (err) {
-      console.log(err);
-      this.setState({loading: false});
-      alert("Error asign role fetch");
-    };
-  };
-
-  toggleModalRemove = () => {
-    this.setState({modalRemoveOpen: !this.state.modalRemoveOpen});
-  }
-
-  toggleModalAsign = () => {
-    this.setState({modalAssignOpen: !this.state.modalAssignOpen});
-  };
-
-  handleRemoveRole = (roleObj) => {
-    this.fetchRemoveRole(roleObj);
-    this.toggleModalRemove();
-    this.componentDidMount();
-  };
-
-  handleAsignRole = (e) => {
-    e.preventDefault();
+  const handleOnSubmit = (rut, role) => {
     const reData = {
-      user: this.state.formAsignRole.rut,
-      name: this.state.formAsignRole.role
+      user: rut,
+      name: role
     };
-    
-    this.fetchAsignRole(reData);
+
+    props.asignRoleAction(reData);
+    setModalForAssign(false);
   };
 
-  handleChange = (e) => {
-    this.setState({
-      formAsignRole: {
-        ...this.state.formAsignRole,
-        [e.target.name]: e.target.value,
-      }
-    });
+  const handleRemoveModal = (roleObj) => {
+    props.removeRoleAction(roleObj);
   };
 
-  render() {
-    const { loading, error } = this.state;
-
+  const showContent = () => {
     if (loading) {
-      return <Loading />;
+      return <Loading />
     };
 
     if (error) {
-      return <Error message={error} />;
+      return <Error message={error} />
     };
 
-    return(
-      <React.Fragment>
-        <Main id="main">
-          <MainHeader>
-            <div className="container">
-              <div className="columns">
-                <div className="column">
-                  <div className="field">
-                    <h3 className="title">Roles de Usuario</h3>
-                  </div>
-                </div>
-              </div>
-              <div className="level is-mobile">
-                <div className="level-left has-text-centered">
-                  <Link to="/users" className="button is-light is-small">
-                    <span className="icon">
-                    <i className="fas fa-arrow-circle-left"></i>
-                    </span>
-                    <span>Volver</span>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </MainHeader>
-
-          <div className="columns is-centered" style={{width: "100%"}}>
-            <div className="column is-7-desktop is-11-mobile is-offset-1-mobile is-10-tablet is-5-fullhd">
-              <div className="container">
-                <RolesFromUser 
-                  isOpen={this.state.modalRemoveOpen}
-                  handleRemoveModal={this.toggleModalRemove}
-                  userData={this.state.userData} 
-                  handleRemoveRole={this.handleRemoveRole} 
-                />
-              </div>
-              <div className="level is-centered">
-                <div className="level-item">
-                  <button onClick={() => this.toggleModalAsign()} className="button is-info is-outlined is-small">Asignar Rol</button>
-                </div>
-              </div>
-              <RegisterUserRolesModal 
-                modalIsOpen={this.state.modalAssignOpen} 
-                onClose={this.toggleModalAsign} 
-                formValues={this.state.formAsignRole}
-                onSubmit={this.handleAsignRole}
-                onChange={this.handleChange}
-              />
-            </div>
-          </div>
-        </Main>
-      </React.Fragment>
+    return (
+      <RoleList 
+        {...userData} 
+        onSubmit={handleRemoveModal} 
+      />
     );
   };
+
+  return(
+    <>
+      <Main id="main">
+        <MainHeader>
+          <div className="container">
+            <div className="columns">
+              <div className="column">
+                <div className="field">
+                  <h3 className="title">Roles de Usuario</h3>
+                </div>
+              </div>
+            </div>
+            <div className="level is-mobile">
+              <div className="level-left has-text-centered">
+                <Link to="/users" className="button is-light is-small">
+                  <span className="icon">
+                  <i className="fas fa-arrow-circle-left"></i>
+                  </span>
+                  <span>Volver</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </MainHeader>
+        <div className="columns is-centered" style={{width: "100%"}}>
+          <div className="column is-7-desktop is-11-mobile is-offset-1-mobile is-10-tablet is-5-fullhd">
+            <div className="container">
+              <UserInfo {...userData} />
+              {showContent()}
+            </div>
+            <div className="level is-centered">
+              <div className="level-item">
+                { userData.length !== 0 ? <button onClick={() => toggleModalAsign()} className="button is-info is-outlined is-small">Asignar Rol</button> : null}
+              </div>
+            </div>
+            <UserModal
+              openModal={modalForAssign} 
+              onClose={toggleModalAsign} 
+              onSubmit={handleOnSubmit}
+            />
+          </div>
+        </div>
+      </Main>
+    </>
+  );
 };
 
-export default RoleDetails;
+const mapStateToProps = ({ rolesReducer }) => ({
+  rolesReducer: rolesReducer
+});
+
+const mapDispatchToProps = {
+  setAlert,
+  getUserDataAction,
+  cleanerRolesAction,
+  removeRoleAction,
+  asignRoleAction,
+  updateRolesAction
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RoleDetails);
