@@ -49,17 +49,23 @@ function RoleDetails(props) {
   };
 
   const handleOnSubmit = (rut, role) => {
-    const reData = {
-      user: rut,
-      name: role
-    };
-
-    props.asignRoleAction(reData);
-    setModalForAssign(false);
+    if (rut.trim().length !== 0 && role.trim().length !== 0) {
+      const reData = {
+        user: rut,
+        name: role
+      };
+  
+      props.asignRoleAction(reData);
+      props.setAlert("Registrado con exito", "success");
+      setModalForAssign(false);
+    } else {
+      props.setAlert("Favor llenar los datos requeridos", "warning");
+    }
   };
 
   const handleRemoveModal = (roleObj) => {
     props.removeRoleAction(roleObj);
+    props.setAlert("Eliminado con exito", "success");
   };
 
   const showContent = () => {
@@ -115,6 +121,7 @@ function RoleDetails(props) {
               </div>
             </div>
             <UserModal
+              {...userData}
               openModal={modalForAssign} 
               onClose={toggleModalAsign} 
               onSubmit={handleOnSubmit}

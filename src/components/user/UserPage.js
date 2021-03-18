@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Main, MainHeader } from "../../assets/styled/content";
 import Loading from "../app/common/Loading";
 import Error from "../app/common/Error";
-import UsersTable from "./UsersTable";
-import UserModal from "./UserModal";
+import UsersTable from "../user/UsersTable";
+import UserModal from "../user/UserModal";
 import { connect } from "react-redux";
 import * as usersAction from "../../actions/usersAction";
 import * as alertAction from "../../actions/alertAction";
@@ -15,20 +15,20 @@ const { getUsersAction, registerRoleAction, cleanerUsersAction } = usersAction;
 function Users(props) {
   const [openModal, setOpenModal] = useState(false);
 
-  const { loading, error, users} = props.usersReducer;
+  const { loading, error, users, reload} = props.usersReducer;
 
   const handleToggleModal = () => {
     setOpenModal(!openModal);
   };
 
-  useEffect(() => {
-    console.log("mount users")
-    const getUsers = async() => {
-      if (!users.length) {
-        await props.getUsersAction();
-      };
+  const getUsers = async() => {
+    if (!users.length) {
+      await props.getUsersAction();
     };
-    
+  };
+
+  useEffect(() => {
+    console.log("mount users");
     getUsers().catch(null);
   }, []);
 
@@ -39,11 +39,22 @@ function Users(props) {
     };
   }, []);
 
-  const handleOnSubmit = async (rut, role) => {
+  useEffect(() => {
+    if (users.length === 0 && reload) {
+      console.log("did-update user component");
+      getUsers().catch(null);
+    };
+  }, [users]);
+
+  const handleOnSubmit = (rut, role) => {
     if (rut.trim().length !== 0 && role.trim().length !== 0) {
-      const form = { rut: rut, role: [role] };
+      const reData = {
+        user: rut,
+        name: role
+      };
+      props.registerRoleAction(reData);
+      props.setAlert("Registrado con exito", "success");
       setOpenModal(false);
-      await registerRoleAction(form);
     } else {
       props.setAlert("Favor llenar los datos requeridos", "warning");
     };

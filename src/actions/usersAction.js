@@ -26,47 +26,31 @@ export const getUsersAction = () => async(dispatch) => {
   }
 };
 
-export const registerRoleAction = (params) => async(dispatch, getState) => {
+export const registerRoleAction = (data) => async(dispatch, getState) => {
   dispatch({
     type: LOADING
   });
 
+  const url = `http://localhost:4000/roles`;
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  };
+
   try {
-    console.log(JSON.stringify(params))
-    const urlRequest = `http://localhost:4000/roles/${params.rut}`;
+    const response = await fetch(url, requestOptions);
+    const data = await response.json();
 
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(params),
-    };
-
-    fetch(urlRequest, requestOptions)
-      .then(async response => {
-        const data = await response.json();
-        
-        if(data.errors) {
-          const error = (data && data.errors) || response.detail;
-          return Promise.reject(error);
-        };
-
-        dispatch({
-          type: POST_ROLE_USER,
-          payload: data
-        });
-      })
-      .catch(err => {
-        console.log(err);
-        dispatch({
-          type: ERROR,
-          payload: "Not valid data"
-        })
-      });
-  } catch (err) {
+    dispatch({
+      type: POST_ROLE_USER,
+      payload: data
+    })
+  } catch(err) {
     dispatch({
       type: ERROR,
       payload: err.message
-    })
+    });
   };
 };
 

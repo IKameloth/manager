@@ -35,7 +35,7 @@ const UserInfo = (props) => {
         <div className="media-content">
           <div className="content">
             <p>
-              <strong className="has-text-link">{name}</strong><br></br>
+              <strong className="has-text-link">{name.toUpperCase()}</strong><br></br>
               <strong>{rut}</strong><br></br>
               <small>{email}</small>
             </p>

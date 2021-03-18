@@ -2,11 +2,16 @@ import React, {useEffect, useState} from "react";
 import Modal from "../app/common/Modal";
 import { ModalCardFoot } from "../../assets/styled/modal";
 
-export default function UserModal({ openModal, onSubmit, onClose }){
+export default function UserModal(props){
+  const { openModal, onSubmit, onClose } = props
   const [rut, setRut] = useState("");
   const [role, setRole] = useState("");
   const [cleanRut, setCleanRut] = useState(false);
   const [cleanRole, setCleanRole] = useState(false);
+
+  if (props.rut?.length > 0 && rut === "") {
+    setRut(props.rut);
+  };
 
   useEffect(() => {
     rut?.length > 0 ? setCleanRut(true) : setCleanRut(false);
@@ -15,8 +20,8 @@ export default function UserModal({ openModal, onSubmit, onClose }){
 
   const CleanerButton = (target) => {
     return (
-      <span className="icon is-small is-rigth">
-        <button onClick={() => cleanInput(target.target)} className="delete"><i className="fas fa-times"></i></button>
+      <span className="icon is-small is-rigth" tabIndex="-1">
+        <button tabIndex="-1" onClick={() => cleanInput(target.target)} className="delete"><i className="fas fa-times"></i></button>
       </span>
     );
   };
@@ -47,6 +52,7 @@ export default function UserModal({ openModal, onSubmit, onClose }){
                     type="text" 
                     placeholder="Ingresar Rut" 
                     name="rut"
+                    required={true}
                   />
                   <span className="icon is-small is-left">
                     <i className="fas fa-fingerprint"></i>
@@ -68,6 +74,7 @@ export default function UserModal({ openModal, onSubmit, onClose }){
                     type="text" 
                     placeholder="Ingresar rol" 
                     name="role"
+                    required={true}
                   />
                   <span className="icon is-small is-left">
                     <i className="fas fa-user-tag"></i>

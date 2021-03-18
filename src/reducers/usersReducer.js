@@ -4,6 +4,7 @@ import { LOADING, ERROR, CLEANER } from "../types/commonType";
 const INITIAL_STATE = {
   loading: false,
   error: null,
+  reload: false,
   users: [],
 };
 
@@ -12,7 +13,7 @@ export default function userReducer(state = INITIAL_STATE, action) {
     case GET_USERS:
       return { ...state, users: action.payload, loading: false, error: null }
     case POST_ROLE_USER:
-      return { ...state, loading: false, data: action.payload, error: null }
+      return { ...state, users: [], loading: false, reload: true }
     case LOADING:
       return { ...state, loading: true }
     case ERROR:

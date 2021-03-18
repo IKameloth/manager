@@ -59,21 +59,18 @@ export const removeRoleAction = (roleObj) => async(dispatch) => {
     type: LOADING
   });
 
-  console.log(roleObj);
-
   const url = `http://localhost:4000/roles/${roleObj._id}`;
   const requestOptions = {
     method: "DELETE"
   };
-
+  
   try {
-    const response = await fetch(url, requestOptions);
-    const data = await response.json();
-    console.log("verificar respuesta con la api");
-    console.log(data);
+    fetch(url, requestOptions).then(async response => {
+      await response;
 
-    dispatch({
-      type: REMOVE_ROLE
+      dispatch({
+        type: REMOVE_ROLE
+      });
     });
   } catch (err) {
     dispatch({
