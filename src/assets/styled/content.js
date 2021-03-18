@@ -50,6 +50,8 @@ export const MainHeader = styled.div`
 
 export const TableMain = styled.table`
   width: 100%;
+  z-index: 1;
+
   tr {
     &:hover {
       .buttons {
