@@ -15,6 +15,7 @@ import RoleDetails from "../components/role/RoleDetailsPage";
 import InstitutionNew from "../components/institution/InstitutionNew";
 import InstitutionDetails from "../components/institution/InstitutionDetails";
 import Alert from "../components/app/common/Alert";
+import Register from "../components/register/Register";
 
 const Routes = withRouter(({location}) => {
   return (
@@ -22,7 +23,12 @@ const Routes = withRouter(({location}) => {
     <Alert />
       <Switch>
         <Suspense fallback={null} >
-          {location.pathname !== "/login" && location.pathname !== "/" && <Navbar />}
+          {location.pathname !== "/login" 
+            && location.pathname !== "/register" 
+            && location.pathname !== "/" 
+            && <Navbar 
+          />}
+          <Route exact path="/register" component={Register} />
           <Route exact path="/" component={Login} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/admin" component={UserManager} />
