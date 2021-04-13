@@ -1,6 +1,6 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import { Main, MainHeader } from "../../assets/styled/content";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class Persons extends Component {
   state = {
@@ -11,6 +11,7 @@ class Persons extends Component {
     query: "",
     results: [],
   };
+  search = { value: '' }
 
   handleInputChange = () => {
     this.setState({
@@ -63,7 +64,9 @@ class Persons extends Component {
               <ul>{options}</ul>
             </div>
           </div>
-        : ""
+        : <div className="field">
+            <label className="label">No se encontraron sugerencias</label>
+          </div>
       );
     };
 

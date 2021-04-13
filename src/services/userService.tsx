@@ -5,12 +5,9 @@ const API_URL = "http://localhost:4000/";
 export const getUsersBoard = async() => {
   const requestOptions = {
     method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": authHeader()
-    }
+    headers: authHeader()
   };
-  const response = await fetch(API_URL + "users", requestOptions);
+  const response = await fetch(`${API_URL}users`, requestOptions);
   const result = await response.json();
   return result;
 };

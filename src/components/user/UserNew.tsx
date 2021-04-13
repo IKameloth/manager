@@ -3,7 +3,7 @@ import Loading from "../app/common/Loading";
 import Error from "../app/common/Error";
 import {Main, MainHeader} from "../../assets/styled/content";
 import UserForm from "./UserForm";
-import {Link} from "react-router-dom";
+import { Link, useHistory } from 'react-router-dom';
 
 class UserNew extends Component {
   state = {
@@ -29,6 +29,7 @@ class UserNew extends Component {
   };
 
   fetchPostNewUser = () => {
+    const history = useHistory();
     this.setState({loading: true});
 
     const requestOptions = {
@@ -40,7 +41,7 @@ class UserNew extends Component {
     try {
       const urlPost = "http://localhost:4000/users"
       fetch(urlPost, requestOptions)
-        .then(async response => {
+        .then(async (response:any) => {
           const data = await response.json();
 
           if (data.errors) {
@@ -50,7 +51,7 @@ class UserNew extends Component {
 
           setTimeout(() => {
             this.setState({loading: false});
-            this.props.history.push("/persons");
+            history.push('/persons')
           }, 1000);
         })
         .catch(error => {

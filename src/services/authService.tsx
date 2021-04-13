@@ -1,6 +1,6 @@
 const API_URL = "http://localhost:4000"
 
-export const register = async(rut, email, name, country, password) => {
+export const register = async(rut:string, email:string, name:string, country:string, password:string) => {
   const user = {
     rut: rut,
     email: email,
@@ -23,8 +23,7 @@ export const register = async(rut, email, name, country, password) => {
   return data;
 };
 
-const login = async(rut, password, country) => {
-  let err = new Error();
+const login = async(rut:string, password:string, country:string) => {
   const user = {
     user: {
       rut: rut,
@@ -47,13 +46,10 @@ const login = async(rut, password, country) => {
   const status = await response.status;
 
   if (status === 401) {
-    err.status = status;
-    err.message = data.error;
-    throw err;
+    throw new Error(data.error);
   }
 
   if (accessToken) {
-    console.log(accessToken);
     localStorage.setItem("user", JSON.stringify(data));
     localStorage.setItem("accessToken", accessToken);
   };

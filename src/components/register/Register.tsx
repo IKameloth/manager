@@ -45,8 +45,8 @@ const vpassword = (value) => {
 };
 
 const Register = () => {
-  const form = useRef();
-  const checkBtn = useRef();
+  const form = useRef(null);
+  const checkBtn = useRef(null);
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -117,7 +117,7 @@ const Register = () => {
                         name="username"
                         value={username}
                         onChange={onChangeUsername}
-                        validations={[required, vusername]}
+                        // validations={[required, vusername]}
                       />
                     </div>
 
@@ -129,7 +129,7 @@ const Register = () => {
                         name="email"
                         value={email}
                         onChange={onChangeEmail}
-                        validations={[required, validEmail]}
+                        // validations={[required, validEmail]}
                       />
                     </div>
 
@@ -141,7 +141,7 @@ const Register = () => {
                         name="password"
                         value={password}
                         onChange={onChangePassword}
-                        validations={[required, vpassword]}
+                        // validations={[required, vpassword]}
                       />
                     </div>
 

@@ -50,7 +50,7 @@ class Institutions extends Component {
   }
 
   handleDeleteInstitution = async() => {
-    const urlRequest = `http://localhost:4000/institutions/${this.state.modalData.rut}`;
+    const urlRequest = `http://localhost:4000/institutions/${this.state.dataModal.rut}`;
     const requestOptions = {
       method: "DELETE",
     };
@@ -117,7 +117,7 @@ class Institutions extends Component {
           <InstitutionModal 
             modalIsOpen={this.state.modalIsOpen} 
             onClose={this.handleModal} 
-            dataModal={this.state.modalData}
+            dataModal={this.state.dataModal}
             deleteInstitution={this.handleDeleteInstitution}
           />
         </Main>

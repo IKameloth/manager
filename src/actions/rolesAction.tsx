@@ -1,7 +1,7 @@
 import { GET_USER_DATA, ASSIGN_ROLE, REMOVE_ROLE } from "../types/rolesType";
-import { LOADING, ERROR, CLEANER } from "../types/commonType";
+import { LOADING, ERROR, CLEANER, UPDATE } from "../types/commonType";
 
-export const getUserDataAction = (userID) => async(dispatch) => {
+export const getUserDataAction = (userID:string) => async(dispatch:any) => {
   dispatch({
     type: LOADING
   });
@@ -26,7 +26,7 @@ export const getUserDataAction = (userID) => async(dispatch) => {
   };
 };
 
-export const asignRoleAction = (data) => async(dispatch) => {
+export const asignRoleAction = (data:any) => async(dispatch:any) => {
   dispatch({
     type: LOADING
   });
@@ -54,7 +54,7 @@ export const asignRoleAction = (data) => async(dispatch) => {
   };
 };
 
-export const removeRoleAction = (roleObj) => async(dispatch) => {
+export const removeRoleAction = (roleObj:any) => async(dispatch:any) => {
   dispatch({
     type: LOADING
   });
@@ -80,8 +80,14 @@ export const removeRoleAction = (roleObj) => async(dispatch) => {
   };
 };
 
-export const cleanerRolesAction = () => (dispatch) => {
+export const cleanerRolesAction = () => (dispatch:any) => {
   dispatch({
     type: CLEANER
+  });
+};
+
+export const updateRolesAction = () => (dispatch:any) => {
+  dispatch({
+    type: UPDATE
   });
 };
