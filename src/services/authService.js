@@ -26,9 +26,11 @@ export const register = async(rut, email, name, country, password) => {
 const login = async(rut, password, country) => {
   let err = new Error();
   const user = {
-    rut: rut,
-    password: password,
-    country: country,    
+    user: {
+      rut: rut,
+      password: password,
+      country: country,    
+    }
   };
 
   const requestOptions = {
@@ -40,6 +42,7 @@ const login = async(rut, password, country) => {
   };
 
   const response = await fetch(API_URL + "/login", requestOptions);
+  const accessToken = response.headers.get("authorization");
   const data = await response.json();
   const status = await response.status;
 
@@ -49,16 +52,18 @@ const login = async(rut, password, country) => {
     throw err;
   }
 
-  if (data.accessToken) {
-    console.log(data.accessToken);
+  if (accessToken) {
+    console.log(accessToken);
     localStorage.setItem("user", JSON.stringify(data));
+    localStorage.setItem("accessToken", accessToken);
   };
 
-  return data;
+  return {data: data, accessToken: accessToken};
 };
 
 const logout = () => {
   localStorage.removeItem("user");
+  localStorage.removeItem("accessToken");
 };
 
 export default {

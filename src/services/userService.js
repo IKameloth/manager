@@ -10,7 +10,6 @@ export const getUsersBoard = async() => {
       "Authorization": authHeader()
     }
   };
-
   const response = await fetch(API_URL + "users", requestOptions);
   const result = await response.json();
   return result;
