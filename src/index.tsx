@@ -1,28 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ThemeProvider } from "styled-components";
-import GlobalStyle from "./assets/theme/globalStyles";
-import Theme from "./assets/theme/theme";
-import App from "./components/app/App";
-
-import { createStore, compose, applyMiddleware } from "redux";
+import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
-import reducers from "./reducers";
 import reduxThunk from "redux-thunk";
+import { createStore, applyMiddleware } from "redux";
+
+import { composeWithDevTools } from "redux-devtools-extension";
+import { rootReducer } from "./app/store";
+import App from "./app/App";
 
 const container = document.getElementById('root');
-const composeEnhancers = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] as typeof compose || compose;
-const store = createStore(
-  reducers, // all reducers
-  {}, // init state
-  composeEnhancers(applyMiddleware(reduxThunk)) // debug
-);
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(reduxThunk)));
 
 ReactDOM.render(
-  <ThemeProvider theme={Theme}>
-    <GlobalStyle />
-      <Provider store={store}>
-        <App />
-      </Provider>
-  </ThemeProvider>, container
+  <Provider store={store}>
+    <Router>
+      <App />
+    </Router>
+  </Provider>, container
 );
