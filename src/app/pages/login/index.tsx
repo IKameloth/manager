@@ -15,7 +15,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [country, setCountry] = useState("");
 
-  const handleOnSubmit = (dni: string, password: string, countryName: string) => {
+  const handleOnSubmit = (e:any, dni: string, password: string, countryName: string) => {
+    e.preventDefault();
     if (dni.trim().length !== 0 && password.trim().length !== 0 && countryName?.trim().length !== 0) {
       dispatch(loginRequest(dni, country, password));
     } else {
@@ -82,7 +83,7 @@ const Login = () => {
             </div>
 
             <div className="field">
-              <button type="submit" onClick={() => handleOnSubmit(dni, password, country)} className="button is-link">Ingresar</button>
+              <button type="submit" onClick={(e) => handleOnSubmit(e, dni, password, country)} className="button is-link">Ingresar</button>
             </div>
           </div>
 
