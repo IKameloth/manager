@@ -1,7 +1,15 @@
 import React, {Component} from "react";
 import { RadioButtons } from "../../assets/styled/institution";
 
-class InstitutionForm extends Component {
+type InstitutionFormProps = {
+  formValues: any,
+  onSubmit: any,
+  onChange: any,
+  error: any,
+  isEditing: boolean
+}
+
+class InstitutionForm extends Component <InstitutionFormProps, {}>{
   render() {
     const flagChecked =  this.props.formValues.flag;
     const statusChecked =  this.props.formValues.status;

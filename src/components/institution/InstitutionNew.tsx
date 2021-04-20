@@ -5,7 +5,11 @@ import {Main, MainHeader} from "../../assets/styled/content";
 import InstitutionForm from "./InstituionForm";
 import {Link} from "react-router-dom";
 
-class InstitutionNew extends Component {
+type InstitutionNewProps = {
+  history: any
+}
+
+class InstitutionNew extends Component<InstitutionNewProps,{}> {
   state = {
     loading: false,
     error: null,
@@ -21,7 +25,7 @@ class InstitutionNew extends Component {
     },
   };
   
-  handleChange = (e) => {
+  handleChange = (e: any) => {
     this.setState({
       form: {
         ...this.state.form,
@@ -42,7 +46,7 @@ class InstitutionNew extends Component {
 
     try {
       fetch("http://localhost:4000/institutions", requestOptions)
-        .then(async response => {
+        .then(async (response:any) => {
           const data = await response.json();
 
           if(data.errors) {
@@ -69,7 +73,7 @@ class InstitutionNew extends Component {
     }
   };
 
-  handleSubmit = async(e) => {
+  handleSubmit = async(e: any) => {
     e.preventDefault();
     this.fetchPostData();
   };
@@ -125,6 +129,7 @@ class InstitutionNew extends Component {
                   onChange={this.handleChange}
                   onSubmit={this.handleSubmit}
                   formValues={this.state.form}
+                  isEditing={false}
                   error={this.state.error} 
                 />
               </div>

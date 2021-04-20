@@ -1,7 +1,7 @@
 import React from "react";
 import { NProgress } from '@tanem/react-nprogress' 
 
-const Container = ({ children, isFinished, animationDuration }) => (
+const Container = ({ children, isFinished, animationDuration }: any) => (
   <div
     style={{
       opacity: isFinished ? 0 : 1,
@@ -13,7 +13,7 @@ const Container = ({ children, isFinished, animationDuration }) => (
   </div>
 )
 
-const Bar = ({ progress, animationDuration }) => (
+const Bar = ({ progress, animationDuration }: any) => (
   <div
     style={{
       background: '#29d',

@@ -1,7 +1,7 @@
 import React from "react";
 import { ContentError } from "../../../assets/styled/error";
 
-const Error = (props) => {
+const Error = (props: any) => {
   return(
     <React.Fragment>
       <ContentError className="columns is-centered">

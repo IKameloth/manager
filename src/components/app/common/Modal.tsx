@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from "react-dom";
+// @ts-ignore
 import Rodal from 'rodal';
 import 'rodal/lib/rodal.css';
 import { ModalContent } from "../../../assets/styled/modal";
  
-const ModalOPE = (props) => {
+const ModalOPE = (props: any) => {
+  const modalElement = document.getElementById("modal");
+  if(!modalElement)
+    return null
   return ReactDOM.createPortal(
     <div>
       <Rodal 
@@ -24,7 +28,7 @@ const ModalOPE = (props) => {
         </ModalContent>
       </Rodal>
     </div>,
-    document.getElementById("modal")
+    modalElement
   );
 };
 

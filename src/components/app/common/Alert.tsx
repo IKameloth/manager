@@ -3,17 +3,17 @@ import { connect } from "react-redux";
 import * as alertAction from "../../../actions/alertAction";
 import { Notification } from "../../../assets/styled/alert";
 
-const Alert = (props) => {
+const Alert = (props: any) => {
   const { alerts } = props;
 
-  const onClickClose = (id) => {
+  const onClickClose = (id: string) => {
     props.removeAlert(id);
   };
 
   if (alerts !== null && alerts?.length > 0) {
     let alertList;
     
-    alertList = alerts.map((alert) => {
+    alertList = alerts.map((alert: any) => {
       return(
         <Notification key={alert.id}>
           <div className={`show notification is-${alert.alertType} is-light`}>
@@ -30,8 +30,8 @@ const Alert = (props) => {
   };
 };
 
-const mapStateToProps = ({ alertsReducer }) => ({
-  alerts: alertsReducer
+const mapStateToProps = (state: any) => ({
+  alerts: state.alertsReducer
 });
 
 export default connect(mapStateToProps, alertAction)(Alert);

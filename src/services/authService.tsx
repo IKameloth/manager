@@ -1,6 +1,6 @@
 const API_URL = "http://localhost:4000"
 
-export const register = async(rut:string, email:string, name:string, country:string, password:string) => {
+const register = async(rut:string, email:string, name:string, country:string, password:string) => {
   const user = {
     rut: rut,
     email: email,
@@ -63,6 +63,7 @@ const logout = () => {
 };
 
 export default {
+  register,
   login,
   logout
 };

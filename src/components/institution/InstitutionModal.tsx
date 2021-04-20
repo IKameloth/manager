@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "../app/common/Modal";
 import { ModalCardFoot } from "../../assets/styled/modal";
 
-const InstitutionModal = (props) => {
+const InstitutionModal = (props: any) => {
   if (props.dataModal) {
     const {name, country, rut} = props.dataModal;
     return (

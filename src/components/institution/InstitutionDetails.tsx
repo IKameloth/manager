@@ -5,7 +5,13 @@ import {Main, MainHeader} from "../../assets/styled/content";
 import InstitutionForm from "./InstituionForm";
 import {Link} from "react-router-dom";
 
-class InstitutionDetails extends Component {
+type InstitutionDetailsProps = {
+  history: any,
+  match: any
+}
+
+
+class InstitutionDetails extends Component<InstitutionDetailsProps,{}> {
   state = {
     loading: false,
     error: null,
@@ -22,7 +28,7 @@ class InstitutionDetails extends Component {
     btnEdit: false,
   };
 
-  handleChange = (e) => {
+  handleChange = (e: any) => {
     this.setState({
       form: {
         ...this.state.form,
@@ -69,7 +75,7 @@ class InstitutionDetails extends Component {
     }
   };
 
-  handleEditInstitution = async(e) => {
+  handleEditInstitution = async(e: any) => {
     e.preventDefault();
     this.fetchEditInstitution();
   };

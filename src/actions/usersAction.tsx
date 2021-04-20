@@ -1,7 +1,7 @@
 import { GET_USERS, POST_ROLE_USER } from "../types/usersType";
 import { LOADING, ERROR, CLEANER } from "../types/commonType";
 
-export const getUsersAction = () => async(dispatch) => {
+export const getUsersAction = () => async(dispatch: any) => {
   dispatch({
     type: LOADING
   });
@@ -10,8 +10,8 @@ export const getUsersAction = () => async(dispatch) => {
     const url = "http://localhost:4000/users";
     const response = await fetch(url);
     const data = await response.json();
-    const dataResult = [];
-    data.data.map((attr) => dataResult.push(attr.attributes));
+    const dataResult:any = [];
+    data.data.map((attr: any) => dataResult.push(attr.attributes));
 
     dispatch({
       type: GET_USERS,
@@ -26,7 +26,7 @@ export const getUsersAction = () => async(dispatch) => {
   }
 };
 
-export const registerRoleAction = (data) => async(dispatch, getState) => {
+export const registerRoleAction = (data: any) => async(dispatch: any) => {
   dispatch({
     type: LOADING
   });
@@ -54,7 +54,7 @@ export const registerRoleAction = (data) => async(dispatch, getState) => {
   };
 };
 
-export const cleanerUsersAction = () => (dispatch) => {
+export const cleanerUsersAction = () => (dispatch: any) => {
   dispatch({
     type: CLEANER
   });

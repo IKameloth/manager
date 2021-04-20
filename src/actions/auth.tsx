@@ -3,7 +3,7 @@ import { SET_ALERT } from "../types/alertsType";
 import { setAlert } from "./alertAction";
 import AuthService from "../services/authService";
 
-export const register = (rut, email, name, country, password) => (dispatch) => {
+export const register = (rut: string, email: string, name: string, country: string, password: string) => (dispatch: any) => {
   return AuthService.register(rut, email, name, country, password).then(
     (response) => {
       dispatch({
@@ -34,7 +34,7 @@ export const register = (rut, email, name, country, password) => (dispatch) => {
   );
 };
 
-export const login = (rut, password, country) => (dispatch) => {
+export const login = (rut: string, password: string, country: string) => (dispatch: any) => {
   return AuthService.login(rut, password, country).then(
     (data) => {
       dispatch({
@@ -64,7 +64,7 @@ export const login = (rut, password, country) => (dispatch) => {
   );
 };
 
-export const logout = () => (dispatch) => {
+export const logout = () => (dispatch: any) => {
   AuthService.logout();
 
   dispatch({
