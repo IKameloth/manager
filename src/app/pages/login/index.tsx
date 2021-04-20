@@ -1,18 +1,26 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-
-import { useSelector } from "react-redux";
-import { StoreState } from "../../store";
-
+import React, { useState } from "react";
 import { LoginStyled, LogoImage, LoginImage } from "../../../assets/theme/login";
+import { useSelector, useDispatch } from "react-redux";
+import { StoreState } from "../../store";
+import { loginRequest } from "../../store/common/operations";
+import SuperModal from "../../components/SuperModal";
 
 const Login = () => {
-  const { isLoading } = useSelector((state: StoreState) => state.common);
-
-  const history = useHistory();
+  const countries = ["CHILE", "ECUADOR", "COLOMBIA", "RDOMINICANA"];
+  const dispatch = useDispatch();
+  const { common } = useSelector((state: StoreState) => state);
+  const { errorMessage } = common;
   
-  const onFinish = () => {
-    history.push("/");
+  const [dni, setDni] = useState("");
+  const [password, setPassword] = useState("");
+  const [country, setCountry] = useState("");
+
+  const handleOnSubmit = (dni: string, password: string, countryName: string) => {
+    if (dni.trim().length !== 0 && password.trim().length !== 0 && countryName?.trim().length !== 0) {
+      dispatch(loginRequest(dni, country, password));
+    } else {
+      alert("Favor rellenar todos los campos");
+    };
   };
 
   return(
@@ -30,6 +38,8 @@ const Login = () => {
                   type="text" 
                   placeholder="Ingresar DNI o Rut" 
                   required={true}
+                  value={dni}
+                  onChange={({ target: {value} }) => setDni(value) }
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-fingerprint"></i>
@@ -45,6 +55,8 @@ const Login = () => {
                   type="password" 
                   placeholder="Ingresar contraseña" 
                   required={true}
+                  value={password}
+                  onChange={({ target: {value} }) => setPassword(value) }
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-key"></i>
@@ -56,12 +68,12 @@ const Login = () => {
               <label className="label">País</label>
               <div className="control has-icons-left has-icons-right">
                 <div className="select is-primary is-fullwidth">
-                  <select >
-                    <option>Seleccionar</option>
-                    <option>Chile</option>
-                    <option>Chile</option>
-                    <option>Chile</option>
-                  </select>
+                <select onChange={({target: {value}}) => setCountry(value)}>
+                  <option>Seleccionar</option>
+                  {countries.map((name) => {
+                    return <option value={name} key={name}>{name}</option>
+                  })}
+                </select>
                 </div>
                 <span className="icon is-small is-left">
                   <i className="far fa-flag"></i>
@@ -70,10 +82,12 @@ const Login = () => {
             </div>
 
             <div className="field">
-              <button type="button" className="button is-link">Ingresar</button>
+              <button type="submit" onClick={() => handleOnSubmit(dni, password, country)} className="button is-link">Ingresar</button>
             </div>
           </div>
+
           {/* <Forgot href="/">¿Olvido su contraseña?</Forgot> */}
+
           <br></br>
           <div className="field">
             <span>Copyright 2020</span><br></br>
@@ -82,8 +96,8 @@ const Login = () => {
         </div>
       </form>
       <LoginImage/>
+      <SuperModal open={ !!errorMessage } message={ errorMessage } />
     </LoginStyled>
-
   );
 };
 

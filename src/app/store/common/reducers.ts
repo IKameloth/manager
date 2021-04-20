@@ -3,6 +3,7 @@ import { CommonState as State, CommonTypes as Types, CommonActions as Actions } 
 const INITIAL_STATE: State = {
   isLoading: false,
   errorMessage: "",
+  isLoggedIn: false,
 };
 
 export const commonReducer = (state: State = INITIAL_STATE, action: Actions) => {
@@ -13,6 +14,8 @@ export const commonReducer = (state: State = INITIAL_STATE, action: Actions) => 
       return { ...state, isLoading: false }
     case Types.SET_ERROR_MESSAGE:
       return { ...state, errorMessage: action.payload }
+    case Types.LOGOUT:
+      return { ...state, isLoggedIn: false }
     default:
       return state;
   };
