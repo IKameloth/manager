@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { unsetIsLoading, cleanErrorMessage } from "../store/common";
+import { ModalStyled } from "../../assets/theme/modal";
+import SvgWarningImage from "../../assets/images/SvgWarningImage";
+
 
 type Props = {
   open: boolean,
@@ -17,27 +20,31 @@ const SuperModal = (props: Props) => {
   }, [open]);
 
   const handleModalClose = () => {
-    console.log("close modal")
     setVisible(false);
     dispatch(cleanErrorMessage());
     dispatch(unsetIsLoading());
   };
 
   return (
-    <div className={`modal ${visible ? "is-active" : ""}`}>
+    <ModalStyled className={`modal ${visible ? "is-active" : ""}`}>
       <div className="modal-card">
         <header className="modal-card-head">
-          <p className="modal-card-title">Modal title</p>
-          <button className="delete" aria-label="close"></button>
+          <p className="modal-card-title"></p>
+          <button onClick={handleModalClose} className="delete" aria-label="close"></button>
         </header>
         <section className="modal-card-body">
-          { message }
+          <div className="fields">
+            <div className="field">
+              <SvgWarningImage />
+            </div>
+            <div className="field">
+              { message }
+            </div>
+          </div>
         </section>
-        <footer className="modal-card-foot">
-          <button onClick={handleModalClose} className="modal-close is-large" aria-label="close">Cancel</button>
-        </footer>
+        <footer className="modal-card-foot"></footer>
       </div>
-    </div>
+    </ModalStyled>
   );
 };
 

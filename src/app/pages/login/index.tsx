@@ -4,8 +4,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { StoreState } from "../../store";
 import { loginRequest } from "../../store/common/operations";
 import SuperModal from "../../components/SuperModal";
+import AuthServices from "../../../config/authServices";
+import { Redirect } from "react-router";
+
+import Modal from "../../components/Modal";
 
 const Login = () => {
+  const authServices = new AuthServices();
   const countries = ["CHILE", "ECUADOR", "COLOMBIA", "RDOMINICANA"];
   const dispatch = useDispatch();
   const { common } = useSelector((state: StoreState) => state);
@@ -21,6 +26,10 @@ const Login = () => {
     } else {
       alert("Favor rellenar todos los campos");
     };
+  };
+
+  if (authServices.isAuthenticated()) {
+    return <Redirect to="/home" />;
   };
 
   return(
@@ -82,7 +91,7 @@ const Login = () => {
             </div>
 
             <div className="field">
-              <button type="submit" onClick={() => handleOnSubmit(dni, password, country)} className="button is-link">Ingresar</button>
+              <button type="submit" onClick={(e) => {e.preventDefault(); handleOnSubmit(dni, password, country)}} className="button is-link">Ingresar</button>
             </div>
           </div>
 
@@ -95,8 +104,8 @@ const Login = () => {
           </div>
         </div>
       </form>
+      <Modal isShown={!!errorMessage} modalContent={errorMessage} headerText={"Titulo"} />
       <LoginImage/>
-      <SuperModal open={ !!errorMessage } message={ errorMessage } />
     </LoginStyled>
   );
 };

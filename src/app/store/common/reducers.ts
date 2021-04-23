@@ -4,6 +4,7 @@ const INITIAL_STATE: State = {
   isLoading: false,
   errorMessage: "",
   isLoggedIn: false,
+  profile: {},
 };
 
 export const commonReducer = (state: State = INITIAL_STATE, action: Actions) => {
@@ -15,7 +16,9 @@ export const commonReducer = (state: State = INITIAL_STATE, action: Actions) => 
     case Types.SET_ERROR_MESSAGE:
       return { ...state, errorMessage: action.payload }
     case Types.LOGOUT:
-      return { ...state, isLoggedIn: false }
+      return { ...state, isLoggedIn: false, profile: {} }
+    case Types.SET_PROFILE_DATA:
+      return { ...state, profile: action.payload, isLoggedIn: true }
     default:
       return state;
   };

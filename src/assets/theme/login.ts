@@ -2,7 +2,6 @@ import styled, {keyframes} from "styled-components"
 import BackgroundImage from "../images/img-login.svg"
 import LogoAutentia from "../images/autentia-logo.svg"
 
-
 const fadeIn = keyframes`
   0% {
     opacity: 0;
@@ -28,7 +27,7 @@ export const LoginStyled = styled.main`
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    width: 30%;
+    width: 35%;
   }
 
   .content {
@@ -47,22 +46,22 @@ export const LoginStyled = styled.main`
   }
 
   /* TABLET */
-  @media screen and (min-width: 768px) and (max-width: 1023px) {
+  @media screen and (min-width: 769px) and (max-width: 1023px) {
     left: 0;
     top: 0;
     position: absolute;
-    width: 100vw;
+    width: 100%;
 
     .form {
       justify-content: center;
       text-align: center;
-      height: 100vh;
-      width: 50vw;
+      height: 100%;
+      width: 50%;
     }
 
     .content {
       padding-top: 25px;
-      height: 100vh;
+      height: 100%;
 
       h1 {
         font-size: 2rem;
@@ -75,19 +74,19 @@ export const LoginStyled = styled.main`
   }
 
   /* SMARTPHONE */
-  @media screen and (max-width: 767px) {
+  @media screen and (max-width: 768px) {
     position: absolute;
-    width: 100vw;
+    width: 100%;
 
     .form {
       justify-content: center;
       text-align: center;
-      width: 100vw;
+      width: 100%;
     }
 
     .content {
       padding-top: 25px;
-      height: 100vh;
+      height: 100%;
       z-index: 2;
 
       h1 {
@@ -113,12 +112,12 @@ export const LoginImage = styled.img.attrs(props => ({
   alt: "Login Image",
 }))`
   @media screen and (min-width: 1024px) {
-    width: 100vw;
+    width: 100%;
     align-self: center;
   }
 
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    width: 100vw;
+    width: 100%;
     height: auto;
     position: absolute;
     top: 30%;
@@ -127,8 +126,8 @@ export const LoginImage = styled.img.attrs(props => ({
 
   @media screen and (max-width: 767px) {
     position: absolute;
-    top: 30%;
-    width: 100vw;
+    top: 50%;
+    width: 100%;
     z-index: 1;
   }
 `;
