@@ -24,7 +24,6 @@ export default function App() {
     <React.Suspense fallback={null}>
       <Switch location={location} key={key}>
         <Route exact path="/" render={() => <Home />} />
-        <Route exact path="/home" render={() => <Home />} />
         <Route exact path="/login" render={() => <Login />} />
       </Switch>
     </React.Suspense>

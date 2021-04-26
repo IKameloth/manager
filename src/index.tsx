@@ -8,6 +8,7 @@ import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { rootReducer } from "./app/store";
 import App from "./app/App";
+import GlobalStyle from './assets/theme/global';
 
 const container = document.getElementById('root');
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(reduxThunk)));
@@ -15,6 +16,7 @@ const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(redux
 ReactDOM.render(
   <Provider store={store}>
     <Router>
+      <GlobalStyle />
       <App />
     </Router>
   </Provider>, container
