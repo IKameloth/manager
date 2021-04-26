@@ -1,10 +1,15 @@
 import { CommonState as State, CommonTypes as Types, CommonActions as Actions } from "./";
+import AuthService from "../../../config/authServices";
+
+const authServices = new AuthService();
+const isLoogedIn = authServices.isAuthenticated();
+const profile = authServices.getUserInfo();
 
 const INITIAL_STATE: State = {
   isLoading: false,
   errorMessage: "",
-  isLoggedIn: false,
-  profile: {},
+  isLoggedIn: isLoogedIn,
+  profile: profile,
 };
 
 export const commonReducer = (state: State = INITIAL_STATE, action: Actions) => {
@@ -17,8 +22,6 @@ export const commonReducer = (state: State = INITIAL_STATE, action: Actions) => 
       return { ...state, errorMessage: action.payload }
     case Types.LOGOUT:
       return { ...state, isLoggedIn: false, profile: {} }
-    case Types.SET_PROFILE_DATA:
-      return { ...state, profile: action.payload, isLoggedIn: true }
     default:
       return state;
   };

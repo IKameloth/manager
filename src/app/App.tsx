@@ -13,6 +13,7 @@ export default function App() {
     if(pathname !== location.pathname) {
       setKey(Math.random());
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   useEffect(() => {

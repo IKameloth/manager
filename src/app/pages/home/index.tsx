@@ -3,14 +3,14 @@ import { useSelector } from "react-redux";
 import { StoreState } from "../../store";
 import { logout } from "../../store/common/operations";
 import { useDispatch } from "react-redux";
-import AuthServices from "../../../config/authServices";
 import { Redirect } from "react-router-dom";
 
 const Home = () => {
-  const authServices = new AuthServices();
   const { common } = useSelector( (state: StoreState) => state );
-  // profile deberia tener la data en su estado but no :'v
-  const { profile } = common;
+  const { profile, isLoggedIn } = common;
+  
+  console.log("is logged in: ", isLoggedIn);
+  console.log("user info: ", profile);
 
   const dispatch = useDispatch();
 
@@ -18,7 +18,7 @@ const Home = () => {
     dispatch(logout());
   };
 
-  if (!authServices.isAuthenticated()) {
+  if (!isLoggedIn) {
     return <Redirect to="/login" />;
   }
 
@@ -33,7 +33,7 @@ const Home = () => {
         <div className="column">
           <div className="field">
             <h4>Data</h4>
-            <p>{}</p>
+            <p>{profile.email}</p>
           </div>
           <div>
             <button onClick={(e) => {e.preventDefault(); handleLogout()}} className="button is-link">Logout</button>

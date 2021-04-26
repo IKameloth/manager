@@ -9,8 +9,4 @@ export interface SetErrorMessageAction extends Action<Type.SET_ERROR_MESSAGE> {
   payload: string
 };
 
-export interface SetProfileData extends Action<Type.SET_PROFILE_DATA> {
-  payload: object
-};
-
-export type CommonActions = SetIsLoadingAction | UnsetIsLoadingAction |SetErrorMessageAction | Logout | SetProfileData;
+export type CommonActions = SetIsLoadingAction | UnsetIsLoadingAction |SetErrorMessageAction | Logout;

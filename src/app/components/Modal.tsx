@@ -4,11 +4,12 @@ import { useDispatch } from "react-redux";
 import { unsetIsLoading, cleanErrorMessage } from "../store/common";
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
+import SvgWarningImage from "../../assets/images/SvgWarningImage";
 
 export interface ModalProps {
   isShown: boolean;
+  typeModal: "ERROR" | "NOTIFICATION";
   modalContent: string;
-  headerText: string;
 };
 
 const listVariants = {
@@ -47,6 +48,7 @@ export const ModalStyled = styled(motion.div).attrs(() => ({
     background-color: #fff;
     text-align: center;
     border-bottom: none;
+    justify-content: flex-end;
   }
 
   .modal-card-foot {
@@ -66,8 +68,8 @@ export const ModalStyled = styled(motion.div).attrs(() => ({
 
 const Modal: FunctionComponent<ModalProps> = ({
   isShown,
+  typeModal,
   modalContent,
-  headerText
 }) => {
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
@@ -78,29 +80,30 @@ const Modal: FunctionComponent<ModalProps> = ({
 
   const handleModalClose = () => {
     setVisible(false);
-    dispatch(cleanErrorMessage());
+    typeModal === "ERROR" && dispatch(cleanErrorMessage());
     dispatch(unsetIsLoading());
   };
 
   const modalElement = document.getElementById("modal");
-  if(!modalElement) return <></>
+  if(!modalElement) return <></>;
 
   return (
     <>
       { visible && (
           ReactDOM.createPortal(
             <AnimatePresence>
-              <ModalStyled 
-                animate={visible ? "visible" : "hidden"}
-                className="modal is-active"
-              >
+              <ModalStyled animate={visible ? "visible" : "hidden"} className="modal is-active">
                 <div className="modal-card">
                   <header className="modal-card-head">
-                    <p className="modal-card-title">{headerText}</p>
                     <button onClick={handleModalClose} className="delete" aria-label="close"></button>
                   </header>
                   <section className="modal-card-body">
-                    {modalContent}
+                    <div className="field">
+                      { typeModal === "ERROR" && <SvgWarningImage />}
+                    </div>
+                    <div className="field">
+                      {modalContent}
+                    </div>
                   </section>
                   <footer className="modal-card-foot"></footer>
                 </div>
@@ -109,7 +112,7 @@ const Modal: FunctionComponent<ModalProps> = ({
             modalElement
           )
         )
-      };
+      }
     </>
   );
 };

@@ -43,7 +43,8 @@ export const loginRequest = (userDni: string, country: string, password: string)
 
     try {
       const response = await $Services.sendLoginRequest(password, userDni, country);
-      dispatch({ type: Type.SET_PROFILE_DATA, payload: response });
+      console.log(response);
+      window.location.href = "/"; // response deberia traer la url
     } catch (err) {
       dispatch({ type: Type.SET_ERROR_MESSAGE, payload: err.message });
     };

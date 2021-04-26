@@ -15,18 +15,10 @@ export default class AuthService {
 
   getUserInfo = () => {
     const userData = localStorage.getItem("user");
-    const token = localStorage.getItem("access_token");
-
-    info = {
-      user: userData,
-      access_token: token
-    };
-
-    return info;
+    return JSON.parse(userData);
   };
 
   signoutRedirectCallback = () => {
-    console.log("SignOut");
     localStorage.clear();
     window.location.replace("/");
   };

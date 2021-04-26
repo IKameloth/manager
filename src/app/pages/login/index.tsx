@@ -3,18 +3,16 @@ import { LoginStyled, LogoImage, LoginImage } from "../../../assets/theme/login"
 import { useSelector, useDispatch } from "react-redux";
 import { StoreState } from "../../store";
 import { loginRequest } from "../../store/common/operations";
-import SuperModal from "../../components/SuperModal";
-import AuthServices from "../../../config/authServices";
 import { Redirect } from "react-router";
 
 import Modal from "../../components/Modal";
 
 const Login = () => {
-  const authServices = new AuthServices();
   const countries = ["CHILE", "ECUADOR", "COLOMBIA", "RDOMINICANA"];
+
   const dispatch = useDispatch();
   const { common } = useSelector((state: StoreState) => state);
-  const { errorMessage } = common;
+  const { errorMessage, isLoggedIn } = common;
   
   const [dni, setDni] = useState("");
   const [password, setPassword] = useState("");
@@ -29,8 +27,8 @@ const Login = () => {
     };
   };
 
-  if (authServices.isAuthenticated()) {
-    return <Redirect to="/home" />;
+  if (isLoggedIn) {
+    return <Redirect to="/" />;
   };
 
   return(
@@ -105,7 +103,7 @@ const Login = () => {
           </div>
         </div>
       </form>
-      <Modal isShown={!!errorMessage} modalContent={errorMessage} headerText={"Titulo"} />
+      <Modal isShown={!!errorMessage} modalContent={errorMessage} typeModal="ERROR"/>
       <LoginImage/>
     </LoginStyled>
   );
