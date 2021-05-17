@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { StoreState } from "../../store";
 import { loginRequest } from "../../store/common/operations";
 import { Redirect } from "react-router";
+import { useToasts } from "react-toast-notifications";
 
 import Modal from "../../components/Modal";
 
@@ -13,6 +14,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const { common } = useSelector((state: StoreState) => state);
   const { errorMessage, isLoggedIn } = common;
+  const { addToast } = useToasts();
   
   const [dni, setDni] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +25,8 @@ const Login = () => {
     if (dni.trim().length !== 0 && password.trim().length !== 0 && countryName?.trim().length !== 0) {
       dispatch(loginRequest(dni, country, password));
     } else {
-      alert("Favor rellenar todos los campos");
+      let message = "Favor rellenar todos los campos";
+      addToast(message, { appearance: 'warning', autoDismiss: true });
     };
   };
 

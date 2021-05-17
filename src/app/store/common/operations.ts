@@ -42,9 +42,8 @@ export const loginRequest = (userDni: string, country: string, password: string)
     dispatch({ type: Type.SET_IS_LOADING });
 
     try {
-      const response = await $Services.sendLoginRequest(password, userDni, country);
-      console.log(response);
-      window.location.href = "/"; // response deberia traer la url
+      await $Services.sendLoginRequest(password, userDni, country);
+      window.location.href = "/";
     } catch (err) {
       dispatch({ type: Type.SET_ERROR_MESSAGE, payload: err.message });
     };

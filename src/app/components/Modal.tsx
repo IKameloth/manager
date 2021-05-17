@@ -21,18 +21,24 @@ const listVariants = {
       staggerChildren: 0.3
     }
   },
-  hidden: {
+
+  init: {
+    x: "3rem",
     opacity: 0,
-    x: "2vw",
-    transition: {
-      when: "afterChildren",
-      delay: 5
-    }
+  },
+
+  hidden: {
+    x: "5rem",
+    opacity: 0,
   }
 };
 
+export const DivStyled = styled(motion.div).attrs(() => ({
+  variants: listVariants
+}))``;
+
 export const ModalStyled = styled(motion.div).attrs(() => ({
-  initial: "hidden",
+  initial: "init",
   variants: listVariants
 }))`
   .modal-card {
@@ -72,15 +78,20 @@ const Modal: FunctionComponent<ModalProps> = ({
   modalContent,
 }) => {
   const [visible, setVisible] = useState(false);
+  const [active, setActive] = useState(false);
   const dispatch = useDispatch();
 
   useEffect( () => {
     isShown && setVisible(true);
+    isShown && setActive(true);
   }, [isShown]);
 
   const handleModalClose = () => {
-    setVisible(false);
     typeModal === "ERROR" && dispatch(cleanErrorMessage());
+    setActive(false);
+    setTimeout(() => {
+      setVisible(false);
+    }, 500)
     dispatch(unsetIsLoading());
   };
 
@@ -92,8 +103,8 @@ const Modal: FunctionComponent<ModalProps> = ({
       { visible && (
           ReactDOM.createPortal(
             <AnimatePresence>
-              <ModalStyled animate={visible ? "visible" : "hidden"} className="modal is-active">
-                <div className="modal-card">
+              <ModalStyled animate={visible && "visible"} className="modal is-active">
+                <DivStyled animate={!active && "hidden"} className="modal-card">
                   <header className="modal-card-head">
                     <button onClick={handleModalClose} className="delete" aria-label="close"></button>
                   </header>
@@ -106,7 +117,7 @@ const Modal: FunctionComponent<ModalProps> = ({
                     </div>
                   </section>
                   <footer className="modal-card-foot"></footer>
-                </div>
+                </DivStyled>
               </ModalStyled>
             </AnimatePresence>,
             modalElement
