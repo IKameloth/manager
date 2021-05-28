@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, FunctionComponent } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/images/autentia-logo.svg";
 import { StyledBurger } from "../../assets/theme/burger";
@@ -6,9 +6,17 @@ import { NavBar, Sidebar } from "../../assets/theme/sidebar";
 import { logout } from "../store/common/operations";
 import { useDispatch } from "react-redux";
 
-const Navigation = () => {
+interface NavProps {
+  profile: any
+}
+
+const Navigation: FunctionComponent<NavProps> = ({
+  profile
+}) => {
   const [isOpen, setOpen] = useState(false);
-  const nameUser = "Camilo Matteo"
+
+  const nameUser = profile.name || 'Unknow';
+  const nameLetters = nameUser.trim().split(' ').reduce((acc: any, el: any) => acc + el.charAt(0).toUpperCase(), "").substring(0, 2)
 
   const dispatch = useDispatch();
 
@@ -89,10 +97,10 @@ const Navigation = () => {
 
         <div>
           <div className="footer-profile">
-            <span className="profile-avatar">CB</span>
+            <span className="profile-avatar">{nameLetters}</span>
             <div>
               <span className="profile-name">{nameUser}</span>
-              <span className="profile-role">Administrador</span>
+              <span className="profile-role">Role</span>
             </div>
             <button 
               type="button" 
