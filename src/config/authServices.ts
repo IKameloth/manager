@@ -8,6 +8,11 @@ export default class AuthService {
     localStorage.setItem("access_token", accessToken);  
   };
 
+  getToken() {
+    const access_token = localStorage.getItem("access_token");
+    return access_token;
+  }
+
   isAuthenticated = () => {
     const access_token = localStorage.getItem("access_token");
     return !!access_token;

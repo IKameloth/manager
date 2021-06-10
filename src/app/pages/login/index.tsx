@@ -5,7 +5,6 @@ import { StoreState } from "../../store";
 import { loginRequest } from "../../store/common/operations";
 import { Redirect } from "react-router";
 import { useToasts } from "react-toast-notifications";
-
 import Modal from "../../components/Modal";
 
 const Login = () => {
@@ -81,7 +80,7 @@ const Login = () => {
                 <div className="select is-primary is-fullwidth">
                 <select onChange={({target: {value}}) => setCountry(value)}>
                   <option>Seleccionar</option>
-                  {countries.map((name) => {
+                  {countries?.map((name) => {
                     return <option value={name} key={name}>{name}</option>
                   })}
                 </select>

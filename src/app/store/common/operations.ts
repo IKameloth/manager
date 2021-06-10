@@ -58,11 +58,27 @@ export const logout = () => {
   };
 };
 
+export const get_institutions = () => {
+  console.log("OPERATION RUN!")
+  return async (dispatch: Dispatch) => {
+    try {
+      let res = await $Services.sendInstitutionsRequest();
+      dispatch({
+        type: Type.LIST_INSTIT,
+        payload: res
+      });
+    } catch (err) {
+      dispatch({ type: Type.SET_ERROR_MESSAGE, payload: err.message });
+    };
+  };
+};
+
 export default {
   setIsLoading,
   unsetIsLoading,
   setErrorMessage,
   cleanErrorMessage,
   loginRequest,
+  get_institutions,
   logout,
 };
