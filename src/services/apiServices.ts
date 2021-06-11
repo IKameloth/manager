@@ -52,18 +52,17 @@ export class ApiServicesProvider {
     };
   };
 
-  // Register
-
   // List user institutions
   public async sendInstitutionsRequest(){
     const token = authServices.getToken();
-    const res = await this.$httpClient.get('institutions/list', { headers: {'Authorization': "token"}});
+    const res = await this.$httpClient.get('institutions/list', { headers: {'Authorization': token}});
     const data = await res.json();
-    console.log("RESP GET INSTIT: ",data);
 
-    if (data.error[0].status === 401) {
-      // user not allowed
+    if (data.error && data.error[0].status === 401) {
+      // user not allowed if token does not exists
       throw new Error('Imposible obtener instituciones.');
+    } else {
+      return data;
     };
   };
 };

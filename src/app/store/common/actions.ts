@@ -10,5 +10,14 @@ export interface ListInstitutions extends Action<Type.LIST_INSTIT>{
 export interface SetErrorMessageAction extends Action<Type.SET_ERROR_MESSAGE> {
   payload: string
 };
+export interface CurrentInstitution extends Action<Type.CURRENT_INSTIT> {
+  payload: any
+};
 
-export type CommonActions = SetIsLoadingAction | UnsetIsLoadingAction |SetErrorMessageAction | Logout | ListInstitutions;
+export type CommonActions = 
+  SetIsLoadingAction | 
+  UnsetIsLoadingAction |
+  SetErrorMessageAction | 
+  Logout | 
+  ListInstitutions |
+  CurrentInstitution;

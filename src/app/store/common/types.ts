@@ -4,7 +4,8 @@ export enum CommonTypes {
   SET_ERROR_MESSAGE = "SET_ERROR_MESSAGE",
   IS_LOGGED_IN = "IS_LOGGED_IN",
   LOGOUT = "LOGOUT",
-  LIST_INSTIT = "LIST_INSTIT"
+  LIST_INSTIT = "LIST_INSTIT",
+  CURRENT_INSTIT = "CURRENT_INSTIT"
 };
 
 export type CommonState = {
@@ -12,5 +13,6 @@ export type CommonState = {
   errorMessage: string;
   isLoggedIn: boolean;
   profile: any;
-  list_institutions: any;
+  listInstitutions: any;
+  currentInstitution: any;
 };

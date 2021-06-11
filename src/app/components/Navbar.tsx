@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { StoreState } from "../store";
 import { useToasts } from "react-toast-notifications";
 import { cleanErrorMessage } from "../store/common";
-import { get_institutions } from "../store/common/operations";
+import { getInstitutions, setCurrentInstitution } from "../store/common/operations";
 
 interface NavProps {
   profile: any,
@@ -20,14 +20,15 @@ const Navigation: FunctionComponent<NavProps> = ({
   const dispatch = useDispatch();
   const { addToast } = useToasts();
   const { common } = useSelector((state: StoreState) => state);
-  const { errorMessage, list_institutions } = common;
+  const { errorMessage, listInstitutions, currentInstitution } = common;
   const [isOpen, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [roleName, setRoleName] = useState('');
 
   useEffect(() => {
-    if (list_institutions.length === 0) {
+    if (listInstitutions.length === 0) {
       console.log("RUN!")
-      dispatch(get_institutions());
+      dispatch(getInstitutions());
     };
   }, []);
 
@@ -46,8 +47,8 @@ const Navigation: FunctionComponent<NavProps> = ({
   });
 
   const handleOnClick = () => {
-    dispatch(get_institutions());
-  }
+    dispatch(getInstitutions());
+  };
 
   const nameUser = profile.name || 'Unknow';
   const nameLetters = nameUser.trim().split(' ').reduce((acc: any, el: any) => acc + el.charAt(0).toUpperCase(), "").substring(0, 2);
@@ -55,6 +56,29 @@ const Navigation: FunctionComponent<NavProps> = ({
   const handleLogout = () => {
     dispatch(logout());
   };
+
+  console.log(listInstitutions);
+
+  const handlerSelectInstitution = (value: string) => {
+    console.log("SELECTED: ", value);
+    const objInstit = listInstitutions?.data.find((ele: any) => ele.attributes.name === value );
+    console.log("OBJ INSTIT:", objInstit);
+    if (objInstit != null || objInstit != undefined) {
+      setRoleName('');
+      dispatch(setCurrentInstitution(objInstit));
+    } else {
+      let message = 'Imposible cargar Rol desde la Institucion';
+      addToast(message, { appearance: 'warning', autoDismiss: true })
+    };
+  };
+
+  console.log("CURRENT_INSTIT:", currentInstitution);
+  useEffect(() => {
+    if (currentInstitution.attributes?.roles?.length > 0) {
+      console.log("Entra");
+      setRoleName(currentInstitution.attributes?.roles[0].name);
+    }
+  });
 
   return (
     <>
@@ -79,7 +103,7 @@ const Navigation: FunctionComponent<NavProps> = ({
         <div className="sidebar-header">
           <h4>Administración de:</h4>
             {
-              list_institutions?.length === 0 ? 
+              listInstitutions?.length === 0 ? 
                 <div className="is-fullwidth">
                   <button style={{marginLeft: 0}} type="button" className="button is-fullwidth" onClick={() => handleOnClick()}>
                     <span className="icon">
@@ -88,10 +112,11 @@ const Navigation: FunctionComponent<NavProps> = ({
                   </button> 
                 </div> :
                 <div className="select" style={{width: "100%"}}>
-                  <select style={{width: "100%"}}>
+                  <select style={{width: "100%"}} onChange={({target: {value}}) => handlerSelectInstitution(value)}>
+                    <option>Seleccionar</option>
                     {
-                      list_institutions?.map(
-                        (name: string) => <option key={name} value={name}>{name}</option>
+                      listInstitutions?.data.map(
+                        (institution: any) => <option key={institution.id} value={institution.attributes.name}>{institution.attributes.name}</option>
                       )
                     }
                   </select>
@@ -145,9 +170,7 @@ const Navigation: FunctionComponent<NavProps> = ({
             <div>
               <span className="profile-name">{nameUser}</span>
               <span className="profile-role">
-                {
-
-                }
+                { roleName.toUpperCase() }
               </span>
             </div>
             <button 

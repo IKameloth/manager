@@ -10,7 +10,8 @@ const INITIAL_STATE: State = {
   errorMessage: "",
   isLoggedIn: isLoogedIn,
   profile: profile,
-  list_institutions: []
+  listInstitutions: [],
+  currentInstitution: {}
 };
 
 export const commonReducer = (state: State = INITIAL_STATE, action: Actions) => {
@@ -22,9 +23,11 @@ export const commonReducer = (state: State = INITIAL_STATE, action: Actions) => 
     case Types.SET_ERROR_MESSAGE:
       return { ...state, errorMessage: action.payload }
     case Types.LIST_INSTIT:
-      return { ...state, list_institutions: action.payload }
+      return { ...state, listInstitutions: action.payload }
+    case Types.CURRENT_INSTIT:
+      return { ...state, currentInstitution: action.payload }
     case Types.LOGOUT:
-      return { ...state, isLoggedIn: false, profile: {}, list_institutions: {} }
+      return { ...state, isLoggedIn: false, profile: {}, list_institutions: [], currentInstitution: {} }
     default:
       return state;
   };

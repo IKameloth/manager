@@ -58,7 +58,7 @@ export const logout = () => {
   };
 };
 
-export const get_institutions = () => {
+export const getInstitutions = () => {
   console.log("OPERATION RUN!")
   return async (dispatch: Dispatch) => {
     try {
@@ -73,12 +73,22 @@ export const get_institutions = () => {
   };
 };
 
+export const setCurrentInstitution = (objInstitution: any) => {
+  console.log("OPERATION: ", objInstitution)
+  return (dispatch: Dispatch<CommonActions>): CommonActions =>
+  dispatch({
+    type: Type.CURRENT_INSTIT,
+    payload: objInstitution
+  });
+};
+
 export default {
   setIsLoading,
   unsetIsLoading,
   setErrorMessage,
   cleanErrorMessage,
   loginRequest,
-  get_institutions,
+  getInstitutions,
   logout,
+  setCurrentInstitution,
 };
