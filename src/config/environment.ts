@@ -3,10 +3,12 @@ const dev = {
 };
 
 const stg = {
+  // por definir
   LOCALHOST: "http://localhost:4000/",
 };
 
 const prod = {
+  // por definir
   LOCALHOST: "http://localhost:4000/",
 };
 
