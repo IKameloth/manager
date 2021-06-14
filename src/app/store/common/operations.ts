@@ -59,7 +59,6 @@ export const logout = () => {
 };
 
 export const getInstitutions = () => {
-  console.log("OPERATION RUN!")
   return async (dispatch: Dispatch) => {
     try {
       let res = await $Services.sendInstitutionsRequest();
@@ -74,7 +73,6 @@ export const getInstitutions = () => {
 };
 
 export const setCurrentInstitution = (objInstitution: any) => {
-  console.log("OPERATION: ", objInstitution)
   return (dispatch: Dispatch<CommonActions>): CommonActions =>
   dispatch({
     type: Type.CURRENT_INSTIT,

@@ -27,23 +27,24 @@ const Navigation: FunctionComponent<NavProps> = ({
 
   useEffect(() => {
     if (listInstitutions.length === 0) {
-      console.log("RUN!")
       dispatch(getInstitutions());
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    console.log(errorMessage);
     errorMessage?.length > 0 && setVisible(true);
   }, [errorMessage]);
 
   useEffect(() => {
-    if (visible) {
-      console.log("VISIBLE",visible)
-      addToast(errorMessage, { appearance: 'warning' });
-      setVisible(false);
-      dispatch(cleanErrorMessage());
-    };
+    function showAlertPop() {
+      if (visible) {
+        addToast(errorMessage, { appearance: 'warning' });
+        setVisible(false);
+        dispatch(cleanErrorMessage());
+      };
+    }
+    showAlertPop();
   });
 
   const handleOnClick = () => {
@@ -57,27 +58,22 @@ const Navigation: FunctionComponent<NavProps> = ({
     dispatch(logout());
   };
 
-  console.log(listInstitutions);
-
   const handlerSelectInstitution = (value: string) => {
-    console.log("SELECTED: ", value);
     const objInstit = listInstitutions?.data.find((ele: any) => ele.attributes.name === value );
-    console.log("OBJ INSTIT:", objInstit);
-    if (objInstit != null || objInstit != undefined) {
+    if (objInstit !== null || objInstit !== undefined) {
       setRoleName('');
       dispatch(setCurrentInstitution(objInstit));
-    } else {
-      let message = 'Imposible cargar Rol desde la Institucion';
-      addToast(message, { appearance: 'warning', autoDismiss: true })
     };
   };
 
-  console.log("CURRENT_INSTIT:", currentInstitution);
   useEffect(() => {
-    if (currentInstitution.attributes?.roles?.length > 0) {
-      console.log("Entra");
-      setRoleName(currentInstitution.attributes?.roles[0].name);
-    }
+    function showRoles() {
+      if (currentInstitution?.attributes?.roles?.length > 0) {
+        setRoleName(currentInstitution.attributes?.roles[0].name);
+      }
+    };
+
+    showRoles();
   });
 
   return (
@@ -169,9 +165,14 @@ const Navigation: FunctionComponent<NavProps> = ({
             <span className="profile-avatar">{nameLetters}</span>
             <div>
               <span className="profile-name">{nameUser}</span>
-              <span className="profile-role">
-                { roleName.toUpperCase() }
-              </span>
+              {
+                roleName?.length > 0 ?
+                  <span className="tag profile-role">
+                    { roleName.toUpperCase() }
+                  </span> :
+                  <span className="profile-role"></span>
+
+              }
             </div>
             <button 
               type="button" 
