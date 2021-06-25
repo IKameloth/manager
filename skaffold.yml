@@ -1,0 +1,26 @@
+---
+apiVersion: skaffold/v2beta5
+kind: Config
+build:
+  artifacts:
+    - image: app
+deploy:
+  kustomize:
+    paths:
+      - k8s/dev
+profiles:
+  - name: ci
+    build:
+      cluster:
+        dockerConfig:
+          path: ~/.docker/config.json
+  - name: prod
+    deploy:
+      kustomize:
+        paths:
+          - k8s/prod
+  - name: staging
+    deploy:
+      kustomize:
+        paths:
+          - k8s/stg

@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+  template:
+    metadata:
+      name: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: app
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+          readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 1
+            httpGet:
+              path: /healthz/readiness
+              port: 9091
+          livenessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 1
+            httpGet:
+              path: /healthz/liveness
+              port: 9091
+          ports:
+            - name: http
+              containerPort: 3000
+            - name: http-telemetry
+              containerPort: 9091

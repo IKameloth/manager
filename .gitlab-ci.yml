@@ -1,0 +1,16 @@
+include:
+  - project: 'autentiax-ctl-sre/shared-ci-cd'
+    file: 'skaffold/build.yaml'
+  - project: 'autentiax-ctl-sre/shared-ci-cd'
+    file: 'skaffold/render.yaml'
+  - project: 'autentiax-ctl-sre/shared-ci-cd'
+    file: 'cd/validate.yaml'
+  - project: 'autentiax-ctl-sre/shared-ci-cd'
+    file: 'cd/push-manifests.yaml'
+
+stages:
+  - build
+  - render-manifests
+  - prepare-config
+  - validate-config
+  - push-manifests
