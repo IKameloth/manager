@@ -1,15 +1,15 @@
 const dev = {
-  LOCALHOST: "http://localhost:4000/",
+  LOCALHOST: process.env.LEGACY_API_URL,
 };
 
 const stg = {
   // por definir
-  LOCALHOST: "http://localhost:4000/",
+  LOCALHOST: process.env.LEGACY_API_URL,
 };
 
 const prod = {
   // por definir
-  LOCALHOST: "http://localhost:4000/",
+  LOCALHOST: process.env.LEGACY_API_URL,
 };
 
 export default window.location.href.includes('dev') 

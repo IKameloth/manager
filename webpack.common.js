@@ -3,13 +3,14 @@ const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const DotenvPlugin = require('dotenv-webpack');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const dotenvPlugin = new DotenvPlugin({ path: path.resolve(__dirname, '.env')})
 
 module.exports = {
   entry: {
-    main: './src/index.tsx'
+    main: './src/index.tsx',
+    store: './src/app/store/index.tsx'
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
@@ -26,7 +27,7 @@ module.exports = {
       {
         test: /\.s[ac]ss$/i,
         use: [
-          'style-loader',
+          MiniCssExtractPlugin.loader,
           'css-loader',
           'sass-loader'
         ]
@@ -34,7 +35,7 @@ module.exports = {
       {
         test: /\.less$/,
         use: [
-          'style-loader',
+          MiniCssExtractPlugin.loader,
           'css-loader',
           'less-loader'
         ]
@@ -42,22 +43,21 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          'style-loader',
+          MiniCssExtractPlugin.loader,
           'css-loader'
         ]
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
-        use: [
-          {
-            loader: 'file-loader',
-          },
-        ],
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+          outputPath: 'static/images'
+        }
       }
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(),
     new HtmlWebPackPlugin({
       template: './public/index.html',
       templateParameters: (compilation, assets, assetTags, options) => {
@@ -69,18 +69,21 @@ module.exports = {
             files: assets,
             options
           },
-          env: Object.assign({}, ...Object.keys(dotenvPlugin.definitions).map(d =>
-            ({[d.replace('process.env.', '')]: dotenvPlugin.definitions[d].replace(/\"/g, '')})
-          ))
+          // env: Object.assign({}, ...Object.keys(dotenvPlugin.definitions).map(d =>
+          //   ({[d.replace('process.env.', '')]: dotenvPlugin.definitions[d].replace(/\"/g, '')})
+          // ))
         }
       }
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'static/css/bundle.css'
     }),
     dotenvPlugin,
     new WebpackNotifierPlugin(),
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].[contenthash].bundle.js',
+    filename: 'static/js/[name].[contenthash].bundle.js',
     publicPath: '/'
   },
   optimization: {
@@ -89,6 +92,6 @@ module.exports = {
     }
   },
   node: {
-    fs: "empty"
- }
+    global: false,
+  }
 }
