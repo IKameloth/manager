@@ -1,0 +1,16 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namePrefix: "autentia-admin-"
+
+resources:
+  - ../base
+
+commonAnnotations:
+  autentia.id/contact: jbustos@autentia.cl
+
+commonLabels:
+  app: autentia-admin
+  role: backend
+  env: prod
