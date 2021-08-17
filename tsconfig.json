@@ -1,4 +1,8 @@
 {
+  "include": [
+    "src"
+  ],
+  "exclude": ["node_modules"],
   "compilerOptions": {
     "target": "es5",
     "lib": [
@@ -23,9 +27,5 @@
     "paths": {
       "@/*": ["src/*"],
     },
-    "exclude": ["node_modules"]
-  },
-  "include": [
-    "src"
-  ],
+  }
 }
