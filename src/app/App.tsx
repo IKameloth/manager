@@ -27,9 +27,9 @@ export default function App() {
   return(
     <React.Suspense fallback={null}>
       <Switch location={location} key={key}>
-        <Route exact path="/" render={() => <Login />} />
+        <Route exact path="/login" render={() => <Login />} />
         <Navbar>
-          <Route exact path="/home" render={() => <Home />} />
+          <Route exact path="/" render={() => <Home />} />
           <Route exact path="/roles" render={() => <Roles />} />
           <Route exact path="/people" render={() => <People />} />
           <Route exact path="/institutions" render={() => <Institutions />} />

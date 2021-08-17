@@ -2352,6 +2352,11 @@
   resolved "https://registry.yarnpkg.com/@webpack-cli/serve/-/serve-1.5.1.tgz#b5fde2f0f79c1e120307c415a4c1d5eb15a6f278"
   integrity sha512-4vSVUiOPJLmr45S8rMGy7WDvpWxfFxfP/Qx/cxZFCfvoypTYpPPL1X8VIZMe0WTA+Jr7blUxwUSEZNkjoMTgSw==
 
+"@webscopeio/react-health-check@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@webscopeio/react-health-check/-/react-health-check-3.0.0.tgz#5638fc3f631e6d0dfdcdebd1c008f244e3aec249"
+  integrity sha512-ZDy8g24wvDxaRXlrI2nyY75WJ6sTNwVkP3CXR1+pHBkR6IEO2HV7XcOfkppNEXSG+7YlFq/oJPhR0X/TXQXryA==
+
 "@xobotyi/scrollbar-width@1.9.5":
   version "1.9.5"
   resolved "https://registry.yarnpkg.com/@xobotyi/scrollbar-width/-/scrollbar-width-1.9.5.tgz#80224a6919272f405b87913ca13b92929bdf3c4d"
