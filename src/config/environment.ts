@@ -1,15 +1,13 @@
 const dev = {
-  LOCALHOST: process.env.LEGACY_API_URL,
+  API_URI: process.env.LEGACY_API_URL,
 };
 
 const stg = {
-  // por definir
-  LOCALHOST: process.env.LEGACY_API_URL,
+  API_URI: process.env.LEGACY_API_URL,
 };
 
 const prod = {
-  // por definir
-  LOCALHOST: process.env.LEGACY_API_URL,
+  API_URI: process.env.LEGACY_API_URL,
 };
 
 export default window.location.href.includes('dev') 

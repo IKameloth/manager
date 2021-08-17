@@ -1,14 +1,30 @@
-import React, { useState } from "react";
-import { LoginStyled, LogoImage, LoginImage } from "../../../assets/theme/login";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { StoreState } from "../../store";
-import { loginRequest } from "../../store/common/operations";
+import { loginRequest, setErrorMessage } from "../../store/common/operations";
 import { Redirect } from "react-router";
 import { useToasts } from "react-toast-notifications";
-import Modal from "../../components/Modal";
+import { 
+  CssBaseline,
+  Button,
+  TextField,
+  Link,
+  Paper,
+  Box,
+  Grid,
+  Typography,
+  InputAdornment,
+  useMediaQuery
+} from '@material-ui/core';
+import { Fingerprint, VpnKey } from "@material-ui/icons";
+import Logo from "../../../assets/images/autentia-logo.svg";
+import { BGStyled, FooterStyled, LoginImageStyled2, LoginImageStyled1, useStyles } from "../../../assets/login";
+import ErrorAlert from "../../components/ErrorAlert";
 
 const Login = () => {
-  const countries = ["CHILE", "ECUADOR", "COLOMBIA", "RDOMINICANA"];
+  const classes = useStyles();
+  const viewMobile = useMediaQuery('(max-width:768px)'); // mobile
+  const viewTablet = useMediaQuery('(max-width:959px)'); // tablet
 
   const dispatch = useDispatch();
   const { common } = useSelector((state: StoreState) => state);
@@ -17,97 +33,128 @@ const Login = () => {
   
   const [dni, setDni] = useState("");
   const [password, setPassword] = useState("");
-  const [country, setCountry] = useState("");
 
-  const handleOnSubmit = (e:any, dni: string, password: string, countryName: string) => {
+  const handleOnSubmit = (e: any, dni: string, password: string) => {
     e.preventDefault();
-    if (dni.trim().length !== 0 && password.trim().length !== 0 && countryName?.trim().length !== 0) {
-      dispatch(loginRequest(dni, country, password));
+    if (dni.trim().length !== 0 && password.trim().length !== 0) {
+      dispatch(loginRequest(dni, password));
     } else {
       let message = "Favor rellenar todos los campos";
       addToast(message, { appearance: 'warning', autoDismiss: true });
     };
   };
 
+  useEffect(() => {
+    (errorMessage) && dispatch(setErrorMessage(errorMessage));
+  }, [errorMessage, dispatch]);
+
   if (isLoggedIn) {
     return <Redirect to="/" />;
   };
 
-  return(
-    <LoginStyled>
-      <form className="form">
-        <div className="content">
-          <h1 className="title is-1 h1">Autentia<span> Admin</span></h1>
-          <h3 className="title is-3">Ingresar</h3>
-          <div className="fields">
-            <div className="field">
-              <label className="label">DNI</label>
-              <div className="control has-icons-left has-icons-right">
-                <input 
-                  className="input is-primary" 
-                  type="text" 
-                  placeholder="Ingresar DNI o Rut" 
-                  required={true}
-                  value={dni}
-                  onChange={({ target: {value} }) => setDni(value) }
+  function Copyright() {
+    return (
+      <>
+        <Typography variant="body2" color="textSecondary">
+          <Link color="inherit" href="https://www.autentia.cl/">
+            <img src={Logo} alt="logo" />
+          </Link>{' '}
+        </Typography>
+        <Typography variant="body2" color="textSecondary">
+          {'Copyright © '}
+          {new Date().getFullYear()}
+          {'.'}
+        </Typography>
+      </>
+    );
+  }
+
+  return (
+    <Grid container component="main" className={classes.root}>
+      <CssBaseline />
+      <Grid item xs={12} sm={6} md={4} component={Paper} elevation={0} square>
+        <div className={classes.paper}>
+          <Grid container>
+            <Grid item xs>
+              <Typography variant="h3">Autentia</Typography>
+              <Typography variant="h3" color="primary">Manager</Typography>
+            </Grid>
+          </Grid>
+          <Box mt={viewMobile ? 4 : 7} mb={viewMobile ? 4 : 9}>
+            <Grid item xs>
+              <Typography variant="h5">Ingresar</Typography>
+            </Grid>
+          </Box>
+          <form className={classes.form} noValidate>
+            <Grid container direction="column" spacing={2}>
+              <Grid item>
+                <TextField
+                  variant="outlined"
+                  label="DNI"
+                  helperText="Ingresar DNI"
+                  onChange={({ target: {value} }) => setDni(value)}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Fingerprint />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-fingerprint"></i>
-                </span>
-              </div>
-            </div>
-
-            <div className="field">
-              <label className="label">Contraseña</label>
-              <div className="control has-icons-left has-icons-right">
-                <input 
-                  className="input is-primary" 
-                  type="password" 
-                  placeholder="Ingresar contraseña" 
-                  required={true}
-                  value={password}
-                  onChange={({ target: {value} }) => setPassword(value) }
+              </Grid>
+              <Grid item>
+                <TextField
+                  variant="outlined"
+                  label="Contraseña"
+                  type="password"
+                  helperText="Ingresar contraseña"
+                  onChange={({ target: {value} }) => setPassword(value)}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <VpnKey />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
-                <span className="icon is-small is-left">
-                  <i className="fas fa-key"></i>
-                </span>
-              </div>
-            </div>
-
-            <div className="field">
-              <label className="label">País</label>
-              <div className="control has-icons-left has-icons-right">
-                <div className="select is-primary is-fullwidth">
-                <select onChange={({target: {value}}) => setCountry(value)}>
-                  <option>Seleccionar</option>
-                  {countries?.map((name) => {
-                    return <option value={name} key={name}>{name}</option>
-                  })}
-                </select>
-                </div>
-                <span className="icon is-small is-left">
-                  <i className="far fa-flag"></i>
-                </span>
-              </div>
-            </div>
-
-            <div className="field">
-              <button type="submit" onClick={(e) => handleOnSubmit(e, dni, password, country)} className="button is-link">Ingresar</button>
-            </div>
-          </div>
-
-          {/* <Forgot href="/">¿Olvido su contraseña?</Forgot> */}
-
-          <br></br>
-          <div className="field">
-            <span>Copyright 2020</span><br></br>
-            <LogoImage/>
-          </div>
+              </Grid>
+              <Grid item>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={(e) => handleOnSubmit(e, dni, password) }
+                >
+                  Ingresar
+                </Button>
+              </Grid>
+            </Grid>
+            {/* <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="#" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid> */}
+          </form>
+          <FooterStyled>
+            <Copyright /> 
+          </FooterStyled>
         </div>
-      </form>
-      <Modal isShown={!!errorMessage} modalContent={errorMessage} typeModal="ERROR"/>
-      <LoginImage/>
-    </LoginStyled>
+      </Grid>
+      <Grid item xs={false} sm={6} md={8}>
+        <BGStyled>
+          {viewTablet ? <LoginImageStyled2 /> : <LoginImageStyled1 />}
+        </BGStyled>
+      </Grid>
+      <ErrorAlert open={ !!errorMessage } message={ errorMessage } />
+    </Grid>
   );
 };
 

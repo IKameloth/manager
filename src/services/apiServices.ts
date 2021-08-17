@@ -1,7 +1,4 @@
 import environment from "../config/environment";
-import AuthService from "../config/authServices";
-
-const authServices = new AuthService();
 
 export class ApiServicesProvider {
   private get $httpClient() {
@@ -16,7 +13,7 @@ export class ApiServicesProvider {
           body: JSON.stringify(payload),
         };
 
-        return fetch(`${environment.LOCALHOST}${targetUrl}`, requestOptions);
+        return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions);
       },
       get(targetUrl: string, options?: { headers?: any}){
         const requestOptions = {
@@ -27,42 +24,30 @@ export class ApiServicesProvider {
           }
         };
 
-        return fetch(`${environment.LOCALHOST}${targetUrl}`, requestOptions);
+        return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions);
       },
     };
   };
 
   // Login
-  public async sendLoginRequest(password: string, dni: string, country: string) {
-    const response = await this.$httpClient.post('login', { user: { rut: dni, password: password, country: country } });
-
+  public async sendLoginRequest(password: string, dni: string) {
+    const response = await this.$httpClient.post('login', { user: { rut: dni, password: password } });
     const accessToken = response.headers.get("authorization");
-    const data = await response.json();
-    const status = await response.status;
+    const resultData = await response.json();
 
     if (accessToken) {
-      authServices.setUser(data.data);
-      authServices.setToken(accessToken);
+      if (resultData.included?.length > 0) {
+        resultData.data.relationships.roles.data = resultData.included;
+      };
 
-      return data.data;
-    };
+      const response = {
+        userData: resultData.data,
+        userToken: accessToken,
+      };
 
-    if (status === 401) {
-      throw new Error(data.error);
-    };
-  };
-
-  // List user institutions
-  public async sendInstitutionsRequest(){
-    const token = authServices.getToken();
-    const res = await this.$httpClient.get('institutions/list', { headers: {'Authorization': token}});
-    const data = await res.json();
-
-    if (data.error && data.error[0].status === 401) {
-      // user not allowed if token does not exists
-      throw new Error('Imposible obtener instituciones.');
+      return response;
     } else {
-      return data;
+      return resultData;
     };
   };
 };

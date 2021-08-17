@@ -1,10 +1,8 @@
 import { Dispatch } from "redux";
 import { CommonTypes as Type } from "./types";
-import { CommonActions } from "./actions";
+import { CommonActions, SetLoginAction } from "./actions";
 import { ApiServicesProvider } from "../../../services/apiServices";
-import AuthService from "../../../config/authServices";
 
-const authServices = new AuthService();
 const $Services = new ApiServicesProvider();
 
 export const setIsLoading = () => {
@@ -37,47 +35,26 @@ export const cleanErrorMessage = () => {
   });
 };
 
-export const loginRequest = (userDni: string, country: string, password: string) => {
-  return async (dispatch: Dispatch) => {
-    dispatch({ type: Type.SET_IS_LOADING });
-
+export const loginRequest = (userDni: string, password: string) => {
+  return async (dispatch: Dispatch<CommonActions>): Promise<SetLoginAction | false | {}> => {
     try {
-      await $Services.sendLoginRequest(password, userDni, country);
-      window.location.href = "/";
-    } catch (err) {
-      dispatch({ type: Type.SET_ERROR_MESSAGE, payload: err.message });
+      const response = await $Services.sendLoginRequest(password, userDni);
+
+      if (response.error) {
+        return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: response.error });
+      };
+      
+      return dispatch({ type: Type.SET_LOGIN, payload: response });
+    }catch(err) {
+      return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: err.message });
     };
-    return dispatch({ type: Type.UNSET_IS_LOADING });
-  };
-};
+  }
+}
 
 export const logout = () => {
-  return (dispatch: Dispatch) => {
-    dispatch({ type: Type.LOGOUT });
-    authServices.signoutRedirectCallback();
+  return (dispatch: Dispatch): CommonActions => {
+    return dispatch({ type: Type.LOGOUT, payload: { userData: {}, userToken: '' } });
   };
-};
-
-export const getInstitutions = () => {
-  return async (dispatch: Dispatch) => {
-    try {
-      let res = await $Services.sendInstitutionsRequest();
-      dispatch({
-        type: Type.LIST_INSTIT,
-        payload: res
-      });
-    } catch (err) {
-      dispatch({ type: Type.SET_ERROR_MESSAGE, payload: err.message });
-    };
-  };
-};
-
-export const setCurrentInstitution = (objInstitution: any) => {
-  return (dispatch: Dispatch<CommonActions>): CommonActions =>
-  dispatch({
-    type: Type.CURRENT_INSTIT,
-    payload: objInstitution
-  });
 };
 
 export default {
@@ -86,7 +63,5 @@ export default {
   setErrorMessage,
   cleanErrorMessage,
   loginRequest,
-  getInstitutions,
   logout,
-  setCurrentInstitution,
 };
