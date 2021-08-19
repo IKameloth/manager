@@ -46,8 +46,7 @@ export default function Navegation(props: Props) {
   const dispatch = useDispatch();
   const [isOpened, setIsOpened] = useState(false);
   const { common } = useSelector((state: StoreState) => state);
-  const { profile } = common;
-  const { isLoggedIn } = common;
+  const { profile, isLoggedIn } = common
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);

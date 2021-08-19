@@ -1,9 +1,12 @@
-import React, { useEffect } from "react";
+import React, { MouseEvent, useEffect } from "react";
 import { SideBar } from "@/assets/SideBar/Sidebar";
 import { Dialog, Avatar, ButtonBase, Divider, Drawer, Grid, Typography, DialogTitle, FormControl, DialogContent, InputLabel, Select, MenuItem, DialogActions, Button } from "@material-ui/core";
 import UserMenu from "./UserMenu";
 import AdminMenu from "./AdminMenu";
 import RoleNames from "./RoleNames";
+import { useDispatch, useSelector } from "react-redux";
+import { StoreState } from "@/app/store";
+import { setCountry, setInstitution } from "@/app/store/user";
 
 interface Props {
   isSideOpen: boolean;
@@ -11,14 +14,18 @@ interface Props {
 };
 
 export default function Sidebar(props: Props) {
+  const dispatch = useDispatch();
   const classes = SideBar();
   const userName = props.profile.userData?.attributes.name || 'Unknow';
   const nameLetters = userName.trim().split(' ').reduce((acc: any, el: any) => acc + el.charAt(0).toUpperCase(), "").substring(0, 2);
   const rolesArr = props.profile.userData?.relationships?.roles;
 
   const [openDialog, setOpenDialog] = React.useState(false);
-  const [country, setCountry] = React.useState('');
-  const [institution, setInstitution] = React.useState('');
+  const [countrySelected, setCountrySelected] = React.useState('');
+  const [institutionSelected, setInstitutionSelected] = React.useState('');
+
+  const { user } = useSelector((state: StoreState) => state);
+  const { country, institution } = user
 
   useEffect(() => {
     if(country === '' && institution === '')
@@ -26,19 +33,17 @@ export default function Sidebar(props: Props) {
   }, [])
 
   const handleChangeSelectCountry = (event: any) => {
-    setCountry(String(event.target.value) || '');
+    setCountrySelected(String(event.target.value) || '');
   };
 
   const handleChangeSelectInstitution = (event: any) => {
-    setInstitution(String(event.target.value) || '');
+    setInstitutionSelected(String(event.target.value) || '');
   };
 
-  const handleOnSubmit = () => {
-    const data = {
-      country: country,
-      institution: institution
-    };
-    console.log(data);
+  const handleOnSubmit = async (e:MouseEvent) => {
+    e.preventDefault()
+    await dispatch(setCountry(countrySelected))
+    await dispatch(setInstitution(institutionSelected))
     setOpenDialog(false);
   };
 
@@ -68,10 +73,10 @@ export default function Sidebar(props: Props) {
       <Grid container className={classes.containerParams}>
         <ButtonBase className={classes.buttonBase} onClick={() => setOpenDialog(!openDialog)}>
           <Grid item>
-            <Typography variant="body1" >País: <label style={{color: 'blue'}}>Example</label></Typography>
+            <Typography variant="body1" >País: <label style={{color: 'blue'}}>{country === ''? 'No Seleccionado':country}</label></Typography>
           </Grid>
           <Grid item>
-            <Typography variant="body1" >Institucíon: <label style={{color: 'blue'}}>Example</label></Typography>
+            <Typography variant="body1" >Institucíon: <label style={{color: 'blue'}}>{institution === ''? 'No Seleccionada':institution}</label></Typography>
           </Grid>
         </ButtonBase>
       </Grid>
@@ -82,7 +87,7 @@ export default function Sidebar(props: Props) {
           <form className={classes.form} noValidate>
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="max-width">País</InputLabel>
-              <Select value={country} onChange={handleChangeSelectCountry} >
+              <Select value={countrySelected} onChange={handleChangeSelectCountry} >
                 <MenuItem value="xs">xs</MenuItem>
                 <MenuItem value="sm">sm</MenuItem>
                 <MenuItem value="md">md</MenuItem>
@@ -92,7 +97,7 @@ export default function Sidebar(props: Props) {
             </FormControl>
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="max-width">Institución</InputLabel>
-              <Select value={institution} onChange={handleChangeSelectInstitution} >
+              <Select value={institutionSelected} onChange={handleChangeSelectInstitution} >
                 <MenuItem value="xs">xs</MenuItem>
                 <MenuItem value="sm">sm</MenuItem>
                 <MenuItem value="md">md</MenuItem>
@@ -108,7 +113,7 @@ export default function Sidebar(props: Props) {
               Cancel
             </Button>
           }
-          <Button onClick={() => handleOnSubmit()} color="primary">
+          <Button onClick={handleOnSubmit} color="primary">
             Ok
           </Button>
         </DialogActions>
