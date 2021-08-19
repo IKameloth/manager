@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SideBar } from "@/assets/SideBar/Sidebar";
 import { Dialog, Avatar, ButtonBase, Divider, Drawer, Grid, Typography, DialogTitle, FormControl, DialogContent, InputLabel, Select, MenuItem, DialogActions, Button } from "@material-ui/core";
 import UserMenu from "./UserMenu";
@@ -19,6 +19,11 @@ export default function Sidebar(props: Props) {
   const [openDialog, setOpenDialog] = React.useState(false);
   const [country, setCountry] = React.useState('');
   const [institution, setInstitution] = React.useState('');
+
+  useEffect(() => {
+    if(country === '' && institution === '')
+      setOpenDialog(true)  
+  }, [])
 
   const handleChangeSelectCountry = (event: any) => {
     setCountry(String(event.target.value) || '');
@@ -98,9 +103,11 @@ export default function Sidebar(props: Props) {
           </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenDialog(false)} color="primary">
-            Cancel
-          </Button>
+          {country !== '' && institution !== '' &&
+            <Button onClick={() => setOpenDialog(false)} color="primary">
+              Cancel
+            </Button>
+          }
           <Button onClick={() => handleOnSubmit()} color="primary">
             Ok
           </Button>
