@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, Switch, Route } from "react-router-dom";
-import Navbar from './components/Navbar';
+import Navbar from './components/Navbar/index';
 
 const Home = React.lazy(() => import('./pages/home'));
 const Login = React.lazy(() => import('./pages/login'));

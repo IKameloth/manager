@@ -15,13 +15,14 @@ const indexStyle = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    paddingTop: theme.spacing(3),
+    paddingLeft: theme.spacing(3),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: -355,
-    height: '92vh',
+    height: '95vh',
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
@@ -46,7 +47,8 @@ export default function Navegation(props: Props) {
   const dispatch = useDispatch();
   const [isOpened, setIsOpened] = useState(false);
   const { common } = useSelector((state: StoreState) => state);
-  const { profile, isLoggedIn } = common
+  const { profile } = common;
+  const { isLoggedIn } = common;
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);
