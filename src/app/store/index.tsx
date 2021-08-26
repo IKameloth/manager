@@ -12,18 +12,19 @@ const persistConfig = {
   key: 'root',
   whitelist: ['isLoggedIn', 'profile']
 };
+
 const persistUserConfig = {
-    storage,
-    key: 'user',
+  storage,
+  key: 'user',
 };
 
 const rootReducer = combineReducers({
   common: persistReducer(persistConfig, commonReducer),
   user: persistReducer(persistUserConfig, userReducer)
-})
+});
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(reduxThunk)))
-const persistor = persistStore(store)
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(reduxThunk)));
+const persistor = persistStore(store);
 
 export {
   store,
@@ -33,4 +34,4 @@ export {
 export type StoreState = {
   common: CommonState
   user: UserState
-}
+};

@@ -25,12 +25,12 @@ export default function Sidebar(props: Props) {
   const [institutionSelected, setInstitutionSelected] = React.useState('');
 
   const { user } = useSelector((state: StoreState) => state);
-  const { country, institution } = user
+  const { country, institution } = user;
 
   useEffect(() => {
     if(country === '' && institution === '')
       setOpenDialog(true)  
-  }, [])
+  }, []);
 
   const handleChangeSelectCountry = (event: any) => {
     setCountrySelected(String(event.target.value) || '');
@@ -41,9 +41,9 @@ export default function Sidebar(props: Props) {
   };
 
   const handleOnSubmit = async (e:MouseEvent) => {
-    e.preventDefault()
-    await dispatch(setCountry(countrySelected))
-    await dispatch(setInstitution(institutionSelected))
+    e.preventDefault();
+    await dispatch(setCountry(countrySelected));
+    await dispatch(setInstitution(institutionSelected));
     setOpenDialog(false);
   };
 
@@ -73,10 +73,10 @@ export default function Sidebar(props: Props) {
       <Grid container className={classes.containerParams}>
         <ButtonBase className={classes.buttonBase} onClick={() => setOpenDialog(!openDialog)}>
           <Grid item>
-            <Typography variant="body1" >País: <label style={{color: 'blue'}}>{country === ''? 'No Seleccionado':country}</label></Typography>
+            <Typography variant="body1" >País: <label style={{color: 'blue', cursor: 'pointer'}}>{country === ''? 'No Seleccionado':country}</label></Typography>
           </Grid>
           <Grid item>
-            <Typography variant="body1" >Institucíon: <label style={{color: 'blue'}}>{institution === ''? 'No Seleccionada':institution}</label></Typography>
+            <Typography variant="body1" >Institucíon: <label style={{color: 'blue', cursor: 'pointer'}}>{institution === ''? 'No Seleccionada':institution}</label></Typography>
           </Grid>
         </ButtonBase>
       </Grid>
@@ -108,7 +108,7 @@ export default function Sidebar(props: Props) {
           </form>
         </DialogContent>
         <DialogActions>
-          {country !== '' && institution !== '' &&
+          { country !== '' && institution !== '' &&
             <Button onClick={() => setOpenDialog(false)} color="primary">
               Cancel
             </Button>
