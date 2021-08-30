@@ -46,7 +46,8 @@ export const loginRequest = (userDni: string, password: string) => {
       
       return dispatch({ type: Type.SET_LOGIN, payload: response });
     }catch(err) {
-      return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: err.message });
+      console.log("Error", err)
+      return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: 'Ocurrió un error, intentelo nuevamente más tarde' });
     };
   }
 }
