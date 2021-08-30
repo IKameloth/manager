@@ -22,20 +22,6 @@ spec:
             limits:
               cpu: 200m
               memory: 256Mi
-          readinessProbe:
-            initialDelaySeconds: 5
-            periodSeconds: 1
-            httpGet:
-              path: /healthz/readiness
-              port: 9091
-          livenessProbe:
-            initialDelaySeconds: 5
-            periodSeconds: 1
-            httpGet:
-              path: /healthz/liveness
-              port: 9091
           ports:
             - name: http
               containerPort: 3000
-            - name: http-telemetry
-              containerPort: 9091
