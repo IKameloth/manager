@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: app
 spec:
   strategy:
     type: RollingUpdate
@@ -10,10 +10,10 @@ spec:
       maxUnavailable: 0
   template:
     metadata:
-      name: frontend
+      name: app
     spec:
       containers:
-        - name: frontend
+        - name: app
           image: app
           resources:
             requests:

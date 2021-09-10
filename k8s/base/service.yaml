@@ -2,7 +2,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: frontend
+  name: app
 spec:
   type: ClusterIP
   ports:
