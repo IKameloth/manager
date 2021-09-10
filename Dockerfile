@@ -13,5 +13,5 @@ RUN yarn build
 FROM nginx:alpine
 
 COPY --from=react-build /app/dist /usr/share/nginx/html
-EXPOSE 3000
-CMD ["nginx", "-g", "daemon off;"]
+#EXPOSE 3000
+#CMD ["nginx", "-g", "daemon off;"]
