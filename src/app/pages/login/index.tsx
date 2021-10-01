@@ -4,26 +4,17 @@ import { StoreState } from "../../store";
 import { loginRequest, setErrorMessage } from "../../store/common/operations";
 import { Redirect } from "react-router";
 import { useToasts } from "react-toast-notifications";
-import { 
-  CssBaseline,
-  Button,
-  TextField,
-  Link,
-  Paper,
-  Box,
-  Grid,
-  Typography,
-  InputAdornment,
-  useMediaQuery
-} from '@material-ui/core';
+import { CssBaseline, Button, TextField, Link, Paper, Box, Grid, Typography, InputAdornment, useMediaQuery } from '@material-ui/core';
 import { Fingerprint, VpnKey } from "@material-ui/icons";
 import Logo from "../../../assets/images/autentia-logo.svg";
-import { BGStyled, FooterStyled, LoginImageStyled2, LoginImageStyled1, useStyles } from "../../../assets/login";
+import { useStyles, Footer } from "../../../assets/login";
 import ErrorAlert from "../../components/ErrorAlert";
+import LoginImage from "@/assets/images/img-login.svg";
+import LoginImagePlus from "@/assets/images/img-login-2.svg";
 
 const Login = () => {
   const classes = useStyles();
-  const viewMobile = useMediaQuery('(max-width:768px)'); // mobile
+  const viewMobile = useMediaQuery('(max-width:425px)'); // mobile
   const viewTablet = useMediaQuery('(max-width:959px)'); // tablet
 
   const dispatch = useDispatch();
@@ -130,28 +121,18 @@ const Login = () => {
                 </Button>
               </Grid>
             </Grid>
-            {/* <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid> */}
           </form>
-          <FooterStyled>
+          <Footer>
             <Copyright /> 
-          </FooterStyled>
+          </Footer>
         </div>
       </Grid>
       <Grid item xs={false} sm={6} md={8}>
-        <BGStyled>
-          {viewTablet ? <LoginImageStyled2 /> : <LoginImageStyled1 />}
-        </BGStyled>
+        { !viewMobile && 
+          <div className={classes.bg}>
+            { viewTablet ? <img src={LoginImagePlus} alt="AutentiaLogo" className={classes.img} /> : <img src={LoginImage} alt="AutentiaLogo" className={classes.img} /> }   
+          </div>
+        }
       </Grid>
       <ErrorAlert open={ !!errorMessage } message={ errorMessage } />
     </Grid>
