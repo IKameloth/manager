@@ -9,19 +9,3 @@ export const getUsers = (users: object[]) => {
       payload: users
     });
 };
-
-export const setCountry = (country: string) => {
-  return(dispatch: Dispatch<UserActions>): UserActions =>
-    dispatch({
-      type: Type.SET_COUNTRY,
-      payload: country
-    });
-};
-
-export const setInstitution = (institution: string) => {
-  return(dispatch: Dispatch<UserActions>): UserActions =>
-    dispatch({
-      type: Type.SET_INSTITUTION,
-      payload: institution
-    });
-};

@@ -54,9 +54,46 @@ export const loginRequest = (userDni: string, password: string) => {
 
 export const logout = () => {
   return (dispatch: Dispatch): CommonActions => {
-    return dispatch({ type: Type.LOGOUT, payload: { userData: {}, userToken: '' } });
+    return dispatch({ 
+      type: Type.LOGOUT, 
+      payload: {
+        userData: {
+          id: '',
+          type: '',
+          attributes: {
+            name: '',
+            country: [],
+            email: '',
+            rut: ''
+          },
+          relationships: {
+            roles: {},
+          },
+        },
+        userToken: '',
+        currentCountry: '',
+        currentInstitution: '',
+      }
+    });
   };
 };
+
+export const setCurrentCountry = (country: string) => {
+  return(dispatch: Dispatch<CommonActions>): CommonActions =>
+    dispatch({
+      type: Type.SET_CURRENT_COUNTRY,
+      payload: country
+    });
+};
+
+export const setCurrentInstitution = (institution: string) => {
+  return(dispatch: Dispatch<CommonActions>): CommonActions =>
+    dispatch({
+      type: Type.SET_CURRENT_INSTITUTION,
+      payload: institution
+    });
+};
+
 
 export default {
   setIsLoading,
@@ -65,4 +102,6 @@ export default {
   cleanErrorMessage,
   loginRequest,
   logout,
+  setCurrentCountry,
+  setCurrentInstitution,
 };

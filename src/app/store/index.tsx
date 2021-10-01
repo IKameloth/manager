@@ -10,7 +10,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 const persistConfig = {
   storage,
   key: 'root',
-  whitelist: ['isLoggedIn', 'profile']
+  whitelist: ['isLoggedIn', 'profile', 'currentCountry', 'currentInstitution']
 };
 
 const persistUserConfig = {
