@@ -12,6 +12,7 @@ profiles:
   - name: ci
     build:
       cluster:
+        namespace: gitlab
         dockerConfig:
           path: ~/.docker/config.json
   - name: prod
