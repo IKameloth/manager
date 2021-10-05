@@ -16,9 +16,9 @@ interface Props {
 export default function Sidebar(props: Props) {
   const dispatch = useDispatch();
   const classes = SideBar();
-  const userName = props.profile.userData?.attributes.name || 'Unknow';
+  const userName = props.profile.userData?.name || 'Unknow';
   const nameLetters = userName.trim().split(' ').reduce((acc: any, el: any) => acc + el.charAt(0).toUpperCase(), "").substring(0, 2);
-  const rolesArr = props.profile.userData?.relationships?.roles;
+  const rolesArr = props.profile.userData?.roles;
 
   const [openDialog, setOpenDialog] = React.useState(false);
   const [countrySelected, setCountrySelected] = React.useState('');

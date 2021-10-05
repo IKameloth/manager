@@ -16,7 +16,7 @@ export default function Home() {
           <Grid container className={classes.container} spacing={2}>
             <Grid item xs>
               <Typography variant="h4">Bienvenido</Typography>
-              <Typography variant="h6">{profile.userData?.attributes.name}</Typography>
+              <Typography variant="h6">{profile.userData?.name}</Typography>
               <Typography variant="body1" style={{marginTop: '6px'}}>
                 Recuerda seleccionar el país y la institución donde necesites operar.
               </Typography>

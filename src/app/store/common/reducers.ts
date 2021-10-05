@@ -7,16 +7,10 @@ const INITIAL_STATE: State = {
   profile: {
     userData: {
       id: "",
-      type: "",
-      attributes: {
-        name: "",
-        country: [],
-        email: "",
-        rut: ""
-      },
-      relationships: {
-        roles: {},
-      },
+      name: "",
+      email: "",
+      dni: "",
+      roles: []
     },
     userToken: "",
   },

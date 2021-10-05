@@ -12,7 +12,7 @@ export class ApiServicesProvider {
           },
           body: JSON.stringify(payload),
         };
-
+        console.log("CALL",`${environment.API_URI}/${targetUrl}`)
         return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions);
       },
       get(targetUrl: string, options?: { headers?: any}){
@@ -31,14 +31,17 @@ export class ApiServicesProvider {
 
   // Login
   public async sendLoginRequest(password: string, dni: string) {
-    const response = await this.$httpClient.post('login', { user: { rut: dni, password: password } });
+    const response = await this.$httpClient.post('login', { user: { dni, password } });
+    console.log("response",response)
     const accessToken = response.headers.get("authorization");
     const resultData = await response.json();
-
+    console.log("resultData", resultData)
     if (accessToken) {
-      if (resultData.included?.length > 0) {
-        resultData.data.relationships.roles.data = resultData.included;
+      if (resultData.data.roles?.length > 0) {
+        resultData.data.roles.data = resultData.included;
       };
+      console.log("accessToken", accessToken)
+      console.log("resultData.data", resultData.data)
 
       const response = {
         userData: resultData.data,
