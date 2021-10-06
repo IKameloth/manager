@@ -83,7 +83,7 @@ export default function Navegation(props: Props) {
         onCloseMenu={handleCloseMenu}
         onLogout={handleLogout}
       />
-
+      
       <Sidebar isSideOpen={isOpened} profile={profile} />
 
       <main onClick={() => setIsOpened(false)}

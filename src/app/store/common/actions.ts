@@ -1,3 +1,4 @@
+import { CountriesType } from "@/app/types";
 import { Action } from "redux";
 import { CommonTypes as Type } from "./types";
 
@@ -23,8 +24,13 @@ export interface SetErrorMessageAction extends Action<Type.SET_ERROR_MESSAGE> {
   payload: string
 };
 
+export interface SetCountriesAction extends Action<Type.SET_COUNTRIES> {
+  payload: CountriesType
+};
+
 export type CommonActions = 
   SetIsLoadingAction | 
+  SetCountriesAction | 
   UnsetIsLoadingAction |
   SetErrorMessageAction | 
   SetLoginAction |

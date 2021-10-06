@@ -19,6 +19,7 @@ export class ApiServicesProvider {
         const requestOptions = {
           method: "GET",
           headers: {
+            'Access-Control-Allow-Origin': 'http://localhost:3000',
             'Content-Type': 'application/json',
             ...(options ? options.headers : {})
           }
@@ -52,5 +53,21 @@ export class ApiServicesProvider {
     } else {
       return resultData;
     };
+  };
+
+  // Get Countries
+  public async getCountries() {
+    const response = await this.$httpClient.get('countries', {  });
+    const resultData = await response.json();
+    console.log("resultData", resultData)
+    return resultData
+  };
+
+  // Get Roles
+  public async getRoles(token: string, userID: string, country: string) {
+    const response = await this.$httpClient.get(`roles/${userID}/${country}`, {  });
+    const resultData = await response.json();
+    console.log("resultData", resultData)
+    return resultData
   };
 };

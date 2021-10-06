@@ -1,4 +1,4 @@
-import { ProfileType } from "src/app/types";
+import { CountriesType, ProfileType } from "src/app/types";
 
 export enum CommonTypes {
   SET_IS_LOADING = "SET_IS_LOADING",
@@ -7,14 +7,16 @@ export enum CommonTypes {
   IS_LOGGED_IN = "IS_LOGGED_IN",
   LOGOUT = "LOGOUT",
   SET_LOGIN = "SET_LOGIN",
+  SET_COUNTRIES = "SET_COUNTRIES",
 };
 
 export type CommonState = {
-  isLoading: boolean;
-  errorMessage: string;
-  isLoggedIn: boolean;
+  isLoading: boolean
+  errorMessage: string
+  isLoggedIn: boolean
+  countries?: CountriesType
   profile: {
-    userData?: ProfileType,
-    userToken: string,
+    userData?: ProfileType
+    userToken: string
   };
 };

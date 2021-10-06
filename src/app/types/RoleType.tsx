@@ -1,12 +1,9 @@
+import { InstitutionType } from "./InstitutionType";
+import { ProfileType } from "./ProfileType";
+
 export type RoleType = {
-  data?: [{
-    id: string,
-    type: string,
-    attributes: {
-      name: string,
-      resource_type: string,
-      resource_id: string,
-      created_at: string,
-    }
-  }]
+  id: string
+  name: string
+  institution: InstitutionType
+  user: ProfileType
 };

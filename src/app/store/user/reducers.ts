@@ -7,7 +7,8 @@ import {
 const INITIAL_STATE: State = {
   users: [],
   country: '',
-  institution: ''
+  institution: '',
+  roles: []
 };
 
 export const userReducer = (state: State = INITIAL_STATE, action: Actions) => {
@@ -18,6 +19,8 @@ export const userReducer = (state: State = INITIAL_STATE, action: Actions) => {
       return { ...state, country: action.payload }
     case Types.SET_INSTITUTION:
       return { ...state, institution: action.payload }
+    case Types.SET_ROLES:
+      return { ...state, roles: action.payload }
     default:
       return state;
   };

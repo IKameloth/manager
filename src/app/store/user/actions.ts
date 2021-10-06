@@ -1,3 +1,4 @@
+import { RoleType } from "@/app/types";
 import { Action } from "redux";
 import { UserTypes as Type } from "./types";
 
@@ -14,8 +15,12 @@ export interface SetCountryAction extends Action<Type.SET_COUNTRY> {
 export interface SetInstitutionAction extends Action<Type.SET_INSTITUTION> {
   payload: string;
 };
+export interface SetRolesAction extends Action<Type.SET_ROLES> {
+  payload: [RoleType];
+};
 
 export type UserActions = 
   GetUsersAction | 
   SetCountryAction | 
-  SetInstitutionAction
+  SetInstitutionAction |
+  SetRolesAction

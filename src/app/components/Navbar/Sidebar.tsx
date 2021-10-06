@@ -4,9 +4,11 @@ import { Dialog, Avatar, ButtonBase, Divider, Drawer, Grid, Typography, DialogTi
 import UserMenu from "./UserMenu";
 import AdminMenu from "./AdminMenu";
 import RoleNames from "./RoleNames";
+import ScopeSelection from "./ScopeSelection";
 import { useDispatch, useSelector } from "react-redux";
 import { StoreState } from "@/app/store";
-import { setCountry, setInstitution } from "@/app/store/user";
+import { setCountry, setInstitution, setRoles } from "@/app/store/user";
+import { setCountries, setIsLoading } from "@/app/store/common";
 
 interface Props {
   isSideOpen: boolean;
@@ -20,32 +22,20 @@ export default function Sidebar(props: Props) {
   const nameLetters = userName.trim().split(' ').reduce((acc: any, el: any) => acc + el.charAt(0).toUpperCase(), "").substring(0, 2);
   const rolesArr = props.profile.userData?.roles;
 
+  const [isLoading, setIsLoading] = React.useState(false);
   const [openDialog, setOpenDialog] = React.useState(false);
   const [countrySelected, setCountrySelected] = React.useState('');
   const [institutionSelected, setInstitutionSelected] = React.useState('');
 
-  const { user } = useSelector((state: StoreState) => state);
-  const { country, institution } = user;
+  const userStore = useSelector((state: StoreState) => state.user);
+  const commonStore = useSelector((state: StoreState) => state.common);
+  const { country, roles, institution } = userStore;
+  const { countries, profile } = commonStore;
 
   useEffect(() => {
     if(country === '' && institution === '')
       setOpenDialog(true)  
   }, []);
-
-  const handleChangeSelectCountry = (event: any) => {
-    setCountrySelected(String(event.target.value) || '');
-  };
-
-  const handleChangeSelectInstitution = (event: any) => {
-    setInstitutionSelected(String(event.target.value) || '');
-  };
-
-  const handleOnSubmit = async (e:MouseEvent) => {
-    e.preventDefault();
-    await dispatch(setCountry(countrySelected));
-    await dispatch(setInstitution(institutionSelected));
-    setOpenDialog(false);
-  };
 
   return(
     <Drawer className={classes.drawer} variant="persistent" anchor="left" open={props.isSideOpen}
@@ -80,44 +70,11 @@ export default function Sidebar(props: Props) {
           </Grid>
         </ButtonBase>
       </Grid>
-
-      <Dialog open={openDialog} onClose={() => setOpenDialog(!openDialog)}>
-        <DialogTitle>Seleccione donde desea operar</DialogTitle>
-        <DialogContent>
-          <form className={classes.form} noValidate>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="max-width">País</InputLabel>
-              <Select value={countrySelected} onChange={handleChangeSelectCountry} >
-                <MenuItem value="xs">xs</MenuItem>
-                <MenuItem value="sm">sm</MenuItem>
-                <MenuItem value="md">md</MenuItem>
-                <MenuItem value="lg">lg</MenuItem>
-                <MenuItem value="xl">xl</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="max-width">Institución</InputLabel>
-              <Select value={institutionSelected} onChange={handleChangeSelectInstitution} >
-                <MenuItem value="xs">xs</MenuItem>
-                <MenuItem value="sm">sm</MenuItem>
-                <MenuItem value="md">md</MenuItem>
-                <MenuItem value="lg">lg</MenuItem>
-                <MenuItem value="xl">xl</MenuItem>
-              </Select>
-            </FormControl>
-          </form>
-        </DialogContent>
-        <DialogActions>
-          { country !== '' && institution !== '' &&
-            <Button onClick={() => setOpenDialog(false)} color="primary">
-              Cancel
-            </Button>
-          }
-          <Button onClick={handleOnSubmit} color="primary">
-            Ok
-          </Button>
-        </DialogActions>
-      </Dialog>
+      {openDialog &&
+        <Dialog open={openDialog} onClose={() => setOpenDialog(!openDialog)}>
+         <ScopeSelection open={openDialog} />
+        </Dialog>
+      }
 
       {/* USER MENU */}
       <UserMenu />

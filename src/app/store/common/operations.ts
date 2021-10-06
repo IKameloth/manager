@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import { CommonTypes as Type } from "./types";
-import { CommonActions, SetLoginAction } from "./actions";
+import { CommonActions, SetCountriesAction, SetLoginAction } from "./actions";
 import { ApiServicesProvider } from "../../../services/apiServices";
 
 const $Services = new ApiServicesProvider();
@@ -45,6 +45,23 @@ export const loginRequest = (userDni: string, password: string) => {
       };
       
       return dispatch({ type: Type.SET_LOGIN, payload: response });
+    }catch(err) {
+      console.log("Error", err)
+      return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: 'Ocurrió un error, intentelo nuevamente más tarde' });
+    };
+  }
+}
+
+export const setCountries = () => {
+  return async (dispatch: Dispatch<CommonActions>): Promise<SetCountriesAction | false | {}> => {
+    try {
+      const response = await $Services.getCountries();
+
+      if (response.error) {
+        return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: response.error });
+      };
+      
+      return dispatch({ type: Type.SET_COUNTRIES, payload: response });
     }catch(err) {
       console.log("Error", err)
       return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: 'Ocurrió un error, intentelo nuevamente más tarde' });
