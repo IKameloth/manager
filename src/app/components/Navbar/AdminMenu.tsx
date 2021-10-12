@@ -34,12 +34,6 @@ export default function AdminMenu() {
             <ListItemText primary="Admin Roles" />
           </ListItem>
         </Link>
-        <Link to="/test" className={classes.linkStyled}>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon><FiberManualRecordIcon style={{height: 6}} /></ListItemIcon>
-            <ListItemText primary="Test" />
-          </ListItem>
-        </Link>
       </List>
     </Collapse>
 

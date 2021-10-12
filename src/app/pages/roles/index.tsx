@@ -1,136 +1,121 @@
-import React, { useState } from 'react';
-import { Button, Container, Grid, Paper, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { DataGrid, GridCellParams, GridColDef, GridRowsProp } from '@material-ui/data-grid';
+import { Button, Container, Grid, Paper, Typography } from '@material-ui/core';
 import { useRolesStyle } from '@/assets/Roles';
 import AddIcon from '@material-ui/icons/Add';
-import { Table } from '@material-ui/core';
+import { CustomLoadingOverlay, QuickSearchToolbar, ShowStatus, ShowAvatar, ActionButtons } from '@/app/components/Admin';
 
-interface Column {
-  id: 'name' | 'dni' | 'status' | 'action';
-  label: string;
-  minWidth?: number;
-  align?: 'left';
-};
-
-const columns: Column[] = [
-  { id: 'name', label: 'Nombre', minWidth: 50 },
-  { id: 'dni', label: 'Dni', minWidth: 20 },
-  { id: 'status', label: 'Estado', minWidth: 40 },
-  { id: 'action', label: 'Acción', minWidth: 40 }
+const dataRows: GridRowsProp = [
+    { id: 1, name: 'Natasha Sky', dni: '10826805-0', status: true },
+    { id: 2, name: 'Raul Aurelio', dni: '10913632-8', status: false },
+    { id: 3, name: 'Aloy Windstorm', dni: '5863955-9', status: true },
+    { id: 4, name: 'Arnold swatzh', dni: '20593037-K', status: false },
+    { id: 5, name: 'Roberto Mendez', dni: '15611188-0', status: false },
+    { id: 6, name: 'Anibal Mellado', dni: '20272721-2', status: true },
+    { id: 7, name: 'Gonzalo Perez', dni: '6267321-4', status: false },
+    { id: 8, name: 'Timmy Turner', dni: '14933645-1', status: true },
 ];
 
-interface Data {
-  name: string;
-  dni: string;
-  status: boolean;
-  action: any;
-};
-
-function createData(
-  name: string,
-  dni: string,
-  status: boolean,
-  action: any,
-): Data {
-  return { name, dni, status, action }
-};
-
-const rows = [
-  createData('Pedrito Parra', '10357054-9', true, <button>action</button>),
-  createData('Natasha Sky', '10826805-0', false, <button>action</button>),
-  createData('Raul Aurelio', '10913632-8', true, <button>action</button>),
-  createData('Timmy Turner', '14933645-1', false, <button>action</button>),
-  createData('Gonzalo Perez', '6267321-4', false, <button>action</button>),
-  createData('Magyare Matteo', '21833030-4', true, <button>action</button>),
-  createData('Aloy Windstorm', '5863955-9', true, <button>action</button>),
-  createData('Ramza Lion', '21609342-9', true, <button>action</button>),
-  createData('Pablo Escobar', '23510260-9', false, <button>action</button>),
-  createData('Renato Pianato', '38795379-5', true, <button>action</button>),
-  createData('Michi Spil', '26390172-K', true, <button>action</button>),
-  createData('Arnold swatzh', '20593037-K', true, <button>action</button>),
-  createData('Mikaela', '2229173-4', false, <button>action</button>),
-  createData('Roberto Mendez', '15611188-0', true, <button>action</button>),
-  createData('Anibal Mellado', '20272721-2', true, <button>action</button>),
+const columns: GridColDef[] = [
+    { 
+        field: 'name', 
+        width: 300,
+        align:'left',
+        headerName: 'Nombre', 
+        renderCell: (params: GridCellParams) => ( <ShowAvatar name={params.row.name} /> ),
+    },
+    { 
+        field: 'dni', 
+        width: 285,
+        align:'left',
+        headerName: 'Dni',
+        renderCell: (params: GridCellParams) => ( params.row.dni )
+    },
+    { 
+        field: 'status', 
+        width: 200,
+        align:'left',
+        headerName: 'Estado', 
+        type: 'boolean',
+        renderCell: (params: GridCellParams) => ( <ShowStatus status={params.row.status} /> ),
+    },
+    { 
+        field: 'action', 
+        width: 100,
+        align:'left',
+        headerAlign: 'left',
+        headerName: 'Acción', 
+        type: 'actions',
+        renderCell: (params: GridCellParams) => ( <ActionButtons user={ params.row } /> ),
+    }
 ];
 
-export default function Roles() {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [searched, setSearched] = useState<string>("");
-  const classes = useRolesStyle();
+function escapeRegExp(value: string) {
+    return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+};
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
+export default function RoleList() {
+    const classes = useRolesStyle();
+    const [searchText, setSearchText] = useState('');
+    const [rows, setRows] = useState(dataRows);
+    const [pageSize, setPageSize] = useState<number>(5);
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+    const requestSearch = (searchValue: string) => {
+        setSearchText(searchValue);
+        const searchRegex = new RegExp(escapeRegExp(searchValue), 'i');
+        const filteredRows = dataRows.filter((row) => {
+            return Object.keys(row).some((field) => {
+                return searchRegex.test(row[field].toString());
+            });
+        });
+        setRows(filteredRows);
+    };
 
-  return(
-    <Container>
-      <Grid container item xs={12} sm={12} md={12} lg={12} direction="column" alignItems="center">
-        <Paper className={classes.paper} >
-          <Grid container className={classes.container} spacing={2}>
-            <Grid item xs>
-              <Typography variant="h4">Admin-Roles</Typography>
-              <Typography variant="h4">Usuarios</Typography>
-              <Typography variant="body1" style={{marginTop: 6}}>Administración y control de usuarios.</Typography>
+    useEffect(() => {
+        setRows(rows);
+    }, [rows]);
+
+    return (
+        <Container>
+            <Grid container item xs={12} sm={12} md={12} lg={12} direction="column" alignItems="center">
+                <Paper className={classes.paper} >
+                    <Grid container className={classes.container} spacing={2}>
+                        <Grid item xs>
+                            <Typography variant="h4">Usuarios</Typography>
+                            <Typography variant="body1" style={{marginTop: 6}}>Administración y control de usuarios.</Typography>
+                        </Grid>
+                        <Grid item>
+                            <Button variant="contained" color="primary" size="large" startIcon={<AddIcon />} style={{ borderRadius: 20 }}>Crear usuario</Button>
+                        </Grid>
+                    </Grid>
+                </Paper>
+                <Paper className={classes.paper} style={{marginTop: 67}} >
+                
+                    <DataGrid 
+                        rowHeight={50}
+                        className={classes.table}
+                        disableSelectionOnClick
+                        components={{ 
+                            Toolbar: QuickSearchToolbar,
+                            LoadingOverlay: CustomLoadingOverlay,
+                        }}
+                        loading={false}
+                        rows={rows} 
+                        columns={columns} 
+                        pageSize={pageSize}
+                        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                        rowsPerPageOptions={[5, 10, 20]}
+                        componentsProps= {{
+                            toolbar: {
+                                value: searchText,
+                                onChange: (e: any) => requestSearch(e.target.value),
+                                clearSearch: () => requestSearch(''),
+                            },
+                        }}
+                        />
+                
+                </Paper>
             </Grid>
-            <Grid item>
-              <Button variant="contained" color="primary" size="large" startIcon={<AddIcon />} style={{ borderRadius: 20 }}>Crear usuario</Button>
-            </Grid>
-          </Grid>
-        </Paper>
-      </Grid>
-
-      <Paper style={{marginTop: 67}}>
-        <TableContainer style={{maxHeight: 440}}>
-          <Table stickyHeader className="" aria-label="simple table">
-            <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-            </TableHead>
-            <TableBody>
-              { rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                  return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.name}>
-                      { columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id}>
-                            { value }
-                          </TableCell>
-                        )
-                      }) }
-                    </TableRow>
-                  )
-                })              
-              }
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-      <br />
-
-    </Container>
-  );
+        </Container>
+    );
 };
