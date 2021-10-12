@@ -7,6 +7,8 @@ export enum CommonTypes {
   IS_LOGGED_IN = "IS_LOGGED_IN",
   LOGOUT = "LOGOUT",
   SET_LOGIN = "SET_LOGIN",
+  SET_CURRENT_COUNTRY = "SET_CURRENT_COUNTRY",
+  SET_CURRENT_INSTITUTION = "SET_CURRENT_INSTITUTION",
 };
 
 export type CommonState = {
@@ -17,4 +19,6 @@ export type CommonState = {
     userData?: ProfileType,
     userToken: string,
   };
+  currentCountry: string;
+  currentInstitution: string;
 };

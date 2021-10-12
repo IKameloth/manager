@@ -7,6 +7,7 @@ const Login = React.lazy(() => import('./pages/login'));
 const Roles = React.lazy(() => import('./pages/roles'));
 const People = React.lazy(() => import('./pages/people'));
 const Institutions = React.lazy(() => import('./pages/institutions'));
+const Test = React.lazy(() => import('./pages/roles/test'));
 
 export default function App() {
   const location = useLocation();
@@ -17,7 +18,6 @@ export default function App() {
     if(pathname !== location.pathname) {
       setKey(Math.random());
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   useEffect(() => {
@@ -31,6 +31,7 @@ export default function App() {
         <Navbar>
           <Route exact path="/" render={() => <Home />} />
           <Route exact path="/roles" render={() => <Roles />} />
+          <Route exact path="/test" render={() => <Test />} />
           <Route exact path="/people" render={() => <People />} />
           <Route exact path="/institutions" render={() => <Institutions />} />
         </Navbar>
