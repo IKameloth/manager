@@ -7,11 +7,15 @@ COPY package.json ./
 COPY package-lock.json ./
 RUN yarn install --silent
 
+ENV NODE_ENV=production
+ENV APP_NAME=autentia-admin
+
 COPY . ./
 RUN yarn build
 
-FROM nginx:alpine
+FROM nginx:stable as final
+WORKDIR /web
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=react-build /app/dist .
 
-COPY --from=react-build /app/dist /usr/share/nginx/html
-#EXPOSE 3000
-#CMD ["nginx", "-g", "daemon off;"]
+# CMD npm start
