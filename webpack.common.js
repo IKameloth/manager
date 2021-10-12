@@ -4,6 +4,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const DotenvPlugin = require('dotenv-webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const dotenvPlugin = new DotenvPlugin({ path: path.resolve(__dirname, '.env')})
 
@@ -54,10 +55,19 @@ module.exports = {
           name: '[name].[ext]',
           outputPath: 'static/images'
         }
+      },
+      {
+        test: /\.(json)$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+          outputPath: 'static/public'
+        }
       }
     ]
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new HtmlWebPackPlugin({
       template: './public/index.html',
       templateParameters: (compilation, assets, assetTags, options) => {
@@ -70,10 +80,11 @@ module.exports = {
             options
           },
           // env: Object.assign({}, ...Object.keys(dotenvPlugin.definitions).map(d =>
-          //   ({[d.replace('process.env.', '')]: dotenvPlugin.definitions[d].replace(/\"/g, '')})
+          //    ({[d.replace('process.env.', '')]: dotenvPlugin.definitions[d].replace(/\"/g, '')})
           // ))
         }
-      }
+      },
+      favicon: 'src/assets/images/favicon.ico'
     }),
     new MiniCssExtractPlugin({
       filename: 'static/css/bundle.css'
