@@ -1,4 +1,3 @@
-import DialogRoles from "./DialogRoles";
 import CustomLoadingOverlay from "./Roles/CustomLoading";
 import QuickSearchToolbar from "./Roles/SearchToolbar";
 import ShowStatus from "./Roles/Status";
@@ -10,6 +9,5 @@ export {
     ShowAvatar,
     ShowStatus,
     QuickSearchToolbar,
-    CustomLoadingOverlay,
-    DialogRoles
+    CustomLoadingOverlay
 };

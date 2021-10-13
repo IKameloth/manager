@@ -77,5 +77,5 @@ export const useRolesStyle = makeStyles((theme) => ({
   },
   actionContent: {
     cursor: 'pointer',
-  }
+  },
 }));
