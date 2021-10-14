@@ -7,7 +7,7 @@ RUN npm --global config set user root
 COPY package.json .
 COPY package-lock.json .
 
-RUN yarn install --production --silent
+RUN yarn install --silent
 
 ENV NODE_ENV=production
 ENV APP_NAME=autentia-admin
