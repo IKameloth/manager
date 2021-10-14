@@ -1,4 +1,4 @@
-FROM node:14.15.4-alpine3.12 as build
+FROM node:14.15.4-alpine3.12 as build-react
 
 WORKDIR /app
 
@@ -14,11 +14,11 @@ ENV APP_NAME=autentia-admin
 
 COPY . .
 
-RUN yarn run build
+RUN yarn build
 
 FROM nginx:stable as final
 WORKDIR /web
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build-react /app/dist /usr/share/nginx/html
 
 # CMD npm start
