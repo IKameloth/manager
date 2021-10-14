@@ -15,12 +15,15 @@ interface Props {
 };
 
 export default function Sidebar(props: Props) {
+  if(props.profile.userData){
+    return <div></div>
+  }
   const dispatch = useDispatch();
   const classes = SideBar();
   const userName = props.profile.userData?.attributes.name || 'Unknow';
   const nameLetters = userName.trim().split(' ').reduce((acc: any, el: any) => acc + el.charAt(0).toUpperCase(), "").substring(0, 2);
-  const rolesArr = props.profile.userData?.relationships?.roles;
-  const countryArr = props.profile.userData?.attributes?.country;
+  const rolesArr = props.profile.userData.relationships?.roles;
+  //const countryArr = props.profile.userData?.attributes?.country;
 
   const [openDialog, setOpenDialog] = React.useState(false);
   const [countrySelected, setCountrySelected] = React.useState('');
@@ -92,7 +95,7 @@ export default function Sidebar(props: Props) {
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="max-width">País</InputLabel>
               <Select value={countrySelected} onChange={handleChangeSelectCountry} >
-                { countryArr?.length > 0 && countryArr.map((ele: string) => (<MenuItem key={ele} value={ele}>{ele}</MenuItem>))}
+                  <MenuItem value="xs">xs</MenuItem>
               </Select>
             </FormControl>
             { countrySelected &&
