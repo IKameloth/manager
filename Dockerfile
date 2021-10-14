@@ -7,14 +7,14 @@ RUN npm --global config set user root
 COPY package.json .
 COPY package-lock.json .
 
-RUN npm install --unsafe-perm --production --silent
+RUN yarn install --production --silent
 
 ENV NODE_ENV=production
 ENV APP_NAME=autentia-admin
 
 COPY . .
 
-RUN npm run build
+RUN yarn run build
 
 FROM nginx:stable as final
 WORKDIR /web
