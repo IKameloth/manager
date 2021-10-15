@@ -12,6 +12,7 @@ spec:
     metadata:
       name: app
     spec:
+      serviceAccountName: autentia-admin-ksa
       containers:
         - name: app
           image: app
