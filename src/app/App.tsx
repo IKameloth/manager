@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 const Home = React.lazy(() => import('./pages/home'));
 const Login = React.lazy(() => import('./pages/login'));
 const Roles = React.lazy(() => import('./pages/roles'));
+const RolesDetail = React.lazy(() => import('./pages/roles/RolesDetail'))
 const People = React.lazy(() => import('./pages/people'));
 const Institutions = React.lazy(() => import('./pages/institutions'));
 
@@ -30,6 +31,7 @@ export default function App() {
         <Navbar>
           <Route exact path="/" render={() => <Home />} />
           <Route exact path="/roles" render={() => <Roles />} />
+          <Route exact path="/roles/:dni" render={() => <RolesDetail />} />
           <Route exact path="/people" render={() => <People />} />
           <Route exact path="/institutions" render={() => <Institutions />} />
         </Navbar>

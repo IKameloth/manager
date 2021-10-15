@@ -9,5 +9,5 @@ export {
     ShowAvatar,
     ShowStatus,
     QuickSearchToolbar,
-    CustomLoadingOverlay
+    CustomLoadingOverlay,
 };

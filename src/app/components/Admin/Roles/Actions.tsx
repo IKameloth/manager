@@ -5,6 +5,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import ShowDialog from "./RoleDialog";
+import { Link } from "react-router-dom";
 
 interface userProps {
     user: any
@@ -14,10 +15,6 @@ export default function ActionButtons(props: userProps) {
     const { dni, name, status } = props.user;
     const classes = useRolesStyle();
     const [showDialog, setShowDialog] = useState(false);
-
-    const handleEditClick = () => {
-        console.log(dni);
-    };
 
     const handleStatusClick = () => {
         console.log("Entra!");
@@ -35,13 +32,14 @@ export default function ActionButtons(props: userProps) {
             <FormControlLabel
               label=""
               control={
-                <IconButton
-                  color="secondary"
-                  aria-label="editar"
-                  onClick={handleEditClick}
-                >
-                  <EditIcon style={{ color: '#3366FF' }} />
-                </IconButton>
+                <Link to={`/roles/${dni}`}>
+                    <IconButton
+                    color="secondary"
+                    aria-label="editar"
+                    >
+                        <EditIcon style={{ color: '#3366FF' }} />
+                    </IconButton>
+                </Link>
               }
             />
             { status ?

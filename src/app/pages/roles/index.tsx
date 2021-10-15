@@ -89,8 +89,7 @@ export default function RoleList() {
                         </Grid>
                     </Grid>
                 </Paper>
-                <Paper className={classes.paper} style={{marginTop: 67}} >
-                
+                <Paper className={classes.paper} style={{marginTop: 68}} >
                     <DataGrid 
                         rowHeight={50}
                         className={classes.table}
@@ -112,8 +111,7 @@ export default function RoleList() {
                                 clearSearch: () => requestSearch(''),
                             },
                         }}
-                        />
-                
+                    />
                 </Paper>
             </Grid>
         </Container>
