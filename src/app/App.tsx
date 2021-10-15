@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, Switch, Route } from "react-router-dom";
 import Navbar from './components/Navbar';
 
+const HealthCheck = React.lazy(() => import('./pages/healthCheck'));
 const Home = React.lazy(() => import('./pages/home'));
 const Login = React.lazy(() => import('./pages/login'));
 const Roles = React.lazy(() => import('./pages/roles'));
@@ -27,6 +28,7 @@ export default function App() {
   return(
     <React.Suspense fallback={null}>
       <Switch location={location} key={key}>
+        <Route path="/healthz" render={() => <HealthCheck />} />
         <Route exact path="/login" render={() => <Login />} />
         <Navbar>
           <Route exact path="/" render={() => <Home />} />
