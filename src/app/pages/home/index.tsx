@@ -8,7 +8,9 @@ export default function Home() {
   const classes = useHomeStyles();
   const { common } = useSelector((state: StoreState) => state);
   const { profile } = common;
-
+  if(!profile.userData){
+    return <div></div>
+  }
   return (
     <Container>
       <Grid container item xs={12} sm={12} md={12} direction="column" alignItems="center">
