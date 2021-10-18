@@ -23,6 +23,18 @@ spec:
             limits:
               cpu: 200m
               memory: 256Mi
+          readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            httpGet:
+              path: /healthz
+              port: 3000
+          livenessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            httpGet:
+              path: /healthz
+              port: 3000
           ports:
             - name: http
               containerPort: 3000
