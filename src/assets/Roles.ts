@@ -49,10 +49,33 @@ export const useRolesStyle = makeStyles((theme) => ({
       marginTop: theme.spacing(1),
     },
   },
-  avatarName: {
+  avatarContent: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+    '& label': {
+      marginLeft: 20
+    }
+  },
+  avatarName: {
+    marginLeft: 10,
+    backgroundColor: theme.palette.primary.main,
+  },
+  loadingOverlay: {
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+  },
+  statusActive: {
+    color: "#209E25", 
+    backgroundColor: '#C2FFCC'
+  },
+  statusInactive: {
+    color: "#FFA31A", 
+    backgroundColor: '#FFF6E8'
+  },
+  actionContent: {
+    cursor: 'pointer',
+  },
 }));
