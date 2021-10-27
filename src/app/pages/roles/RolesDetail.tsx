@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { TextField, Container, Grid, Paper, Typography, Button, Card, Avatar, CardContent, CardActions, makeStyles, TableRow, Table, TableHead, TableBody, TableCell, FormControlLabel, IconButton } from "@material-ui/core";
+import { TextField, Container, Grid, Paper, Typography, Button, Card, Avatar, CardContent, CardActions, makeStyles, TableRow, Table, TableHead, TableBody, TableCell, FormControlLabel, IconButton, Box, styled, ButtonBase, useMediaQuery } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import { DataGrid, GridCellParams, GridColDef, GridRowsProp } from "@material-ui/data-grid";
 import { ActionButtons, CustomLoadingOverlay } from "@/app/components/Admin";
@@ -8,38 +8,45 @@ import EditIcon from "@material-ui/icons/Edit";
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { TitleBar } from "@/app/components/Admin";
 
 const dataRows = [
-    { id: 1, role: 'JP', institution: '@AUTENTIAX' },
-    { id: 2, role: 'Admin', institution: '@AUTENTIAX' },
-    { id: 3, role: 'Oper', institution: '@AUTENTIAX' },
-    { id: 4, role: 'Opersensor', institution: '@AUTENTIAX' },
-    { id: 5, role: 'ServiceDesk', institution: '@AUTENTIAX' },
-    { id: 6, role: 'Jefe', institution: '@AUTENTIAX' },
-    { id: 7, role: 'Junior', institution: '@AUTENTIAX' },
-    { id: 8, role: 'Senior', institution: '@AUTENTIAX' },
+    { id: 1, role: 'JP', institution: '@AUTENTIAX', country: "CHILE" },
+    { id: 2, role: 'Admin', institution: '@AUTENTIAX', country: "CHILE" },
+    { id: 3, role: 'Oper', institution: '@AUTENTIAX', country: "CHILE" },
+    { id: 4, role: 'Opersensor', institution: '@AUTENTIAX', country: "CHILE" },
+    { id: 5, role: 'ServiceDesk', institution: '@AUTENTIAX', country: "CHILE" },
+    { id: 6, role: 'Jefe', institution: '@AUTENTIAX', country: "CHILE" },
+    { id: 7, role: 'Junior', institution: '@AUTENTIAX', country: "CHILE" },
+    { id: 8, role: 'Senior', institution: '@AUTENTIAX', country: "CHILE" },
 ];
 
 const columns: GridColDef[] = [
     { 
         field: 'role', 
-        width: 300,
+        width: 200,
         align:'left',
         headerName: 'Rol', 
-        renderCell: (params: GridCellParams) => ( params.row.role ),
+        renderCell: (params: GridCellParams) => ( <div style={{ marginLeft: 10 }}>{params.row.role}</div> ),
     },
     { 
         field: 'institution', 
-        width: 285,
+        width: 200,
         align:'left',
         headerName: 'Institución',
         renderCell: (params: GridCellParams) => ( params.row.dni )
     },
+    {
+        field: 'country',
+        width: 200,
+        align: 'left',
+        headerName: 'País',
+        renderCell: (params: GridCellParams) => ( params.row.country )
+    },
     { 
         field: 'action', 
-        width: 100,
+        width: 150,
         align:'left',
-        headerAlign: 'left',
         headerName: 'Acción', 
         type: 'actions',
         renderCell: (params: GridCellParams) => ( <ActionButtons user={ params.row } /> ),
@@ -48,7 +55,6 @@ const columns: GridColDef[] = [
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        padding: theme.spacing(1),
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -68,7 +74,10 @@ const useStyles = makeStyles((theme) => ({
     },
     table: {
         border: 'none',
-        height: 400,
+        height: 434,
+        '& .MuiDataGrid-columnHeaderTitleContainer': {
+            padding: 0
+        },
         '& .MuiDataGrid-columnsContainer': {
           padding: '10px',
           color: 'rgba(0, 0, 0, 0.55)',
@@ -106,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
             fontWeight: 'bold',
             fontSize: 13,
         },
-        '& MuiAutocomplete-input': {
+        '& .MuiAutocomplete-input': {
             backgroundColor: "#FFFFFF"
         },
     },
@@ -122,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
         height: 95,
         backgroundColor: theme.palette.primary.main,
         boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25), 0px 9px 18px rgba(0, 0, 0, 0.18)",
-        marginBottom: 10,
+        marginBottom: 5,
     },
     backgroundBtn: {
         backgroundColor: "#FFFFFF", 
@@ -131,12 +140,22 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const Item = styled(Paper)(({ theme }) => ({
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    color: theme.palette.text.secondary,
+    borderRadius: 10,
+    boxShadow: '0px 9px 18px rgba(0, 0, 0, 0.18), 0px 5.5px 5px rgba(0, 0, 0, 0.24)'
+}));
+
 interface RouteParams {
     dni: string
 }
 
 export default function RolesDetail() {
     const classes = useStyles();
+    const viewMobile = useMediaQuery('(max-width:425px)'); // mobile
+    const viewTablet = useMediaQuery('(max-width:959px)'); // tablet
     const { dni } = useParams<RouteParams>();
     const [rows, setRows] = useState(dataRows);
     const [pageSize, setPageSize] = useState<number>(5);
@@ -154,106 +173,93 @@ export default function RolesDetail() {
 
     return (
         <Container>
-            <Grid container item xs={12} sm={12} md={12} lg={12} direction="column" alignItems="center">
-                <Paper className={classes.paper} >
-                    <Grid container className={classes.container} spacing={2}>
-                        <Grid item xs>
-                            <Typography variant="h4">Roles</Typography>
-                            <Typography variant="body1" style={{marginTop: 6}}>Administración y control de roles.</Typography>
-                        </Grid>
-                        <Grid item>
-                            <Button variant="contained" color="primary" size="large" startIcon={<AddIcon />} style={{ borderRadius: 20 }}>Crear rol</Button>
-                        </Grid>
-                    </Grid>
-                </Paper>
-            </Grid>
+            <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={8}>
 
-            <Grid container item xs={12} sm={12} md={12} lg={12} spacing={2} alignItems="center" style={{ marginTop: 68 }}>
-                <Grid item xs={4} >
-                    <Card style={{ maxWidth: 345, height: 450, backgroundColor: "#ffffff", borderRadius: '10px', boxShadow: '0px 9px 18px rgba(0, 0, 0, 0.18), 0px 5.5px 5px rgba(0, 0, 0, 0.24)' }}>
-                        <CardContent>
-                            <div className={ classes.centerElements }>
-                                <Avatar alt="user" className={ classes.avatar }>PP</Avatar>
-                                <Typography variant="h6">Pepe Pepe</Typography>
-                                <Typography variant="subtitle2" color="textSecondary">QA</Typography>
-                            </div>
-                            <Table className={classes.miniTable}>
-                                <TableHead></TableHead>
-                                <TableBody>
-                                    <TableRow style={{ borderTop: "1px solid #E0E0E0" }}>
-                                        <TableCell>
-                                            <Typography variant="body2" color="textSecondary">Fecha de registro</Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="body2">22 Enero 2021</Typography>
-                                        </TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell>
-                                            <Typography variant="body2" color="textSecondary">Empresa</Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="body2">Autentia SA</Typography>
-                                        </TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell>
-                                            <Typography variant="body2" color="textSecondary">Email</Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="body2">ppepe@autentia.cl</Typography>
-                                        </TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </CardContent>
-                        <CardActions style={{ justifyContent: 'center', alignItems: 'center' }}>
-                            <FormControlLabel
-                                className={classes.backgroundBtn}
-                                label=""
-                                control={
-                                    <IconButton color="secondary" aria-label="editar">
+                    <TitleBar title="roles" subTitle="administración y control de roles" btnText="crear rol" />
+                    
+                    <Grid item xs={12} md={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+                        <Card style={{ justifyContent: 'center', maxWidth: 345, height: 450, backgroundColor: "#ffffff", borderRadius: '10px', boxShadow: '0px 9px 18px rgba(0, 0, 0, 0.18), 0px 5.5px 5px rgba(0, 0, 0, 0.24)' }}>
+                            <CardContent>
+                                <div className={ classes.centerElements }>
+                                    <Avatar alt="user" className={ classes.avatar }>PP</Avatar>
+                                    <Typography variant="h6">Pepe Pepe</Typography>
+                                    <Typography variant="subtitle2" color="textSecondary">QA</Typography>
+                                </div>
+                                <Table className={classes.miniTable}>
+                                    <TableHead></TableHead>
+                                    <TableBody>
+                                        <TableRow style={{ borderTop: "1px solid #E0E0E0" }}>
+                                            <TableCell>
+                                                <Typography variant="body2" color="textSecondary">Fecha de registro</Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography variant="body2">22 Enero 2021</Typography>
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>
+                                                <Typography variant="body2" color="textSecondary">Empresa</Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography variant="body2">Autentia SA</Typography>
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>
+                                                <Typography variant="body2" color="textSecondary">Email</Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography variant="body2">ppepe@autentia.cl</Typography>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </CardContent>
+                            <CardActions disableSpacing style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                <div style={{ marginRight: 5 }}>
+                                    <IconButton className={classes.backgroundBtn} aria-label="edit">
                                         <EditIcon style={{ color: '#3366FF' }} />
                                     </IconButton>
-                                }
-                            />
-                            <FormControlLabel
-                                className={classes.backgroundBtn}
-                                label=""
-                                control={
-                                    <IconButton color="secondary" aria-label="deshabilitar">
+                                </div>
+                                <div style={{ marginLeft: 5 }}>
+                                    <IconButton className={classes.backgroundBtn} aria-label="remove">
                                         <NotInterestedIcon style={{ color: '#FF0000' }} />
                                     </IconButton>
-                                }
+                                </div>
+                                
+                            </CardActions>
+                        </Card>
+                    </Grid>
+
+                    <Grid item xs={12} md={8} >
+                        <Item>
+                            <DataGrid 
+                                className={classes.table}
+                                rowHeight={50}
+                                disableSelectionOnClick
+                                components={{ 
+                                    Toolbar: LimitTag,
+                                    LoadingOverlay: CustomLoadingOverlay,
+                                }}
+                                loading={false}
+                                rows={rows} 
+                                columns={columns} 
+                                pageSize={pageSize}
+                                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                                rowsPerPageOptions={[5, 10, 20]}
+                                componentsProps={{
+                                    toolbar: {
+                                        value: searchText,
+                                        onChange: (e: any) => requestSearch(e.target.value),
+                                        clearSearch: () => requestSearch(""),
+                                    }
+                                }}
                             />
-                        </CardActions>
-                    </Card>
+                        </Item>
+                    </Grid>
                 </Grid>
-                <Grid item xs={8} style={{ height: 430, backgroundColor: "#ffffff", borderRadius: '10px', boxShadow: '0px 9px 18px rgba(0, 0, 0, 0.18), 0px 5.5px 5px rgba(0, 0, 0, 0.24)', }}>
-                    <DataGrid 
-                        className={classes.table}
-                        rowHeight={50}
-                        disableSelectionOnClick
-                        components={{ 
-                            Toolbar: LimitTag,
-                            LoadingOverlay: CustomLoadingOverlay,
-                        }}
-                        loading={false}
-                        rows={rows} 
-                        columns={columns} 
-                        pageSize={pageSize}
-                        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                        rowsPerPageOptions={[5, 10, 20]}
-                        componentsProps={{
-                            toolbar: {
-                                value: searchText,
-                                onChange: (e: any) => requestSearch(e.target.value),
-                                clearSearch: () => requestSearch(""),
-                            }
-                        }}
-                    />
-                </Grid>
-            </Grid>
+            </Box>
         </Container>
     );
 };
