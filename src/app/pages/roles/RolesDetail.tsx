@@ -8,6 +8,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { TitleBar } from "@/app/components/Admin";
 
 const dataRows = [
     { id: 1, role: 'JP', institution: '@AUTENTIAX', country: "CHILE" },
@@ -175,23 +176,7 @@ export default function RolesDetail() {
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={8}>
 
-                    <Grid item xs={12} md={12}>
-                        <Paper style={{ padding: 2, margin: 'auto', maxWidth: 900, flexGrow: 1, boxShadow: '0px 9px 18px rgba(0, 0, 0, 0.18), 0px 5.5px 5px rgba(0, 0, 0, 0.24)', borderRadius: 10 }}>
-                            <Grid container spacing={2}>
-                                <Grid item xs={12} sm container alignItems="center" justifyContent="center" style={{margin: '9px 25px'}}>
-                                    <Grid item xs container direction="column" spacing={2}>
-                                        <Grid item xs>
-                                            <Typography variant="h4" style={{ color: '#000000'}} >Roles</Typography>
-                                            <Typography variant="body1" style={{marginTop: 6}}>Administración y control de roles.</Typography>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item style={{ marginTop: viewMobile ? '10px' : '0px' }}>
-                                        <Button variant="contained" color="primary" size="large" startIcon={<AddIcon />} style={{ borderRadius: 20 }}>Crear rol</Button>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                        </Paper>
-                    </Grid>
+                    <TitleBar title="roles" subTitle="administración y control de roles" btnText="crear rol" />
                     
                     <Grid item xs={12} md={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
                         <Card style={{ justifyContent: 'center', maxWidth: 345, height: 450, backgroundColor: "#ffffff", borderRadius: '10px', boxShadow: '0px 9px 18px rgba(0, 0, 0, 0.18), 0px 5.5px 5px rgba(0, 0, 0, 0.24)' }}>

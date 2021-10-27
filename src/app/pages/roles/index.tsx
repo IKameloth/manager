@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { DataGrid, GridCellParams, GridColDef, GridRowsProp } from '@material-ui/data-grid';
-import { Button, Container, Grid, Paper, Typography } from '@material-ui/core';
+import { Box, Button, Container, Grid, Paper, styled, Typography } from '@material-ui/core';
 import { useRolesStyle } from '@/assets/Roles';
 import AddIcon from '@material-ui/icons/Add';
-import { CustomLoadingOverlay, QuickSearchToolbar, ShowStatus, ShowAvatar, ActionButtons } from '@/app/components/Admin';
+import { CustomLoadingOverlay, QuickSearchToolbar, ShowStatus, ShowAvatar, ActionButtons, TitleBar } from '@/app/components/Admin';
 
 const dataRows: GridRowsProp = [
     { id: 1, name: 'Natasha Sky', dni: '10826805-0', status: true },
@@ -54,6 +54,16 @@ function escapeRegExp(value: string) {
     return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 };
 
+const Item = styled(Paper)(({ theme }) => ({
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    width: '100%',
+    maxWidth: 900,
+    color: theme.palette.text.secondary,
+    borderRadius: 10,
+    boxShadow: '0px 9px 18px rgba(0, 0, 0, 0.18), 0px 5.5px 5px rgba(0, 0, 0, 0.24)'
+}));
+
 export default function RoleList() {
     const classes = useRolesStyle();
     const [searchText, setSearchText] = useState('');
@@ -77,43 +87,38 @@ export default function RoleList() {
 
     return (
         <Container>
-            <Grid container item xs={12} sm={12} md={12} lg={12} direction="column" alignItems="center">
-                <Paper className={classes.paper} >
-                    <Grid container className={classes.container} spacing={2}>
-                        <Grid item xs>
-                            <Typography variant="h4">Usuarios</Typography>
-                            <Typography variant="body1" style={{marginTop: 6}}>Administración y control de usuarios.</Typography>
-                        </Grid>
-                        <Grid item>
-                            <Button variant="contained" color="primary" size="large" startIcon={<AddIcon />} style={{ borderRadius: 20 }}>Crear usuario</Button>
-                        </Grid>
+            <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={8}>
+                    <TitleBar title="usuarios" subTitle="administración y control de usuarios" btnText="crear usuario" />
+                
+                    <Grid item xs={12} md={12} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <Item>
+                            <DataGrid 
+                                rowHeight={50}
+                                className={classes.table}
+                                disableSelectionOnClick
+                                components={{ 
+                                    Toolbar: QuickSearchToolbar,
+                                    LoadingOverlay: CustomLoadingOverlay,
+                                }}
+                                loading={false}
+                                rows={rows} 
+                                columns={columns} 
+                                pageSize={pageSize}
+                                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                                rowsPerPageOptions={[5, 10, 20]}
+                                componentsProps= {{
+                                    toolbar: {
+                                        value: searchText,
+                                        onChange: (e: any) => requestSearch(e.target.value),
+                                        clearSearch: () => requestSearch(''),
+                                    },
+                                }}
+                                />
+                        </Item>
                     </Grid>
-                </Paper>
-                <Paper className={classes.paper} style={{marginTop: 68}} >
-                    <DataGrid 
-                        rowHeight={50}
-                        className={classes.table}
-                        disableSelectionOnClick
-                        components={{ 
-                            Toolbar: QuickSearchToolbar,
-                            LoadingOverlay: CustomLoadingOverlay,
-                        }}
-                        loading={false}
-                        rows={rows} 
-                        columns={columns} 
-                        pageSize={pageSize}
-                        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                        rowsPerPageOptions={[5, 10, 20]}
-                        componentsProps= {{
-                            toolbar: {
-                                value: searchText,
-                                onChange: (e: any) => requestSearch(e.target.value),
-                                clearSearch: () => requestSearch(''),
-                            },
-                        }}
-                    />
-                </Paper>
-            </Grid>
+                </Grid>
+            </Box>
         </Container>
     );
 };
