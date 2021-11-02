@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import { CommonTypes as Type } from "./types";
-import { CommonActions, SetLoginAction } from "./actions";
+import { CommonActions, SetCountriesAction, SetLoginAction } from "./actions";
 import { ApiServicesProvider } from "../../../services/apiServices";
 
 const $Services = new ApiServicesProvider();
@@ -52,6 +52,23 @@ export const loginRequest = (userDni: string, password: string) => {
   }
 }
 
+export const setCountries = () => {
+  return async (dispatch: Dispatch<CommonActions>): Promise<SetCountriesAction | false | {}> => {
+    try {
+      const response = await $Services.getCountries();
+
+      if (response.error) {
+        return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: response.error });
+      };
+      
+      return dispatch({ type: Type.SET_COUNTRIES, payload: response });
+    }catch(err) {
+      console.log("Error", err)
+      return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: 'Ocurrió un error, intentelo nuevamente más tarde' });
+    };
+  }
+}
+
 export const logout = () => {
   return (dispatch: Dispatch): CommonActions => {
     return dispatch({ 
@@ -78,22 +95,6 @@ export const logout = () => {
   };
 };
 
-export const setCurrentCountry = (country: string) => {
-  return(dispatch: Dispatch<CommonActions>): CommonActions =>
-    dispatch({
-      type: Type.SET_CURRENT_COUNTRY,
-      payload: country
-    });
-};
-
-export const setCurrentInstitution = (institution: string) => {
-  return(dispatch: Dispatch<CommonActions>): CommonActions =>
-    dispatch({
-      type: Type.SET_CURRENT_INSTITUTION,
-      payload: institution
-    });
-};
-
 
 export default {
   setIsLoading,
@@ -102,6 +103,4 @@ export default {
   cleanErrorMessage,
   loginRequest,
   logout,
-  setCurrentCountry,
-  setCurrentInstitution,
 };

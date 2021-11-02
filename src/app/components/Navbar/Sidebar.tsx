@@ -1,58 +1,39 @@
-import React, { MouseEvent, useEffect } from "react";
+import React, { useEffect } from "react";
 import { SideBar } from "@/assets/SideBar/Sidebar";
 import { Dialog, Avatar, ButtonBase, Divider, Drawer, Grid, Typography, DialogTitle, FormControl, DialogContent, InputLabel, Select, MenuItem, DialogActions, Button } from "@material-ui/core";
 import UserMenu from "./UserMenu";
 import AdminMenu from "./AdminMenu";
 import RoleNames from "./RoleNames";
-import { useDispatch } from "react-redux";
-import { setCurrentCountry, setCurrentInstitution } from "@/app/store/common";
+import ScopeSelection from "./ScopeSelection";
+import { useDispatch, useSelector } from "react-redux";
+import { StoreState } from "@/app/store";
 
 interface Props {
   isSideOpen: boolean;
   profile: any;
-  country: string;
-  institution: string;
 };
 
 export default function Sidebar(props: Props) {
-  if(props.profile.userData){
-    return <div></div>
-  }
   const dispatch = useDispatch();
   const classes = SideBar();
-  const userName = props.profile.userData?.attributes.name || 'Unknow';
+  const userName = props.profile.userData?.name || 'Unknow';
   const nameLetters = userName.trim().split(' ').reduce((acc: any, el: any) => acc + el.charAt(0).toUpperCase(), "").substring(0, 2);
-  const rolesArr = props.profile.userData.relationships?.roles;
-  //const countryArr = props.profile.userData?.attributes?.country;
+  const rolesArr = props.profile.userData?.roles;
 
+  const [isLoading, setIsLoading] = React.useState(false);
   const [openDialog, setOpenDialog] = React.useState(false);
   const [countrySelected, setCountrySelected] = React.useState('');
   const [institutionSelected, setInstitutionSelected] = React.useState('');
 
+  const userStore = useSelector((state: StoreState) => state.user);
+  const commonStore = useSelector((state: StoreState) => state.common);
+  const { country, roles, institution } = userStore;
+  const { countries, profile } = commonStore;
+
   useEffect(() => {
-    if(props.country === '' && props.institution === '')
-      setOpenDialog(true);
+    if(country === '' && institution === '')
+      setOpenDialog(true)  
   }, []);
-
-  useEffect(() => {
-    (props.country.length > 0) && setCountrySelected(props.country);
-    (props.institution.length > 0) && setInstitutionSelected(props.institution);
-  }, [])
-
-  const handleChangeSelectCountry = (event: any) => {
-    setCountrySelected(String(event.target.value) || '');
-  };
-
-  const handleChangeSelectInstitution = (event: any) => {
-    setInstitutionSelected(String(event.target.value) || '');
-  };
-
-  const handleOnSubmit = async (e:MouseEvent) => {
-    e.preventDefault();
-    await dispatch(setCurrentCountry(countrySelected));
-    await dispatch(setCurrentInstitution(institutionSelected));
-    setOpenDialog(false);
-  };
 
   return(
     <Drawer className={classes.drawer} variant="persistent" anchor="left" open={props.isSideOpen}
@@ -80,57 +61,24 @@ export default function Sidebar(props: Props) {
       <Grid container className={classes.containerParams}>
         <ButtonBase className={classes.buttonBase} onClick={() => setOpenDialog(!openDialog)}>
           <Grid item>
-            <Typography variant="body1" >País: <label style={{color: 'blue', cursor: 'pointer'}}>{props.country === '' ? 'No Seleccionado': props.country}</label></Typography>
+            <Typography variant="body1" >País: <label style={{color: 'blue', cursor: 'pointer'}}>{country === ''? 'No Seleccionado':country}</label></Typography>
           </Grid>
           <Grid item>
-            <Typography variant="body1" >Institucíon: <label style={{color: 'blue', cursor: 'pointer'}}>{props.institution === '' ? 'No Seleccionada': props.institution}</label></Typography>
+            <Typography variant="body1" >Institucíon: <label style={{color: 'blue', cursor: 'pointer'}}>{institution === ''? 'No Seleccionada':institution}</label></Typography>
           </Grid>
         </ButtonBase>
       </Grid>
-
-      <Dialog open={openDialog} onClose={() => setOpenDialog(!openDialog)}>
-        <DialogTitle>Seleccione donde desea operar</DialogTitle>
-        <DialogContent>
-          <form className={classes.form} noValidate>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="max-width">País</InputLabel>
-              <Select value={countrySelected} onChange={handleChangeSelectCountry} >
-                  <MenuItem value="xs">xs</MenuItem>
-              </Select>
-            </FormControl>
-            { countrySelected &&
-              <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="max-width">Institución</InputLabel>
-                <Select value={institutionSelected} onChange={handleChangeSelectInstitution} >
-                  <MenuItem value="xs">xs</MenuItem>
-                  <MenuItem value="sm">sm</MenuItem>
-                  <MenuItem value="md">md</MenuItem>
-                  <MenuItem value="lg">lg</MenuItem>
-                  <MenuItem value="xl">xl</MenuItem>
-                </Select>
-              </FormControl>
-            }
-          </form>
-        </DialogContent>
-        <DialogActions>
-          { props.country !== '' && props.institution !== '' &&
-            <Button onClick={() => setOpenDialog(false)} color="primary">
-              Cancel
-            </Button>
-          }
-          { countrySelected && institutionSelected &&
-            <Button onClick={handleOnSubmit} color="primary">
-              Ok
-            </Button>
-          }
-        </DialogActions>
-      </Dialog>
+      {openDialog &&
+        <Dialog open={openDialog} onClose={() => setOpenDialog(!openDialog)}>
+         <ScopeSelection open={openDialog} setOpenDialog={setOpenDialog} />
+        </Dialog>
+      }
 
       {/* USER MENU */}
-      { (props.country?.length > 0 && props.institution?.length > 0) && <UserMenu /> }
+      <UserMenu />
 
       {/* ADMIN MENU */}
-      { (props.country?.length > 0 && props.institution?.length > 0) && <AdminMenu /> }
+      <AdminMenu />
     </Drawer>
   );
 };

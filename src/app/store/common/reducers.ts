@@ -7,16 +7,10 @@ const INITIAL_STATE: State = {
   profile: {
     userData: {
       id: "",
-      type: "",
-      attributes: {
-        name: "",
-        country: [],
-        email: "",
-        rut: ""
-      },
-      relationships: {
-        roles: {},
-      },
+      name: "",
+      email: "",
+      dni: "",
+      roles: []
     },
     userToken: "",
   },
@@ -36,10 +30,8 @@ export const commonReducer = (state: State = INITIAL_STATE, action: Actions) => 
       return { ...state, isLoggedIn: false, profile: action.payload, currentCountry: action.payload.currentCountry, currentInstitution: action.payload.currentInstitution }
     case Types.SET_LOGIN:
       return { ...state, isLoggedIn: true, profile: action.payload }
-    case Types.SET_CURRENT_COUNTRY:
-      return { ...state, currentCountry: action.payload }
-    case Types.SET_CURRENT_INSTITUTION:
-      return { ...state, currentInstitution: action.payload }  
+    case Types.SET_COUNTRIES:
+      return { ...state, countries: action.payload }
     default:
       return state;
   };

@@ -12,7 +12,6 @@ export class ApiServicesProvider {
           },
           body: JSON.stringify(payload),
         };
-
         return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions);
       },
       get(targetUrl: string, options?: { headers?: any}){
@@ -31,15 +30,14 @@ export class ApiServicesProvider {
 
   // Login
   public async sendLoginRequest(password: string, dni: string) {
-    const response = await this.$httpClient.post('login', { user: { rut: dni, password: password } });
+    const response = await this.$httpClient.post('login', { user: { dni, password } });
     const accessToken = response.headers.get("authorization");
     const resultData = await response.json();
-
     if (accessToken) {
-      if (resultData.included?.length > 0) {
-        resultData.data.relationships.roles.data = resultData.included;
+      if (resultData.data.roles?.length > 0) {
+        resultData.data.roles.data = resultData.included;
       };
-
+    
       const response = {
         userData: resultData.data,
         userToken: accessToken,
@@ -49,5 +47,19 @@ export class ApiServicesProvider {
     } else {
       return resultData;
     };
+  };
+
+  // Get Countries
+  public async getCountries() {
+    const response = await this.$httpClient.get('countries', {  });
+    const resultData = await response.json();
+    return resultData
+  };
+
+  // Get Roles
+  public async getRoles(token: string, userID: string, country: string) {
+    const response = await this.$httpClient.get(`roles/${userID}/${country}`, {  });
+    const resultData = await response.json();
+    return resultData
   };
 };
