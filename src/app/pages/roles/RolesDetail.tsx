@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { TextField, Container, Grid, Paper, Typography, Button, Card, Avatar, CardContent, CardActions, makeStyles, TableRow, Table, TableHead, TableBody, TableCell, FormControlLabel, IconButton, Box, styled, ButtonBase, useMediaQuery } from "@material-ui/core";
-import AddIcon from '@material-ui/icons/Add';
+import React, { useState } from "react";
+// import { useParams } from "react-router-dom";
+import { TextField, Container, Grid, Paper, makeStyles, Box, styled } from "@material-ui/core";
 import { DataGrid, GridCellParams, GridColDef, GridRowsProp } from "@material-ui/data-grid";
-import { ActionButtons, CustomLoadingOverlay } from "@/app/components/Admin";
-import EditIcon from "@material-ui/icons/Edit";
-import NotInterestedIcon from '@material-ui/icons/NotInterested';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import { ActionButtons, CustomLoadingOverlay, NewRoleModal } from "@/app/components/Admin";
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { TitleBar } from "@/app/components/Admin";
+import { TitleBar, UserCard } from "@/app/components/Admin";
 
 const dataRows = [
     { id: 1, role: 'JP', institution: '@AUTENTIAX', country: "CHILE" },
@@ -119,25 +115,6 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: "#FFFFFF"
         },
     },
-    centerElements: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingTop: '15px'
-    },
-    avatar: {
-        width: 95,
-        height: 95,
-        backgroundColor: theme.palette.primary.main,
-        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25), 0px 9px 18px rgba(0, 0, 0, 0.18)",
-        marginBottom: 5,
-    },
-    backgroundBtn: {
-        backgroundColor: "#FFFFFF", 
-        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25), 0px 9px 18px rgba(0, 0, 0, 0.18)", 
-        borderRadius: 25
-    },
 }));
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -153,13 +130,12 @@ interface RouteParams {
 }
 
 export default function RolesDetail() {
+    // const { dni } = useParams<RouteParams>();
     const classes = useStyles();
-    const viewMobile = useMediaQuery('(max-width:425px)'); // mobile
-    const viewTablet = useMediaQuery('(max-width:959px)'); // tablet
-    const { dni } = useParams<RouteParams>();
     const [rows, setRows] = useState(dataRows);
     const [pageSize, setPageSize] = useState<number>(5);
     const [searchText, setSearchText] = useState("");
+    const [isOpen, setIsOpen] = useState(false)
 
     const requestSearch = (searchValue: string) => {
         setSearchText(searchValue);
@@ -171,67 +147,17 @@ export default function RolesDetail() {
         setRows(filteredRows);
     };
 
+    const handleCreateRoleModal = () => {
+        setIsOpen(!isOpen)
+    }
+
     return (
         <Container>
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={8}>
 
-                    <TitleBar title="roles" subTitle="administración y control de roles" btnText="crear rol" />
-                    
-                    <Grid item xs={12} md={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
-                        <Card style={{ justifyContent: 'center', maxWidth: 345, height: 450, backgroundColor: "#ffffff", borderRadius: '10px', boxShadow: '0px 9px 18px rgba(0, 0, 0, 0.18), 0px 5.5px 5px rgba(0, 0, 0, 0.24)' }}>
-                            <CardContent>
-                                <div className={ classes.centerElements }>
-                                    <Avatar alt="user" className={ classes.avatar }>PP</Avatar>
-                                    <Typography variant="h6">Pepe Pepe</Typography>
-                                    <Typography variant="subtitle2" color="textSecondary">QA</Typography>
-                                </div>
-                                <Table className={classes.miniTable}>
-                                    <TableHead></TableHead>
-                                    <TableBody>
-                                        <TableRow style={{ borderTop: "1px solid #E0E0E0" }}>
-                                            <TableCell>
-                                                <Typography variant="body2" color="textSecondary">Fecha de registro</Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="body2">22 Enero 2021</Typography>
-                                            </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>
-                                                <Typography variant="body2" color="textSecondary">Empresa</Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="body2">Autentia SA</Typography>
-                                            </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>
-                                                <Typography variant="body2" color="textSecondary">Email</Typography>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Typography variant="body2">ppepe@autentia.cl</Typography>
-                                            </TableCell>
-                                        </TableRow>
-                                    </TableBody>
-                                </Table>
-                            </CardContent>
-                            <CardActions disableSpacing style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                <div style={{ marginRight: 5 }}>
-                                    <IconButton className={classes.backgroundBtn} aria-label="edit">
-                                        <EditIcon style={{ color: '#3366FF' }} />
-                                    </IconButton>
-                                </div>
-                                <div style={{ marginLeft: 5 }}>
-                                    <IconButton className={classes.backgroundBtn} aria-label="remove">
-                                        <NotInterestedIcon style={{ color: '#FF0000' }} />
-                                    </IconButton>
-                                </div>
-                                
-                            </CardActions>
-                        </Card>
-                    </Grid>
-
+                    <TitleBar title="roles" subTitle="administración y control de roles" btnText="crear rol" btnAction={handleCreateRoleModal} />
+                    <UserCard dni="18586460-K" name="Pepe Pedro" email="ppedro@autentia.cl" institution="IMED" job="QA" registeredDate="23 OCT 1992" /> {/* change this to user obj type */}
                     <Grid item xs={12} md={8} >
                         <Item>
                             <DataGrid 
@@ -260,6 +186,7 @@ export default function RolesDetail() {
                     </Grid>
                 </Grid>
             </Box>
+            { isOpen && <NewRoleModal isOpen={isOpen} onCloseModal={handleCreateRoleModal} /> }
         </Container>
     );
 };

@@ -25,10 +25,11 @@ interface Props {
     title: string
     subTitle: string
     btnText: string
+    btnAction: () => void
 }
 
 const TitleBar = (props: Props) => {
-    const { title, subTitle, btnText } = props
+    const { title, subTitle, btnText, btnAction } = props
     const classes = useStyles()
     const viewMobile = useMediaQuery('(max-width:425px)');
     return(
@@ -43,7 +44,14 @@ const TitleBar = (props: Props) => {
                             </Grid>
                         </Grid>
                         <Grid item style={{ marginTop: viewMobile ? '10px' : '0px' }}>
-                            <Button variant="contained" color="primary" size="large" startIcon={<AddIcon />} style={{ borderRadius: 20 }}>{btnText}</Button>
+                            <Button 
+                                variant="contained" 
+                                color="primary" 
+                                size="large" 
+                                startIcon={<AddIcon />} 
+                                style={{ borderRadius: 20 }}
+                                onClick={btnAction}
+                            >{btnText}</Button>
                         </Grid>
                     </Grid>
                 </Grid>
