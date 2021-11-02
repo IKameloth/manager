@@ -91,6 +91,9 @@ const Login = () => {
                       </InputAdornment>
                     ),
                   }}
+                  inputProps={{
+                    maxLength: 10
+                  }}
                 />
               </Grid>
               <Grid item>

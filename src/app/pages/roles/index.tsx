@@ -3,7 +3,7 @@ import { DataGrid, GridCellParams, GridColDef, GridRowsProp } from '@material-ui
 import { Box, Button, Container, Grid, Paper, styled, Typography } from '@material-ui/core';
 import { useRolesStyle } from '@/assets/Roles';
 import AddIcon from '@material-ui/icons/Add';
-import { CustomLoadingOverlay, QuickSearchToolbar, ShowStatus, ShowAvatar, ActionButtons, TitleBar } from '@/app/components/Admin';
+import { CustomLoadingOverlay, QuickSearchToolbar, ShowStatus, ShowAvatar, ActionButtons, TitleBar, NewUserModal } from '@/app/components/Admin';
 
 const dataRows: GridRowsProp = [
     { id: 1, name: 'Natasha Sky', dni: '10826805-0', status: true },
@@ -69,6 +69,7 @@ export default function RoleList() {
     const [searchText, setSearchText] = useState('');
     const [rows, setRows] = useState(dataRows);
     const [pageSize, setPageSize] = useState<number>(5);
+    const [openModal, setOpenModal] = useState(false)
 
     const requestSearch = (searchValue: string) => {
         setSearchText(searchValue);
@@ -85,11 +86,19 @@ export default function RoleList() {
         setRows(rows);
     }, [rows]);
 
+    const handleModal = () => {
+        setOpenModal(!openModal)
+    }
+
+    const registerNewUser = () => {
+        console.log("Register")
+    }
+
     return (
         <Container>
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={8}>
-                    <TitleBar title="usuarios" subTitle="administración y control de usuarios" btnText="crear usuario" />
+                    <TitleBar title="usuarios" subTitle="administración y control de usuarios" btnText="crear usuario" btnAction={handleModal} />
                 
                     <Grid item xs={12} md={12} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <Item>
@@ -119,6 +128,7 @@ export default function RoleList() {
                     </Grid>
                 </Grid>
             </Box>
+            { openModal && <NewUserModal isOpen={openModal} closeModal={handleModal} /> }
         </Container>
     );
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, styled } from '@material-ui/core';
 import { useDispatch } from 'react-redux'
 import { cleanErrorMessage } from "../store/common";
 import { AnimatePresence } from 'framer-motion';
@@ -9,6 +9,12 @@ interface ErrorDialog {
   open: boolean;
   message: string;
 }
+
+const StyledDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiPaper-root': {
+    borderRadius: 10
+  },
+}));
 
 const ErrorAlert = ({open, message}: ErrorDialog) => {
 
@@ -28,24 +34,24 @@ const ErrorAlert = ({open, message}: ErrorDialog) => {
 
   return (
     <AnimatePresence>
-      <Dialog
-      open={openError}
-      onClose={handleClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
+      <StyledDialog
+        open={openError}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
       >
-      <DialogTitle id="alert-dialog-title" style={{display: "flex", alignItems: "center", justifyContent: "center"}}>{<SvgWarningImage />}</DialogTitle>
-      <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {message}
-          </DialogContentText>
-      </DialogContent>
-      <DialogActions style={{justifyContent: "center", paddingBottom: 20}}>
-          <Button style={{borderRadius: 200}} onClick={handleClose} variant="contained" color="primary">
-            OK
-          </Button>
-      </DialogActions>
-      </Dialog>
+        <DialogTitle id="alert-dialog-title" style={{display: "flex", alignItems: "center", justifyContent: "center"}}>{<SvgWarningImage />}</DialogTitle>
+        <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {message}
+            </DialogContentText>
+        </DialogContent>
+        <DialogActions style={{justifyContent: "center", paddingBottom: 20}}>
+            <Button autoFocus onClick={handleClose} variant="contained" color="primary">
+              OK
+            </Button>
+        </DialogActions>
+      </StyledDialog>
     </AnimatePresence>
   )
 }
