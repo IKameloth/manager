@@ -33,7 +33,6 @@ export default function ScopeSelection(props: PropsType) {
         if(!isLoading && !countries){
           setIsLoading(true)
           await dispatch(setCountries())
-          console.log("dispatch", countries)
           setIsLoading(false)
         }
       } catch (e) { 
@@ -50,7 +49,6 @@ export default function ScopeSelection(props: PropsType) {
     setIsLoading(false)
   }
   useEffect(() => {
-    console.log("change", countrySelected, isLoading, countries)
     if(countries && !isLoading && countrySelected !== ''){
       setInstitutionList(countrySelected)  
     }
@@ -88,9 +86,13 @@ export default function ScopeSelection(props: PropsType) {
               <InputLabel htmlFor="max-width">Institución</InputLabel>
               <Select value={institutionSelected} onChange={handleChangeSelectInstitution} >
                 {roles?.map(role => {
-                  if(role)
-                    <MenuItem key={role.id} value={role.id}>{role?.institution.name}</MenuItem>
+                  if(role){
+                      return <MenuItem key={role.id} value={role.id}>{role.institution.name}</MenuItem>
+                  }
                 })}
+                {roles.length == 0 &&
+                  <MenuItem key={'not-found'} value="">No posee instituciones en {countrySelected}</MenuItem>
+                }
               </Select>
             </FormControl>
           </form>
