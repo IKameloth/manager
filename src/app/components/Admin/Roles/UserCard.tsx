@@ -4,6 +4,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import { makeStyles } from '@material-ui/styles';
 import EditUserModal from './EditUserModal';
+import ShowDialog from './RoleDialog';
 
 const useStyles = makeStyles((theme: Theme) => ({
     centered: {
@@ -39,16 +40,23 @@ interface Props {
     institution: string
     email: string
     dni: string
+    status: boolean
 }
 
 const UserCard = ( props: Props) => {
     const [isOpen, setIsOpen] = useState(false)
+    const [isBlock, setIsBlock] = useState(false)
+
     const classes = useStyles()
     const { name, job, registeredDate, institution, email } = props
     const handleEdit = () => {
         console.log("HanldeEdit")
         console.log(props.dni)
         setIsOpen(!isOpen)
+    }
+
+    const handleLock = () => {
+        setIsBlock(!isBlock)
     }
 
     return(
@@ -98,7 +106,7 @@ const UserCard = ( props: Props) => {
                         </IconButton>
                     </div>
                     <div style={{ marginLeft: 5 }}>
-                        <IconButton className={classes.backgroundBtn} aria-label="remove">
+                        <IconButton onClick={handleLock} className={classes.backgroundBtn} aria-label="remove">
                             <NotInterestedIcon style={{ color: '#FF0000' }} />
                         </IconButton>
                     </div>
@@ -107,6 +115,7 @@ const UserCard = ( props: Props) => {
             </Card>
         </Grid>
         { isOpen && <EditUserModal isOpen={isOpen} onCloseModal={handleEdit} dni={props.dni} /> }
+        { isBlock && <ShowDialog isOpen={isBlock} handleCloseDialog={handleLock} data={props} /> }
         </>
     )
 }

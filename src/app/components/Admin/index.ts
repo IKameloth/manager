@@ -7,8 +7,10 @@ import TitleBar from "./Roles/TitleBar";
 import NewUserModal from "./Roles/NewUserModal";
 import NewRoleModal from "./Roles/NewRoleModal";
 import UserCard from "./Roles/UserCard";
+import RemoveRole from "./Roles/RemoveRole";
 
 export {
+    RemoveRole,
     UserCard,
     NewRoleModal,
     NewUserModal,

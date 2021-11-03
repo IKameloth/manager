@@ -4,17 +4,17 @@ import { TextField, Container, Grid, Paper, makeStyles, Box, styled } from "@mat
 import { DataGrid, GridCellParams, GridColDef, GridRowsProp } from "@material-ui/data-grid";
 import { ActionButtons, CustomLoadingOverlay, NewRoleModal } from "@/app/components/Admin";
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { TitleBar, UserCard } from "@/app/components/Admin";
+import { TitleBar, UserCard, RemoveRole } from "@/app/components/Admin";
 
 const dataRows = [
-    { id: 1, role: 'JP', institution: '@AUTENTIAX', country: "CHILE" },
-    { id: 2, role: 'Admin', institution: '@AUTENTIAX', country: "CHILE" },
-    { id: 3, role: 'Oper', institution: '@AUTENTIAX', country: "CHILE" },
-    { id: 4, role: 'Opersensor', institution: '@AUTENTIAX', country: "CHILE" },
-    { id: 5, role: 'ServiceDesk', institution: '@AUTENTIAX', country: "CHILE" },
-    { id: 6, role: 'Jefe', institution: '@AUTENTIAX', country: "CHILE" },
-    { id: 7, role: 'Junior', institution: '@AUTENTIAX', country: "CHILE" },
-    { id: 8, role: 'Senior', institution: '@AUTENTIAX', country: "CHILE" },
+    { id: 1, role: 'JP', institution: '@AUTENTIAX', country: "CHILE", status: true },
+    { id: 2, role: 'Admin', institution: '@AUTENTIAX', country: "CHILE", status: true },
+    { id: 3, role: 'Oper', institution: '@AUTENTIAX', country: "CHILE", status: true },
+    { id: 4, role: 'Opersensor', institution: '@AUTENTIAX', country: "CHILE", status: true },
+    { id: 5, role: 'ServiceDesk', institution: '@AUTENTIAX', country: "CHILE", status: true },
+    { id: 6, role: 'Jefe', institution: '@AUTENTIAX', country: "CHILE", status: true },
+    { id: 7, role: 'Junior', institution: '@AUTENTIAX', country: "CHILE", status: true },
+    { id: 8, role: 'Senior', institution: '@AUTENTIAX', country: "CHILE", status: true },
 ];
 
 const columns: GridColDef[] = [
@@ -42,10 +42,10 @@ const columns: GridColDef[] = [
     { 
         field: 'action', 
         width: 150,
-        align:'left',
+        align:'center',
         headerName: 'Acción', 
         type: 'actions',
-        renderCell: (params: GridCellParams) => ( <ActionButtons user={ params.row } /> ),
+        renderCell: (params: GridCellParams) => ( <RemoveRole user={ params.row } /> ),
     }
 ];
 
@@ -157,7 +157,7 @@ export default function RolesDetail() {
                 <Grid container spacing={8}>
 
                     <TitleBar title="roles" subTitle="administración y control de roles" btnText="crear rol" btnAction={handleCreateRoleModal} />
-                    <UserCard dni="18586460-K" name="Pepe Pedro" email="ppedro@autentia.cl" institution="IMED" job="QA" registeredDate="23 OCT 1992" /> {/* change this to user obj type */}
+                    <UserCard status={true} dni="18586460-K" name="Pepe Pedro" email="ppedro@autentia.cl" institution="IMED" job="QA" registeredDate="23 OCT 1992" /> {/* change this to user obj type */}
                     <Grid item xs={12} md={8} >
                         <Item>
                             <DataGrid 
