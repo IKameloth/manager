@@ -13,7 +13,6 @@ const INITIAL_STATE: State = {
     },
     userToken: "",
   },
-  countries: {},
 };
 
 export const commonReducer = (state: State = INITIAL_STATE, action: Actions) => {

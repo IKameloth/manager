@@ -83,9 +83,6 @@ export const logout = () => {
             email: '',
             rut: ''
           },
-          relationships: {
-            roles: {},
-          },
         },
         userToken: '',
         countries: [''],
