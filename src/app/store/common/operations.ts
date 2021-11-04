@@ -88,8 +88,7 @@ export const logout = () => {
           },
         },
         userToken: '',
-        currentCountry: '',
-        currentInstitution: '',
+        countries: [''],
       }
     });
   };

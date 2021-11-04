@@ -28,7 +28,7 @@ const Login = () => {
   const handleOnSubmit = (e: any, dni: string, password: string) => {
     e.preventDefault();
     if (dni.trim().length !== 0 && password.trim().length !== 0) {
-      dispatch(loginRequest(dni, password));
+      dispatch(loginRequest(dni.toUpperCase(), password));
     } else {
       let message = "Favor rellenar todos los campos";
       addToast(message, { appearance: 'warning', autoDismiss: true });
@@ -80,6 +80,7 @@ const Login = () => {
             <Grid container direction="column" spacing={2}>
               <Grid item>
                 <TextField
+                  autoFocus
                   variant="outlined"
                   label="DNI"
                   helperText="Ingresar DNI"

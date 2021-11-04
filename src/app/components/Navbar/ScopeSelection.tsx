@@ -74,7 +74,9 @@ export default function ScopeSelection(props: PropsType) {
 
   return(
     <>
-        <DialogTitle>Seleccione donde desea operar</DialogTitle>
+        <DialogTitle id="alert-dialog-title" style={{ textAlign: 'center' }}>
+          <Typography component="span" variant="h6" style={{ fontSize: 18 }}>Seleccione donde desea operar</Typography>
+        </DialogTitle>
         <DialogContent>
           <form className={classes.form} noValidate>
             <FormControl className={classes.formControl}>

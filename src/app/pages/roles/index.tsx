@@ -4,6 +4,7 @@ import { Box, Button, Container, Grid, Paper, styled, Typography } from '@materi
 import { useRolesStyle } from '@/assets/Roles';
 import AddIcon from '@material-ui/icons/Add';
 import { CustomLoadingOverlay, QuickSearchToolbar, ShowStatus, ShowAvatar, ActionButtons, TitleBar, NewUserModal } from '@/app/components/Admin';
+import Section from '@/app/components/Section';
 
 const dataRows: GridRowsProp = [
     { id: 1, name: 'Natasha Sky', dni: '10826805-0', status: true },
@@ -96,39 +97,41 @@ export default function RoleList() {
 
     return (
         <Container>
-            <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={8}>
-                    <TitleBar title="usuarios" subTitle="administración y control de usuarios" btnText="crear usuario" btnAction={handleModal} />
-                
-                    <Grid item xs={12} md={12} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Item>
-                            <DataGrid 
-                                rowHeight={50}
-                                className={classes.table}
-                                disableSelectionOnClick
-                                components={{ 
-                                    Toolbar: QuickSearchToolbar,
-                                    LoadingOverlay: CustomLoadingOverlay,
-                                }}
-                                loading={false}
-                                rows={rows} 
-                                columns={columns} 
-                                pageSize={pageSize}
-                                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                                rowsPerPageOptions={[5, 10, 20]}
-                                componentsProps= {{
-                                    toolbar: {
-                                        value: searchText,
-                                        onChange: (e: any) => requestSearch(e.target.value),
-                                        clearSearch: () => requestSearch(''),
-                                    },
-                                }}
-                                />
-                        </Item>
+            <Section>
+                <Box sx={{ flexGrow: 1 }}>
+                    <Grid container spacing={8}>
+                        <TitleBar title="usuarios" subTitle="administración y control de usuarios" btnText="crear usuario" btnAction={handleModal} />
+                    
+                        <Grid item xs={12} md={12} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <Item>
+                                <DataGrid 
+                                    rowHeight={50}
+                                    className={classes.table}
+                                    disableSelectionOnClick
+                                    components={{ 
+                                        Toolbar: QuickSearchToolbar,
+                                        LoadingOverlay: CustomLoadingOverlay,
+                                    }}
+                                    loading={false}
+                                    rows={rows} 
+                                    columns={columns} 
+                                    pageSize={pageSize}
+                                    onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                                    rowsPerPageOptions={[5, 10, 20]}
+                                    componentsProps= {{
+                                        toolbar: {
+                                            value: searchText,
+                                            onChange: (e: any) => requestSearch(e.target.value),
+                                            clearSearch: () => requestSearch(''),
+                                        },
+                                    }}
+                                    />
+                            </Item>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Box>
-            { openModal && <NewUserModal isOpen={openModal} closeModal={handleModal} /> }
+                </Box>
+                { openModal && <NewUserModal isOpen={openModal} closeModal={handleModal} /> }
+            </Section>
         </Container>
     );
 };

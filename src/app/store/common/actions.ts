@@ -17,8 +17,7 @@ export interface Logout extends Action<Type.LOGOUT>{
   payload: {
     userData: any,
     userToken: string,
-    currentCountry: string,
-    currentInstitution: string,
+    countries: [string],
   };
 };
 

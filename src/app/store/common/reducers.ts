@@ -10,12 +10,10 @@ const INITIAL_STATE: State = {
       name: "",
       email: "",
       dni: "",
-      roles: []
     },
     userToken: "",
   },
-  currentCountry: "",
-  currentInstitution: "",
+  countries: {},
 };
 
 export const commonReducer = (state: State = INITIAL_STATE, action: Actions) => {
@@ -27,7 +25,7 @@ export const commonReducer = (state: State = INITIAL_STATE, action: Actions) => 
     case Types.SET_ERROR_MESSAGE:
       return { ...state, errorMessage: action.payload }
     case Types.LOGOUT:
-      return { ...state, isLoggedIn: false, profile: action.payload, currentCountry: action.payload.currentCountry, currentInstitution: action.payload.currentInstitution }
+      return { ...state, isLoggedIn: false, profile: action.payload }
     case Types.SET_LOGIN:
       return { ...state, isLoggedIn: true, profile: action.payload }
     case Types.SET_COUNTRIES:

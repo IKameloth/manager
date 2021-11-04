@@ -12,6 +12,7 @@ export class ApiServicesProvider {
           },
           body: JSON.stringify(payload),
         };
+        
         return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions);
       },
       get(targetUrl: string, options?: { headers?: any}){

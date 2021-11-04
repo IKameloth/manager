@@ -1,34 +1,29 @@
 import React, { useEffect } from "react";
 import { SideBar } from "@/assets/SideBar/Sidebar";
-import { Dialog, Avatar, ButtonBase, Divider, Drawer, Grid, Typography, DialogTitle, FormControl, DialogContent, InputLabel, Select, MenuItem, DialogActions, Button } from "@material-ui/core";
+import { Dialog, Avatar, ButtonBase, Divider, Drawer, Grid, Typography, DialogTitle, FormControl, DialogContent, InputLabel, Select, MenuItem, DialogActions, Button, styled } from "@material-ui/core";
 import UserMenu from "./UserMenu";
 import AdminMenu from "./AdminMenu";
 import RoleNames from "./RoleNames";
 import ScopeSelection from "./ScopeSelection";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { StoreState } from "@/app/store";
 
-interface Props {
-  isSideOpen: boolean;
-  profile: any;
-};
+const StyledDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiPaper-root': {
+    borderRadius: 10
+  },
+}));
 
-export default function Sidebar(props: Props) {
-  const dispatch = useDispatch();
+export default function Sidebar({isSideOpen}: any) {
   const classes = SideBar();
-  const userName = props.profile.userData?.name || 'Unknow';
-  const nameLetters = userName.trim().split(' ').reduce((acc: any, el: any) => acc + el.charAt(0).toUpperCase(), "").substring(0, 2);
-  const rolesArr = props.profile.userData?.roles;
-
-  const [isLoading, setIsLoading] = React.useState(false);
   const [openDialog, setOpenDialog] = React.useState(false);
-  const [countrySelected, setCountrySelected] = React.useState('');
-  const [institutionSelected, setInstitutionSelected] = React.useState('');
-
   const userStore = useSelector((state: StoreState) => state.user);
   const commonStore = useSelector((state: StoreState) => state.common);
   const { country, roles, institution } = userStore;
   const { countries, profile } = commonStore;
+  
+  const userName = profile.userData?.name || 'Desconocido'
+  const nameLetters = userName.trim().split(' ').reduce((acc: any, el: any) => acc + el.charAt(0).toUpperCase(), "").substring(0, 2);
 
   useEffect(() => {
     if(country === '' && institution === '')
@@ -36,7 +31,7 @@ export default function Sidebar(props: Props) {
   }, []);
 
   return(
-    <Drawer className={classes.drawer} variant="persistent" anchor="left" open={props.isSideOpen}
+    <Drawer className={classes.drawer} variant="persistent" anchor="left" open={isSideOpen}
       classes={{
         paper: classes.drawerPaper,
       }}
@@ -51,7 +46,7 @@ export default function Sidebar(props: Props) {
         </Grid>
         <Grid item>
           <Typography variant="subtitle1">{userName}</Typography>
-          <RoleNames rolesArr={rolesArr} />
+          <RoleNames rolesArr={roles} />
         </Grid>
       </Grid>
       
@@ -69,16 +64,16 @@ export default function Sidebar(props: Props) {
         </ButtonBase>
       </Grid>
       {openDialog &&
-        <Dialog open={openDialog} onClose={() => setOpenDialog(!openDialog)}>
-         <ScopeSelection open={openDialog} setOpenDialog={setOpenDialog} />
-        </Dialog>
+        <StyledDialog open={openDialog} onClose={() => setOpenDialog(!openDialog)}>
+          <ScopeSelection open={openDialog} setOpenDialog={setOpenDialog} />
+        </StyledDialog>
       }
 
       {/* USER MENU */}
-      <UserMenu />
+      { (!!country.length && !!institution.length) && <UserMenu /> }
 
       {/* ADMIN MENU */}
-      <AdminMenu />
+      { roles?.map(ele => ele?.name).includes('Admin') && <AdminMenu /> }
     </Drawer>
   );
 };

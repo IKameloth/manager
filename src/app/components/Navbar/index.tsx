@@ -84,7 +84,7 @@ export default function Navegation(props: Props) {
         onLogout={handleLogout}
       />
       
-      <Sidebar isSideOpen={isOpened} profile={profile} />
+      <Sidebar isSideOpen={isOpened} />
 
       <main onClick={() => setIsOpened(false)}
         className={clsx(classes.content, {

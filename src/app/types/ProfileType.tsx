@@ -5,5 +5,4 @@ export type ProfileType = {
   name: string
   email: string
   dni: string
-  roles?: [RoleType?]
 };

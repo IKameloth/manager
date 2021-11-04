@@ -2,9 +2,10 @@ import React, { useState } from "react";
 // import { useParams } from "react-router-dom";
 import { TextField, Container, Grid, Paper, makeStyles, Box, styled } from "@material-ui/core";
 import { DataGrid, GridCellParams, GridColDef, GridRowsProp } from "@material-ui/data-grid";
-import { ActionButtons, CustomLoadingOverlay, NewRoleModal } from "@/app/components/Admin";
+import { CustomLoadingOverlay, NewRoleModal } from "@/app/components/Admin";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TitleBar, UserCard, RemoveRole } from "@/app/components/Admin";
+import Section from '@/app/components/Section';
 
 const dataRows = [
     { id: 1, role: 'JP', institution: '@AUTENTIAX', country: "CHILE", status: true },
@@ -153,40 +154,42 @@ export default function RolesDetail() {
 
     return (
         <Container>
-            <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={8}>
+            <Section>
+                <Box sx={{ flexGrow: 1 }}>
+                    <Grid container spacing={8}>
 
-                    <TitleBar title="roles" subTitle="administración y control de roles" btnText="crear rol" btnAction={handleCreateRoleModal} />
-                    <UserCard status={true} dni="18586460-K" name="Pepe Pedro" email="ppedro@autentia.cl" institution="IMED" job="QA" registeredDate="23 OCT 1992" /> {/* change this to user obj type */}
-                    <Grid item xs={12} md={8} >
-                        <Item>
-                            <DataGrid 
-                                className={classes.table}
-                                rowHeight={50}
-                                disableSelectionOnClick
-                                components={{ 
-                                    Toolbar: LimitTag,
-                                    LoadingOverlay: CustomLoadingOverlay,
-                                }}
-                                loading={false}
-                                rows={rows} 
-                                columns={columns} 
-                                pageSize={pageSize}
-                                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                                rowsPerPageOptions={[5, 10, 20]}
-                                componentsProps={{
-                                    toolbar: {
-                                        value: searchText,
-                                        onChange: (e: any) => requestSearch(e.target.value),
-                                        clearSearch: () => requestSearch(""),
-                                    }
-                                }}
-                            />
-                        </Item>
+                        <TitleBar title="roles" subTitle="administración y control de roles" btnText="crear rol" btnAction={handleCreateRoleModal} />
+                        <UserCard status={true} dni="18586460-K" name="Pepe Pedro" email="ppedro@autentia.cl" institution="IMED" job="QA" registeredDate="23 OCT 1992" /> {/* change this to user obj type */}
+                        <Grid item xs={12} md={8} >
+                            <Item>
+                                <DataGrid 
+                                    className={classes.table}
+                                    rowHeight={50}
+                                    disableSelectionOnClick
+                                    components={{ 
+                                        Toolbar: LimitTag,
+                                        LoadingOverlay: CustomLoadingOverlay,
+                                    }}
+                                    loading={false}
+                                    rows={rows} 
+                                    columns={columns} 
+                                    pageSize={pageSize}
+                                    onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                                    rowsPerPageOptions={[5, 10, 20]}
+                                    componentsProps={{
+                                        toolbar: {
+                                            value: searchText,
+                                            onChange: (e: any) => requestSearch(e.target.value),
+                                            clearSearch: () => requestSearch(""),
+                                        }
+                                    }}
+                                />
+                            </Item>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Box>
-            { isOpen && <NewRoleModal isOpen={isOpen} onCloseModal={handleCreateRoleModal} /> }
+                </Box>
+                { isOpen && <NewRoleModal isOpen={isOpen} onCloseModal={handleCreateRoleModal} /> }
+            </Section>
         </Container>
     );
 };
