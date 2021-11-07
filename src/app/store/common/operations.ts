@@ -91,7 +91,6 @@ export const logout = () => {
   };
 };
 
-
 export default {
   setIsLoading,
   unsetIsLoading,

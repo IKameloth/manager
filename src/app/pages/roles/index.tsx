@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { DataGrid, GridCellParams, GridColDef, GridRowsProp } from '@material-ui/data-grid';
-import { Box, Button, Container, Grid, Paper, styled, Typography } from '@material-ui/core';
+import { Box, Container, Grid, Paper, styled } from '@material-ui/core';
 import { useRolesStyle } from '@/assets/Roles';
-import AddIcon from '@material-ui/icons/Add';
 import { CustomLoadingOverlay, QuickSearchToolbar, ShowStatus, ShowAvatar, ActionButtons, TitleBar, NewUserModal } from '@/app/components/Admin';
 import Section from '@/app/components/Section';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { StoreState } from '@/app/store';
+import { setErrorMessage } from '@/app/store/common';
+import { useToasts } from 'react-toast-notifications';
+import ErrorAlert from '@/app/components/ErrorAlert';
 
 const dataRows: GridRowsProp = [
     { id: 1, name: 'Natasha Sky', dni: '10826805-0', status: true },
@@ -66,6 +71,16 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function RoleList() {
+
+    const { addToast } = useToasts()
+    const dispatch = useDispatch()
+    const { common } = useSelector((state: StoreState) => state)
+    const { errorMessage } = common
+
+    useEffect(() => {
+        errorMessage && dispatch(setErrorMessage(errorMessage))
+    }, [errorMessage, dispatch])
+
     const classes = useRolesStyle();
     const [searchText, setSearchText] = useState('');
     const [rows, setRows] = useState(dataRows);
