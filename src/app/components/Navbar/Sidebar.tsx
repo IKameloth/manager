@@ -20,7 +20,7 @@ export default function Sidebar({isSideOpen}: any) {
   const userStore = useSelector((state: StoreState) => state.user);
   const commonStore = useSelector((state: StoreState) => state.common);
   const { country, roles, institution } = userStore;
-  const { countries, profile } = commonStore;
+  const { profile } = commonStore;
   
   const userName = profile.userData?.name || 'Desconocido'
   const nameLetters = userName.trim().split(' ').reduce((acc: any, el: any) => acc + el.charAt(0).toUpperCase(), "").substring(0, 2);

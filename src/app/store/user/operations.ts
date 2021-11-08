@@ -1,16 +1,8 @@
 import { Dispatch } from "redux";
 import { UserTypes as Type } from "./types";
-import { SetRolesAction, UserActions } from "./actions";
+import { GetUsersAction, SetRolesAction, UserActions } from "./actions";
 import { ApiServicesProvider } from "@/services/apiServices";
 const $Services = new ApiServicesProvider();
-
-export const getUsers = (users: object[]) => {
-  return(dispatch: Dispatch<UserActions>): UserActions =>
-    dispatch({
-      type: Type.GET_USERS,
-      payload: users
-    });
-};
 
 export const setCountry = (country: string) => {
   return(dispatch: Dispatch<UserActions>): UserActions =>
@@ -36,3 +28,14 @@ export const setRoles = (token: string, userID: string, country: string) => {
     return []
   }
 };
+
+export const getUsersList = () => {
+  return async (dispatch: Dispatch<UserActions>): Promise<GetUsersAction | {}> => {
+    const response = await $Services.getUsers();
+    if (response.length > 0) { 
+      return dispatch({ type: Type.GET_USERS, payload: response }) 
+    } else {
+      return []
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import { RoleType } from "@/app/types";
+import { UserType } from "@/app/types/UserType";
 
 export enum UserTypes {
   GET_USERS = "GET_USERS",
@@ -8,7 +9,7 @@ export enum UserTypes {
 };
 
 export type UserState = {
-  users: object[]
+  users: [UserType?]
   country: string
   institution: string
   roles: [RoleType?]

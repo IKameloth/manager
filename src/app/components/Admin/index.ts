@@ -8,8 +8,10 @@ import NewUserModal from "./Roles/NewUserModal";
 import NewRoleModal from "./Roles/NewRoleModal";
 import UserCard from "./Roles/UserCard";
 import RemoveRole from "./Roles/RemoveRole";
+import UsersTable from "./Roles/UsersTable";
 
 export {
+    UsersTable,
     RemoveRole,
     UserCard,
     NewRoleModal,
