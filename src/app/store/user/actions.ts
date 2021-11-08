@@ -18,7 +18,12 @@ export interface SetRolesAction extends Action<Type.SET_ROLES> {
   payload: [RoleType];
 };
 
+export interface CleanUserList extends Action<Type.CLEAN_USER_LIST> {
+  payload: []
+}
+
 export type UserActions = 
+  CleanUserList |
   GetUsersAction | 
   SetCountryAction | 
   SetInstitutionAction |

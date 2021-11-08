@@ -6,7 +6,7 @@ import { Item } from '@/app/components/Item';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { StoreState } from '@/app/store';
-import { getUsersList } from '@/app/store/user/operations';
+import { getUsersList, cleanUserList } from '@/app/store/user/operations';
 
 export default function RoleList() {
     const dispatch = useDispatch()
@@ -14,10 +14,11 @@ export default function RoleList() {
     const userStore = useSelector((state: StoreState) => state.user)
     const { users } = userStore
 
-    console.log(users)
-
     useEffect(() => {
-        if (users) {
+        if (users?.length === 0) {
+            dispatch(getUsersList())
+        } else {
+            dispatch(cleanUserList())
             dispatch(getUsersList())
         }
     }, [])

@@ -39,3 +39,11 @@ export const getUsersList = () => {
     }
   }
 }
+
+export const cleanUserList = () => {
+  return(dispatch: Dispatch<UserActions>): UserActions =>
+    dispatch({
+      type: Type.CLEAN_USER_LIST,
+      payload: []
+    })
+}

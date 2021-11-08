@@ -21,6 +21,8 @@ export const userReducer = (state: State = INITIAL_STATE, action: Actions) => {
       return { ...state, institution: action.payload }
     case Types.SET_ROLES:
       return { ...state, roles: action.payload }
+    case Types.CLEAN_USER_LIST:
+      return { ...state, users: action.payload }
     default:
       return state;
   };
