@@ -6,7 +6,7 @@ import { Item } from '@/app/components/Item';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { StoreState } from '@/app/store';
-import { getUsersList, cleanUserList } from '@/app/store/user/operations';
+import { getUsersList } from '@/app/store/user/operations';
 
 export default function RoleList() {
     const dispatch = useDispatch()
@@ -16,9 +16,6 @@ export default function RoleList() {
 
     useEffect(() => {
         if (users?.length === 0) {
-            dispatch(getUsersList())
-        } else {
-            dispatch(cleanUserList())
             dispatch(getUsersList())
         }
     }, [])
@@ -36,7 +33,7 @@ export default function RoleList() {
                     
                         <Grid item xs={12} md={12} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <Item>
-                                <UsersTable data={users} />
+                                {users.length > 0 && <UsersTable data={users} />}
                             </Item>
                         </Grid>
                     </Grid>

@@ -7,6 +7,7 @@ import { StoreState } from '../../store';
 import Appbar from "./Appbar";
 import Sidebar from './Sidebar';
 import { makeStyles } from "@material-ui/core";
+import { cleanUserList } from '@/app/store/user';
 
 const indexStyle = makeStyles((theme) => ({
   root: {
@@ -47,7 +48,7 @@ export default function Navegation(props: Props) {
   const dispatch = useDispatch();
   const [isOpened, setIsOpened] = useState(false);
   const { common } = useSelector((state: StoreState) => state);
-  const { profile, isLoggedIn } = common;
+  const { isLoggedIn } = common;
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);
@@ -61,6 +62,7 @@ export default function Navegation(props: Props) {
   };
 
   const handleLogout = () => {
+    dispatch(cleanUserList())
     dispatch(logout());
   };
 

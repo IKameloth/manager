@@ -2,6 +2,7 @@ import { Dispatch } from "redux";
 import { UserTypes as Type } from "./types";
 import { GetUsersAction, SetRolesAction, UserActions } from "./actions";
 import { ApiServicesProvider } from "@/services/apiServices";
+import { CreateUser } from ".";
 const $Services = new ApiServicesProvider();
 
 export const setCountry = (country: string) => {
@@ -46,4 +47,13 @@ export const cleanUserList = () => {
       type: Type.CLEAN_USER_LIST,
       payload: []
     })
+}
+
+export const createUser = (name: string, dni: string, email: string, password: string) => {
+  return async (dispatch: Dispatch<UserActions>): Promise<CreateUser> => {
+    const res = await $Services.postUser(name, dni, email, password)
+    
+    dispatch({ type: Type.CLEAN_USER_LIST, payload: [] })
+    return dispatch({ type: Type.CREATE_USER, payload: res })
+  }
 }

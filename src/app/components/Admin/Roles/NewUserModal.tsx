@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Backdrop, Box, Modal, TextField, Typography, styled, Grid, Container, Dialog, DialogTitle, IconButton, DialogContent, DialogActions, Grow } from '@material-ui/core';
+import { Button, Backdrop, Modal, TextField, Typography, styled, Grid, Container, Dialog, DialogTitle, IconButton, DialogContent, DialogActions, Grow } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
 interface Props {
@@ -59,10 +59,6 @@ const NewUserModal = ({isOpen, closeModal}: Props) => {
         open={isOpen}
         onClose={closeModal}
         closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
       >
         <Grow in={isOpen}>
           <Container>

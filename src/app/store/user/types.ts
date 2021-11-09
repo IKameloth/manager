@@ -7,6 +7,7 @@ export enum UserTypes {
   SET_COUNTRY = "SET_COUNTRY",
   SET_INSTITUTION = "SET_INSTITUTION",
   SET_ROLES = "SET_ROLES",
+  CREATE_USER = "CREATE_USER",
 };
 
 export type UserState = {
