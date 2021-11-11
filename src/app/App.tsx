@@ -10,6 +10,7 @@ const Roles = React.lazy(() => import('./pages/roles'));
 const RolesDetail = React.lazy(() => import('./pages/roles/RolesDetail'))
 const People = React.lazy(() => import('./pages/people'));
 const Institutions = React.lazy(() => import('./pages/institutions'));
+const Recover = React.lazy(() => import('./pages/recover/recoverPass'))
 
 export default function App() {
   const location = useLocation();
@@ -31,6 +32,7 @@ export default function App() {
       <Switch location={location} key={key}>
         <Route path="/healthz" render={() => <HealthCheck />} />
         <Route exact path="/login" render={() => <Login />} />
+        <Route exact path="/recover" render={() => <Recover />} />
         <Navbar>
           <Route exact path="/" render={() => <Home />} />
           <ProtectedRoute exact path="/roles" render={() => <Roles />} />

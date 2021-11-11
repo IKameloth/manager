@@ -2,7 +2,6 @@ import React from 'react'
 import { Button, Modal, TextField, Typography, styled, Grid, Container, Dialog, DialogTitle, IconButton, DialogContent, DialogActions, Grow } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { validate } from 'uuid';
 
 interface Props {
     isOpen: boolean
@@ -65,7 +64,7 @@ const NewUserModal = ({isOpen, closeModal, onRegister}: Props) => {
     const { register, formState: { errors }, handleSubmit, setError } = useForm<IFormInputs>()
 
     const onSubmit: SubmitHandler<IFormInputs> = data => {
-        const {name, dni, email} = data
+        const {name, dni} = data
 
         if (!name.trim().length) {
             setError("name", { type: "manual" }, { shouldFocus: true })

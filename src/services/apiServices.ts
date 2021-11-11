@@ -77,4 +77,11 @@ export class ApiServicesProvider {
     const resJson = await res.json()
     return resJson
   }
+
+  // Recover Pass
+  public async recoverPass(dni: string, email: string) {
+    const res = await this.$httpClient.post('users/recover', { dni, email })
+    const resJson = await res.json()
+    return resJson
+  }
 };
