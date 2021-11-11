@@ -1,7 +1,9 @@
+import React from 'react'
 import { Paper } from '@material-ui/core';
 import { styled } from '@material-ui/core';
+import { motion } from 'framer-motion'
 
-export const Item = styled(Paper)(({ theme }) => ({
+const ItemStyled = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
     width: '100%',
@@ -10,3 +12,15 @@ export const Item = styled(Paper)(({ theme }) => ({
     borderRadius: 10,
     boxShadow: '0px 9px 18px rgba(0, 0, 0, 0.18), 0px 5.5px 5px rgba(0, 0, 0, 0.24)'
 }));
+
+export const Item = ({ children, delay = 0 }: any) => (
+    <ItemStyled>
+        <motion.div 
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay }}
+        >
+            {children}
+        </motion.div>
+    </ItemStyled>
+)

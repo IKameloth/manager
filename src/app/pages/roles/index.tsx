@@ -6,7 +6,7 @@ import { Item } from '@/app/components/Item';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { StoreState } from '@/app/store';
-import { getUsersList } from '@/app/store/user/operations';
+import { getUsersList, createUser } from '@/app/store/user/operations';
 
 export default function RoleList() {
     const dispatch = useDispatch()
@@ -19,9 +19,20 @@ export default function RoleList() {
             dispatch(getUsersList())
         }
     }, [])
+
+    useEffect(() => {
+        if (users?.length === 0) {
+            dispatch(getUsersList())
+        }
+    }, [users])
     
     const handleModal = () => {
         setOpenModal(!openModal)
+    }
+
+    const handleRegister = (name: string, dni: string, email: string) => {
+        dispatch(createUser(name, dni, email))
+        setOpenModal(false)
     }
 
     return (
@@ -33,12 +44,12 @@ export default function RoleList() {
                     
                         <Grid item xs={12} md={12} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <Item>
-                                {users.length > 0 && <UsersTable data={users} />}
+                                {users.length > 0 && <UsersTable data={users} loading={!users.length ? true : false} />}
                             </Item>
                         </Grid>
                     </Grid>
                 </Box>
-                { openModal && <NewUserModal isOpen={openModal} closeModal={handleModal} /> }
+                { openModal && <NewUserModal isOpen={openModal} closeModal={handleModal} onRegister={handleRegister} /> }
             </Section>
         </Container>
     );

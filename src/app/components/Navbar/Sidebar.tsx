@@ -8,7 +8,7 @@ import ScopeSelection from "./ScopeSelection";
 import { useSelector } from "react-redux";
 import { StoreState } from "@/app/store";
 
-const StyledDialog = styled(Dialog)(({ theme }) => ({
+const StyledDialog = styled(Dialog)(() => ({
   '& .MuiPaper-root': {
     borderRadius: 10
   },

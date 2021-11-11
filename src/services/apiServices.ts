@@ -72,8 +72,8 @@ export class ApiServicesProvider {
   }
 
   // Post User
-  public async postUser(name: string, dni: string, email: string, password: string) {
-    const res = await this.$httpClient.post('users', { name, dni, email, password })
+  public async postUser(name: string, dni: string, email: string) {
+    const res = await this.$httpClient.post('users', { name, dni, email })
     const resJson = await res.json()
     return resJson
   }

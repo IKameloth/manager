@@ -49,9 +49,9 @@ export const cleanUserList = () => {
     })
 }
 
-export const createUser = (name: string, dni: string, email: string, password: string) => {
+export const createUser = (name: string, dni: string, email: string) => {
   return async (dispatch: Dispatch<UserActions>): Promise<CreateUser> => {
-    const res = await $Services.postUser(name, dni, email, password)
+    const res = await $Services.postUser(name, dni, email)
     
     dispatch({ type: Type.CLEAN_USER_LIST, payload: [] })
     return dispatch({ type: Type.CREATE_USER, payload: res })

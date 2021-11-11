@@ -3,7 +3,7 @@ import { DataGrid, GridCellParams, GridColDef, GridRowsProp } from '@material-ui
 import { useRolesStyle } from '@/assets/Roles';
 import { CustomLoadingOverlay, QuickSearchToolbar, ShowValidate, ShowAvatar, ActionButtons, TitleBar, NewUserModal } from '@/app/components/Admin';
 
-const UsersTable = ({data}: any) => {
+const UsersTable = ({data, loading}: any) => {
     const classes = useRolesStyle()
     const dataRows: GridRowsProp = data
     const [searchText, setSearchText] = useState('')
@@ -70,7 +70,7 @@ const UsersTable = ({data}: any) => {
                 Toolbar: QuickSearchToolbar,
                 LoadingOverlay: CustomLoadingOverlay,
             }}
-            loading={false}
+            loading={loading}
             rows={rows} 
             columns={columns} 
             pageSize={pageSize}

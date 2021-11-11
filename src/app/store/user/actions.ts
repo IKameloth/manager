@@ -22,7 +22,9 @@ export interface CleanUserList extends Action<Type.CLEAN_USER_LIST> {
   payload: []
 }
 
-export interface CreateUser extends Action<Type.CREATE_USER> {}
+export interface CreateUser extends Action<Type.CREATE_USER> {
+  payload: UserType
+}
 
 export type UserActions = 
   CreateUser |
