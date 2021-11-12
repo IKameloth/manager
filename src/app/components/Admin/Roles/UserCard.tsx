@@ -65,7 +65,9 @@ const UserCard = ( props: Props) => {
             <Card style={{ justifyContent: 'center', maxWidth: 345, height: 450, backgroundColor: "#ffffff", borderRadius: '10px', boxShadow: '0px 9px 18px rgba(0, 0, 0, 0.18), 0px 5.5px 5px rgba(0, 0, 0, 0.24)' }}>
                 <CardContent>
                     <div className={ classes.centered }>
-                        <Avatar alt="user" className={ classes.avatar }>PP</Avatar>
+                        <Avatar alt="user" className={ classes.avatar }>
+                            {`${name.split(' ')[0][0].toUpperCase()}${name.split(' ')[1][0].toUpperCase()}`}
+                        </Avatar>
                         <Typography variant="h6">{name}</Typography>
                         <Typography variant="subtitle2" color="textSecondary">{job}</Typography>
                     </div>

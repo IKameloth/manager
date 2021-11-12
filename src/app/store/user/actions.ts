@@ -26,7 +26,12 @@ export interface CreateUser extends Action<Type.CREATE_USER> {
   payload: UserType
 }
 
+export interface GetUser extends Action<Type.GET_USER> {
+  payload: UserType
+}
+
 export type UserActions = 
+  GetUser |
   CreateUser |
   CleanUserList |
   GetUsersAction | 

@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import { UserTypes as Type } from "./types";
-import { GetUsersAction, SetRolesAction, UserActions } from "./actions";
+import { GetUsersAction, SetRolesAction, UserActions, GetUser } from "./actions";
 import { ApiServicesProvider } from "@/services/apiServices";
 import { CreateUser } from ".";
 const $Services = new ApiServicesProvider();
@@ -55,5 +55,17 @@ export const createUser = (name: string, dni: string, email: string) => {
     
     dispatch({ type: Type.CLEAN_USER_LIST, payload: [] })
     return dispatch({ type: Type.CREATE_USER, payload: res })
+  }
+}
+
+export const getUser = (dni: string) => {
+  return async (dispatch: Dispatch<UserActions>): Promise<GetUser> => {
+    const res = await $Services.getUser(dni)
+
+    if (res === null) {
+      return dispatch({ type: Type.GET_USER, payload: res })
+    } else {
+      return dispatch({ type: Type.GET_USER, payload: res.data })
+    }
   }
 }

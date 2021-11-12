@@ -8,9 +8,11 @@ export enum UserTypes {
   SET_INSTITUTION = "SET_INSTITUTION",
   SET_ROLES = "SET_ROLES",
   CREATE_USER = "CREATE_USER",
+  GET_USER = "GET_USER",
 };
 
 export type UserState = {
+  user?: UserType
   users: [UserType?]
   country: string
   institution: string

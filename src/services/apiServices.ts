@@ -84,4 +84,10 @@ export class ApiServicesProvider {
     const resJson = await res.json()
     return resJson
   }
+
+  public async getUser(dni: string) {
+    const res = await this.$httpClient.get(`users/${dni}`)
+    const resJson = await res.json()
+    return resJson
+  }
 };
