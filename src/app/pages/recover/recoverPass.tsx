@@ -61,8 +61,6 @@ const RecoverPass = () => {
         return <Redirect to="/" />;
     };
 
-    console.log(isLoading)
-
     return (
         <Grid container component="main" className={classes.root}>
             <motion.div
@@ -124,7 +122,7 @@ const RecoverPass = () => {
                 </Grid>
             </Grid>
             </motion.div>
-            { errorMessage && <ErrorAlert open={ !!errorMessage } message={ errorMessage } /> }            
+            { errorMessage && <ErrorAlert open={ !!errorMessage } message={ errorMessage } /> }
         </Grid>
     );
 };
