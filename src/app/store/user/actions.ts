@@ -30,7 +30,17 @@ export interface GetUser extends Action<Type.GET_USER> {
   payload: UserType
 }
 
+export interface RecoverPassword extends Action<Type.RECOVER_PASSWORD> {
+  payload: string
+}
+
+export interface SetErrorMessageAction extends Action<Type.SET_ERROR_MESSAGE> {
+  payload: string
+};
+
 export type UserActions = 
+  SetErrorMessageAction |
+  RecoverPassword |
   GetUser |
   CreateUser |
   CleanUserList |

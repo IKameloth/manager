@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { StoreState } from "../../store";
-import { setErrorMessage } from "../../store/common/operations";
 import { Redirect } from "react-router";
 import { Button, TextField, Paper, Box, Grid, Typography, InputAdornment, useMediaQuery } from '@material-ui/core';
 import Logo from "../../../assets/images/autentia-logo.svg";
@@ -11,42 +10,58 @@ import LoginImage from "@/assets/images/img-login.svg";
 import LoginImagePlus from "@/assets/images/img-login-2.svg";
 import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { EmailReg } from '@/app/helper/Regex'
-import EmailIcon from '@material-ui/icons/Email';
+import { DniReg } from '@/app/helper/Regex'
+import { Fingerprint } from "@material-ui/icons";
 import { motion } from 'framer-motion'
+import { cleanMessage, recoverPassword } from '@/app/store/user/operations'
+import { setIsLoading, unsetIsLoading } from '@/app/store/common/operations'
+import toast from 'react-hot-toast'
+import Loader from "@/app/components/Loader";
 
 interface IFormInputs {
-    email: string
+    dni: string
 }
 
 const RecoverPass = () => {
     const dispatch = useDispatch()
     const classes = useStyles()
-    const { common } = useSelector((state: StoreState) => state)
-    const { errorMessage, isLoggedIn } = common;
+    const { common, user } = useSelector((state: StoreState) => state)
+    const { errorMessage, message } = user
+    const { isLoggedIn, isLoading } = common
     const viewMobile = useMediaQuery('(max-width:425px)'); // mobile
     const viewTablet = useMediaQuery('(max-width:959px)'); // tablet
 
-    const { register, formState: {errors}, handleSubmit, setError } = useForm<IFormInputs>()
+    const { register, formState: {errors}, handleSubmit, setError, resetField } = useForm<IFormInputs>()
 
     const onSubmit: SubmitHandler<IFormInputs> = data => {
-        const { email } = data
+        dispatch(setIsLoading())
+        const { dni } = data
 
-        if (!email.trim().length) {
-            setError("email", { type: 'manual' }, { shouldFocus: true })
+        if (!dni.trim().length) {
+            setError("dni", { type: 'manual' }, { shouldFocus: true })
         } else {
-            // dispatch
-            alert("Incoming!")
+            dispatch(recoverPassword(dni))
+            setTimeout(() => {
+                dispatch(unsetIsLoading())
+                resetField('dni')
+            }, 7000)
         }
     }
 
     useEffect(() => {
-        (errorMessage) && dispatch(setErrorMessage(errorMessage));
-    }, [errorMessage, dispatch]);
+        if (errorMessage.length === 0)
+            message.length > 0 && toast.success(message, { duration: 7000 }) && dispatch(cleanMessage())
+    }, [message])
+
+    useEffect(() => {
+        (errorMessage.length > 0) && errorMessage
+    }, [errorMessage]);
 
     if (isLoggedIn) {
         return <Redirect to="/" />;
     };
+
+    console.log(isLoading)
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -70,26 +85,29 @@ const RecoverPass = () => {
                             <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
                                 <Grid container direction="column" spacing={2}>
                                     <TextField
+                                        autoFocus
                                         margin="dense"
-                                        id="email"
-                                        label="Email"
+                                        id="dni"
+                                        label="Dni"
                                         type="text"
                                         fullWidth
                                         variant="outlined"
                                         InputProps={{
                                             endAdornment: (
                                             <InputAdornment position="end">
-                                                <EmailIcon />
+                                                <Fingerprint />
                                             </InputAdornment>
                                             ),
                                         }}
-                                        { ...register("email", { required: true, pattern: EmailReg }) }
-                                        error={errors.email ? true : false}
-                                        helperText={errors.email ? "Debe ingresar un Email válido" : "Ingresar Email"}
+                                        { ...register("dni", { required: true, pattern: DniReg }) }
+                                        error={errors.dni ? true : false}
+                                        helperText={errors.dni ? "Debe ingresar un Dni válido" : "Ingresar Dni"}
                                     />
-                                    <Button className={classes.submit} onClick={handleSubmit(onSubmit)} type="submit" variant="contained" color="primary" >
-                                        Recuperar
-                                    </Button>
+                                    { isLoading ? <Loader /> : 
+                                        <Button className={classes.submit} onClick={handleSubmit(onSubmit)} type="submit" variant="contained" color="primary" >
+                                            Recuperar
+                                        </Button>
+                                    }
 
                                     <Grid item xs>
                                         <Link to="/login">

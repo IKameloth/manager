@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { StoreState } from "../../store";
 import { loginRequest, setErrorMessage } from "../../store/common/operations";
 import { Redirect } from "react-router";
-import { CssBaseline, Button, TextField, Paper, Box, Grid, Typography, InputAdornment, useMediaQuery, Container } from '@material-ui/core';
+import { Button, TextField, Paper, Box, Grid, Typography, InputAdornment, useMediaQuery } from '@material-ui/core';
 import { Fingerprint, VpnKey } from "@material-ui/icons";
 import Logo from "../../../assets/images/autentia-logo.svg";
 import { useStyles, Footer } from "../../../assets/login";

@@ -12,6 +12,10 @@ const People = React.lazy(() => import('./pages/people'));
 const Institutions = React.lazy(() => import('./pages/institutions'));
 const Recover = React.lazy(() => import('./pages/recover/recoverPass'))
 
+const ValidateAccount = () => (
+  <h1>Validate account</h1>
+)
+
 export default function App() {
   const location = useLocation();
   const [ key, setKey ] = useState(Math.random())
@@ -33,6 +37,8 @@ export default function App() {
         <Route path="/healthz" render={() => <HealthCheck />} />
         <Route exact path="/login" render={() => <Login />} />
         <Route exact path="/recover" render={() => <Recover />} />
+        <Route exact path="/validate-account?token=:token" render={() => <ValidateAccount />} />
+        <Route exact path="/recovery?token=:token" render={() => <ValidateAccount />} />
         <Navbar>
           <Route exact path="/" render={() => <Home />} />
           <ProtectedRoute exact path="/roles" render={() => <Roles />} />

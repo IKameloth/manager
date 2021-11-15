@@ -7,6 +7,7 @@ import { store, persistor } from "./app/store";
 import App from "./app/App";
 import theme from "./assets/theme";
 import { PersistGate } from 'redux-persist/integration/react';
+import { Toaster } from 'react-hot-toast'
 
 const container = document.getElementById('root');
 
@@ -15,6 +16,7 @@ ReactDOM.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <Router>
+            <Toaster position="top-right" reverseOrder={true} />
             <App />
         </Router>
       </PersistGate>

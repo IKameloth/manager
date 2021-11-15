@@ -79,12 +79,18 @@ export class ApiServicesProvider {
   }
 
   // Recover Pass
-  public async recoverPass(dni: string, email: string) {
-    const res = await this.$httpClient.post('users/recover', { dni, email })
+  public async recoverPass(dni: string) {
+    const res = await this.$httpClient.post(`users/${dni}/recovery`, {})
+    
+    if (res.status === 404) {
+      return { error: "Usuario no encontrado", status: res.status }
+    }
+    
     const resJson = await res.json()
     return resJson
   }
 
+  // Get User
   public async getUser(dni: string) {
     const res = await this.$httpClient.get(`users/${dni}`)
     const resJson = await res.json()

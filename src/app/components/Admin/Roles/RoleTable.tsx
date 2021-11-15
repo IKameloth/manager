@@ -10,6 +10,8 @@ const RolesTable = ({data}: any) => {
     const [rows, setRows] = useState(dataRows);
     const [pageSize, setPageSize] = useState<number>(5)
 
+    console.log(data)
+
     const columns: GridColDef[] = [
         { 
             field: 'name', 
@@ -25,7 +27,7 @@ const RolesTable = ({data}: any) => {
             align:'left',
             headerName: 'Institución',
             disableColumnMenu: true,
-            renderCell: (params: GridCellParams) => ( params.row.institution.name )
+            renderCell: (params: GridCellParams) => ( params.row.institution.name === "" ? "Undefined" : params.row.institution.name )
         },
         { 
             field: 'country', 
@@ -33,7 +35,7 @@ const RolesTable = ({data}: any) => {
             align:'left',
             headerName: 'País', 
             disableColumnMenu: true,
-            renderCell: (params: GridCellParams) => ( params.row.country ),
+            renderCell: (params: GridCellParams) => ( params.row.institution.country === "" ? "Undefined" : params.row.country ),
         },
         { 
             field: 'delete', 
