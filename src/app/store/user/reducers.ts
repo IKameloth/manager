@@ -31,6 +31,8 @@ export const userReducer = (state: State = INITIAL_STATE, action: Actions) => {
       return { ...state, errorMessage: action.payload }
     case Types.RECOVER_PASSWORD:
       return { ...state, message: action.payload }
+    case Types.UPDATE_USER:
+      return { ...state, user: action.payload }
     default:
       return state;
   };

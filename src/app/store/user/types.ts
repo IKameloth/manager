@@ -11,6 +11,7 @@ export enum UserTypes {
   GET_USER = "GET_USER",
   RECOVER_PASSWORD = "RECOVER_PASSWORD",
   SET_ERROR_MESSAGE = "SET_ERROR_MESSAGE",
+  UPDATE_USER = "UPDATE_USER",
 };
 
 export type UserState = {

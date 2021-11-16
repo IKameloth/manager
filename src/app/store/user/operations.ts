@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 import { UserTypes as Type } from "./types";
 import { GetUsersAction, SetRolesAction, UserActions, GetUser } from "./actions";
 import { ApiServicesProvider } from "@/services/apiServices";
-import { CreateUser, RecoverPassword } from ".";
+import { CreateUser, RecoverPassword, UpdateUserAction } from ".";
 const $Services = new ApiServicesProvider();
 
 export const setCountry = (country: string) => {
@@ -87,4 +87,20 @@ export const recoverPassword = (dni: string) => {
 
 export const cleanMessage = () => {
   return(dispatch: Dispatch<UserActions>): UserActions => dispatch({ type: Type.RECOVER_PASSWORD, payload: "" });
+}
+
+export const updateUser = (dni: string, name: string, email: string, password: string) => {
+  return async (dispatch: Dispatch<UserActions>): Promise<UpdateUserAction | {}> => {
+    try {
+      const res = await $Services.updateUser(dni, name, email, password)
+
+      if (res.error) {
+        return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: res.error })
+      }
+
+      return dispatch({ type: Type.UPDATE_USER, payload: res.data })
+    } catch (err) {
+      return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: "Ocurrió un problema, intentelo de nuevo más tarde" })
+    }
+  }
 }

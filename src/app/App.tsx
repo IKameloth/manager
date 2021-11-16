@@ -39,7 +39,7 @@ export default function App() {
         <Route exact path="/login" render={() => <Login />} />
         <Route exact path="/recover" render={() => <Recover />} />
         <Route exact path="/validate-account?token=:token" render={() => <ValidateAccount />} />
-        <Route exact path="/recovery?token=:token" render={() => <SetPassView />} />
+        <Route exact path="/recovery/:token" render={() => <SetPassView />} />
         <Navbar>
           <Route exact path="/" render={() => <Home />} />
           <ProtectedRoute exact path="/roles" render={() => <Roles />} />

@@ -36,7 +36,11 @@ export interface RecoverPassword extends Action<Type.RECOVER_PASSWORD> {
 
 export interface SetErrorMessageAction extends Action<Type.SET_ERROR_MESSAGE> {
   payload: string
-};
+}
+
+export interface UpdateUserAction extends Action<Type.UPDATE_USER> {
+  payload: UserType
+}
 
 export type UserActions = 
   SetErrorMessageAction |
@@ -47,4 +51,5 @@ export type UserActions =
   GetUsersAction | 
   SetCountryAction | 
   SetInstitutionAction |
-  SetRolesAction
+  SetRolesAction |
+  UpdateUserAction

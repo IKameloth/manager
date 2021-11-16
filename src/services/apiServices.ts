@@ -15,6 +15,18 @@ export class ApiServicesProvider {
         
         return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions);
       },
+      put(targetUrl: string, payload: unknown, options?: { headers?: any }) {
+        const requestOptions = {
+          method: 'PUT',
+          headers: {
+            'Content-type': 'application/json',
+            ...(options ? options.headers : {})
+          },
+          body: JSON.stringify(payload),
+        }
+
+        return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions)
+      },
       get(targetUrl: string, options?: { headers?: any}){
         const requestOptions = {
           method: "GET",
@@ -93,6 +105,13 @@ export class ApiServicesProvider {
   // Get User
   public async getUser(dni: string) {
     const res = await this.$httpClient.get(`users/${dni}`)
+    const resJson = await res.json()
+    return resJson
+  }
+
+  // Update User
+  public async updateUser(dni: string, name: string, email: string, password: string) {
+    const res = await this.$httpClient.put(`users/${dni}`, {dni, name, email, password})
     const resJson = await res.json()
     return resJson
   }

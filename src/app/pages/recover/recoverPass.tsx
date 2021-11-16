@@ -44,7 +44,7 @@ const RecoverPass = () => {
             setTimeout(() => {
                 dispatch(unsetIsLoading())
                 resetField('dni')
-            }, 7000)
+            }, 5000)
         }
     }
 
