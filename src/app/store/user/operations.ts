@@ -49,6 +49,10 @@ export const cleanUserList = () => {
     })
 }
 
+export const clearUser = () => {
+  return (dispatch: Dispatch<UserActions>): UserActions => dispatch({ type: Type.CLEAR_USER, payload: {} })
+}
+
 export const createUser = (name: string, dni: string, email: string) => {
   return async (dispatch: Dispatch<UserActions>): Promise<CreateUser> => {
     const res = await $Services.postUser(name, dni, email)
@@ -99,6 +103,22 @@ export const updateUser = (dni: string, name: string, email: string, password: s
       }
 
       return dispatch({ type: Type.UPDATE_USER, payload: res.data })
+    } catch (err) {
+      return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: "Ocurrió un problema, intentelo de nuevo más tarde" })
+    }
+  }
+}
+
+export const getUserByToken = (token: string) => {
+  return async (dispatch: Dispatch<UserActions>): Promise<GetUser | {}> => {
+    try {
+      const res = await $Services.getUserByToken(token)
+      
+      if (res.error) {
+        return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: res.error })
+      }
+
+      return dispatch({ type: Type.GET_USER, payload: res.data })
     } catch (err) {
       return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: "Ocurrió un problema, intentelo de nuevo más tarde" })
     }

@@ -115,4 +115,14 @@ export class ApiServicesProvider {
     const resJson = await res.json()
     return resJson
   }
+
+  // Get User by Token
+  public async getUserByToken(token: string) {
+    const res = await this.$httpClient.get('users/introspection', { 
+      headers: {"Authorization": `Bearer ${token}`} 
+    })
+    
+    const resJson = res.json()
+    return resJson
+  }
 };

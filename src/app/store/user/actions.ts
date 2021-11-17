@@ -30,6 +30,10 @@ export interface GetUser extends Action<Type.GET_USER> {
   payload: UserType
 }
 
+export interface CleanUser extends Action<Type.CLEAR_USER> {
+  payload: {}
+}
+
 export interface RecoverPassword extends Action<Type.RECOVER_PASSWORD> {
   payload: string
 }
@@ -48,6 +52,7 @@ export type UserActions =
   GetUser |
   CreateUser |
   CleanUserList |
+  CleanUser |
   GetUsersAction | 
   SetCountryAction | 
   SetInstitutionAction |

@@ -7,7 +7,7 @@ import { StoreState } from '../../store';
 import Appbar from "./Appbar";
 import Sidebar from './Sidebar';
 import { makeStyles } from "@material-ui/core";
-import { cleanUserList } from '@/app/store/user';
+import { cleanUserList, clearUser } from '@/app/store/user';
 
 const indexStyle = makeStyles((theme) => ({
   root: {
@@ -63,7 +63,8 @@ export default function Navegation(props: Props) {
 
   const handleLogout = () => {
     dispatch(cleanUserList())
-    dispatch(logout());
+    dispatch(clearUser())
+    dispatch(logout())
   };
 
   const handleSidebar = () => {

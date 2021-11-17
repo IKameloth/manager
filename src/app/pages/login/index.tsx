@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { DniReg } from '@/app/helper/Regex'
 import { motion } from 'framer-motion'
+import { MotionRightContainer, MotionRightItem } from '@/app/components/Motion'
 
 interface IFormInputs {
     dni: string
@@ -52,69 +53,71 @@ const Login = () => {
 
     return (
         <Grid container component="main" className={classes.root}>
-            <motion.div
-                initial={{ x: -10, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0 }}
-            >
+            <MotionRightContainer>
             <Grid container spacing={2} style={{height: '100vh'}}>
                 <Grid item xs={12} sm={6} md={4} component={Paper} elevation={0} square>
                     <div className={classes.paper}>
-                        <AutentiaTitle />
+                        <MotionRightItem>
+                            <AutentiaTitle />
+                        </MotionRightItem>
                         <Grid item xs>
                             <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-                                <Grid container direction="column" spacing={2}>
-                                    <TextField
-                                        margin="dense"
-                                        id="dni"
-                                        label="Rut / Dni"
-                                        type="text"
-                                        fullWidth
-                                        variant="outlined"
-                                        InputProps={{
-                                            endAdornment: (
+                                <MotionRightItem>
+                                    <Grid container direction="column" spacing={2}>
+                                        <TextField
+                                            margin="dense"
+                                            id="dni"
+                                            label="Rut / Dni"
+                                            type="text"
+                                            fullWidth
+                                            variant="outlined"
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                <Fingerprint />
+                                                </InputAdornment>
+                                                ),
+                                            }}
+                                            { ...register("dni", {required: true, maxLength: 11, pattern: DniReg}) }
+                                            error={errors.dni ? true : false}
+                                            helperText={errors.dni ? "Debe ingresar un Dni o Rut válido" : "Ingresar Dni"}
+                                        />
+                                        
+                                        <TextField
+                                            margin="dense"
+                                            id="password"
+                                            label="Contraseña"
+                                            type="password"
+                                            fullWidth
+                                            variant="outlined"
+                                            InputProps={{
+                                                endAdornment: (
                                                 <InputAdornment position="end">
-                                            <Fingerprint />
-                                            </InputAdornment>
-                                            ),
-                                        }}
-                                        { ...register("dni", {required: true, maxLength: 11, pattern: DniReg}) }
-                                        error={errors.dni ? true : false}
-                                        helperText={errors.dni ? "Debe ingresar un Dni o Rut válido" : "Ingresar Dni"}
-                                    />
-                                    
-                                    <TextField
-                                        margin="dense"
-                                        id="password"
-                                        label="Contraseña"
-                                        type="password"
-                                        fullWidth
-                                        variant="outlined"
-                                        InputProps={{
-                                            endAdornment: (
-                                            <InputAdornment position="end">
-                                                <VpnKey />
-                                            </InputAdornment>
-                                            ),
-                                        }}
-                                        { ...register("password", { required: true }) }
-                                        error={errors.password ? true : false}
-                                        helperText={errors.password ? "Debe ingresar una Contraseña válida" : "Ingresar contraseña"}
-                                    />
-                                    <Button className={classes.submit} onClick={handleSubmit(onSubmit)} type="submit" variant="contained" color="primary" >
-                                        Ingresar
-                                    </Button>
+                                                    <VpnKey />
+                                                </InputAdornment>
+                                                ),
+                                            }}
+                                            { ...register("password", { required: true }) }
+                                            error={errors.password ? true : false}
+                                            helperText={errors.password ? "Debe ingresar una Contraseña válida" : "Ingresar contraseña"}
+                                        />
+                                        <Button className={classes.submit} onClick={handleSubmit(onSubmit)} type="submit" variant="contained" color="primary" >
+                                            Ingresar
+                                        </Button>
 
-                                    <Grid item xs>
-                                        <Link to="/recover">
-                                            <Typography variant="subtitle2" color="secondary">¿Olvido su contraseña?</Typography>
-                                        </Link>
+                                        <Grid item xs>
+                                            <Link to="/recover">
+                                                <Typography variant="subtitle2" color="secondary">¿Olvido su contraseña?</Typography>
+                                            </Link>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
+                                </MotionRightItem>
                             </form>
                         </Grid>
                         <Footer>
-                            <FooterContent />
+                            <MotionRightItem>
+                                <FooterContent />
+                            </MotionRightItem>
                         </Footer>
                     </div>
                 </Grid>
@@ -126,7 +129,7 @@ const Login = () => {
                     </Grid>
                 }
             </Grid>
-            </motion.div>
+            </MotionRightContainer>
             { errorMessage && <ErrorAlert open={ !!errorMessage } message={ errorMessage } /> }            
         </Grid>
     );

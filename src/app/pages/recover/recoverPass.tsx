@@ -12,11 +12,11 @@ import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { DniReg } from '@/app/helper/Regex'
 import { Fingerprint } from "@material-ui/icons";
-import { motion } from 'framer-motion'
 import { cleanMessage, recoverPassword } from '@/app/store/user/operations'
 import { setIsLoading, unsetIsLoading } from '@/app/store/common/operations'
 import toast from 'react-hot-toast'
 import Loader from "@/app/components/Loader";
+import { MotionLeftContainer, MotionLeftItem } from '@/app/components/Motion'
 
 interface IFormInputs {
     dni: string
@@ -33,18 +33,16 @@ const RecoverPass = () => {
 
     const { register, formState: {errors}, handleSubmit, setError, resetField } = useForm<IFormInputs>()
 
-    const onSubmit: SubmitHandler<IFormInputs> = data => {
+    const onSubmit: SubmitHandler<IFormInputs> = async data => {
         dispatch(setIsLoading())
         const { dni } = data
 
         if (!dni.trim().length) {
             setError("dni", { type: 'manual' }, { shouldFocus: true })
         } else {
-            dispatch(recoverPassword(dni))
-            setTimeout(() => {
-                dispatch(unsetIsLoading())
-                resetField('dni')
-            }, 5000)
+            await dispatch(recoverPassword(dni))
+            dispatch(unsetIsLoading())
+            resetField('dni')
         }
     }
 
@@ -63,65 +61,67 @@ const RecoverPass = () => {
 
     return (
         <Grid container component="main" className={classes.root}>
-            <motion.div
-                initial={{ x: 10, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0 }}
-            >
-            <Grid container spacing={2} style={{height: '100vh'}}>
-                { !viewMobile && 
-                    <Grid item sm={6} md={8} className={classes.bg}>
-                        { viewTablet ? 
-                            <img src={LoginImagePlus} alt="AutentiaLogo" className={classes.img} /> : 
-                            <img src={LoginImage} alt="AutentiaLogo" className={classes.img} /> }   
-                    </Grid>
-                }
-                <Grid item xs={12} sm={6} md={4} component={Paper} elevation={0} square>
-                    <div className={classes.paper}>
-                        <AutentiaTitle />
-                        <Grid item xs>
-                            <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-                                <Grid container direction="column" spacing={2}>
-                                    <TextField
-                                        autoFocus
-                                        margin="dense"
-                                        id="dni"
-                                        label="Dni"
-                                        type="text"
-                                        fullWidth
-                                        variant="outlined"
-                                        InputProps={{
-                                            endAdornment: (
-                                            <InputAdornment position="end">
-                                                <Fingerprint />
-                                            </InputAdornment>
-                                            ),
-                                        }}
-                                        { ...register("dni", { required: true, pattern: DniReg }) }
-                                        error={errors.dni ? true : false}
-                                        helperText={errors.dni ? "Debe ingresar un Dni válido" : "Ingresar Dni"}
-                                    />
-                                    { isLoading ? <Loader /> : 
-                                        <Button className={classes.submit} onClick={handleSubmit(onSubmit)} type="submit" variant="contained" color="primary" >
-                                            Recuperar
-                                        </Button>
-                                    }
-
-                                    <Grid item xs>
-                                        <Link to="/login">
-                                            <Typography variant="subtitle2" color="secondary">Iniciar sesión</Typography>
-                                        </Link>
-                                    </Grid>
-                                </Grid>
-                            </form>
+            <MotionLeftContainer>
+                <Grid container spacing={2} style={{height: '100vh'}}>
+                    { !viewMobile && 
+                        <Grid item sm={6} md={8} className={classes.bg}>
+                            { viewTablet ? 
+                                <img src={LoginImagePlus} alt="AutentiaLogo" className={classes.img} /> : 
+                                <img src={LoginImage} alt="AutentiaLogo" className={classes.img} /> }   
                         </Grid>
-                        <Footer>
-                            <FooterContent />
-                        </Footer>
-                    </div>
+                    }
+                    <Grid item xs={12} sm={6} md={4} component={Paper} elevation={0} square>
+                        <div className={classes.paper}>
+                            <MotionLeftItem>
+                                <AutentiaTitle />
+                            </MotionLeftItem>
+                            <Grid item xs>
+                                <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
+                                    <MotionLeftItem>
+                                        <Grid container direction="column" spacing={2}>
+                                            <TextField
+                                                autoFocus
+                                                margin="dense"
+                                                id="dni"
+                                                label="Dni"
+                                                type="text"
+                                                fullWidth
+                                                variant="outlined"
+                                                InputProps={{
+                                                    endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <Fingerprint />
+                                                    </InputAdornment>
+                                                    ),
+                                                }}
+                                                { ...register("dni", { required: true, pattern: DniReg }) }
+                                                error={errors.dni ? true : false}
+                                                helperText={errors.dni ? "Debe ingresar un Dni válido" : "Ingresar Dni"}
+                                            />
+                                            { isLoading ? <Loader /> : 
+                                                <Button className={classes.submit} onClick={handleSubmit(onSubmit)} type="submit" variant="contained" color="primary" >
+                                                    Recuperar
+                                                </Button>
+                                            }
+
+                                            <Grid item xs>
+                                                <Link to="/login">
+                                                    <Typography variant="subtitle2" color="secondary">Iniciar sesión</Typography>
+                                                </Link>
+                                            </Grid>
+                                        </Grid>
+                                    </MotionLeftItem>
+                                </form>
+                            </Grid>
+                            <Footer>
+                                <MotionLeftItem>
+                                    <FooterContent />
+                                </MotionLeftItem>
+                            </Footer>
+                        </div>
+                    </Grid>
                 </Grid>
-            </Grid>
-            </motion.div>
+            </MotionLeftContainer>
             { errorMessage && <ErrorAlert open={ !!errorMessage } message={ errorMessage } /> }
         </Grid>
     );

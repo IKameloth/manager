@@ -6,18 +6,18 @@ import { useSelector, useDispatch } from 'react-redux'
 import { StoreState } from '@/app/store/'
 import toast from 'react-hot-toast'
 import Loader from '@/app/components/Loader'
-import { motion } from 'framer-motion'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { Footer, useStyles } from '@/assets/login/recover'
 import ErrorAlert from '@/app/components/ErrorAlert'
 import Logo from "../../../assets/images/autentia-logo.svg"
-import { cleanMessage } from '@/app/store/user/operations'
+import { cleanMessage, clearUser, getUserByToken } from '@/app/store/user/operations'
 import { setIsLoading, unsetIsLoading } from '@/app/store/common/operations'
-import { DialerSipSharp, Visibility, VisibilityOff } from '@material-ui/icons'
+import { Visibility, VisibilityOff } from '@material-ui/icons'
 import Img from '@/assets/images/frame.svg'
 import ImgPlus from '@/assets/images/frameplus.svg'
 import HandImg from '@/assets/images/hand.svg'
 import { updateUser } from '@/app/store/user/operations'
+import { MotionContainer, MotionItemUp } from '@/app/components/Motion'
 
 interface Props {
     token: string
@@ -28,53 +28,28 @@ interface IFormInputs {
     confirmPassword: string
 }
 
-const userFromToken = ({token}: Props) => {
-    console.log(token)
-}
-
 const SetPassView = () => {
     const viewMobile = useMediaQuery('(max-width:425px)'); // mobile
-    const viewTablet = useMediaQuery('(max-width:959px)'); // tablet
     const classes = useStyles()
     const { token } = useParams<Props>()
     const dispatch = useDispatch()
-    const {user, common} = useSelector((state: StoreState) => state)
-    const { isLoggedIn, isLoading, errorMessage } = common
+    const commonState = useSelector((state: StoreState) => state.common)
+    const userState = useSelector((state: StoreState) => state.user)
+    const { isLoggedIn, isLoading, errorMessage } = commonState
+    const { user } = userState
     const [showPass, setShowPass] = useState(false)
     const [showConfirmPass, setShowConfirmPass] = useState(false)
 
-    console.log(token)
     useEffect(() => {
-        if (token.length > 0) {
-            //dispatch get user by token
-        } else {
-            <Redirect to='/' />
-        }
-    }, [])
+        dispatch(getUserByToken(token))
+    },[])
+
+    if (user?.dni.length === 0) {
+        // return <Redirect to="/" />
+    }
 
     if (isLoggedIn) {
         return <Redirect to="/" />
-    }
-
-    // motion
-    const container = {
-        hidden: { opacity: 1, scale: 0 },
-        visible: {
-            opacity: 1,
-            scale: 1,
-            transition: {
-                delayChildren: 0.3,
-                staggerChildren: 0.2
-            }
-        }
-    }
-
-    const item = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1
-        }
     }
 
     const { register, formState: {errors}, handleSubmit, setError, resetField } = useForm<IFormInputs>()
@@ -101,7 +76,7 @@ const SetPassView = () => {
 
     return(
         <Grid container component="main" className={classes.root} >
-            <motion.div variants={container} initial="hidden" animate="visible" >
+            <MotionContainer>
                 <Grid container spacing={2} style={{height: '100vh'}}>
                     { !viewMobile && 
                         <Grid item sm={3} md={3} className={classes.bg}>
@@ -110,11 +85,11 @@ const SetPassView = () => {
                     }
                     <Grid item xs={12} sm={6} md={6} component={Paper} elevation={0} square>
                         <div className={classes.paper}>
-                        <motion.div variants={item}>
+                        <MotionItemUp>
                             <AutentiaTitle />
-                        </motion.div>
+                        </MotionItemUp>
                         <Grid item xs>
-                            <motion.div variants={item}>
+                            <MotionItemUp>
                                 <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
                                     <Grid container direction="column" spacing={2}>
                                         <TextField 
@@ -152,7 +127,7 @@ const SetPassView = () => {
                                             }}
                                             { ...register("confirmPassword", { required: 'Debe ingresar una contraseña válida' }) }
                                             error={errors.confirmPassword ? true : false}
-                                            helperText={errors.confirmPassword ? errors.confirmPassword.message : "Ingresar nueva contraseña"}
+                                            helperText={errors.confirmPassword ? errors.confirmPassword.message : "Confirmar nueva contraseña"}
                                         />
                                         { isLoading ? <Loader /> : 
                                             <Button className={classes.submit} onClick={handleSubmit(onSubmit)} type="submit" variant="contained" color="primary" >
@@ -166,7 +141,7 @@ const SetPassView = () => {
                                         </Box>
                                     </Grid>
                                 </form>
-                            </motion.div>
+                            </MotionItemUp>
                         </Grid>
                         { viewMobile &&
                             <Grid item xs>
@@ -174,9 +149,9 @@ const SetPassView = () => {
                             </Grid>
                         }
                         <Footer>
-                            <motion.div variants={item}>
+                            <MotionItemUp>
                                 <FooterContent />
-                            </motion.div>
+                            </MotionItemUp>
                         </Footer>
                         </div>
                     </Grid>
@@ -186,7 +161,7 @@ const SetPassView = () => {
                         </Grid>
                     }
                 </Grid>
-            </motion.div>
+            </MotionContainer>
             { errorMessage && <ErrorAlert open={ !!errorMessage } message={ errorMessage } /> }
         </Grid>
     )
