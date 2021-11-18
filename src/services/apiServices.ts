@@ -116,13 +116,14 @@ export class ApiServicesProvider {
     return resJson
   }
 
-  // Get User by Token
-  public async getUserByToken(token: string) {
-    const res = await this.$httpClient.get('users/introspection', { 
-      headers: {"Authorization": `Bearer ${token}`} 
-    })
+  // Validate User Token
+  public async validateToken(token: string) {
+    const res = await this.$httpClient.post('users/validate', {token})
     
-    const resJson = res.json()
-    return resJson
+    if (res.status === 404) {
+      return { error: "Token expirado o invalido", status: res.status }
+    }
+    
+    return { message: res.statusText, status: res.status }
   }
 };

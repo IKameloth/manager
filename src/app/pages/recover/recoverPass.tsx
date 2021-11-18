@@ -48,8 +48,10 @@ const RecoverPass = () => {
 
     useEffect(() => {
         if (errorMessage.length === 0)
-            message.length > 0 && toast.success(message, { duration: 7000 }) && dispatch(cleanMessage())
+            message.length > 0 && toast.success(message, { duration: 7000 })
     }, [message])
+    
+    console.log(message)
 
     useEffect(() => {
         (errorMessage.length > 0) && errorMessage

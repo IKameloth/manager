@@ -11,6 +11,7 @@ export enum UserTypes {
   GET_USER = "GET_USER",
   CLEAR_USER = "CLEAR_USER",
   RECOVER_PASSWORD = "RECOVER_PASSWORD",
+  SET_MESSAGE = "SET_MESSAGE",
   SET_ERROR_MESSAGE = "SET_ERROR_MESSAGE",
   UPDATE_USER = "UPDATE_USER",
 };
@@ -21,6 +22,6 @@ export type UserState = {
   country: string
   institution: string
   roles: [RoleType?]
-  errorMessage: string
   message: string
+  errorMessage: string
 };

@@ -17,7 +17,6 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 const ErrorAlert = ({open, message}: ErrorDialog) => {
-
   const [ openError, setOpenError ] = useState(false);
   const dispatch = useDispatch();
 

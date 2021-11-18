@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Button, TextField, Paper, Box, Grid, Typography, InputAdornment, useMediaQuery } from '@material-ui/core';
 import { Link, useParams } from 'react-router-dom'
 import { Redirect } from 'react-router'
@@ -10,13 +10,12 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { Footer, useStyles } from '@/assets/login/recover'
 import ErrorAlert from '@/app/components/ErrorAlert'
 import Logo from "../../../assets/images/autentia-logo.svg"
-import { cleanMessage, clearUser, getUserByToken } from '@/app/store/user/operations'
+import { validateToken, cleanMessage } from "@/app/store/user";
 import { setIsLoading, unsetIsLoading } from '@/app/store/common/operations'
 import { Visibility, VisibilityOff } from '@material-ui/icons'
 import Img from '@/assets/images/frame.svg'
 import ImgPlus from '@/assets/images/frameplus.svg'
 import HandImg from '@/assets/images/hand.svg'
-import { updateUser } from '@/app/store/user/operations'
 import { MotionContainer, MotionItemUp } from '@/app/components/Motion'
 
 interface Props {
@@ -36,21 +35,32 @@ const SetPassView = () => {
     const commonState = useSelector((state: StoreState) => state.common)
     const userState = useSelector((state: StoreState) => state.user)
     const { isLoggedIn, isLoading, errorMessage } = commonState
-    const { user } = userState
+    const { message } = userState
     const [showPass, setShowPass] = useState(false)
     const [showConfirmPass, setShowConfirmPass] = useState(false)
+    const [isOk, setIsOk] = useState(false)
 
-    useEffect(() => {
-        dispatch(getUserByToken(token))
-    },[])
+    // const caller = useCallback(async () => {
+    //     console.log("CALLBACK")
+    //     await dispatch(cleanMessage())
+    //     await dispatch(validateToken(token))
+    // }, [])
+    
+    // useEffect(() => {
+    //     console.log("EFFECT 1")
+    //     caller()
+    // }, [])
+    
+    // useEffect(() => {
+    //     console.log("EFFECT 2")
+    //     message === '200' && setIsOk(true)
+    // }, [message])
 
-    if (user?.dni.length === 0) {
-        // return <Redirect to="/" />
-    }
-
-    if (isLoggedIn) {
-        return <Redirect to="/" />
-    }
+    // if (isLoggedIn || (!isOk && message === '404')) {
+    //     dispatch(cleanMessage())
+    //     toast.error("Token obsoleto o invalido", { duration: 7000 })
+    //     return <Redirect to="/" />
+    // }
 
     const { register, formState: {errors}, handleSubmit, setError, resetField } = useForm<IFormInputs>()
 

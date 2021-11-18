@@ -31,10 +31,20 @@ export interface GetUser extends Action<Type.GET_USER> {
 }
 
 export interface CleanUser extends Action<Type.CLEAR_USER> {
-  payload: {}
+  payload: {
+    id: string
+    CreatedAt: string
+    UpdatedAt: string
+    DeletedAt: string
+    validated_at: string
+    dni: string
+    name: string
+    email: string
+    roles: [RoleType?]
+  }
 }
 
-export interface RecoverPassword extends Action<Type.RECOVER_PASSWORD> {
+export interface RecoverPasswordAction extends Action<Type.RECOVER_PASSWORD> {
   payload: string
 }
 
@@ -42,13 +52,18 @@ export interface SetErrorMessageAction extends Action<Type.SET_ERROR_MESSAGE> {
   payload: string
 }
 
+export interface SetMessageAction extends Action<Type.SET_MESSAGE> { 
+  payload: string 
+}
+
 export interface UpdateUserAction extends Action<Type.UPDATE_USER> {
   payload: UserType
 }
 
+
 export type UserActions = 
   SetErrorMessageAction |
-  RecoverPassword |
+  RecoverPasswordAction |
   GetUser |
   CreateUser |
   CleanUserList |
@@ -57,4 +72,5 @@ export type UserActions =
   SetCountryAction | 
   SetInstitutionAction |
   SetRolesAction |
-  UpdateUserAction
+  UpdateUserAction |
+  SetMessageAction

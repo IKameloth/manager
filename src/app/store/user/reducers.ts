@@ -10,7 +10,7 @@ const INITIAL_STATE: State = {
   institution: '',
   roles: [],
   errorMessage: '',
-  message: '',
+  message: "",
 };
 
 export const userReducer = (state: State = INITIAL_STATE, action: Actions) => {
@@ -29,12 +29,12 @@ export const userReducer = (state: State = INITIAL_STATE, action: Actions) => {
       return { ...state, user: action.payload }
     case Types.SET_ERROR_MESSAGE:
       return { ...state, errorMessage: action.payload }
-    case Types.RECOVER_PASSWORD:
-      return { ...state, message: action.payload }
     case Types.UPDATE_USER:
       return { ...state, user: action.payload }
     case Types.CLEAR_USER:
       return { ...state, user: action.payload }
+    case Types.SET_MESSAGE:
+      return { ...state, message: action.payload }
     default:
       return state;
   };

@@ -1,9 +1,9 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Redirect, Route } from 'react-router'
+import { Redirect, Route } from 'react-router-dom'
 import { StoreState } from '../store'
 
-const ProtectedRoute = ({render, ...other}: any) =>{
+export const ProtectedRoute = ({render, ...other}: any) => {
     const { user } = useSelector((state: StoreState) => state)
     const { country, institution } = user
 
@@ -16,5 +16,3 @@ const ProtectedRoute = ({render, ...other}: any) =>{
         />
     );
 }
-
-export default ProtectedRoute
