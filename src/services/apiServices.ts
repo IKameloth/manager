@@ -118,12 +118,23 @@ export class ApiServicesProvider {
 
   // Validate User Token
   public async validateToken(token: string) {
-    const res = await this.$httpClient.post('users/validate', {token})
+    const res = await this.$httpClient.post('users/validate', { token })
     
     if (res.status === 404) {
       return { error: "Token expirado o invalido", status: res.status }
     }
     
     return { message: res.statusText, status: res.status }
+  }
+
+  // Confirm User Account
+  public async confirmUser(password: string, token: string) {
+    const res = await this.$httpClient.post('users/confirm', { password, token, recovery: true })
+    if (res.status != 200) {
+      return { error: res.statusText, status: res.status }
+    }
+
+    const resJson = await res.json()
+    return resJson.data
   }
 };

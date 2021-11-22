@@ -11,7 +11,7 @@ const RolesDetail = React.lazy(() => import('./pages/roles/RolesDetail'))
 const People = React.lazy(() => import('./pages/people'));
 const Institutions = React.lazy(() => import('./pages/institutions'));
 const Recover = React.lazy(() => import('./pages/recover/recoverPass'))
-const SetPassView = React.lazy(() => import ('./pages/recover/setPass'))
+const TokenValidation = React.lazy(() => import('./pages/recover/tokenValidation'))
 
 export default function App() {
   const location = useLocation();
@@ -34,7 +34,7 @@ export default function App() {
         <Route path="/healthz" render={() => <HealthCheck />} />
         <Route exact path="/login" render={() => <Login />} />
         <Route exact path="/recover" render={() => <Recover />} />
-        <Route exact path="/recovery/:token" render={() => <SetPassView />} />
+        <Route exact path="/recovery/:token" render={() => <TokenValidation />} />
         <Navbar>
           <Route exact path="/" render={() => <Home />} />
           <ProtectedRoute exact path="/roles" render={() => <Roles />} />

@@ -119,7 +119,7 @@ export const updateUser = (dni: string, name: string, email: string, password: s
 export const validateToken = (token: string) => {
   return async (dispatch: Dispatch<UserActions>): Promise<UserActions | {}> => {
     const res = await $Services.validateToken(token)
-    return dispatch({ type: Type.SET_MESSAGE, payload: res.status.toString() })
+    return res
   }
 }
 
@@ -137,4 +137,19 @@ export const cleanMessage = () => {
     type: Type.SET_MESSAGE, 
     payload: ''
   })
+}
+
+export const userConfirm = (password: string, token: string) => {
+  return async (dispatch: Dispatch<UserActions>): Promise<UserActions | {}> => {
+    try {
+      const res = await $Services.confirmUser(password, token)
+      if (res.error) {
+        return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: res.error })
+      }
+      console.log(res)
+      return dispatch({ type: Type.SET_MESSAGE, payload: "Creado con éxito!" })
+    } catch(err) {
+      return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: "Ocurrió un problema, intentelo de nuevo más tarde" })
+    }
+  }
 }
