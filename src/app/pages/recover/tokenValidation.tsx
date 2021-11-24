@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Paper, Box, Grid, Typography, useMediaQuery, Button } from '@material-ui/core';
-import { useParams, Link } from 'react-router-dom'
-import { Redirect } from 'react-router'
+import { useParams, Link, Redirect } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { StoreState } from '@/app/store/'
 import Loader from '@/app/components/Loader'
@@ -52,6 +51,7 @@ const TokenValidation = () => {
     const [statusToken, setStatusToken] = useState<any>(null)
     const status = useRef("Validando...")
     const [ isSuccess, setIsSuccess ] = useState<boolean>(false)
+    const [isRedirect, setIsRedirect] = useState<boolean>(false)
 
     useEffect(() => {
         dispatch(setIsLoading())
@@ -72,6 +72,15 @@ const TokenValidation = () => {
             status.current = "Validación Fallida, token expirado o inválido!"
         }
     }, [statusToken])
+
+    const successForm = () => {
+        status.current = "Validando contraseña..."
+        setIsRedirect(true)
+    }
+
+    if (isRedirect) {
+        return <Redirect to="/" />
+    }
     
     if (isLoggedIn) {
         return <Redirect to="/" />
@@ -113,7 +122,7 @@ const TokenValidation = () => {
                             </Box>
                         }
                         { !isLoading && isSuccess &&
-                            <SetPassView token={token} />
+                            <SetPassView token={token} onSuccess={successForm} />
                         }
                     </Grid>
                     { !viewMobile &&

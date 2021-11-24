@@ -130,6 +130,7 @@ export class ApiServicesProvider {
   // Confirm User Account
   public async confirmUser(password: string, token: string) {
     const res = await this.$httpClient.post('users/confirm', { password, token, recovery: true })
+
     if (res.status != 200) {
       return { error: res.statusText, status: res.status }
     }

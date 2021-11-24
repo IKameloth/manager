@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, TextField, Box, Grid, Typography, InputAdornment, useMediaQuery } from '@material-ui/core';
 import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router'
@@ -18,6 +18,7 @@ import { cleanMessage, userConfirm } from '@/app/store/user';
 
 interface Props {
     token: string
+    onSuccess: () => void
 }
 
 interface IFormInputs {
@@ -25,7 +26,7 @@ interface IFormInputs {
     confirmPassword: string
 }
 
-const SetPassView = ({token}: Props) => {
+const SetPassView = ({token, onSuccess}: Props) => {
     const viewMobile = useMediaQuery('(max-width:425px)'); // mobile
     const classes = useStyles()
     const dispatch = useDispatch()
@@ -38,7 +39,6 @@ const SetPassView = ({token}: Props) => {
     const { register, formState: {errors}, handleSubmit, setError, resetField } = useForm<IFormInputs>()
 
     const onSubmit: SubmitHandler<IFormInputs> = async data => {
-        dispatch(setIsLoading())
         dispatch(cleanMessage())
         const { password, confirmPassword } = data
         
@@ -49,15 +49,19 @@ const SetPassView = ({token}: Props) => {
         } else if (password.trim() !== confirmPassword.trim()) {
             setError("confirmPassword", { type: 'required', message: 'Las contraseñas deben coincidir' })
         } else {
-            await dispatch(userConfirm(password, token))
-            if (message?.length > 0) {
-                console.log(message)
-                toast.success( message, {duration: 5000, position: "top-right"})
+            dispatch(setIsLoading())
+            let res = await dispatch(userConfirm(password, token))
+
+            if (res?.length > 0) {
+                toast.success("Contraseña registrada", {duration: 5000, position: "top-left"})
                 dispatch(cleanMessage())
-                return <Redirect to="/login" />
+                return onSuccess()
+            } else {
+                toast.error("Algo salio mal, intentalo nuevamente", {duration: 5000, position: "top-right"})
+                dispatch(cleanMessage())
             }
+            dispatch(unsetIsLoading())
         }
-        dispatch(unsetIsLoading())
     }
 
     const handleShowPass = () => setShowPass(!showPass)

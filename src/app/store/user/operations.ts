@@ -140,14 +140,18 @@ export const cleanMessage = () => {
 }
 
 export const userConfirm = (password: string, token: string) => {
-  return async (dispatch: Dispatch<UserActions>): Promise<UserActions | {}> => {
+  return async (dispatch: Dispatch<UserActions>): Promise<UserActions | undefined | {}> => {
     try {
       const res = await $Services.confirmUser(password, token)
+
+      
       if (res.error) {
         return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: res.error })
       }
-      console.log(res)
-      return dispatch({ type: Type.SET_MESSAGE, payload: "Creado con éxito!" })
+      
+      if (res?.id.length > 0) {
+        return res.id
+      }
     } catch(err) {
       return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: "Ocurrió un problema, intentelo de nuevo más tarde" })
     }
