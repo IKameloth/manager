@@ -66,10 +66,10 @@ const TokenValidation = () => {
     useEffect(() => {
         if (statusToken?.status === 200) {
             setIsSuccess(true)
-            status.current = "Validación Completa!"
+            status.current = "Validación Completa"
         } else {
             setIsSuccess(false)
-            status.current = "Validación Fallida, token expirado o inválido!"
+            status.current = "Validación Fallida, Token expirado o inválido!"
         }
     }, [statusToken])
 

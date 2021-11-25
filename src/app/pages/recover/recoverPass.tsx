@@ -40,7 +40,7 @@ const RecoverPass = () => {
         if (!dni.trim().length) {
             setError("dni", { type: 'manual' }, { shouldFocus: true })
         } else {
-            await dispatch(recoverPassword(dni))
+            await dispatch(recoverPassword(dni.toUpperCase()))
             dispatch(unsetIsLoading())
             resetField('dni')
         }
@@ -50,8 +50,6 @@ const RecoverPass = () => {
         if (errorMessage.length === 0)
             message.length > 0 && toast.success(message, { duration: 7000 })
     }, [message])
-    
-    console.log(message)
 
     useEffect(() => {
         (errorMessage.length > 0) && errorMessage
