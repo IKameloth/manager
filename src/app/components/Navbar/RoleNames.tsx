@@ -10,6 +10,6 @@ export default function RoleNames(props: { rolesArr: any }) {
   };
 
   return(
-    <Chip size="small" color="primary" icon={<LocalOfferIcon />} label="Empty" />
+    <Chip size="small" color="primary" icon={<LocalOfferIcon />} label="Vacio" />
   ); 
 };

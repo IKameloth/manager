@@ -1,4 +1,3 @@
-// UNUSED
 import React, { useEffect, useState } from "react";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, styled, Typography } from "@material-ui/core";
 import { useRolesStyle } from "@/assets/Roles";
@@ -12,14 +11,13 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 
 interface DialogProps {
     isOpen: boolean;
-    data: any;
-    handleCloseDialog: () => void;
+    role: string
+    handleClose: () => void;
 };
 
-export default function ShowDialog(props: DialogProps) {
+export default function DeleteRole(props: DialogProps) {
     const classes = useRolesStyle();
     const [open, setOpen] = useState(false);
-    const { name, dni, status } = props.data;
 
     useEffect(() => {
       props.isOpen ? setOpen(true) : setOpen(false);
@@ -30,26 +28,22 @@ export default function ShowDialog(props: DialogProps) {
             <AnimatePresence>
                 <StyledDialog
                     open={open}
-                    onClose={props.handleCloseDialog}
+                    onClose={props.handleClose}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
                     <div style={{ width: 250 }}>
                         <DialogTitle id="alert-dialog-title" style={{ textAlign: 'center' }}>
-                            { status ? 
-                                <Typography component="span" variant="h6" style={{ fontSize: 18 }}>Desactivar cuenta</Typography> : 
-                                <Typography component="span" variant="h6" style={{ fontSize: 18 }}>Reactivar cuenta</Typography>
-                            }
+                            <Typography component="span" variant="h6" style={{ fontSize: 18 }}>¿Desea eliminar el rol?</Typography>
                         </DialogTitle>
                         <DialogContent dividers>
                             <DialogContentText id="alert-dialog-description" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                <Typography component="span" variant="body2" style={{ color: '#000000' }}>{name}</Typography>
-                                <Typography component="span" variant="body2" style={{ color: '#000000' }}>{dni}</Typography>
+                                <Typography component="span" variant="body2" style={{ color: '#000000' }}>{props.role}</Typography>
                             </DialogContentText>
                         </DialogContent>
                         <DialogActions style={{justifyContent: 'center'}}>
-                            <Button onClick={props.handleCloseDialog} autoFocus style={{ color: `${status ? "#FF0000" : "#209E25"}`}}>
-                                { status ? "Desactivar" : "Activar" }
+                            <Button onClick={props.handleClose} autoFocus style={{ color:"#FF0000"}}>
+                                Eliminar
                             </Button>
                         </DialogActions>
                     </div>

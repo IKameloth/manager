@@ -2,18 +2,18 @@ import { Chip } from "@material-ui/core";
 import React from "react";
 import { useRolesStyle } from "@/assets/Roles";
 
-interface StatusProps {
-    status: boolean;
+interface Props {
+    validate: string;
 }
 
-export default function ShowStatus(props: StatusProps) {
+export default function ShowValidate(props: Props) {
     const classes = useRolesStyle();
 
     return(
         <div>
-            { props.status ?
-                <Chip label="Activo" className={classes.statusActive} /> :
-                <Chip label="Inactivo" className={classes.statusInactive} />
+            { props.validate ?
+                <Chip label={props.validate} className={classes.statusActive} /> :
+                <Chip label="No validado" className={classes.statusInactive} />
             }
         </div>
     );

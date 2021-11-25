@@ -1,13 +1,10 @@
 import React, { MouseEvent, useEffect } from "react";
 import { SideBar } from "@/assets/SideBar/Sidebar";
-import { Dialog, Avatar, ButtonBase, Divider, Drawer, Grid, Typography, DialogTitle, FormControl, DialogContent, InputLabel, Select, MenuItem, DialogActions, Button } from "@material-ui/core";
-import UserMenu from "./UserMenu";
-import AdminMenu from "./AdminMenu";
-import RoleNames from "./RoleNames";
+import { Typography, DialogTitle, FormControl, DialogContent, InputLabel, Select, MenuItem, DialogActions, Button } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { StoreState } from "@/app/store";
 import { setCountry, setInstitution, setRoles } from "@/app/store/user";
-import { setCountries, setIsLoading } from "@/app/store/common";
+import { setCountries } from "@/app/store/common";
 
 type PropsType = {
     open: boolean,
@@ -74,7 +71,9 @@ export default function ScopeSelection(props: PropsType) {
 
   return(
     <>
-        <DialogTitle>Seleccione donde desea operar</DialogTitle>
+        <DialogTitle id="alert-dialog-title" style={{ textAlign: 'center' }}>
+          <Typography component="span" variant="h6" style={{ fontSize: 18 }}>Seleccione donde desea operar</Typography>
+        </DialogTitle>
         <DialogContent>
           <form className={classes.form} noValidate>
             <FormControl className={classes.formControl}>

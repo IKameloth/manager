@@ -12,7 +12,20 @@ export class ApiServicesProvider {
           },
           body: JSON.stringify(payload),
         };
+        
         return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions);
+      },
+      put(targetUrl: string, payload: unknown, options?: { headers?: any }) {
+        const requestOptions = {
+          method: 'PUT',
+          headers: {
+            'Content-type': 'application/json',
+            ...(options ? options.headers : {})
+          },
+          body: JSON.stringify(payload),
+        }
+
+        return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions)
       },
       get(targetUrl: string, options?: { headers?: any}){
         const requestOptions = {
@@ -62,4 +75,67 @@ export class ApiServicesProvider {
     const resultData = await response.json();
     return resultData
   };
+
+  // Get Users
+  public async getUsers() {
+    const res = await this.$httpClient.get('users', {  })
+    const resJson = await res.json()
+    return resJson
+  }
+
+  // Post User
+  public async postUser(name: string, dni: string, email: string) {
+    const res = await this.$httpClient.post('users', { name, dni, email })
+    const resJson = await res.json()
+    return resJson
+  }
+
+  // Recover Pass
+  public async recoverPass(dni: string) {
+    const res = await this.$httpClient.post(`users/${dni}/recovery`, {})
+    
+    if (res.status === 404) {
+      return { error: "Usuario no encontrado", status: res.status }
+    }
+    
+    const resJson = await res.json()
+    return resJson
+  }
+
+  // Get User
+  public async getUser(dni: string) {
+    const res = await this.$httpClient.get(`users/${dni}`)
+    const resJson = await res.json()
+    return resJson
+  }
+
+  // Update User
+  public async updateUser(dni: string, name: string, email: string, password: string) {
+    const res = await this.$httpClient.put(`users/${dni}`, {dni, name, email, password})
+    const resJson = await res.json()
+    return resJson
+  }
+
+  // Validate User Token
+  public async validateToken(token: string) {
+    const res = await this.$httpClient.post('users/validate', { token })
+    
+    if (res.status === 404) {
+      return { error: "Token expirado o invalido", status: res.status }
+    }
+    
+    return { message: res.statusText, status: res.status }
+  }
+
+  // Confirm User Account
+  public async confirmUser(password: string, token: string) {
+    const res = await this.$httpClient.post('users/confirm', { password, token, recovery: true })
+
+    if (res.status != 200) {
+      return { error: res.statusText, status: res.status }
+    }
+
+    const resJson = await res.json()
+    return resJson.data
+  }
 };

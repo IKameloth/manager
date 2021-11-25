@@ -7,6 +7,7 @@ import { StoreState } from '../../store';
 import Appbar from "./Appbar";
 import Sidebar from './Sidebar';
 import { makeStyles } from "@material-ui/core";
+import { cleanUserList, clearUser } from '@/app/store/user';
 
 const indexStyle = makeStyles((theme) => ({
   root: {
@@ -47,7 +48,7 @@ export default function Navegation(props: Props) {
   const dispatch = useDispatch();
   const [isOpened, setIsOpened] = useState(false);
   const { common } = useSelector((state: StoreState) => state);
-  const { profile, isLoggedIn } = common;
+  const { isLoggedIn } = common;
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);
@@ -61,7 +62,9 @@ export default function Navegation(props: Props) {
   };
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(cleanUserList())
+    dispatch(clearUser())
+    dispatch(logout())
   };
 
   const handleSidebar = () => {
@@ -84,7 +87,7 @@ export default function Navegation(props: Props) {
         onLogout={handleLogout}
       />
       
-      <Sidebar isSideOpen={isOpened} profile={profile} />
+      <Sidebar isSideOpen={isOpened} />
 
       <main onClick={() => setIsOpened(false)}
         className={clsx(classes.content, {

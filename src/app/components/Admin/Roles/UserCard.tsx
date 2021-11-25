@@ -4,6 +4,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import { makeStyles } from '@material-ui/styles';
 import EditUserModal from './EditUserModal';
+import ShowDialog from './RoleDialog';
 
 const useStyles = makeStyles((theme: Theme) => ({
     centered: {
@@ -39,10 +40,13 @@ interface Props {
     institution: string
     email: string
     dni: string
+    status: boolean
 }
 
 const UserCard = ( props: Props) => {
     const [isOpen, setIsOpen] = useState(false)
+    const [isBlock, setIsBlock] = useState(false)
+
     const classes = useStyles()
     const { name, job, registeredDate, institution, email } = props
     const handleEdit = () => {
@@ -51,13 +55,19 @@ const UserCard = ( props: Props) => {
         setIsOpen(!isOpen)
     }
 
+    const handleLock = () => {
+        setIsBlock(!isBlock)
+    }
+
     return(
         <>
         <Grid item xs={12} md={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
             <Card style={{ justifyContent: 'center', maxWidth: 345, height: 450, backgroundColor: "#ffffff", borderRadius: '10px', boxShadow: '0px 9px 18px rgba(0, 0, 0, 0.18), 0px 5.5px 5px rgba(0, 0, 0, 0.24)' }}>
                 <CardContent>
                     <div className={ classes.centered }>
-                        <Avatar alt="user" className={ classes.avatar }>PP</Avatar>
+                        <Avatar alt="user" className={ classes.avatar }>
+                            {`${name.split(' ')[0][0].toUpperCase()}${name.split(' ')[1][0].toUpperCase()}`}
+                        </Avatar>
                         <Typography variant="h6">{name}</Typography>
                         <Typography variant="subtitle2" color="textSecondary">{job}</Typography>
                     </div>
@@ -98,7 +108,7 @@ const UserCard = ( props: Props) => {
                         </IconButton>
                     </div>
                     <div style={{ marginLeft: 5 }}>
-                        <IconButton className={classes.backgroundBtn} aria-label="remove">
+                        <IconButton onClick={handleLock} className={classes.backgroundBtn} aria-label="remove">
                             <NotInterestedIcon style={{ color: '#FF0000' }} />
                         </IconButton>
                     </div>
@@ -107,6 +117,7 @@ const UserCard = ( props: Props) => {
             </Card>
         </Grid>
         { isOpen && <EditUserModal isOpen={isOpen} onCloseModal={handleEdit} dni={props.dni} /> }
+        { isBlock && <ShowDialog isOpen={isBlock} handleCloseDialog={handleLock} data={props} /> }
         </>
     )
 }

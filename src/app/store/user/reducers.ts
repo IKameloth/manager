@@ -8,7 +8,9 @@ const INITIAL_STATE: State = {
   users: [],
   country: '',
   institution: '',
-  roles: []
+  roles: [],
+  errorMessage: '',
+  message: "",
 };
 
 export const userReducer = (state: State = INITIAL_STATE, action: Actions) => {
@@ -21,6 +23,18 @@ export const userReducer = (state: State = INITIAL_STATE, action: Actions) => {
       return { ...state, institution: action.payload }
     case Types.SET_ROLES:
       return { ...state, roles: action.payload }
+    case Types.CLEAN_USER_LIST:
+      return { ...state, users: action.payload }
+    case Types.GET_USER:
+      return { ...state, user: action.payload }
+    case Types.SET_ERROR_MESSAGE:
+      return { ...state, errorMessage: action.payload }
+    case Types.UPDATE_USER:
+      return { ...state, user: action.payload }
+    case Types.CLEAR_USER:
+      return { ...state, user: action.payload }
+    case Types.SET_MESSAGE:
+      return { ...state, message: action.payload }
     default:
       return state;
   };

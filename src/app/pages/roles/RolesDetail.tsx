@@ -1,53 +1,15 @@
-import React, { useState } from "react";
-// import { useParams } from "react-router-dom";
-import { TextField, Container, Grid, Paper, makeStyles, Box, styled } from "@material-ui/core";
-import { DataGrid, GridCellParams, GridColDef, GridRowsProp } from "@material-ui/data-grid";
-import { ActionButtons, CustomLoadingOverlay, NewRoleModal } from "@/app/components/Admin";
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Container, Grid, makeStyles, Box } from "@material-ui/core";
+import { NewRoleModal, RolesTable } from "@/app/components/Admin";
 import { TitleBar, UserCard } from "@/app/components/Admin";
+import Section from '@/app/components/Section';
+import { Item } from "@/app/components/Item";
 
-const dataRows = [
-    { id: 1, role: 'JP', institution: '@AUTENTIAX', country: "CHILE" },
-    { id: 2, role: 'Admin', institution: '@AUTENTIAX', country: "CHILE" },
-    { id: 3, role: 'Oper', institution: '@AUTENTIAX', country: "CHILE" },
-    { id: 4, role: 'Opersensor', institution: '@AUTENTIAX', country: "CHILE" },
-    { id: 5, role: 'ServiceDesk', institution: '@AUTENTIAX', country: "CHILE" },
-    { id: 6, role: 'Jefe', institution: '@AUTENTIAX', country: "CHILE" },
-    { id: 7, role: 'Junior', institution: '@AUTENTIAX', country: "CHILE" },
-    { id: 8, role: 'Senior', institution: '@AUTENTIAX', country: "CHILE" },
-];
-
-const columns: GridColDef[] = [
-    { 
-        field: 'role', 
-        width: 200,
-        align:'left',
-        headerName: 'Rol', 
-        renderCell: (params: GridCellParams) => ( <div style={{ marginLeft: 10 }}>{params.row.role}</div> ),
-    },
-    { 
-        field: 'institution', 
-        width: 200,
-        align:'left',
-        headerName: 'Institución',
-        renderCell: (params: GridCellParams) => ( params.row.dni )
-    },
-    {
-        field: 'country',
-        width: 200,
-        align: 'left',
-        headerName: 'País',
-        renderCell: (params: GridCellParams) => ( params.row.country )
-    },
-    { 
-        field: 'action', 
-        width: 150,
-        align:'left',
-        headerName: 'Acción', 
-        type: 'actions',
-        renderCell: (params: GridCellParams) => ( <ActionButtons user={ params.row } /> ),
-    }
-];
+import { Redirect } from "react-router";
+import { useSelector, useDispatch } from 'react-redux'
+import { getUser } from "@/app/store/user/operations";
+import { StoreState } from "@/app/store";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -117,99 +79,58 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Item = styled(Paper)(({ theme }) => ({
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    color: theme.palette.text.secondary,
-    borderRadius: 10,
-    boxShadow: '0px 9px 18px rgba(0, 0, 0, 0.18), 0px 5.5px 5px rgba(0, 0, 0, 0.24)'
-}));
-
 interface RouteParams {
     dni: string
 }
 
 export default function RolesDetail() {
-    // const { dni } = useParams<RouteParams>();
     const classes = useStyles();
-    const [rows, setRows] = useState(dataRows);
-    const [pageSize, setPageSize] = useState<number>(5);
-    const [searchText, setSearchText] = useState("");
     const [isOpen, setIsOpen] = useState(false)
-
-    const requestSearch = (searchValue: string) => {
-        setSearchText(searchValue);
-        const filteredRows = dataRows.filter((row) => {
-            return Object.keys(row).some((field) => {
-                return field.toString();
-            });
-        });
-        setRows(filteredRows);
-    };
-
+    
+    const dispatch = useDispatch()
+    const { dni } = useParams<RouteParams>();
+    const userStore = useSelector((state: StoreState) => state.user)
+    const { user } = userStore
+    
+    useEffect(() => {
+        dispatch(getUser(dni))
+    }, [])
+    
     const handleCreateRoleModal = () => {
         setIsOpen(!isOpen)
+    }
+    
+    if (!user) {
+        return <Redirect to="/roles" /> // mandar 404 page
     }
 
     return (
         <Container>
-            <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={8}>
+            <Section>
+                <Box sx={{ flexGrow: 1 }}>
+                    <Grid container spacing={8}>
 
-                    <TitleBar title="roles" subTitle="administración y control de roles" btnText="crear rol" btnAction={handleCreateRoleModal} />
-                    <UserCard dni="18586460-K" name="Pepe Pedro" email="ppedro@autentia.cl" institution="IMED" job="QA" registeredDate="23 OCT 1992" /> {/* change this to user obj type */}
-                    <Grid item xs={12} md={8} >
-                        <Item>
-                            <DataGrid 
-                                className={classes.table}
-                                rowHeight={50}
-                                disableSelectionOnClick
-                                components={{ 
-                                    Toolbar: LimitTag,
-                                    LoadingOverlay: CustomLoadingOverlay,
-                                }}
-                                loading={false}
-                                rows={rows} 
-                                columns={columns} 
-                                pageSize={pageSize}
-                                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                                rowsPerPageOptions={[5, 10, 20]}
-                                componentsProps={{
-                                    toolbar: {
-                                        value: searchText,
-                                        onChange: (e: any) => requestSearch(e.target.value),
-                                        clearSearch: () => requestSearch(""),
-                                    }
-                                }}
-                            />
-                        </Item>
+                        <TitleBar title="roles" subTitle="administración y control de roles" btnText="crear rol" btnAction={handleCreateRoleModal} />
+
+                        <UserCard 
+                            status={true} 
+                            dni={user.dni} 
+                            name={user.name} 
+                            email={user.email} 
+                            institution={"Desconocido"} 
+                            job="Desconocido" 
+                            registeredDate={user.CreatedAt} 
+                        />
+
+                        <Grid item xs={12} md={8} >
+                            <Item>
+                                {user && <RolesTable data={user.roles} />}
+                            </Item>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Box>
-            { isOpen && <NewRoleModal isOpen={isOpen} onCloseModal={handleCreateRoleModal} /> }
+                </Box>
+                { isOpen && <NewRoleModal isOpen={isOpen} onCloseModal={handleCreateRoleModal} /> }
+            </Section>
         </Container>
-    );
-};
-
-function LimitTag() {
-    return(
-        <Autocomplete
-            style={{ marginBottom: 20 }}
-            multiple
-            limitTags={2}
-            id="tags-outlined"
-            options={dataRows}
-            getOptionLabel={(option) => option.role}
-            filterSelectedOptions
-            renderInput={(params) => (
-            <TextField
-                style={{ width: 'auto', marginLeft: 10}}
-                {...params}
-                variant="outlined"
-                label="Tags"
-                placeholder="Roles"
-            />
-            )}
-        />
     );
 };

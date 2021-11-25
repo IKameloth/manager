@@ -2,7 +2,6 @@ import { Dispatch } from "redux";
 import { CommonTypes as Type } from "./types";
 import { CommonActions, SetCountriesAction, SetLoginAction } from "./actions";
 import { ApiServicesProvider } from "../../../services/apiServices";
-
 const $Services = new ApiServicesProvider();
 
 export const setIsLoading = () => {
@@ -83,18 +82,13 @@ export const logout = () => {
             email: '',
             rut: ''
           },
-          relationships: {
-            roles: {},
-          },
         },
         userToken: '',
-        currentCountry: '',
-        currentInstitution: '',
+        countries: [''],
       }
     });
   };
 };
-
 
 export default {
   setIsLoading,

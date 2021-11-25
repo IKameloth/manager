@@ -2,6 +2,12 @@ import { createTheme } from '@material-ui/core/styles';
 
 const theme = createTheme({
   palette: {
+    success: {
+      main: '#209E25'
+    },
+    error: {
+      main: '#FF0000'
+    },
     primary: {
       main: '#2962FF',
     },
