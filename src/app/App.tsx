@@ -12,6 +12,7 @@ const People = React.lazy(() => import('./pages/people'))
 const Institutions = React.lazy(() => import('./pages/institutions'))
 const TokenValidation = React.lazy(() => import('./pages/recover/tokenValidation'))
 const ValidateAccountToken = React.lazy(() => import('./pages/confirm/confirmToken'))
+const RecoverPass = React.lazy(() => import('./pages/recover/recoverPass'))
 
 export default function App() {
   const location = useLocation();
@@ -33,6 +34,7 @@ export default function App() {
       <Switch location={location} key={key}>
         <Route path="/healthz" render={() => <HealthCheck />} />
         <Route exact path="/login" render={() => <Login />} />
+        <Route exact path="/recover" render={() => <RecoverPass />} />
         <Route exact path="/validate/account/:token" render={() => <ValidateAccountToken />} />
         <Route exact path="/recovery/:token" render={() => <TokenValidation />} />
         <Navbar>

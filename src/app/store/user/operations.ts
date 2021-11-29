@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 import { UserTypes as Type } from "./types";
 import { GetUsersAction, SetRolesAction, UserActions, GetUser } from "./actions";
 import { ApiServicesProvider } from "@/services/apiServices";
-import { CreateUser, RecoverPasswordAction, SetMessageAction, UpdateUserAction } from "./actions";
+import { CreateUser, RecoverPasswordAction, UpdateUserAction } from "./actions";
 
 const $Services = new ApiServicesProvider();
 
@@ -163,4 +163,10 @@ export const userConfirm = (password: string, token: string) => {
       return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: "Ocurrió un problema, intentelo de nuevo más tarde" })
     }
   }
+}
+
+export const resetState = () => {
+  return (dispatch: Dispatch<UserActions>): UserActions => dispatch({ type: Type.RESET_STATE, payload: {
+    users: [], country: '', institution: '', roles: [], errorMessage: '', message: ''
+  } })
 }
