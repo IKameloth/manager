@@ -123,6 +123,13 @@ export const validateToken = (token: string) => {
   }
 }
 
+export const validateTokenConfirm = (token: string) => {
+  return async (dispatch: Dispatch<UserActions>): Promise<UserActions | {}> => {
+    const res = await $Services.validateToken(token)
+    return res
+  }
+}
+
 export const setMessage = (msg: string) => {
   return(dispatch: Dispatch<UserActions>): UserActions => 
   dispatch({
