@@ -92,7 +92,8 @@ export const recoverPassword = (dni: string) => {
       if (res.error) {
         return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: res.error });
       };
-      return dispatch({ type: Type.SET_MESSAGE, payload: "Se ha enviado un email de recuperación" })
+      dispatch({ type: Type.SET_MESSAGE, payload: "Se ha enviado un email de recuperación" })
+      return res
     } catch(err) {
       console.log("Error", err)
       return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: 'Ocurrió un problema, intentelo nuevamente más tarde' });

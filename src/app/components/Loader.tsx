@@ -3,7 +3,7 @@ import { Box, CircularProgress } from '@material-ui/core'
 
 export default function CircularLoader() {
     return (
-        <Box>
+        <Box mt={3}>
             <CircularProgress color="secondary" />
         </Box>
     )
