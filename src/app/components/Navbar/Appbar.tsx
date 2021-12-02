@@ -40,9 +40,9 @@ export default function Appbar(props: Props) {
         </IconButton>
 
         <Menu id="long-menu" anchorEl={props.anchorEl} keepMounted open={props.openMenu} onClose={props.onCloseMenu}>
-          <MenuItem onClick={props.onCloseMenu}>Sync</MenuItem>
+          <MenuItem onClick={props.onCloseMenu}>Sincronizar</MenuItem>
           <Divider />
-          <MenuItem onClick={props.onLogout}>Logout</MenuItem>
+          <MenuItem onClick={props.onLogout}>Salir</MenuItem>
         </Menu>
       </Toolbar>
     </AppBar>

@@ -14,6 +14,7 @@ export enum UserTypes {
   SET_MESSAGE = "SET_MESSAGE",
   SET_ERROR_MESSAGE = "SET_ERROR_MESSAGE",
   UPDATE_USER = "UPDATE_USER",
+  RESET_STATE = "RESET_STATE",
 };
 
 export type UserState = {

@@ -13,8 +13,9 @@ import LoginImagePlus from "@/assets/images/img-login-2.svg";
 import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { DniReg } from '@/app/helper/Regex'
-import { motion } from 'framer-motion'
 import { MotionRightContainer, MotionRightItem } from '@/app/components/Motion'
+import { setIsLoading, unsetIsLoading } from '@/app/store/common/operations'
+import Loader from "@/app/components/Loader";
 
 interface IFormInputs {
     dni: string
@@ -25,13 +26,14 @@ const Login = () => {
     const dispatch = useDispatch()
     const classes = useStyles()
     const { common } = useSelector((state: StoreState) => state)
-    const { errorMessage, isLoggedIn } = common;
+    const { errorMessage, isLoggedIn, isLoading } = common;
     const viewMobile = useMediaQuery('(max-width:425px)'); // mobile
     const viewTablet = useMediaQuery('(max-width:959px)'); // tablet
 
     const { register, formState: {errors}, handleSubmit, setError } = useForm<IFormInputs>()
 
-    const onSubmit: SubmitHandler<IFormInputs> = data => {
+    const onSubmit: SubmitHandler<IFormInputs> = async data => {
+        dispatch(setIsLoading())
         const {dni, password} = data
 
         if (!dni.trim().length) {
@@ -39,7 +41,8 @@ const Login = () => {
         } else if (!password.trim().length) {
             setError("password", { type: 'manual' }, { shouldFocus: true })
         } else {
-            dispatch(loginRequest(dni.toUpperCase(), password))
+            await dispatch(loginRequest(dni.toUpperCase(), password))
+            dispatch(unsetIsLoading())
         }
     }
 
@@ -101,10 +104,12 @@ const Login = () => {
                                             error={errors.password ? true : false}
                                             helperText={errors.password ? "Debe ingresar una Contraseña válida" : "Ingresar contraseña"}
                                         />
-                                        <Button className={classes.submit} onClick={handleSubmit(onSubmit)} type="submit" variant="contained" color="primary" >
-                                            Ingresar
-                                        </Button>
-
+                                        { isLoading ? 
+                                            <Loader /> :
+                                            <Button className={classes.submit} onClick={handleSubmit(onSubmit)} type="submit" variant="contained" color="primary" >
+                                                Ingresar
+                                            </Button>
+                                        }
                                         <Grid item xs>
                                             <Link to="/recover">
                                                 <Typography variant="subtitle2" color="secondary">¿Olvido su contraseña?</Typography>
