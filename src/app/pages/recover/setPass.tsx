@@ -55,12 +55,13 @@ const SetPassView = ({token, onSuccess}: Props) => {
             if (res?.length > 0) {
                 toast.success("Contraseña registrada", {duration: 5000, position: "top-left"})
                 dispatch(cleanMessage())
+                dispatch(unsetIsLoading())
                 return onSuccess()
             } else {
                 toast.error("Algo salio mal, intentalo nuevamente", {duration: 5000, position: "top-right"})
                 dispatch(cleanMessage())
+                dispatch(unsetIsLoading())
             }
-            dispatch(unsetIsLoading())
         }
     }
 
