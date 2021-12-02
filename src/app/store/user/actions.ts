@@ -60,8 +60,13 @@ export interface UpdateUserAction extends Action<Type.UPDATE_USER> {
   payload: UserType
 }
 
+export interface ResetState extends Action<Type.RESET_STATE> {
+  payload: { users: [], country: '', institution: '', roles: [], errorMessage: '', message: '' }
+}
+
 
 export type UserActions = 
+  ResetState |
   SetErrorMessageAction |
   RecoverPasswordAction |
   GetUser |

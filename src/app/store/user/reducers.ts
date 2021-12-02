@@ -10,7 +10,7 @@ const INITIAL_STATE: State = {
   institution: '',
   roles: [],
   errorMessage: '',
-  message: "",
+  message: '',
 };
 
 export const userReducer = (state: State = INITIAL_STATE, action: Actions) => {
@@ -35,6 +35,8 @@ export const userReducer = (state: State = INITIAL_STATE, action: Actions) => {
       return { ...state, user: action.payload }
     case Types.SET_MESSAGE:
       return { ...state, message: action.payload }
+    case Types.RESET_STATE:
+      return { ...state, payload: action.payload }
     default:
       return state;
   };

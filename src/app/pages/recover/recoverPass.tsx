@@ -47,13 +47,9 @@ const RecoverPass = () => {
     }
 
     useEffect(() => {
-        if (errorMessage.length === 0)
-            message.length > 0 && toast.success(message, { duration: 7000 })
+        message.length > 0 && toast.success(message, { duration: 7000 })
+        dispatch(cleanMessage())
     }, [message])
-
-    useEffect(() => {
-        (errorMessage.length > 0) && errorMessage
-    }, [errorMessage]);
 
     if (isLoggedIn) {
         return <Redirect to="/" />;
@@ -98,7 +94,8 @@ const RecoverPass = () => {
                                                 error={errors.dni ? true : false}
                                                 helperText={errors.dni ? "Debe ingresar un Dni válido" : "Ingresar Dni"}
                                             />
-                                            { isLoading ? <Loader /> : 
+                                            { isLoading ? 
+                                                <Loader/> : 
                                                 <Button className={classes.submit} onClick={handleSubmit(onSubmit)} type="submit" variant="contained" color="primary" >
                                                     Recuperar
                                                 </Button>
