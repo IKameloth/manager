@@ -8,6 +8,7 @@ import Appbar from "./Appbar";
 import Sidebar from './Sidebar';
 import { makeStyles } from "@material-ui/core";
 import { cleanUserList, clearUser, resetState } from '@/app/store/user';
+import Synchronize from '../Sync/Synchronizer';
 
 const indexStyle = makeStyles((theme) => ({
   root: {
@@ -47,6 +48,7 @@ export default function Navegation(props: Props) {
   const content = props.children;
   const dispatch = useDispatch();
   const [isOpened, setIsOpened] = useState(false);
+  const [syncDialog, setSyncDialog] = useState(false)
   const { common } = useSelector((state: StoreState) => state);
   const { isLoggedIn } = common;
 
@@ -70,6 +72,11 @@ export default function Navegation(props: Props) {
     setIsOpened(!isOpened);
   };
 
+  const handleSync = () => {
+    setSyncDialog(!syncDialog)
+    console.log("OPEN?: ", syncDialog)
+  }
+
   if (!isLoggedIn) {
     return <Redirect to="/login" />;
   }
@@ -84,6 +91,7 @@ export default function Navegation(props: Props) {
         onClickMenu={handleClickMenu}
         onCloseMenu={handleCloseMenu}
         onLogout={handleLogout}
+        openSync={handleSync}
       />
       
       <Sidebar isSideOpen={isOpened} />
@@ -96,7 +104,7 @@ export default function Navegation(props: Props) {
         <div className={classes.drawerHeader} />
         { content }
       </main>
-
+      { syncDialog && <Synchronize isOpen={syncDialog} /> }
     </div>
   );
 };

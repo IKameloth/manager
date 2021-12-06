@@ -86,6 +86,11 @@ export class ApiServicesProvider {
   // Post User
   public async postUser(name: string, dni: string, email: string) {
     const res = await this.$httpClient.post('users', { name, dni, email })
+    
+    if (res.status === 400) {
+        return { error: res.statusText, status: res.status }
+    }
+
     const resJson = await res.json()
     return resJson
   }
