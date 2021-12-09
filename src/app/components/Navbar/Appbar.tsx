@@ -15,7 +15,8 @@ interface Props {
   anchorEl: null | HTMLElement;
   onSideChange: () => void;
   onClickMenu: (event: React.MouseEvent<HTMLElement>) => void;
-  onCloseMenu: () => void;
+  openSync: () => void
+  onCloseMenu: () => void
   onLogout: () => void;
 };
 

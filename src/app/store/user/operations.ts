@@ -65,11 +65,16 @@ export const clearUser = () => {
 }
 
 export const createUser = (name: string, dni: string, email: string) => {
-  return async (dispatch: Dispatch<UserActions>): Promise<CreateUser> => {
+  return async (dispatch: Dispatch<UserActions>): Promise<CreateUser | {}> => {
     const res = await $Services.postUser(name, dni, email)
     
-    dispatch({ type: Type.CLEAN_USER_LIST, payload: [] })
-    return dispatch({ type: Type.CREATE_USER, payload: res })
+    if (res.error) {
+      return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: "Usuario ya se encuentra registrado" })
+    } else {
+      dispatch({ type: Type.CLEAN_USER_LIST, payload: [] })
+      dispatch({ type: Type.SET_MESSAGE, payload: "Usuario registrado con éxito" })
+      return dispatch({ type: Type.CREATE_USER, payload: res })
+    }
   }
 }
 
@@ -146,6 +151,14 @@ export const cleanMessage = () => {
     payload: ''
   })
 }
+
+export const cleanErrorMessage = () => {
+  return (dispatch: Dispatch<UserActions>): UserActions =>
+  dispatch({
+    type: Type.SET_ERROR_MESSAGE,
+    payload: ''
+  });
+};
 
 export const userConfirm = (password: string, token: string) => {
   return async (dispatch: Dispatch<UserActions>): Promise<UserActions | undefined | {}> => {
