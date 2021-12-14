@@ -38,6 +38,18 @@ export class ApiServicesProvider {
 
         return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions);
       },
+      delete(targetUrl: string, payload: unknown, options?: { headers?: any }){
+        const requestOptions = {
+          method: "POST",
+          headers: {
+            'Content-type': 'application/json',
+            ...(options ? options.headers : {})
+          },
+          body: JSON.stringify(payload),
+        };
+        
+        return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions);
+      },
     };
   };
 
@@ -142,5 +154,30 @@ export class ApiServicesProvider {
 
     const resJson = await res.json()
     return resJson.data
+  }
+
+  // Assign Role
+  public async assignNewRole(dni: string, role: string, institution: string, country: string) {
+    const res = await this.$httpClient.post(`users/${dni}/role`, { role, institution, country })
+
+    if (res.status != 200) {
+      return { error: "Rol no permitido", status: res.status }
+    }
+
+    const resJson = res.json()
+    return resJson
+  }
+
+  // Remove Role
+  public async removeRole(userId: string, role: string, institution: string) {
+    const res = await this.$httpClient.delete(`roles/${userId}`, { role, institution })
+
+    console.log("API RES: ", res)
+    if (res.status != 200) {
+      return { error: res.statusText, status: res.status }
+    }
+
+    const resJson = res.json()
+    return resJson
   }
 };

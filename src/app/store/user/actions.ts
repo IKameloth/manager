@@ -64,8 +64,27 @@ export interface ResetState extends Action<Type.RESET_STATE> {
   payload: { users: [], country: '', institution: '', roles: [], errorMessage: '', message: '' }
 }
 
+export interface AssignRole extends Action<Type.ASSIGN_ROLE> {
+  payload: {
+    dni: string,
+    role: string,
+    institution: string,
+    country: string
+  }
+}
+
+export interface RemoveRole extends Action<Type.REMOVE_ROLE> {
+  payload: {
+    userId: string,
+    role: string,
+    institution: string
+  }
+}
+
 
 export type UserActions = 
+  RemoveRole |
+  AssignRole |
   ResetState |
   SetErrorMessageAction |
   RecoverPasswordAction |

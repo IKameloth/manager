@@ -1,8 +1,9 @@
 import { Dispatch } from "redux";
 import { UserTypes as Type } from "./types";
-import { GetUsersAction, SetRolesAction, UserActions, GetUser } from "./actions";
+import { GetUsersAction, SetRolesAction, UserActions, GetUser, AssignRole } from "./actions";
 import { ApiServicesProvider } from "@/services/apiServices";
 import { CreateUser, RecoverPasswordAction, UpdateUserAction } from "./actions";
+import { RemoveRole } from ".";
 
 const $Services = new ApiServicesProvider();
 
@@ -183,4 +184,39 @@ export const resetState = () => {
   return (dispatch: Dispatch<UserActions>): UserActions => dispatch({ type: Type.RESET_STATE, payload: {
     users: [], country: '', institution: '', roles: [], errorMessage: '', message: ''
   } })
+}
+
+export const assignRole = (dni: string, role: string, institution: string, country: string) => {
+  return async (dispatch: Dispatch<UserActions>): Promise<AssignRole | {}> => {
+    try {
+      const res = await $Services.assignNewRole(dni, role, institution, country)
+      console.log("Operation: ", res)
+      if (res.error) {
+        return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: res.error })
+      }
+
+      dispatch({ type: Type.SET_MESSAGE, payload: "Rol registrado con éxito" })
+      return dispatch({ type: Type.GET_USER, payload: res.data })
+    } catch (err) {
+      return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: "Ha ocurrido un error, intentelo nuevamente más tarde" })
+    }
+  }
+}
+
+export const removeRole = (userId: string, role: string, institution: string) => {
+  return async (dispatch: Dispatch<UserActions>): Promise<RemoveRole | {}> => {
+    try {
+      const res = await $Services.removeRole(userId, role, institution)
+
+      if (res.error) {
+        console.log("Operation ERROR:  ", res)
+        return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: "Rol no existe ó es inválido" })
+      }
+
+      dispatch({ type: Type.SET_MESSAGE, payload: "Rol eliminado" })
+      return dispatch({ type: Type.GET_USER, payload: res.data })
+    } catch(err) {
+      return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: "Imposible conectar con los servicios de Autentia" })
+    }
+  }
 }
