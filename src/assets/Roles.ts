@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core';
 export const useRolesStyle = makeStyles((theme) => ({
   table: {
     border: 'none',
-    height: 420,
+    height: 455,
     maxWidth: 900,
     '& .MuiDataGrid-columnsContainer': {
       padding: '10px',

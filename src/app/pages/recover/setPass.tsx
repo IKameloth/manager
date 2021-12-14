@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   TextField,
@@ -49,7 +49,6 @@ const SetPassView = ({ token, onSuccess }: Props) => {
     formState: { errors },
     handleSubmit,
     setError,
-    resetField,
   } = useForm<IFormInputs>();
 
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {

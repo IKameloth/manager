@@ -26,13 +26,13 @@ export const userReducer = (state: State = INITIAL_STATE, action: Actions) => {
     case Types.CLEAN_USER_LIST:
       return { ...state, users: action.payload }
     case Types.GET_USER:
-      return { ...state, user: action.payload }
+      return { ...state, userData: action.payload }
     case Types.SET_ERROR_MESSAGE:
       return { ...state, errorMessage: action.payload }
     case Types.UPDATE_USER:
-      return { ...state, user: action.payload }
+      return { ...state, userData: action.payload }
     case Types.CLEAR_USER:
-      return { ...state, user: action.payload }
+      return { ...state, userData: action.payload }
     case Types.SET_MESSAGE:
       return { ...state, message: action.payload }
     case Types.RESET_STATE:

@@ -15,10 +15,12 @@ export enum UserTypes {
   SET_ERROR_MESSAGE = "SET_ERROR_MESSAGE",
   UPDATE_USER = "UPDATE_USER",
   RESET_STATE = "RESET_STATE",
+  ASSIGN_ROLE = "ASSIGN_ROLE",
+  REMOVE_ROLE = "REMOVE_ROLE",
 };
 
 export type UserState = {
-  user?: UserType
+  userData?: UserType
   users: [UserType?]
   country: string
   institution: string
