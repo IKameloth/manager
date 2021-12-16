@@ -1,3 +1,8 @@
+const local = {
+  REACT_APP_DOMAIN: "http://localhost:3000",
+  API_URI: "http://localhost:4000"
+};
+
 const dev = {
   REACT_APP_DOMAIN: "https://autentia-admin-dev.autentia.io",
   API_URI: "https://api-dev.autentiaplus.id/_alpha-legacy-api"
@@ -13,10 +18,11 @@ const prod = {
   API_URI: "https://api.autentiaplus.id/_alpha-legacy-api"
 };
 
-export default window.location.href.includes('dev') 
-  || window.location.href.includes('localhost') 
+export default window.location.href.includes('localhost') 
   || window.location.href.includes('127.0.0.1')  
-    ? dev 
+    ? local
+    : window.location.href.includes('dev') 
+    ? dev
     : window.location.href.includes('staging') 
       ? stg 
       : prod
