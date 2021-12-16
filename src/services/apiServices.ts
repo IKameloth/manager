@@ -3,7 +3,7 @@ import environment from "../config/environment";
 export class ApiServicesProvider {
   private get $httpClient() {
     return {
-      post(targetUrl: string, payload: unknown, options?: { headers?: any }){
+      post(targetUrl: string, payload: unknown, options?: { headers?: any }) {
         const requestOptions = {
           method: "POST",
           headers: {
@@ -12,7 +12,7 @@ export class ApiServicesProvider {
           },
           body: JSON.stringify(payload),
         };
-        
+
         return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions);
       },
       put(targetUrl: string, payload: unknown, options?: { headers?: any }) {
@@ -27,7 +27,7 @@ export class ApiServicesProvider {
 
         return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions)
       },
-      get(targetUrl: string, options?: { headers?: any}){
+      get(targetUrl: string, options?: { headers?: any }) {
         const requestOptions = {
           method: "GET",
           headers: {
@@ -38,7 +38,7 @@ export class ApiServicesProvider {
 
         return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions);
       },
-      delete(targetUrl: string, payload: unknown, options?: { headers?: any }){
+      delete(targetUrl: string, payload: unknown, options?: { headers?: any }) {
         const requestOptions = {
           method: "POST",
           headers: {
@@ -47,7 +47,7 @@ export class ApiServicesProvider {
           },
           body: JSON.stringify(payload),
         };
-        
+
         return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions);
       },
     };
@@ -55,42 +55,47 @@ export class ApiServicesProvider {
 
   // Login
   public async sendLoginRequest(password: string, dni: string) {
-    const response = await this.$httpClient.post('login', { user: { dni, password } });
-    const accessToken = response.headers.get("authorization");
-    const resultData = await response.json();
+    const res = await this.$httpClient.post('login', { user: { dni, password } });
+    const accessToken = res.headers.get("authorization");
+    const resJson = await res.json();
+
+    if (res.status === 401) {
+      return { error: "Email y/o Contraseña incorrecta", status: res.status }
+    }
+
     if (accessToken) {
-      if (resultData.data.roles?.length > 0) {
-        resultData.data.roles.data = resultData.included;
-      };
-    
-      const response = {
-        userData: resultData.data,
-        userToken: accessToken,
+      if (resJson.data.roles?.length > 0) {
+        resJson.data.roles.data = resJson.included;
       };
 
-      return response;
+      const finalResp = {
+        user: resJson.data,
+        token: accessToken,
+      };
+
+      return finalResp;
     } else {
-      return resultData;
+      return resJson;
     };
   };
 
   // Get Countries
   public async getCountries() {
-    const response = await this.$httpClient.get('countries', {  });
+    const response = await this.$httpClient.get('countries', {});
     const resultData = await response.json();
     return resultData
   };
 
   // Get Roles
-  public async getRoles(token: string, userID: string, country: string) {
-    const response = await this.$httpClient.get(`roles/${userID}/${country}`, {  });
+  public async getRoles(userID: string, country: string) {
+    const response = await this.$httpClient.get(`roles/${userID}/${country}`, {});
     const resultData = await response.json();
     return resultData
   };
 
   // Get Users
   public async getUsers() {
-    const res = await this.$httpClient.get('users', {  })
+    const res = await this.$httpClient.get('users', {})
     const resJson = await res.json()
     return resJson
   }
@@ -98,9 +103,9 @@ export class ApiServicesProvider {
   // Post User
   public async postUser(name: string, dni: string, email: string) {
     const res = await this.$httpClient.post('users', { name, dni, email })
-    
+
     if (res.status === 400) {
-        return { error: res.statusText, status: res.status }
+      return { error: res.statusText, status: res.status }
     }
 
     const resJson = await res.json()
@@ -110,11 +115,11 @@ export class ApiServicesProvider {
   // Recover Pass
   public async recoverPass(dni: string) {
     const res = await this.$httpClient.post(`users/${dni}/recovery`, {})
-    
+
     if (res.status === 404) {
       return { error: "Usuario no encontrado", status: res.status }
     }
-    
+
     const resJson = await res.json()
     return resJson
   }
@@ -126,9 +131,23 @@ export class ApiServicesProvider {
     return resJson
   }
 
+  // Get Roles by User Id
+  public async getRolesByUserId(userId: string) {
+    const res = await this.$httpClient.get(`roles/${userId}`)
+
+    console.log("APISERVICE: ", res)
+
+    if (res.status != 200) {
+      return { error: res.statusText, status: res.status }
+    }
+
+    const resJson = await res.json()
+    return resJson.data
+  }
+
   // Update User
   public async updateUser(dni: string, name: string, email: string, password: string) {
-    const res = await this.$httpClient.put(`users/${dni}`, {dni, name, email, password})
+    const res = await this.$httpClient.put(`users/${dni}`, { dni, name, email, password })
     const resJson = await res.json()
     return resJson
   }
@@ -136,11 +155,11 @@ export class ApiServicesProvider {
   // Validate User Token
   public async validateToken(token: string) {
     const res = await this.$httpClient.post('users/validate', { token })
-    
+
     if (res.status === 404) {
       return { error: "Token expirado o invalido", status: res.status }
     }
-    
+
     return { message: res.statusText, status: res.status }
   }
 
@@ -164,7 +183,7 @@ export class ApiServicesProvider {
       return { error: "Rol no permitido", status: res.status }
     }
 
-    const resJson = res.json()
+    const resJson = await res.json()
     return resJson
   }
 
@@ -177,7 +196,7 @@ export class ApiServicesProvider {
       return { error: res.statusText, status: res.status }
     }
 
-    const resJson = res.json()
+    const resJson = await res.json()
     return resJson
   }
 };

@@ -1,9 +1,10 @@
+import { UserType } from "./UserType";
 import { InstitutionType } from "./InstitutionType";
-import { ProfileType } from "./ProfileType";
 
 export type RoleType = {
-  id: string
-  name: string
-  institution: InstitutionType
-  user: ProfileType
+  id: string;
+  CreatedAt: string;
+  name: string;
+  institution: InstitutionType;
+  user?: UserType;
 };

@@ -9,8 +9,7 @@ import {
   styled,
 } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import { cleanErrorMessage } from "../store/common";
-import { AnimatePresence } from "framer-motion";
+import { setErrorMessage } from "../store/common";
 import SvgWarningImage from "@/assets/images/SvgWarningImage";
 import { MotionContainer, MotionItemUp } from "./Motion";
 
@@ -19,9 +18,17 @@ interface ErrorDialog {
   message: string;
 }
 
-const StyledDialog = styled(Dialog)(({ theme }) => ({
+const StyledDialog = styled(Dialog)(() => ({
   "& .MuiPaper-root": {
     borderRadius: 10,
+  },
+  "& .MuiDialogTitle-root": {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  "& .MuiButtonBase-root": {
+    borderRadius: 200,
   },
 }));
 
@@ -37,25 +44,13 @@ const ErrorAlert = ({ open, message }: ErrorDialog) => {
 
   const handleClose = () => {
     setOpenError(false);
-    dispatch(cleanErrorMessage());
+    dispatch(setErrorMessage(""));
   };
 
   return (
     <MotionContainer>
-      <StyledDialog
-        open={openError}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle
-          id="alert-dialog-title"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+      <StyledDialog open={openError} onClose={handleClose}>
+        <DialogTitle>
           <MotionItemUp>{<SvgWarningImage />}</MotionItemUp>
         </DialogTitle>
         <DialogContent>

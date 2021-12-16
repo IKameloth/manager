@@ -52,8 +52,8 @@ export interface SetErrorMessageAction extends Action<Type.SET_ERROR_MESSAGE> {
   payload: string
 }
 
-export interface SetMessageAction extends Action<Type.SET_MESSAGE> { 
-  payload: string 
+export interface SetMessageAction extends Action<Type.SET_MESSAGE> {
+  payload: string
 }
 
 export interface UpdateUserAction extends Action<Type.UPDATE_USER> {
@@ -81,8 +81,7 @@ export interface RemoveRole extends Action<Type.REMOVE_ROLE> {
   }
 }
 
-
-export type UserActions = 
+export type UserActions =
   RemoveRole |
   AssignRole |
   ResetState |
@@ -92,8 +91,8 @@ export type UserActions =
   CreateUser |
   CleanUserList |
   CleanUser |
-  GetUsersAction | 
-  SetCountryAction | 
+  GetUsersAction |
+  SetCountryAction |
   SetInstitutionAction |
   SetRolesAction |
   UpdateUserAction |

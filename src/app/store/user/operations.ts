@@ -8,7 +8,7 @@ import { RemoveRole } from ".";
 const $Services = new ApiServicesProvider();
 
 export const setCountry = (country: string) => {
-  return(dispatch: Dispatch<UserActions>): UserActions =>
+  return (dispatch: Dispatch<UserActions>): UserActions =>
     dispatch({
       type: Type.SET_COUNTRY,
       payload: country
@@ -16,7 +16,7 @@ export const setCountry = (country: string) => {
 };
 
 export const setInstitution = (institution: string) => {
-  return(dispatch: Dispatch<UserActions>): UserActions =>
+  return (dispatch: Dispatch<UserActions>): UserActions =>
     dispatch({
       type: Type.SET_INSTITUTION,
       payload: institution
@@ -26,7 +26,7 @@ export const setInstitution = (institution: string) => {
 export const setRoles = (token: string, userID: string, country: string) => {
   return async (dispatch: Dispatch<UserActions>): Promise<SetRolesAction | false | {}> => {
     const response = await $Services.getRoles(token, userID, country);
-    if(response.data)
+    if (response.data)
       return dispatch({ type: Type.SET_ROLES, payload: response.data })
     return []
   }
@@ -35,8 +35,8 @@ export const setRoles = (token: string, userID: string, country: string) => {
 export const getUsersList = () => {
   return async (dispatch: Dispatch<UserActions>): Promise<GetUsersAction | {}> => {
     const response = await $Services.getUsers();
-    if (response.length > 0) { 
-      return dispatch({ type: Type.GET_USERS, payload: response }) 
+    if (response.length > 0) {
+      return dispatch({ type: Type.GET_USERS, payload: response })
     } else {
       return []
     }
@@ -44,7 +44,7 @@ export const getUsersList = () => {
 }
 
 export const cleanUserList = () => {
-  return(dispatch: Dispatch<UserActions>): UserActions =>
+  return (dispatch: Dispatch<UserActions>): UserActions =>
     dispatch({
       type: Type.CLEAN_USER_LIST,
       payload: []
@@ -52,23 +52,25 @@ export const cleanUserList = () => {
 }
 
 export const clearUser = () => {
-  return (dispatch: Dispatch<UserActions>): UserActions => dispatch({ type: Type.CLEAR_USER, payload: {
-    id: '',
-    CreatedAt: '',
-    UpdatedAt: '',
-    DeletedAt: '',
-    validated_at: '',
-    dni: '',
-    name: '',
-    email: '',
-    roles: []
-  } })
+  return (dispatch: Dispatch<UserActions>): UserActions => dispatch({
+    type: Type.CLEAR_USER, payload: {
+      id: '',
+      CreatedAt: '',
+      UpdatedAt: '',
+      DeletedAt: '',
+      validated_at: '',
+      dni: '',
+      name: '',
+      email: '',
+      roles: []
+    }
+  })
 }
 
 export const createUser = (name: string, dni: string, email: string) => {
   return async (dispatch: Dispatch<UserActions>): Promise<CreateUser | {}> => {
     const res = await $Services.postUser(name, dni, email)
-    
+
     if (res.error) {
       return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: "Usuario ya se encuentra registrado" })
     } else {
@@ -100,7 +102,7 @@ export const recoverPassword = (dni: string) => {
       };
       dispatch({ type: Type.SET_MESSAGE, payload: "Se ha enviado un email de recuperación" })
       return res
-    } catch(err) {
+    } catch (err) {
       console.log("Error", err)
       return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: 'Ocurrió un problema, intentelo nuevamente más tarde' });
     }
@@ -138,27 +140,27 @@ export const validateTokenConfirm = (token: string) => {
 }
 
 export const setMessage = (msg: string) => {
-  return(dispatch: Dispatch<UserActions>): UserActions => 
-  dispatch({
-    type: Type.SET_MESSAGE,
-    payload: msg
-  })
+  return (dispatch: Dispatch<UserActions>): UserActions =>
+    dispatch({
+      type: Type.SET_MESSAGE,
+      payload: msg
+    })
 }
 
 export const cleanMessage = () => {
-  return(dispatch: Dispatch<UserActions>): UserActions => 
-  dispatch({ 
-    type: Type.SET_MESSAGE, 
-    payload: ''
-  })
+  return (dispatch: Dispatch<UserActions>): UserActions =>
+    dispatch({
+      type: Type.SET_MESSAGE,
+      payload: ''
+    })
 }
 
 export const cleanErrorMessage = () => {
   return (dispatch: Dispatch<UserActions>): UserActions =>
-  dispatch({
-    type: Type.SET_ERROR_MESSAGE,
-    payload: ''
-  });
+    dispatch({
+      type: Type.SET_ERROR_MESSAGE,
+      payload: ''
+    });
 };
 
 export const userConfirm = (password: string, token: string) => {
@@ -166,24 +168,26 @@ export const userConfirm = (password: string, token: string) => {
     try {
       const res = await $Services.confirmUser(password, token)
 
-      
+
       if (res.error) {
         return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: res.error })
       }
-      
+
       if (res?.id.length > 0) {
         return res.id
       }
-    } catch(err) {
+    } catch (err) {
       return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: "Ocurrió un problema, intentelo de nuevo más tarde" })
     }
   }
 }
 
 export const resetState = () => {
-  return (dispatch: Dispatch<UserActions>): UserActions => dispatch({ type: Type.RESET_STATE, payload: {
-    users: [], country: '', institution: '', roles: [], errorMessage: '', message: ''
-  } })
+  return (dispatch: Dispatch<UserActions>): UserActions => dispatch({
+    type: Type.RESET_STATE, payload: {
+      users: [], country: '', institution: '', roles: [], errorMessage: '', message: ''
+    }
+  })
 }
 
 export const assignRole = (dni: string, role: string, institution: string, country: string) => {
@@ -215,7 +219,7 @@ export const removeRole = (userId: string, role: string, institution: string) =>
 
       dispatch({ type: Type.SET_MESSAGE, payload: "Rol eliminado" })
       return dispatch({ type: Type.GET_USER, payload: res.data })
-    } catch(err) {
+    } catch (err) {
       return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: "Imposible conectar con los servicios de Autentia" })
     }
   }

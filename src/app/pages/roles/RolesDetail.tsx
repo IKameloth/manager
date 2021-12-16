@@ -16,43 +16,45 @@ import ErrorAlert from "@/app/components/ErrorAlert";
 import toast from "react-hot-toast";
 
 interface RouteParams {
-  dni: string;
+  userId: string;
 }
 
 export default function RolesDetail() {
   const [isOpen, setIsOpen] = useState(false);
 
   const dispatch = useDispatch();
-  const { dni } = useParams<RouteParams>();
-  const userStore = useSelector((state: StoreState) => state.user);
-  const { userData, country, institution, errorMessage, message } = userStore;
+  const { userId } = useParams<RouteParams>();
+  const profileStore = useSelector((state: StoreState) => state.profile);
+  const { profile, current_country, current_institution } = profileStore;
   const dispatcher = useDispatch();
 
-  useEffect(() => {
-    dispatch(getUser(dni));
-  }, []);
+  // useEffect(() => {
+  //   if (!userData) {
+  //     dispatch(getRolesByUserId(userId));
+  //   }
+  // }, []);
 
   const handleCreateRoleModal = () => {
     setIsOpen(!isOpen);
   };
 
   const handleAssignRole = async (role: string) => {
-    message.length > 0 && dispatch(cleanMessage());
-    await dispatcher(assignRole(dni, Capitalize(role), institution, country));
-    dispatch(getUser(dni));
+    // message.length > 0 && dispatch(cleanMessage());
+    // await dispatcher(assignRole(dni, Capitalize(role), institution, country));
+    // dispatch(getUser(dni));
   };
 
-  useEffect(() => {
-    !errorMessage &&
-      message.length > 0 &&
-      toast.success(message, { duration: 5000, position: "top-center" }) &&
-      dispatch(cleanMessage()) &&
-      setIsOpen(false);
-  }, [message]);
+  // useEffect(() => {
+  //   !errorMessage &&
+  //     message.length > 0 &&
+  //     toast.success(message, { duration: 5000, position: "top-center" }) &&
+  //     dispatch(cleanMessage()) &&
+  //     setIsOpen(false);
+  // }, [message]);
 
-  if (!userData) {
-    return <Redirect to="/roles" />;
-  }
+  // if (!userData) {
+  //   return <Redirect to="/roles" />;
+  // }
 
   return (
     <Container>
@@ -67,19 +69,19 @@ export default function RolesDetail() {
                 btnAction={handleCreateRoleModal}
               />
               <UserCard
-                status={true}
-                dni={userData.dni}
-                name={userData.name}
-                email={userData.email}
+                status={false}
+                dni=""
+                name=""
+                email=""
                 institution={"Desconocido"}
                 job="Desconocido"
-                registeredDate={userData.CreatedAt.split("T")[0]}
+                registeredDate=""
               />
 
               <Grid item xs={12} md={8}>
                 <Item>
-                  {userData.roles.length ? (
-                    <RolesTable data={userData.roles} />
+                  {/* {userData ? (
+                    <RolesTable data={userData} />
                   ) : (
                     <Box
                       alignItems="center"
@@ -90,7 +92,7 @@ export default function RolesDetail() {
                         No se encuentran registros
                       </Typography>
                     </Box>
-                  )}
+                  )} */}
                 </Item>
               </Grid>
             </Grid>
@@ -103,9 +105,9 @@ export default function RolesDetail() {
             />
           )}
         </Section>
-        {errorMessage && (
+        {/* {errorMessage && (
           <ErrorAlert open={!!errorMessage} message={errorMessage} />
-        )}
+        )} */}
       </MotionContainer>
     </Container>
   );

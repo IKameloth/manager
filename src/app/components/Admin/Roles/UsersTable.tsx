@@ -23,8 +23,6 @@ const UsersTable = ({ data, loading }: any) => {
   const [rows, setRows] = useState(dataRows);
   const [pageSize, setPageSize] = useState<number>(5);
 
-  console.log(data);
-
   const columns: GridColDef[] = [
     {
       field: "name",
@@ -65,7 +63,7 @@ const UsersTable = ({ data, loading }: any) => {
       sortable: false,
       disableColumnMenu: true,
       renderCell: (params: GridCellParams) => (
-        <ActionButtons dni={params.row.dni} />
+        <ActionButtons userId={params.row.id} />
       ),
     },
   ];
@@ -82,8 +80,16 @@ const UsersTable = ({ data, loading }: any) => {
   };
 
   useEffect(() => {
-    setRows(rows);
-  }, [rows]);
+    if (rows != dataRows) {
+      setRows(rows);
+    }
+  }, [dataRows]);
+
+  useEffect(() => {
+    if (rows.length === 0) {
+      setRows(rows);
+    }
+  }, []);
 
   return (
     <DataGrid

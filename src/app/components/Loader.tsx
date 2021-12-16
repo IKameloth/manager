@@ -1,10 +1,10 @@
-import React from 'react'
-import { Box, CircularProgress } from '@material-ui/core'
+import React from "react";
+import { CircularProgress } from "@material-ui/core";
 
-export default function CircularLoader() {
-    return (
-        <Box mt={3}>
-            <CircularProgress color="secondary" />
-        </Box>
-    )
+interface Props {
+  isSize?: number | 40;
+}
+
+export default function CircularLoader({ isSize }: Props) {
+  return <CircularProgress color="secondary" size={isSize} />;
 }

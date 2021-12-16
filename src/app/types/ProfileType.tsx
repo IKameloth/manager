@@ -1,8 +1,14 @@
 import { RoleType } from "./RoleType";
 
 export type ProfileType = {
-  id: string
-  name: string
-  email: string
-  dni: string
+  id: string;
+  CreatedAt: string;
+  name: string;
+  email: string;
+  dni: string;
+  validated: boolean;
+  token: string;
+  roles?: [RoleType?];
+  currentCountry: string;
+  currentInstitution: string;
 };

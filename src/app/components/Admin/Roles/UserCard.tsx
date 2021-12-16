@@ -111,7 +111,7 @@ const UserCard = (props: Props) => {
           <CardContent>
             <div className={classes.centered}>
               <Avatar alt="user" className={classes.avatar}>
-                {nameTag()}
+                {props.name.length > 0 && nameTag()}
               </Avatar>
               <Typography variant="h6">{name}</Typography>
               <Typography variant="subtitle2" color="textSecondary">

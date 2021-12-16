@@ -1,72 +1,25 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { StoreState } from "../../store";
-import { loginRequest, setErrorMessage } from "../../store/common/operations";
 import { Redirect } from "react-router";
-import {
-  Button,
-  TextField,
-  Paper,
-  Box,
-  Grid,
-  Typography,
-  InputAdornment,
-  useMediaQuery,
-} from "@material-ui/core";
-import { Fingerprint, VpnKey } from "@material-ui/icons";
-import Logo from "../../../assets/images/autentia-logo.svg";
-import { useStyles, Footer } from "../../../assets/login";
+import { Paper, Grid, useMediaQuery } from "@material-ui/core";
+import { useStyles } from "../../../assets/login";
 import ErrorAlert from "../../components/ErrorAlert";
 import LoginImage from "@/assets/images/img-login.svg";
 import LoginImagePlus from "@/assets/images/img-login-2.svg";
-import { Link } from "react-router-dom";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { DniReg } from "@/app/helper/Regex";
 import { MotionRightContainer, MotionRightItem } from "@/app/components/Motion";
-import { setIsLoading, unsetIsLoading } from "@/app/store/common/operations";
-import Loader from "@/app/components/Loader";
+import AutentiaTitle from "@/app/components/Login/AutentiaTitle";
+import FooterContent from "@/app/components/Login/Footer";
+import FormLogin from "@/app/components/Login/FormLogin";
 
-interface IFormInputs {
-  dni: string;
-  password: string;
-}
-
-const Login = () => {
-  const dispatch = useDispatch();
+export default function Login() {
   const classes = useStyles();
   const { common } = useSelector((state: StoreState) => state);
-  const { errorMessage, isLoggedIn, isLoading } = common;
+  const { errorMessage, isLoggedIn } = common;
   const viewMobile = useMediaQuery("(max-width:425px)"); // mobile
   const viewTablet = useMediaQuery("(max-width:959px)"); // tablet
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    setError,
-  } = useForm<IFormInputs>();
-
-  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-    dispatch(setIsLoading());
-    const { dni, password } = data;
-
-    if (!dni.trim().length) {
-      setError("dni", { type: "manual" }, { shouldFocus: true });
-    } else if (!password.trim().length) {
-      setError("password", { type: "manual" }, { shouldFocus: true });
-    } else {
-      await dispatch(loginRequest(dni.toUpperCase(), password));
-      dispatch(unsetIsLoading());
-    }
-  };
-
-  useEffect(() => {
-    errorMessage && dispatch(setErrorMessage(errorMessage));
-  }, [errorMessage, dispatch]);
-
-  if (isLoggedIn) {
-    return <Redirect to="/" />;
-  }
+  if (isLoggedIn) return <Redirect to="/" />;
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -82,98 +35,13 @@ const Login = () => {
             square
           >
             <div className={classes.paper}>
-              <MotionRightItem>
-                <AutentiaTitle />
-              </MotionRightItem>
-              <Grid item xs>
-                <form
-                  onSubmit={handleSubmit(onSubmit)}
-                  className={classes.form}
-                >
-                  <MotionRightItem>
-                    <Grid container direction="column" spacing={2}>
-                      <TextField
-                        margin="dense"
-                        id="dni"
-                        label="Rut / Dni"
-                        type="text"
-                        fullWidth
-                        variant="outlined"
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <Fingerprint />
-                            </InputAdornment>
-                          ),
-                        }}
-                        {...register("dni", {
-                          required: true,
-                          maxLength: 11,
-                          pattern: DniReg,
-                        })}
-                        error={errors.dni ? true : false}
-                        helperText={
-                          errors.dni
-                            ? "Debe ingresar un Dni o Rut válido"
-                            : "Ingresar Dni"
-                        }
-                      />
-
-                      <TextField
-                        margin="dense"
-                        id="password"
-                        label="Contraseña"
-                        type="password"
-                        fullWidth
-                        variant="outlined"
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <VpnKey />
-                            </InputAdornment>
-                          ),
-                        }}
-                        {...register("password", { required: true })}
-                        error={errors.password ? true : false}
-                        helperText={
-                          errors.password
-                            ? "Debe ingresar una Contraseña válida"
-                            : "Ingresar contraseña"
-                        }
-                      />
-                      {isLoading ? (
-                        <Loader />
-                      ) : (
-                        <Button
-                          className={classes.submit}
-                          onClick={handleSubmit(onSubmit)}
-                          type="submit"
-                          variant="contained"
-                          color="primary"
-                        >
-                          Ingresar
-                        </Button>
-                      )}
-                      <Grid item xs>
-                        <Link to="/recover">
-                          <Typography variant="subtitle2" color="secondary">
-                            ¿Olvido su contraseña?
-                          </Typography>
-                        </Link>
-                      </Grid>
-                    </Grid>
-                  </MotionRightItem>
-                </form>
-              </Grid>
-              <Footer>
-                <MotionRightItem>
-                  <FooterContent />
-                </MotionRightItem>
-              </Footer>
+              <AutentiaTitle mobile={viewMobile} />
+              <FormLogin />
+              <FooterContent />
             </div>
           </Grid>
           {!viewMobile && (
-            <Grid item sm={6} md={8} className={classes.bg}>
+            <Grid item xs={false} sm={6} md={8} className={classes.bg}>
               {viewTablet ? (
                 <img
                   src={LoginImagePlus}
@@ -196,33 +64,4 @@ const Login = () => {
       )}
     </Grid>
   );
-};
-
-const AutentiaTitle = (mobile: any) => (
-  <Grid item xs>
-    <Box>
-      <Typography variant="h3">Autentia</Typography>
-      <Typography variant="h3" color="primary">
-        Manager
-      </Typography>
-    </Box>
-    <Box mt={mobile ? 4 : 7} mb={mobile ? 4 : 9}>
-      <Typography variant="h5">Ingresar</Typography>
-    </Box>
-  </Grid>
-);
-
-const FooterContent = () => (
-  <Grid item xs>
-    <Typography variant="body2" color="textSecondary">
-      <img src={Logo} alt="logo" />
-    </Typography>
-    <Typography variant="body2" color="textSecondary">
-      {"Copyright © "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  </Grid>
-);
-
-export default Login;
+}
