@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import DeleteRole from "./DeleteRole";
 import { useDispatch } from "react-redux";
-import { removeRole } from "@/app/store/user/operations";
+import { removeRole } from "@/app/store/admin/operations";
 
 interface Props {
   roleName: string;

@@ -8,7 +8,4 @@ export type ProfileType = {
   dni: string;
   validated: boolean;
   token: string;
-  roles?: [RoleType?];
-  currentCountry: string;
-  currentInstitution: string;
 };

@@ -16,10 +16,9 @@ const INITIAL_STATE: State = {
     email: '',
     validated: false,
     token: '',
-    currentInstitution: '',
-    currentCountry: '',
   },
-  rolesProfile: [],
+  currentInstitution: '',
+  currentCountry: '',
 };
 
 export const commonReducer = (
@@ -37,9 +36,13 @@ export const commonReducer = (
       return { ...state, isLoggedIn: false, profile: action.payload };
     case Types.SET_LOGIN:
       return { ...state, isLoggedIn: true, profile: action.payload };
+    case Types.SET_INSTITUTION_PROFILE:
+      return { ...state, currentInstitution: action.payload }
+    case Types.SET_COUNTRY_PROFILE:
+      return { ...state, currentCountry: action.payload }
     case Types.SET_COUNTRIES:
       return { ...state, countries: action.payload }
-    case Types.SET_ROLES:
+    case Types.SET_ROLES_PROFILE:
       return { ...state, rolesProfile: action.payload }
     default:
       return state;

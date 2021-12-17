@@ -21,8 +21,8 @@ import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { DniReg } from "@/app/helper/Regex";
 import { Fingerprint } from "@material-ui/icons";
-import { cleanMessage, recoverPassword } from "@/app/store/user/operations";
-import { setIsLoading, unsetIsLoading } from "@/app/store/common/operations";
+import { setMessageAdmin, recoverPassword } from "@/app/store/admin";
+import { setIsLoading, unsetIsLoading } from "@/app/store/common";
 import toast from "react-hot-toast";
 import Loader from "@/app/components/Loader";
 import { MotionLeftContainer, MotionLeftItem } from "@/app/components/Motion";
@@ -34,8 +34,8 @@ interface IFormInputs {
 const RecoverPass = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const { common, user } = useSelector((state: StoreState) => state);
-  const { errorMessage, message } = user;
+  const { common, admin } = useSelector((state: StoreState) => state);
+  const { errorMessage, message } = admin;
   const { isLoggedIn, isLoading } = common;
   const viewMobile = useMediaQuery("(max-width:425px)"); // mobile
   const viewTablet = useMediaQuery("(max-width:959px)"); // tablet
@@ -63,7 +63,7 @@ const RecoverPass = () => {
 
   useEffect(() => {
     message.length > 0 && toast.success(message, { duration: 7000 });
-    dispatch(cleanMessage());
+    dispatch(setMessageAdmin(""));
   }, [message]);
 
   if (isLoggedIn) {

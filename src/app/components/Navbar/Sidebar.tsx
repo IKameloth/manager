@@ -35,9 +35,8 @@ export default function Sidebar({ isSideOpen }: any) {
   const classes = SideBar();
   const [openDialog, setOpenDialog] = React.useState(false);
   const { common } = useSelector((state: StoreState) => state);
-  const { profile } = common;
-  const { currentCountry, currentInstitution, roles } = profile;
-
+  const { currentCountry, currentInstitution, rolesProfile, profile } = common;
+  const roles = rolesProfile;
   const userName = profile?.name || "Desconocido";
   const nameLetters = userName
     .trim()

@@ -34,7 +34,7 @@ export const setErrorMessage = (errorMessage: string) => {
 export const setCountry = (country: string) => {
   return (dispatch: Dispatch<CommonActions>): CommonActions =>
     dispatch({
-      type: Type.SET_COUNTRY,
+      type: Type.SET_COUNTRY_PROFILE,
       payload: country,
     });
 };
@@ -42,7 +42,7 @@ export const setCountry = (country: string) => {
 export const setInstitution = (institution: string) => {
   return (dispatch: Dispatch<CommonActions>): CommonActions =>
     dispatch({
-      type: Type.SET_INSTITUTION,
+      type: Type.SET_INSTITUTION_PROFILE,
       payload: institution,
     });
 };
@@ -62,8 +62,6 @@ export const loginRequest = (userDni: string, password: string) => {
         dni: res.user.dni,
         validated: res.user.validated,
         token: res.token,
-        currentCountry: "",
-        currentInstitution: "",
       };
 
       if (res.error) {
@@ -136,7 +134,7 @@ export const setRoles = (token: string, userID: string, country: string) => {
   ): Promise<SetRolesAction | false | {}> => {
     const response = await $Services.getRoles(userID, country);
     if (response.data)
-      return dispatch({ type: Type.SET_ROLES, payload: response.data });
+      return dispatch({ type: Type.SET_ROLES_PROFILE, payload: response.data });
     return [];
   };
 };

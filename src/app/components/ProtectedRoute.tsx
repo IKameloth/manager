@@ -5,7 +5,7 @@ import { StoreState } from "../store";
 
 export const ProtectedRoute = ({ render, ...other }: any) => {
   const { common } = useSelector((state: StoreState) => state);
-  const { currentCountry, currentInstitution } = common.profile;
+  const { currentCountry, currentInstitution } = common;
 
   return (
     <Route

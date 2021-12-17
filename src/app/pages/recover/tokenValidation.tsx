@@ -11,13 +11,12 @@ import { useParams, Link, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { StoreState } from "@/app/store/";
 import Loader from "@/app/components/Loader";
-import { validateToken } from "@/app/store/user";
+import { validateToken } from "@/app/store/admin";
 import Img from "@/assets/images/frame.svg";
 import ImgPlus from "@/assets/images/frameplus.svg";
 import { MotionContainer, MotionItemUp } from "@/app/components/Motion";
 import { makeStyles } from "@material-ui/core/styles";
 import { setIsLoading, unsetIsLoading } from "@/app/store/common";
-import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import SetPassView from "./setPass";
 
@@ -51,12 +50,16 @@ interface Props {
 const TokenValidation = () => {
   const viewMobile = useMediaQuery("(max-width:425px)"); // mobile
   const classes = useStyles();
-  const { token } = useParams<Props>();
+
   const dispatch = useDispatch();
-  const commonState = useSelector((state: StoreState) => state.common);
-  const { isLoggedIn, isLoading } = commonState;
+  const { token } = useParams<Props>();
+
+  const { common } = useSelector((state: StoreState) => state);
+  const { isLoggedIn, isLoading } = common;
+
+  const stepStatus = useRef("Validando...");
+
   const [statusToken, setStatusToken] = useState<any>(null);
-  const status = useRef("Validando...");
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isRedirect, setIsRedirect] = useState<boolean>(false);
 
@@ -66,6 +69,7 @@ const TokenValidation = () => {
       let res = await dispatch(validateToken(token));
       setStatusToken(res);
     }
+
     ValidateToken();
     dispatch(unsetIsLoading());
   }, []);
@@ -73,15 +77,15 @@ const TokenValidation = () => {
   useEffect(() => {
     if (statusToken?.status === 200) {
       setIsSuccess(true);
-      status.current = "Validación Completa";
+      stepStatus.current = "Validación Completa";
     } else {
       setIsSuccess(false);
-      status.current = "Validación Fallida, Token expirado o inválido!";
+      stepStatus.current = "Validación Fallida, Token expirado o inválido!";
     }
   }, [statusToken]);
 
   const successForm = () => {
-    status.current = "Validando contraseña...";
+    stepStatus.current = "Validando contraseña...";
     setIsRedirect(true);
   };
 
@@ -128,7 +132,7 @@ const TokenValidation = () => {
                     color="primary"
                     className={classes.subtitle}
                   >
-                    {status.current}
+                    {stepStatus.current}
                   </Typography>
                 </MotionItemUp>
               </Box>
@@ -152,7 +156,7 @@ const TokenValidation = () => {
                     color="error"
                     className={classes.subtitle}
                   >
-                    {status.current}
+                    {stepStatus.current}
                   </Typography>
                 </MotionItemUp>
                 <MotionItemUp>

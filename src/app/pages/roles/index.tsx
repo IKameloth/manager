@@ -1,30 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box, Container, Grid } from "@material-ui/core";
 import { TitleBar, NewUserModal, UsersTable } from "@/app/components/Admin";
 import Section from "@/app/components/Section";
 import { Item } from "@/app/components/Item";
 
-import { useSelector, useDispatch } from "react-redux";
-import { StoreState } from "@/app/store";
-import { getUsersList } from "@/app/store/user/operations";
-
 export default function RoleList() {
-  const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState(false);
-  const userStore = useSelector((state: StoreState) => state.user);
-  const { users } = userStore;
-
-  useEffect(() => {
-    if (users?.length === 0) {
-      dispatch(getUsersList());
-    }
-  }, []);
-
-  useEffect(() => {
-    if (users?.length === 0) {
-      dispatch(getUsersList());
-    }
-  }, [users]);
 
   const handleModal = () => {
     setOpenModal(!openModal);
@@ -53,12 +34,7 @@ export default function RoleList() {
               }}
             >
               <Item>
-                {users.length > 0 && (
-                  <UsersTable
-                    data={users}
-                    loading={!users.length ? true : false}
-                  />
-                )}
+                <UsersTable />
               </Item>
             </Grid>
           </Grid>

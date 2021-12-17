@@ -22,7 +22,7 @@ import { setIsLoading, unsetIsLoading } from "@/app/store/common/operations";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import HandImg from "@/assets/images/hand.svg";
 import { MotionItemUp } from "@/app/components/Motion";
-import { cleanMessage, userConfirm } from "@/app/store/user";
+import { setMessageAdmin, userConfirm } from "@/app/store/admin";
 
 interface Props {
   token: string;
@@ -38,8 +38,8 @@ const SetPassView = ({ token, onSuccess }: Props) => {
   const viewMobile = useMediaQuery("(max-width:425px)"); // mobile
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { user, common } = useSelector((state: StoreState) => state);
-  const { message } = user;
+  const { admin, common } = useSelector((state: StoreState) => state);
+  const { message } = admin;
   const { isLoggedIn, isLoading, errorMessage } = common;
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
@@ -52,7 +52,7 @@ const SetPassView = ({ token, onSuccess }: Props) => {
   } = useForm<IFormInputs>();
 
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-    dispatch(cleanMessage());
+    dispatch(setMessageAdmin(""));
     const { password, confirmPassword } = data;
 
     if (!password.trim().length) {
@@ -81,7 +81,7 @@ const SetPassView = ({ token, onSuccess }: Props) => {
           duration: 5000,
           position: "top-left",
         });
-        dispatch(cleanMessage());
+        dispatch(setMessageAdmin(""));
         dispatch(unsetIsLoading());
         return onSuccess();
       } else {
@@ -89,7 +89,7 @@ const SetPassView = ({ token, onSuccess }: Props) => {
           duration: 5000,
           position: "top-right",
         });
-        dispatch(cleanMessage());
+        dispatch(setMessageAdmin(""));
         dispatch(unsetIsLoading());
       }
     }

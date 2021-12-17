@@ -8,8 +8,8 @@ import { Item } from "@/app/components/Item";
 
 import { Redirect } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { assignRole, cleanMessage, getUser } from "@/app/store/user/operations";
 import { StoreState } from "@/app/store";
+import { assignRole, setMessageAdmin, getUser } from "@/app/store/admin";
 import { MotionContainer, MotionItemUp } from "@/app/components/Motion";
 import { Capitalize } from "@/app/helper/Capitalize";
 import ErrorAlert from "@/app/components/ErrorAlert";
@@ -24,8 +24,8 @@ export default function RolesDetail() {
 
   const dispatch = useDispatch();
   const { userId } = useParams<RouteParams>();
-  const profileStore = useSelector((state: StoreState) => state.profile);
-  const { profile, current_country, current_institution } = profileStore;
+  const { common } = useSelector((state: StoreState) => state);
+  const { profile, currentCountry, currentInstitution } = common;
   const dispatcher = useDispatch();
 
   // useEffect(() => {

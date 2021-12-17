@@ -7,10 +7,10 @@ export enum CommonTypes {
   LOGOUT = "LOGOUT",
   SET_LOGIN = "SET_LOGIN",
   SET_PROFILE = "SET_PROFILE",
-  SET_COUNTRY = "SET_COUNTRY",
+  SET_COUNTRY_PROFILE = "SET_COUNTRY_PROFILE",
+  SET_INSTITUTION_PROFILE = "SET_INSTITUTION_PROFILE",
+  SET_ROLES_PROFILE = "SET_ROLES_PROFILE",
   SET_COUNTRIES = "SET_COUNTRIES",
-  SET_ROLES = "SET_ROLES",
-  SET_INSTITUTION = "SET_INSTITUTION",
 };
 
 export type CommonState = {
@@ -18,6 +18,8 @@ export type CommonState = {
   errorMessage: string
   isLoggedIn: boolean
   profile: ProfileType
-  rolesProfile: [RoleType?]
+  rolesProfile?: RoleType
   countries?: CountriesType
+  currentCountry: string
+  currentInstitution: string
 };

@@ -23,15 +23,15 @@ export interface SetCountriesAction extends Action<Type.SET_COUNTRIES> {
   payload: CountriesType;
 }
 
-export interface SetRolesAction extends Action<Type.SET_ROLES> {
+export interface SetRolesAction extends Action<Type.SET_ROLES_PROFILE> {
   payload: RoleType;
 }
 
-export interface SetCountryAction extends Action<Type.SET_COUNTRY> {
+export interface SetCountryAction extends Action<Type.SET_COUNTRY_PROFILE> {
   payload: string;
 }
 
-export interface SetInstitutionAction extends Action<Type.SET_INSTITUTION> {
+export interface SetInstitutionAction extends Action<Type.SET_INSTITUTION_PROFILE> {
   payload: string;
 }
 

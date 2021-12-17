@@ -20,7 +20,7 @@ import { DniReg, EmailReg } from "@/app/helper/Regex";
 import { useSelector, useDispatch } from "react-redux";
 import { StoreState } from "@/app/store";
 import { setIsLoading, unsetIsLoading } from "@/app/store/common/operations";
-import { createUser, cleanMessage } from "@/app/store/user/operations";
+import { createUser, setMessageAdmin } from "@/app/store/admin/operations";
 import { Fingerprint, Person, Email } from "@material-ui/icons";
 import Loader from "../../Loader";
 import { MotionContainer, MotionItemUp } from "../../Motion";
@@ -84,9 +84,9 @@ const BootstrapDialogTitle = (props: DialogTitleProps) => {
 
 const NewUserModal = ({ isOpen, closeModal }: Props) => {
   const dispatcher = useDispatch();
-  const { common, user } = useSelector((state: StoreState) => state);
+  const { common, admin } = useSelector((state: StoreState) => state);
   const { isLoading } = common;
-  const { errorMessage, message } = user;
+  const { errorMessage, message } = admin;
 
   const {
     register,
@@ -114,7 +114,7 @@ const NewUserModal = ({ isOpen, closeModal }: Props) => {
   useEffect(() => {
     message.length > 0 &&
       toast.success(message, { duration: 7000 }) &&
-      dispatcher(cleanMessage()) &&
+      dispatcher(setMessageAdmin("")) &&
       closeModal();
   }, [message]);
 

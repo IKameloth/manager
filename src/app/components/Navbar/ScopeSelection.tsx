@@ -32,29 +32,19 @@ export default function ScopeSelection(props: PropsType) {
   const classes = SideBar();
 
   const { common } = useSelector((state: StoreState) => state);
-  const { profile, isLoading, countries, rolesProfile } = common;
-  const { currentCountry, currentInstitution } = profile;
+  const {
+    currentCountry,
+    currentInstitution,
+    profile,
+    isLoading,
+    countries,
+    rolesProfile,
+  } = common;
 
   const [openDialog, setOpenDialog] = React.useState(false);
   const [countrySelected, setCountrySelected] = React.useState("");
   const [institutionSelected, setInstitutionSelected] = React.useState("");
   const roles = rolesProfile;
-
-  // useEffect(() => {
-  //   let controller = new AbortController();
-  //   (async () => {
-  //     try {
-  //       if (!isLoading && !countries) {
-  //         setIsLoading();
-  //         await dispatch(setCountries());
-  //         unsetIsLoading();
-  //       }
-  //     } catch (e) {
-  //       console.log("ERROR: SetCountries: ", e);
-  //     }
-  //   })();
-  //   return () => controller?.abort();
-  // }, [countries]);
 
   useEffect(() => {
     if (!countries) {
