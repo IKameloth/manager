@@ -8,13 +8,12 @@ import {
   Button,
   styled,
 } from "@material-ui/core";
-import { useDispatch } from "react-redux";
-import { setErrorMessage } from "../store/common";
 import SvgWarningImage from "@/assets/images/SvgWarningImage";
 import { MotionContainer, MotionItemUp } from "./Motion";
 
 interface ErrorDialog {
-  open: boolean;
+  onOpen: boolean;
+  onClose: () => void;
   message: string;
 }
 
@@ -32,19 +31,18 @@ const StyledDialog = styled(Dialog)(() => ({
   },
 }));
 
-const ErrorAlert = ({ open, message }: ErrorDialog) => {
+const ErrorAlert = ({ onOpen, onClose, message }: ErrorDialog) => {
   const [openError, setOpenError] = useState(false);
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (open) {
+    if (onOpen) {
       setOpenError(true);
     }
-  }, [open]);
+  }, [onOpen]);
 
   const handleClose = () => {
     setOpenError(false);
-    dispatch(setErrorMessage(""));
+    onClose();
   };
 
   return (

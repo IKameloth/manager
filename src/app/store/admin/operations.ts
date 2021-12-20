@@ -8,6 +8,7 @@ import {
   RecoverPasswordAction,
   UpdateUserAction,
   AdminActions,
+  ConfirmAccountAction,
 } from "./actions";
 import { AssignRoleAction, RemoveRoleAction } from ".";
 
@@ -67,11 +68,7 @@ export const recoverPassword = (dni: string) => {
       if (res.error) {
         return dispatch({ type: Type.SET_ERROR_MSG_ADM, payload: res.error });
       }
-      dispatch({
-        type: Type.SET_MESSAGE_ADM,
-        payload: "Se ha enviado un email de recuperación",
-      });
-      return res;
+      return res.data.id;
     } catch (err) {
       return dispatch({
         type: Type.SET_ERROR_MSG_ADM,
@@ -129,10 +126,18 @@ export const setMessageAdmin = (msg: string) => {
     });
 };
 
+export const setErrorMsg = (msg: string) => {
+  return (dispatch: Dispatch<AdminActions>): AdminActions =>
+    dispatch({
+      type: Type.SET_ERROR_MSG_ADM,
+      payload: msg,
+    });
+};
+
 export const userConfirm = (password: string, token: string) => {
   return async (
     dispatch: Dispatch<AdminActions>
-  ): Promise<AdminActions | undefined | {}> => {
+  ): Promise<ConfirmAccountAction | {}> => {
     try {
       const res = await Services.confirmUser(password, token);
 
@@ -140,13 +145,11 @@ export const userConfirm = (password: string, token: string) => {
         return dispatch({ type: Type.SET_ERROR_MSG_ADM, payload: res.error });
       }
 
-      if (res?.id.length > 0) {
-        return res.id;
-      }
+      return res.id;
     } catch (err) {
       return dispatch({
         type: Type.SET_ERROR_MSG_ADM,
-        payload: "Ocurrió un problema, intentelo de nuevo más tarde",
+        payload: "Imposible conectar con los servicios de Autentia",
       });
     }
   };

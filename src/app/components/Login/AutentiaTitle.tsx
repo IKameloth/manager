@@ -4,9 +4,10 @@ import { MotionRightItem } from "../Motion";
 
 interface Props {
   mobile: boolean;
+  subTitle: string | "";
 }
 
-const AutentiaTitle = ({ mobile }: Props) => (
+const AutentiaTitle = ({ mobile, subTitle }: Props) => (
   <Grid item xs>
     <MotionRightItem>
       <Box>
@@ -16,7 +17,7 @@ const AutentiaTitle = ({ mobile }: Props) => (
         </Typography>
       </Box>
       <Box mt={mobile ? 4 : 7} mb={mobile ? 4 : 9}>
-        <Typography variant="h5">Ingresar</Typography>
+        <Typography variant="h5">{subTitle}</Typography>
       </Box>
     </MotionRightItem>
   </Grid>

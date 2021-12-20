@@ -35,7 +35,7 @@ export default function Login() {
             square
           >
             <div className={classes.paper}>
-              <AutentiaTitle mobile={viewMobile} />
+              <AutentiaTitle mobile={viewMobile} subTitle="Ingresar" />
               <FormLogin />
               <FooterContent />
             </div>

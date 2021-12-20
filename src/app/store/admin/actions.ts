@@ -39,18 +39,23 @@ export interface RemoveRoleAction extends Action<Type.REMOVE_ROLE> {
   };
 }
 
-export interface SetErrorMsgUser extends Action<Type.SET_ERROR_MSG_ADM> {
+export interface SetErrorMsg extends Action<Type.SET_ERROR_MSG_ADM> {
   payload: string;
 }
 
-export interface SetMessageUser extends Action<Type.SET_MESSAGE_ADM> {
+export interface SetMessage extends Action<Type.SET_MESSAGE_ADM> {
   payload: string;
+}
+
+export interface ConfirmAccountAction extends Action<Type.CONFIRM_USER> {
+  payload: string
 }
 
 export type AdminActions =
+  | ConfirmAccountAction
   | CreateUserAction
-  | SetMessageUser
-  | SetErrorMsgUser
+  | SetMessage
+  | SetErrorMsg
   | GetUsersListAction
   | RemoveRoleAction
   | AssignRoleAction
