@@ -3,7 +3,7 @@ import { Action } from "redux";
 import { AdminTypes as Type } from "./types";
 
 export interface GetUsersListAction extends Action<Type.GET_USERS_LIST> {
-  payload: [UserType];
+  payload: [UserType?];
 }
 
 export interface CreateUserAction extends Action<Type.CREATE_USER> {
@@ -43,10 +43,6 @@ export interface SetErrorMsg extends Action<Type.SET_ERROR_MSG_ADM> {
   payload: string;
 }
 
-export interface SetMessage extends Action<Type.SET_MESSAGE_ADM> {
-  payload: string;
-}
-
 export interface ConfirmAccountAction extends Action<Type.CONFIRM_USER> {
   payload: string
 }
@@ -54,7 +50,6 @@ export interface ConfirmAccountAction extends Action<Type.CONFIRM_USER> {
 export type AdminActions =
   | ConfirmAccountAction
   | CreateUserAction
-  | SetMessage
   | SetErrorMsg
   | GetUsersListAction
   | RemoveRoleAction

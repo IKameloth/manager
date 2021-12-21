@@ -9,12 +9,10 @@ export enum AdminTypes {
   ASSIGN_ROLE = "ASSIGN_ROLE",
   REMOVE_ROLE = "REMOVE_ROLE",
   SET_ERROR_MSG_ADM = "SET_ERROR_MSG_ADM",
-  SET_MESSAGE_ADM = "SET_MESSAGE_ADM",
   CONFIRM_USER = "CONFIRM_USER"
 }
 
 export type AdminState = {
-  usersList: [UserType?];
+  usersList?: [UserType?];
   errorMessage: string;
-  message: string;
 };

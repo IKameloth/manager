@@ -18,12 +18,13 @@ export const getUsersList = () => {
   return async (
     dispatch: Dispatch<AdminActions>
   ): Promise<GetUsersListAction | {}> => {
-    const response = await Services.getUsers();
-    if (response.length > 0) {
-      return dispatch({ type: Type.GET_USERS_LIST, payload: response });
-    } else {
-      return [];
+    const resp = await Services.getUsers();
+
+    if (resp.error) {
+      dispatch({ type: Type.SET_ERROR_MSG_ADM, payload: resp.error });
     }
+
+    return dispatch({ type: Type.GET_USERS_LIST, payload: resp })
   };
 };
 
@@ -39,11 +40,8 @@ export const createUser = (name: string, dni: string, email: string) => {
         payload: "Usuario ya se encuentra registrado",
       });
     }
-    dispatch({
-      type: Type.SET_MESSAGE_ADM,
-      payload: "Usuario registrado con éxito",
-    });
-    return dispatch({ type: Type.CREATE_USER, payload: res });
+
+    return res.data;
   };
 };
 
@@ -105,25 +103,21 @@ export const updateUser = (
 };
 
 export const validateToken = (token: string) => {
-  return async (dispatch: Dispatch<AdminActions>): Promise<AdminActions | {}> => {
+  return async (
+    dispatch: Dispatch<AdminActions>
+  ): Promise<AdminActions | {}> => {
     const res = await Services.validateToken(token);
     return res;
   };
 };
 
 export const validateTokenConfirm = (token: string) => {
-  return async (dispatch: Dispatch<AdminActions>): Promise<AdminActions | {}> => {
+  return async (
+    dispatch: Dispatch<AdminActions>
+  ): Promise<AdminActions | {}> => {
     const res = await Services.validateToken(token);
     return res;
   };
-};
-
-export const setMessageAdmin = (msg: string) => {
-  return (dispatch: Dispatch<AdminActions>): AdminActions =>
-    dispatch({
-      type: Type.SET_MESSAGE_ADM,
-      payload: msg,
-    });
 };
 
 export const setErrorMsg = (msg: string) => {
@@ -145,7 +139,7 @@ export const userConfirm = (password: string, token: string) => {
         return dispatch({ type: Type.SET_ERROR_MSG_ADM, payload: res.error });
       }
 
-      return res.id;
+      return dispatch({ type: Type.GET_USERS_LIST, payload: res });
     } catch (err) {
       return dispatch({
         type: Type.SET_ERROR_MSG_ADM,
@@ -170,11 +164,6 @@ export const assignRole = (
       if (res.error) {
         return dispatch({ type: Type.SET_ERROR_MSG_ADM, payload: res.error });
       }
-
-      dispatch({
-        type: Type.SET_MESSAGE_ADM,
-        payload: "Rol registrado con éxito",
-      });
       return dispatch({ type: Type.GET_USER, payload: res.data });
     } catch (err) {
       return dispatch({
@@ -203,8 +192,6 @@ export const removeRole = (
           payload: "Rol no existe ó es inválido",
         });
       }
-
-      dispatch({ type: Type.SET_MESSAGE_ADM, payload: "Rol eliminado" });
       return dispatch({ type: Type.GET_USER, payload: res.data });
     } catch (err) {
       return dispatch({

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Modal,
@@ -19,13 +19,16 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { DniReg, EmailReg } from "@/app/helper/Regex";
 import { useSelector, useDispatch } from "react-redux";
 import { StoreState } from "@/app/store";
-import { setIsLoading, unsetIsLoading } from "@/app/store/common/operations";
-import { createUser, setMessageAdmin } from "@/app/store/admin/operations";
+import {
+  createUser,
+  getUsersList,
+  setErrorMsg,
+} from "@/app/store/admin/operations";
 import { Fingerprint, Person, Email } from "@material-ui/icons";
-import Loader from "../../Loader";
-import { MotionContainer, MotionItemUp } from "../../Motion";
+import Loader from "../../../Loader";
+import { MotionContainer, MotionItemUp } from "../../../Motion";
 import toast from "react-hot-toast";
-import ErrorAlert from "../../ErrorAlert";
+import ErrorAlert from "../../../ErrorAlert";
 
 interface Props {
   isOpen: boolean;
@@ -52,7 +55,7 @@ interface DialogTitleProps {
   onClose: () => void;
 }
 
-interface IFormInputs {
+interface FormInputs {
   name: string;
   dni: string;
   email: string;
@@ -84,19 +87,19 @@ const BootstrapDialogTitle = (props: DialogTitleProps) => {
 
 const NewUserModal = ({ isOpen, closeModal }: Props) => {
   const dispatcher = useDispatch();
-  const { common, admin } = useSelector((state: StoreState) => state);
-  const { isLoading } = common;
-  const { errorMessage, message } = admin;
+  const [isLoading, setIsLoading] = useState(false);
+  const { admin } = useSelector((state: StoreState) => state);
+  const { errorMessage } = admin;
 
   const {
     register,
     formState: { errors },
     handleSubmit,
     setError,
-  } = useForm<IFormInputs>();
+  } = useForm<FormInputs>();
 
-  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-    dispatcher(setIsLoading());
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    setIsLoading(true);
     const { name, dni, email } = data;
 
     if (!name.trim().length) {
@@ -106,17 +109,19 @@ const NewUserModal = ({ isOpen, closeModal }: Props) => {
     } else if (!email.trim().length) {
       setError("email", { type: "manual" }, { shouldFocus: true });
     } else {
-      await dispatcher(createUser(name, dni, email));
+      const res = await dispatcher(createUser(name, dni, email));
+
+      if ("id" in res) {
+        dispatcher(getUsersList());
+        toast.success("Usuario registrado", { duration: 7000 }) && closeModal();
+      }
     }
-    dispatcher(unsetIsLoading());
+    setIsLoading(false);
   };
 
-  useEffect(() => {
-    message.length > 0 &&
-      toast.success(message, { duration: 7000 }) &&
-      dispatcher(setMessageAdmin("")) &&
-      closeModal();
-  }, [message]);
+  const handleCloseError = () => {
+    dispatcher(setErrorMsg(""));
+  };
 
   return (
     <MotionContainer>
@@ -248,7 +253,11 @@ const NewUserModal = ({ isOpen, closeModal }: Props) => {
         </Container>
       </Modal>
       {errorMessage && (
-        <ErrorAlert open={!!errorMessage} message={errorMessage} />
+        <ErrorAlert
+          onOpen={!!errorMessage}
+          onClose={handleCloseError}
+          message={errorMessage}
+        />
       )}
     </MotionContainer>
   );

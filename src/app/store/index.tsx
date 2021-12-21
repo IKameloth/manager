@@ -10,7 +10,13 @@ import { adminReducer, AdminState } from "./admin";
 const persistConfig = {
   storage,
   key: "root",
-  whitelist: ["isLoggedIn", "profile"],
+  whitelist: [
+    "isLoggedIn",
+    "profile",
+    "currentCountry",
+    "currentInstitution",
+    "rolesProfile",
+  ],
 };
 
 const persistUserConf = {

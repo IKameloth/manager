@@ -12,11 +12,14 @@ import {
   ShowValidate,
   ShowAvatar,
   ActionButtons,
-  TitleBar,
-  NewUserModal,
 } from "@/app/components/Admin";
 
-const UsersTable = ({ data, loading }: any) => {
+interface Props {
+  isLoading: boolean;
+  data: any;
+}
+
+const UsersTable = ({ isLoading, data }: Props) => {
   const classes = useRolesStyle();
   const dataRows: GridRowsProp = data;
   const [searchText, setSearchText] = useState("");
@@ -43,11 +46,10 @@ const UsersTable = ({ data, loading }: any) => {
       renderCell: (params: GridCellParams) => params.row.dni,
     },
     {
-      field: "validate_at",
+      field: "validated",
       width: 200,
       align: "left",
       headerName: "Validación",
-      filterable: false,
       disableColumnMenu: true,
       renderCell: (params: GridCellParams) => (
         <ShowValidate validate={params.row.validated} />
@@ -81,7 +83,7 @@ const UsersTable = ({ data, loading }: any) => {
 
   useEffect(() => {
     if (rows != dataRows) {
-      setRows(rows);
+      setRows(dataRows);
     }
   }, [dataRows]);
 
@@ -100,7 +102,7 @@ const UsersTable = ({ data, loading }: any) => {
         Toolbar: QuickSearchToolbar,
         LoadingOverlay: CustomLoadingOverlay,
       }}
-      loading={loading}
+      loading={isLoading}
       rows={rows}
       columns={columns}
       pageSize={pageSize}

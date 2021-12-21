@@ -4,11 +4,11 @@ import ShowValidate from "./Roles/Status";
 import ShowAvatar from "./Roles/Avatar";
 import ActionButtons from "./Roles/Actions";
 import TitleBar from "./Roles/TitleBar";
-import NewUserModal from "./Roles/NewUserModal";
+import NewUserModal from "./Roles/User/NewUserModal";
 import NewRoleModal from "./Roles/NewRoleModal";
 import UserCard from "./Roles/UserCard";
 import RemoveRole from "./Roles/RemoveRole";
-import UsersTable from "./Roles/UsersTable";
+import UsersTable from "./Roles/User/UsersTable";
 import RolesTable from "./Roles/RoleTable";
 
 export {

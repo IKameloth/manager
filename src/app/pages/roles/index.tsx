@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Box, Container, Grid } from "@material-ui/core";
-import { TitleBar, NewUserModal, UsersTable } from "@/app/components/Admin";
+import { TitleBar, NewUserModal } from "@/app/components/Admin";
 import Section from "@/app/components/Section";
-import { Item } from "@/app/components/Item";
+import ShowUsers from "@/app/components/Admin/Roles/User/ShowUsers";
 
 export default function RoleList() {
   const [openModal, setOpenModal] = useState(false);
@@ -22,21 +22,7 @@ export default function RoleList() {
               btnText="crear usuario"
               btnAction={handleModal}
             />
-
-            <Grid
-              item
-              xs={12}
-              md={12}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Item>
-                <UsersTable />
-              </Item>
-            </Grid>
+            <ShowUsers />
           </Grid>
         </Box>
         {openModal && (

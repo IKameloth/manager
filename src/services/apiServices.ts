@@ -96,6 +96,11 @@ export class ApiServicesProvider {
   // Get Users
   public async getUsers() {
     const res = await this.$httpClient.get('users', {})
+
+    if (res.status === 404) {
+      return { error: "Imposible retornar los datos", status: res.status }
+    }
+
     const resJson = await res.json()
     return resJson
   }
