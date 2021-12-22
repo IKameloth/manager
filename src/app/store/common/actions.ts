@@ -24,7 +24,7 @@ export interface SetCountriesAction extends Action<Type.SET_COUNTRIES> {
 }
 
 export interface SetRolesAction extends Action<Type.SET_ROLES_PROFILE> {
-  payload: RoleType;
+  payload: [RoleType];
 }
 
 export interface SetCountryAction extends Action<Type.SET_COUNTRY_PROFILE> {

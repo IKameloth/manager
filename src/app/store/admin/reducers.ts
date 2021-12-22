@@ -14,6 +14,10 @@ export const adminReducer = (state: State = INITIAL_STATE, action: Actions) => {
       return { ...state, usersList: action.payload };
     case Types.SET_ERROR_MSG_ADM:
       return { ...state, errorMessage: action.payload };
+    case Types.GET_ROLES_BY_USER:
+      return { ...state, rolesList: action.payload };
+    case Types.GET_USER:
+      return { ...state, user: action.payload }
     default:
       return state;
   }

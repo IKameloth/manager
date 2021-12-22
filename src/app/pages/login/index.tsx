@@ -7,7 +7,7 @@ import { useStyles } from "../../../assets/login";
 import ErrorAlert from "../../components/ErrorAlert";
 import LoginImage from "@/assets/images/img-login.svg";
 import LoginImagePlus from "@/assets/images/img-login-2.svg";
-import { MotionRightContainer, MotionRightItem } from "@/app/components/Motion";
+import { MotionRightContainer } from "@/app/components/Motion";
 import AutentiaTitle from "@/app/components/Login/AutentiaTitle";
 import FooterContent from "@/app/components/Login/Footer";
 import FormLogin from "@/app/components/Login/FormLogin";
@@ -15,7 +15,7 @@ import FormLogin from "@/app/components/Login/FormLogin";
 export default function Login() {
   const classes = useStyles();
   const { common } = useSelector((state: StoreState) => state);
-  const { errorMessage, isLoggedIn } = common;
+  const { isLoggedIn } = common;
   const viewMobile = useMediaQuery("(max-width:425px)"); // mobile
   const viewTablet = useMediaQuery("(max-width:959px)"); // tablet
 
@@ -59,9 +59,6 @@ export default function Login() {
           )}
         </Grid>
       </MotionRightContainer>
-      {errorMessage && (
-        <ErrorAlert open={!!errorMessage} message={errorMessage} />
-      )}
     </Grid>
   );
 }

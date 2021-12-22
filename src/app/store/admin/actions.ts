@@ -1,4 +1,4 @@
-import { UserType } from "@/app/types";
+import { RoleType, UserType } from "@/app/types";
 import { Action } from "redux";
 import { AdminTypes as Type } from "./types";
 
@@ -47,7 +47,12 @@ export interface ConfirmAccountAction extends Action<Type.CONFIRM_USER> {
   payload: string
 }
 
+export interface GetAllRolesByUser extends Action<Type.GET_ROLES_BY_USER> {
+  payload: [RoleType?]
+}
+
 export type AdminActions =
+  | GetAllRolesByUser
   | ConfirmAccountAction
   | CreateUserAction
   | SetErrorMsg

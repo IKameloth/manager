@@ -9,6 +9,7 @@ import {
   UpdateUserAction,
   AdminActions,
   ConfirmAccountAction,
+  GetAllRolesByUser,
 } from "./actions";
 import { AssignRoleAction, RemoveRoleAction } from ".";
 
@@ -24,7 +25,7 @@ export const getUsersList = () => {
       dispatch({ type: Type.SET_ERROR_MSG_ADM, payload: resp.error });
     }
 
-    return dispatch({ type: Type.GET_USERS_LIST, payload: resp })
+    return dispatch({ type: Type.GET_USERS_LIST, payload: resp });
   };
 };
 
@@ -48,11 +49,10 @@ export const createUser = (name: string, dni: string, email: string) => {
 export const getUser = (dni: string) => {
   return async (dispatch: Dispatch<AdminActions>): Promise<GetUserAction> => {
     const res = await Services.getUser(dni);
-
-    if (res === null) {
-      return dispatch({ type: Type.GET_USER, payload: res });
-    } else {
+    if (res.data) {
       return dispatch({ type: Type.GET_USER, payload: res.data });
+    } else {
+      return res
     }
   };
 };
@@ -146,6 +146,15 @@ export const userConfirm = (password: string, token: string) => {
         payload: "Imposible conectar con los servicios de Autentia",
       });
     }
+  };
+};
+
+export const getAllRolesByUser = (userId: string) => {
+  return async (
+    dispatch: Dispatch<AdminActions>
+  ): Promise<GetAllRolesByUser> => {
+    const resp = await Services.getRolesByUserId(userId);
+    return dispatch({ type: Type.GET_ROLES_BY_USER, payload: resp });
   };
 };
 

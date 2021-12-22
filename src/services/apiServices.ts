@@ -139,13 +139,6 @@ export class ApiServicesProvider {
   // Get Roles by User Id
   public async getRolesByUserId(userId: string) {
     const res = await this.$httpClient.get(`roles/${userId}`)
-
-    console.log("APISERVICE: ", res)
-
-    if (res.status != 200) {
-      return { error: res.statusText, status: res.status }
-    }
-
     const resJson = await res.json()
     return resJson.data
   }

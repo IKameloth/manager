@@ -1,10 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Backdrop,
   Modal,
-  TextField,
-  Typography,
   styled,
   Grid,
   Container,
@@ -14,7 +12,6 @@ import {
   DialogContent,
   DialogActions,
   Grow,
-  InputAdornment,
   Select,
   MenuItem,
   InputLabel,
@@ -22,14 +19,16 @@ import {
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { useForm, SubmitHandler } from "react-hook-form";
-import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
-import { MotionContainer, MotionItemUp } from "../../Motion";
+import { MotionItemUp } from "../../Motion";
 import { AvailableRoles } from "@/app/helper/AvailableRoles";
+import { StoreState } from "@/app/store";
+import { useSelector, useDispatch } from "react-redux";
+import { setErrorMsg, assignRole } from "@/app/store/admin";
+import Loader from "../../Loader";
 
 interface Props {
   isOpen: boolean;
   onCloseModal: () => void;
-  onRegister: (role: string) => void;
 }
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -81,7 +80,13 @@ interface IFormInput {
   roleName: string;
 }
 
-const NewRoleModal = ({ isOpen, onCloseModal, onRegister }: Props) => {
+const NewRoleModal = ({ isOpen, onCloseModal }: Props) => {
+  const dispatcher = useDispatch();
+  const { common, admin } = useSelector((state: StoreState) => state);
+  const { currentCountry, currentInstitution } = common;
+  const { user } = admin;
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     register,
     formState: { errors },
@@ -90,6 +95,7 @@ const NewRoleModal = ({ isOpen, onCloseModal, onRegister }: Props) => {
   } = useForm<IFormInput>({ mode: "onChange" });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    setIsLoading(true);
     const { roleName } = data;
     if (!roleName.trim().length) {
       setError("roleName", {
@@ -97,7 +103,10 @@ const NewRoleModal = ({ isOpen, onCloseModal, onRegister }: Props) => {
         message: "El campo no puede ir vacio",
       });
     } else {
-      onRegister(roleName);
+      console.log(roleName, currentInstitution, currentCountry);
+      // await dispatcher(assignRole(user?.dni, roleName, currentInstitution, currentCountry));
+      setIsLoading(false);
+      onCloseModal();
     }
   };
 
@@ -154,8 +163,11 @@ const NewRoleModal = ({ isOpen, onCloseModal, onRegister }: Props) => {
                 <Button
                   style={{ color: "#209E25" }}
                   onClick={handleSubmit(onSubmit)}
+                  type="submit"
+                  variant="outlined"
+                  disabled={isLoading}
                 >
-                  Registrar
+                  {isLoading ? <Loader isSize={25} /> : "Registrar"}
                 </Button>
               </MotionItemUp>
             </DialogActions>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Card,
@@ -17,8 +17,10 @@ import {
 import EditIcon from "@material-ui/icons/Edit";
 import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import { makeStyles } from "@material-ui/styles";
-import EditUserModal from "./EditUserModal";
-import ShowDialog from "./RoleDialog";
+import EditUserModal from "../EditUserModal";
+import ShowDialog from "../RoleDialog";
+import { useSelector, useDispatch } from "react-redux";
+import { getUser } from "@/app/store/admin";
 
 const useStyles = makeStyles((theme: Theme) => ({
   centered: {
@@ -49,25 +51,16 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-interface Props {
-  name: string;
-  job: string;
-  registeredDate: string;
-  institution: string;
-  email: string;
-  dni: string;
-  status: boolean;
-}
-
-const UserCard = (props: Props) => {
+const UserCard = () => {
+  const dispatcher = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isBlock, setIsBlock] = useState(false);
-
   const classes = useStyles();
-  const { name, job, registeredDate, institution, email } = props;
+  const [userData, setUserData] = useState({});
+
   const handleEdit = () => {
     console.log("HanldeEdit");
-    console.log(props.dni);
     setIsOpen(!isOpen);
   };
 
@@ -75,15 +68,15 @@ const UserCard = (props: Props) => {
     setIsBlock(!isBlock);
   };
 
-  const nameTag = () => {
-    if (props.name.indexOf(" ") > 0) {
-      return `${props.name.split(" ")[0][0].toUpperCase()}${props.name
-        .split(" ")[1][0]
-        .toUpperCase()}`;
-    } else {
-      return `${props.name[0].toUpperCase()}${props.name[1].toUpperCase()}`;
-    }
-  };
+  // const nameTag = () => {
+  //   if (userData.name.indexOf(" ") > 0) {
+  //     return `${props.name.split(" ")[0][0].toUpperCase()}${props.name
+  //       .split(" ")[1][0]
+  //       .toUpperCase()}`;
+  //   } else {
+  //     return `${props.name[0].toUpperCase()}${props.name[1].toUpperCase()}`;
+  //   }
+  // };
 
   return (
     <>
@@ -110,13 +103,12 @@ const UserCard = (props: Props) => {
         >
           <CardContent>
             <div className={classes.centered}>
-              <Avatar alt="user" className={classes.avatar}>
-                {props.name.length > 0 && nameTag()}
-              </Avatar>
-              <Typography variant="h6">{name}</Typography>
-              <Typography variant="subtitle2" color="textSecondary">
-                {job}
-              </Typography>
+              <Avatar alt="user" className={classes.avatar}></Avatar>
+              <Typography variant="h6"></Typography>
+              <Typography
+                variant="subtitle2"
+                color="textSecondary"
+              ></Typography>
             </div>
             <Table className={classes.miniTable}>
               <TableHead></TableHead>
@@ -128,7 +120,7 @@ const UserCard = (props: Props) => {
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2">{registeredDate}</Typography>
+                    <Typography variant="body2"></Typography>
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -138,7 +130,7 @@ const UserCard = (props: Props) => {
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2">{institution}</Typography>
+                    <Typography variant="body2"></Typography>
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -148,9 +140,7 @@ const UserCard = (props: Props) => {
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2">
-                      {email || "No registrado"}
-                    </Typography>
+                    <Typography variant="body2"></Typography>
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -181,20 +171,20 @@ const UserCard = (props: Props) => {
           </CardActions>
         </Card>
       </Grid>
-      {isOpen && (
+      {/* {isOpen && (
         <EditUserModal
           isOpen={isOpen}
           onCloseModal={handleEdit}
-          dni={props.dni}
+          dni={props.userId}
         />
-      )}
+      )} 
       {isBlock && (
         <ShowDialog
           isOpen={isBlock}
           handleCloseDialog={handleLock}
           data={props}
         />
-      )}
+      )} */}
     </>
   );
 };

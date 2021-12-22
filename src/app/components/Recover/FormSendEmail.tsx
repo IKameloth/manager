@@ -28,7 +28,7 @@ const FormSendEmail = () => {
   const classes = useStyles();
   const [isLoading, setIsLoading] = React.useState(false);
   const { admin } = useSelector((state: StoreState) => state);
-  const { message, errorMessage } = admin;
+  const { errorMessage } = admin;
 
   const {
     register,

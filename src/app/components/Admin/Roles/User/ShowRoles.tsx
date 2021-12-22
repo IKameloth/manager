@@ -1,39 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { Item } from "@/app/components/Item";
-import UsersTable from "@/app/components/Admin/Roles/User/UsersTable";
+import RolesTable from "./RoleTable";
 import { useSelector, useDispatch } from "react-redux";
-import { getUsersList } from "@/app/store/admin";
+import { getAllRolesByUser } from "@/app/store/admin";
 import { StoreState } from "@/app/store";
 
-function ShowUsers() {
+interface Props {
+  userId: string;
+}
+
+export default function ShowRoles({ userId }: Props) {
   const dispatcher = useDispatch();
   const { admin } = useSelector((state: StoreState) => state);
-  const { usersList } = admin;
+  const { rolesList, user } = admin;
   const [isLoading, setIsLoading] = useState(false);
-  const [dataTable, setDataTable] = useState(usersList);
+  const [dataTable, setDataTable] = useState(rolesList);
 
   useEffect(() => {
     setIsLoading(true);
-    dispatcher(getUsersList());
+    dispatcher(getAllRolesByUser(userId));
     setIsLoading(false);
   }, []);
 
   useEffect(() => {
-    setDataTable(usersList);
-  }, [usersList]);
+    setDataTable(rolesList);
+  }, [rolesList]);
 
   return (
-    <Grid
-      item
-      xs={12}
-      md={12}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <Grid item xs={12} md={8}>
       <Item>
         {!dataTable?.length ? (
           <Box alignItems="center" justifyContent="center" display="flex">
@@ -42,11 +37,9 @@ function ShowUsers() {
             </Typography>
           </Box>
         ) : (
-          <UsersTable isLoading={isLoading} data={dataTable} />
+          <RolesTable isLoading={isLoading} data={dataTable} />
         )}
       </Item>
     </Grid>
   );
 }
-
-export default ShowUsers;

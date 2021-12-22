@@ -8,7 +8,12 @@ import {
 import { useRolesStyle } from "@/assets/Roles";
 import { CustomLoadingOverlay, RemoveRole } from "@/app/components/Admin";
 
-const RolesTable = ({ data }: any) => {
+interface Props {
+  isLoading: boolean;
+  data: any;
+}
+
+const RolesTable = ({ isLoading, data }: Props) => {
   const classes = useRolesStyle();
   const dataRows: GridRowsProp = data;
   const [rows, setRows] = useState(dataRows);
@@ -31,10 +36,7 @@ const RolesTable = ({ data }: any) => {
       align: "left",
       headerName: "Institución",
       disableColumnMenu: true,
-      renderCell: (params: GridCellParams) =>
-        params.row.institution.name === ""
-          ? "Undefined"
-          : params.row.institution.name,
+      renderCell: (params: GridCellParams) => params.row.institution.name,
     },
     {
       field: "country",
@@ -42,10 +44,7 @@ const RolesTable = ({ data }: any) => {
       align: "left",
       headerName: "País",
       disableColumnMenu: true,
-      renderCell: (params: GridCellParams) =>
-        params.row.institution.country === ""
-          ? "Undefined"
-          : params.row.country,
+      renderCell: (params: GridCellParams) => params.row.institution.country,
     },
     {
       field: "delete",
@@ -86,7 +85,7 @@ const RolesTable = ({ data }: any) => {
       components={{
         LoadingOverlay: CustomLoadingOverlay,
       }}
-      loading={false}
+      loading={isLoading}
       rows={rows}
       columns={columns}
       pageSize={pageSize}
