@@ -17,7 +17,7 @@ export const adminReducer = (state: State = INITIAL_STATE, action: Actions) => {
     case Types.GET_ROLES_BY_USER:
       return { ...state, rolesList: action.payload };
     case Types.GET_USER:
-      return { ...state, user: action.payload }
+      return { ...state, user: action.payload };
     default:
       return state;
   }

@@ -52,7 +52,7 @@ export const getUser = (dni: string) => {
     if (res.data) {
       return dispatch({ type: Type.GET_USER, payload: res.data });
     } else {
-      return res
+      return dispatch({ type: Type.GET_USER, payload: res });
     }
   };
 };
@@ -139,7 +139,7 @@ export const userConfirm = (password: string, token: string) => {
         return dispatch({ type: Type.SET_ERROR_MSG_ADM, payload: res.error });
       }
 
-      return dispatch({ type: Type.GET_USERS_LIST, payload: res });
+      return res.id;
     } catch (err) {
       return dispatch({
         type: Type.SET_ERROR_MSG_ADM,
@@ -185,23 +185,15 @@ export const assignRole = (
 
 export const removeRole = (
   userId: string,
-  role: string,
+  name: string,
   institution: string
 ) => {
   return async (
     dispatch: Dispatch<AdminActions>
   ): Promise<RemoveRoleAction | {}> => {
     try {
-      const res = await Services.removeRole(userId, role, institution);
-
-      if (res.error) {
-        console.log("Operation ERROR:  ", res);
-        return dispatch({
-          type: Type.SET_ERROR_MSG_ADM,
-          payload: "Rol no existe ó es inválido",
-        });
-      }
-      return dispatch({ type: Type.GET_USER, payload: res.data });
+      const res = await Services.removeRole(userId, name, institution);
+      return res;
     } catch (err) {
       return dispatch({
         type: Type.SET_ERROR_MSG_ADM,

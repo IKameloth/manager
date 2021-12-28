@@ -40,7 +40,7 @@ export class ApiServicesProvider {
       },
       delete(targetUrl: string, payload: unknown, options?: { headers?: any }) {
         const requestOptions = {
-          method: "POST",
+          method: "DELETE",
           headers: {
             'Content-type': 'application/json',
             ...(options ? options.headers : {})
@@ -186,8 +186,8 @@ export class ApiServicesProvider {
   }
 
   // Remove Role
-  public async removeRole(userId: string, role: string, institution: string) {
-    const res = await this.$httpClient.delete(`roles/${userId}`, { role, institution })
+  public async removeRole(userId: string, name: string, institution: string) {
+    const res = await this.$httpClient.delete(`roles/${userId}`, { name, institution })
 
     console.log("API RES: ", res)
     if (res.status != 200) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, Switch, Route } from "react-router-dom";
+import { useLocation, Switch, Route, Redirect } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
@@ -17,6 +17,7 @@ const ValidateAccountToken = React.lazy(
   () => import("./pages/confirm/confirmToken")
 );
 const RecoverPass = React.lazy(() => import("./pages/recover/recoverPass"));
+const NotFound = React.lazy(() => import("./pages/notFound/index"));
 
 export default function App() {
   const location = useLocation();
@@ -51,6 +52,7 @@ export default function App() {
         />
         <Navbar>
           <Route exact path="/" render={() => <Home />} />
+          <Route exact path="/home" render={() => <Home />} />
           <ProtectedRoute exact path="/roles" render={() => <Roles />} />
           <ProtectedRoute
             exact
@@ -64,6 +66,7 @@ export default function App() {
             render={() => <Institutions />}
           />
         </Navbar>
+        <Route path="*" render={() => <NotFound />} />
       </Switch>
     </React.Suspense>
   );

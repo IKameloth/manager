@@ -58,7 +58,8 @@ const RolesTable = ({ isLoading, data }: Props) => {
       renderCell: (params: GridCellParams) => (
         <RemoveRole
           roleName={params.row.name}
-          userId={params.row.id}
+          userId={params.row.user.id}
+          userDni={params.row.user.dni}
           institution={params.row.institution.name}
         />
       ),

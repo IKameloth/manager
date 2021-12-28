@@ -44,11 +44,11 @@ export interface SetErrorMsg extends Action<Type.SET_ERROR_MSG_ADM> {
 }
 
 export interface ConfirmAccountAction extends Action<Type.CONFIRM_USER> {
-  payload: string
+  payload: string;
 }
 
 export interface GetAllRolesByUser extends Action<Type.GET_ROLES_BY_USER> {
-  payload: [RoleType?]
+  payload: [RoleType?];
 }
 
 export type AdminActions =

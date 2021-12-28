@@ -11,6 +11,7 @@ export enum AdminTypes {
   SET_ERROR_MSG_ADM = "SET_ERROR_MSG_ADM",
   CONFIRM_USER = "CONFIRM_USER",
   GET_ROLES_BY_USER = "GET_ROLES_BY_USER",
+  CLEAN_ADMIN_STATE = "CLEAN_ADMIN_STATE",
 }
 
 export type AdminState = {

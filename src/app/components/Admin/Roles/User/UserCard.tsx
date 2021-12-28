@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Grid,
   Card,
@@ -19,8 +19,7 @@ import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import { makeStyles } from "@material-ui/styles";
 import EditUserModal from "../EditUserModal";
 import ShowDialog from "../RoleDialog";
-import { useSelector, useDispatch } from "react-redux";
-import { getUser } from "@/app/store/admin";
+import { UserType } from "@/app/types";
 
 const useStyles = makeStyles((theme: Theme) => ({
   centered: {
@@ -51,16 +50,16 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const UserCard = () => {
-  const dispatcher = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+interface Props {
+  userData: UserType | undefined;
+}
+
+const UserCard = ({ userData }: Props) => {
+  const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
   const [isBlock, setIsBlock] = useState(false);
-  const classes = useStyles();
-  const [userData, setUserData] = useState({});
 
   const handleEdit = () => {
-    console.log("HanldeEdit");
     setIsOpen(!isOpen);
   };
 
@@ -68,15 +67,13 @@ const UserCard = () => {
     setIsBlock(!isBlock);
   };
 
-  // const nameTag = () => {
-  //   if (userData.name.indexOf(" ") > 0) {
-  //     return `${props.name.split(" ")[0][0].toUpperCase()}${props.name
-  //       .split(" ")[1][0]
-  //       .toUpperCase()}`;
-  //   } else {
-  //     return `${props.name[0].toUpperCase()}${props.name[1].toUpperCase()}`;
-  //   }
-  // };
+  const date = userData?.CreatedAt.substring(
+    0,
+    userData?.CreatedAt.indexOf("T")
+  )
+    .split("-")
+    .reverse()
+    .join("-");
 
   return (
     <>
@@ -103,8 +100,16 @@ const UserCard = () => {
         >
           <CardContent>
             <div className={classes.centered}>
-              <Avatar alt="user" className={classes.avatar}></Avatar>
-              <Typography variant="h6"></Typography>
+              <Avatar alt="user" className={classes.avatar}>
+                {userData && userData.name.indexOf(" ") > 0
+                  ? `${userData.name
+                      .split(" ")[0][0]
+                      .toUpperCase()}${userData.name
+                      .split(" ")[1][0]
+                      .toUpperCase()}`
+                  : `${userData?.name[0].toUpperCase()}${userData?.name[1].toUpperCase()}`}
+              </Avatar>
+              <Typography variant="h6">{userData?.dni}</Typography>
               <Typography
                 variant="subtitle2"
                 color="textSecondary"
@@ -120,7 +125,7 @@ const UserCard = () => {
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2"></Typography>
+                    <Typography variant="body2">{date}</Typography>
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -130,7 +135,7 @@ const UserCard = () => {
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2"></Typography>
+                    <Typography variant="body2">Desconocido</Typography>
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -140,12 +145,13 @@ const UserCard = () => {
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2"></Typography>
+                    <Typography variant="body2">{userData?.email}</Typography>
                   </TableCell>
                 </TableRow>
               </TableBody>
             </Table>
           </CardContent>
+
           <CardActions
             disableSpacing
             style={{ justifyContent: "center", alignItems: "center" }}
@@ -175,14 +181,14 @@ const UserCard = () => {
         <EditUserModal
           isOpen={isOpen}
           onCloseModal={handleEdit}
-          dni={props.userId}
+          dni={user?.id || ""}
         />
-      )} 
+      )}
       {isBlock && (
         <ShowDialog
           isOpen={isBlock}
           handleCloseDialog={handleLock}
-          data={props}
+          data={user}
         />
       )} */}
     </>

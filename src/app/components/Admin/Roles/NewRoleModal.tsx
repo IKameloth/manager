@@ -21,13 +21,17 @@ import CloseIcon from "@material-ui/icons/Close";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { MotionItemUp } from "../../Motion";
 import { AvailableRoles } from "@/app/helper/AvailableRoles";
-import { StoreState } from "@/app/store";
-import { useSelector, useDispatch } from "react-redux";
-import { setErrorMsg, assignRole } from "@/app/store/admin";
+import { useDispatch } from "react-redux";
+import { assignRole, getAllRolesByUser } from "@/app/store/admin";
 import Loader from "../../Loader";
+import toast from "react-hot-toast";
 
 interface Props {
   isOpen: boolean;
+  country: string;
+  institution: string;
+  userDni: string | undefined;
+  userId: string;
   onCloseModal: () => void;
 }
 
@@ -80,11 +84,15 @@ interface IFormInput {
   roleName: string;
 }
 
-const NewRoleModal = ({ isOpen, onCloseModal }: Props) => {
+const NewRoleModal = ({
+  isOpen,
+  country,
+  institution,
+  userDni,
+  userId,
+  onCloseModal,
+}: Props) => {
   const dispatcher = useDispatch();
-  const { common, admin } = useSelector((state: StoreState) => state);
-  const { currentCountry, currentInstitution } = common;
-  const { user } = admin;
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -103,8 +111,12 @@ const NewRoleModal = ({ isOpen, onCloseModal }: Props) => {
         message: "El campo no puede ir vacio",
       });
     } else {
-      console.log(roleName, currentInstitution, currentCountry);
-      // await dispatcher(assignRole(user?.dni, roleName, currentInstitution, currentCountry));
+      if (userDni) {
+        await dispatcher(assignRole(userDni, roleName, institution, country));
+
+        await dispatcher(getAllRolesByUser(userId));
+        toast.success("Rol registrado", { duration: 4000 });
+      }
       setIsLoading(false);
       onCloseModal();
     }
