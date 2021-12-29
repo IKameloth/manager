@@ -9,18 +9,18 @@ import { toast } from "react-hot-toast";
 interface Props {
   roleName: string;
   userId: string;
-  userDni: string;
   institution: string;
+  country: string;
 }
 
-const RemoveRole = ({ userId, userDni, roleName, institution }: Props) => {
+const RemoveRole = ({ userId, roleName, institution, country }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatcher = useDispatch();
 
   const handleRemove = async () => {
-    console.log("remove", userId, roleName, institution);
-
-    let res = await dispatcher(removeRole(userId, roleName, institution));
+    let res = await dispatcher(
+      removeRole(userId, roleName, institution, country)
+    );
 
     if ("error" in res) {
       toast.error("Rol no encontrado ó inválido", {
@@ -28,9 +28,10 @@ const RemoveRole = ({ userId, userDni, roleName, institution }: Props) => {
         duration: 5000,
       });
     } else {
+      dispatcher(getAllRolesByUser(userId));
       toast.success("Rol eliminado con éxito", {
         position: "top-center",
-        duration: 7000,
+        duration: 5000,
       });
     }
     setIsOpen(false);

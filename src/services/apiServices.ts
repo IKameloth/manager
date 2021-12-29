@@ -186,8 +186,8 @@ export class ApiServicesProvider {
   }
 
   // Remove Role
-  public async removeRole(userId: string, name: string, institution: string) {
-    const res = await this.$httpClient.delete(`roles/${userId}`, { name, institution })
+  public async removeRole(userId: string, name: string, institution: string, country: string) {
+    const res = await this.$httpClient.delete(`roles/${userId}`, { name, institution, country })
 
     console.log("API RES: ", res)
     if (res.status != 200) {

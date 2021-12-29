@@ -169,7 +169,6 @@ export const assignRole = (
   ): Promise<AssignRoleAction | {}> => {
     try {
       const res = await Services.assignNewRole(dni, role, institution, country);
-      console.log("Operation: ", res);
       if (res.error) {
         return dispatch({ type: Type.SET_ERROR_MSG_ADM, payload: res.error });
       }
@@ -186,13 +185,14 @@ export const assignRole = (
 export const removeRole = (
   userId: string,
   name: string,
-  institution: string
+  institution: string,
+  country: string
 ) => {
   return async (
     dispatch: Dispatch<AdminActions>
   ): Promise<RemoveRoleAction | {}> => {
     try {
-      const res = await Services.removeRole(userId, name, institution);
+      const res = await Services.removeRole(userId, name, institution, country);
       return res;
     } catch (err) {
       return dispatch({

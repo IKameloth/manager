@@ -59,8 +59,8 @@ const RolesTable = ({ isLoading, data }: Props) => {
         <RemoveRole
           roleName={params.row.name}
           userId={params.row.user.id}
-          userDni={params.row.user.dni}
           institution={params.row.institution.name}
+          country={params.row.institution.country}
         />
       ),
     },

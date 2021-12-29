@@ -5,7 +5,6 @@ import UserCard from "./UserCard";
 import NewRoleModal from "../NewRoleModal";
 import { getAllRolesByUser, getUser } from "@/app/store/admin";
 import TitleBar from "../TitleBar";
-import ShowRoles from "./ShowRoles";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { Item } from "@/app/components/Item";
 import RolesTable from "./RoleTable";
@@ -30,7 +29,6 @@ export default function UserRoles({ userId }: Props) {
   }, []);
 
   useEffect(() => {
-    console.log("update role list");
     setRolesData(rolesList);
   }, [rolesList]);
 
