@@ -1,26 +1,32 @@
 import { combineReducers } from "redux";
 import { CommonState, commonReducer } from "./common";
-import { UserState, userReducer } from "./user";
 import storage from "redux-persist/lib/storage";
 import { persistStore, persistReducer } from "redux-persist";
 import reduxThunk from "redux-thunk";
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { adminReducer, AdminState } from "./admin";
 
 const persistConfig = {
   storage,
   key: "root",
-  whitelist: ["isLoggedIn", "profile"],
+  whitelist: [
+    "isLoggedIn",
+    "profile",
+    "currentCountry",
+    "currentInstitution",
+    "rolesProfile",
+  ],
 };
 
-const persistUserConfig = {
+const persistUserConf = {
   storage,
-  key: "user",
+  key: "admin",
 };
 
 const rootReducer = combineReducers({
   common: persistReducer(persistConfig, commonReducer),
-  user: persistReducer(persistUserConfig, userReducer),
+  admin: persistReducer(persistUserConf, adminReducer),
 });
 
 const store = createStore(
@@ -33,5 +39,5 @@ export { store, persistor };
 
 export type StoreState = {
   common: CommonState;
-  user: UserState;
+  admin: AdminState;
 };

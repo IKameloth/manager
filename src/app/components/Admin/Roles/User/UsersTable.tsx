@@ -6,65 +6,80 @@ import {
   GridRowsProp,
 } from "@material-ui/data-grid";
 import { useRolesStyle } from "@/assets/Roles";
-import { CustomLoadingOverlay, RemoveRole } from "@/app/components/Admin";
+import {
+  CustomLoadingOverlay,
+  QuickSearchToolbar,
+  ShowValidate,
+  ShowAvatar,
+  ActionButtons,
+} from "@/app/components/Admin";
 
-const RolesTable = ({ data }: any) => {
+interface Props {
+  isLoading: boolean;
+  data: any;
+}
+
+const UsersTable = ({ isLoading, data }: Props) => {
   const classes = useRolesStyle();
   const dataRows: GridRowsProp = data;
+  const [searchText, setSearchText] = useState("");
   const [rows, setRows] = useState(dataRows);
   const [pageSize, setPageSize] = useState<number>(5);
 
   const columns: GridColDef[] = [
     {
       field: "name",
-      width: 200,
+      width: 300,
       align: "left",
-      headerName: "Rol",
+      headerName: "Nombre",
       disableColumnMenu: true,
       renderCell: (params: GridCellParams) => (
-        <div style={{ marginLeft: 10 }}>{params.row.name}</div>
+        <ShowAvatar name={params.row.name} />
       ),
     },
     {
-      field: "institution",
-      width: 200,
+      field: "dni",
+      width: 285,
       align: "left",
-      headerName: "Institución",
+      headerName: "Dni",
       disableColumnMenu: true,
-      renderCell: (params: GridCellParams) =>
-        params.row.institution.name === ""
-          ? "Undefined"
-          : params.row.institution.name,
+      renderCell: (params: GridCellParams) => params.row.dni,
     },
     {
-      field: "country",
+      field: "validated",
       width: 200,
       align: "left",
-      headerName: "País",
+      headerName: "Validación",
       disableColumnMenu: true,
-      renderCell: (params: GridCellParams) =>
-        params.row.institution.country === ""
-          ? "Undefined"
-          : params.row.country,
+      renderCell: (params: GridCellParams) => (
+        <ShowValidate validate={params.row.validated} />
+      ),
     },
     {
-      field: "delete",
+      field: "edit",
       width: 100,
       align: "center",
       headerAlign: "left",
-      headerName: "Remover",
+      headerName: "Editar",
       filterable: false,
       sortable: false,
       disableColumnMenu: true,
       renderCell: (params: GridCellParams) => (
-        <RemoveRole
-          roleName={params.row.name}
-          userId={params.row.id}
-          institution={params.row.institution.name}
-        />
+        <ActionButtons userId={params.row.id} />
       ),
     },
   ];
+
+  const requestSearch = (searchValue: string) => {
+    setSearchText(searchValue);
+    const filteredRows = dataRows.filter((row) => {
+      return (
+        row.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+        row.dni.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    });
+    setRows(filteredRows);
+  };
 
   useEffect(() => {
     if (rows != dataRows) {
@@ -84,16 +99,24 @@ const RolesTable = ({ data }: any) => {
       className={classes.table}
       disableSelectionOnClick
       components={{
+        Toolbar: QuickSearchToolbar,
         LoadingOverlay: CustomLoadingOverlay,
       }}
-      loading={false}
+      loading={isLoading}
       rows={rows}
       columns={columns}
       pageSize={pageSize}
       onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
       rowsPerPageOptions={[5, 10, 20]}
+      componentsProps={{
+        toolbar: {
+          value: searchText,
+          onChange: (e: any) => requestSearch(e.target.value),
+          clearSearch: () => requestSearch(""),
+        },
+      }}
     />
   );
 };
 
-export default RolesTable;
+export default UsersTable;

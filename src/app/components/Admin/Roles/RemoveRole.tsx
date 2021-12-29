@@ -3,21 +3,37 @@ import React, { useState } from "react";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import DeleteRole from "./DeleteRole";
 import { useDispatch } from "react-redux";
-import { removeRole } from "@/app/store/user/operations";
+import { getAllRolesByUser, removeRole } from "@/app/store/admin/operations";
+import { toast } from "react-hot-toast";
 
 interface Props {
   roleName: string;
   userId: string;
   institution: string;
+  country: string;
 }
 
-const RemoveRole = ({ userId, roleName, institution }: Props) => {
+const RemoveRole = ({ userId, roleName, institution, country }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatcher = useDispatch();
 
   const handleRemove = async () => {
-    console.log("remove", userId, roleName, institution);
-    await dispatcher(removeRole(userId, roleName, institution));
+    let res = await dispatcher(
+      removeRole(userId, roleName, institution, country)
+    );
+
+    if ("error" in res) {
+      toast.error("Rol no encontrado ó inválido", {
+        position: "top-center",
+        duration: 5000,
+      });
+    } else {
+      dispatcher(getAllRolesByUser(userId));
+      toast.success("Rol eliminado con éxito", {
+        position: "top-center",
+        duration: 5000,
+      });
+    }
     setIsOpen(false);
   };
 

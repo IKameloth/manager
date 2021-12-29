@@ -17,8 +17,9 @@ import {
 import EditIcon from "@material-ui/icons/Edit";
 import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import { makeStyles } from "@material-ui/styles";
-import EditUserModal from "./EditUserModal";
-import ShowDialog from "./RoleDialog";
+import EditUserModal from "../EditUserModal";
+import ShowDialog from "../RoleDialog";
+import { UserType } from "@/app/types";
 
 const useStyles = makeStyles((theme: Theme) => ({
   centered: {
@@ -50,24 +51,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface Props {
-  name: string;
-  job: string;
-  registeredDate: string;
-  institution: string;
-  email: string;
-  dni: string;
-  status: boolean;
+  userData: UserType | undefined;
 }
 
-const UserCard = (props: Props) => {
+const UserCard = ({ userData }: Props) => {
+  const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
   const [isBlock, setIsBlock] = useState(false);
 
-  const classes = useStyles();
-  const { name, job, registeredDate, institution, email } = props;
   const handleEdit = () => {
-    console.log("HanldeEdit");
-    console.log(props.dni);
     setIsOpen(!isOpen);
   };
 
@@ -75,15 +67,13 @@ const UserCard = (props: Props) => {
     setIsBlock(!isBlock);
   };
 
-  const nameTag = () => {
-    if (props.name.indexOf(" ") > 0) {
-      return `${props.name.split(" ")[0][0].toUpperCase()}${props.name
-        .split(" ")[1][0]
-        .toUpperCase()}`;
-    } else {
-      return `${props.name[0].toUpperCase()}${props.name[1].toUpperCase()}`;
-    }
-  };
+  const date = userData?.CreatedAt.substring(
+    0,
+    userData?.CreatedAt.indexOf("T")
+  )
+    .split("-")
+    .reverse()
+    .join("-");
 
   return (
     <>
@@ -111,12 +101,19 @@ const UserCard = (props: Props) => {
           <CardContent>
             <div className={classes.centered}>
               <Avatar alt="user" className={classes.avatar}>
-                {nameTag()}
+                {userData && userData.name.indexOf(" ") > 0
+                  ? `${userData.name
+                      .split(" ")[0][0]
+                      .toUpperCase()}${userData.name
+                      .split(" ")[1][0]
+                      .toUpperCase()}`
+                  : `${userData?.name[0].toUpperCase()}${userData?.name[1].toUpperCase()}`}
               </Avatar>
-              <Typography variant="h6">{name}</Typography>
-              <Typography variant="subtitle2" color="textSecondary">
-                {job}
-              </Typography>
+              <Typography variant="h6">{userData?.dni}</Typography>
+              <Typography
+                variant="subtitle2"
+                color="textSecondary"
+              ></Typography>
             </div>
             <Table className={classes.miniTable}>
               <TableHead></TableHead>
@@ -128,7 +125,7 @@ const UserCard = (props: Props) => {
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2">{registeredDate}</Typography>
+                    <Typography variant="body2">{date}</Typography>
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -138,7 +135,7 @@ const UserCard = (props: Props) => {
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2">{institution}</Typography>
+                    <Typography variant="body2">Desconocido</Typography>
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -148,14 +145,13 @@ const UserCard = (props: Props) => {
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2">
-                      {email || "No registrado"}
-                    </Typography>
+                    <Typography variant="body2">{userData?.email}</Typography>
                   </TableCell>
                 </TableRow>
               </TableBody>
             </Table>
           </CardContent>
+
           <CardActions
             disableSpacing
             style={{ justifyContent: "center", alignItems: "center" }}
@@ -181,20 +177,20 @@ const UserCard = (props: Props) => {
           </CardActions>
         </Card>
       </Grid>
-      {isOpen && (
+      {/* {isOpen && (
         <EditUserModal
           isOpen={isOpen}
           onCloseModal={handleEdit}
-          dni={props.dni}
+          dni={user?.id || ""}
         />
       )}
       {isBlock && (
         <ShowDialog
           isOpen={isBlock}
           handleCloseDialog={handleLock}
-          data={props}
+          data={user}
         />
-      )}
+      )} */}
     </>
   );
 };

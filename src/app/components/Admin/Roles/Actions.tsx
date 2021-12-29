@@ -5,10 +5,10 @@ import EditIcon from "@material-ui/icons/Edit";
 import { Link } from "react-router-dom";
 
 interface Props {
-  dni: any;
+  userId: string;
 }
 
-export default function ActionButtons(props: Props) {
+export default function ActionButtons({ userId }: Props) {
   const classes = useRolesStyle();
 
   return (
@@ -17,7 +17,7 @@ export default function ActionButtons(props: Props) {
         <FormControlLabel
           label=""
           control={
-            <Link to={`/roles/${props.dni}`}>
+            <Link to={`/roles/${userId}`}>
               <IconButton color="secondary" aria-label="editar">
                 <EditIcon style={{ color: "#3366FF" }} />
               </IconButton>

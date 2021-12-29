@@ -1,112 +1,144 @@
 import React, { MouseEvent, useEffect } from "react";
 import { SideBar } from "@/assets/SideBar/Sidebar";
-import { Typography, DialogTitle, FormControl, DialogContent, InputLabel, Select, MenuItem, DialogActions, Button } from "@material-ui/core";
+import {
+  Typography,
+  DialogTitle,
+  FormControl,
+  DialogContent,
+  InputLabel,
+  Select,
+  MenuItem,
+  DialogActions,
+  Button,
+} from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { StoreState } from "@/app/store";
-import { setCountry, setInstitution, setRoles } from "@/app/store/user";
-import { setCountries } from "@/app/store/common";
+import {
+  setCountries,
+  setCountry,
+  setInstitution,
+  setIsLoading,
+  setRoles,
+  unsetIsLoading,
+} from "@/app/store/common";
 
-type PropsType = {
-    open: boolean,
-    setOpenDialog: (state: boolean) => void
+interface Props {
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-export default function ScopeSelection(props: PropsType) {
+export default function ScopeSelection({ isOpen, onClose }: Props) {
   const dispatch = useDispatch();
   const classes = SideBar();
-  const [isLoading, setIsLoading] = React.useState(false);
+
+  const { common } = useSelector((state: StoreState) => state);
+  const {
+    currentCountry,
+    currentInstitution,
+    profile,
+    countries,
+    rolesProfile,
+  } = common;
+
   const [openDialog, setOpenDialog] = React.useState(false);
-  const [countrySelected, setCountrySelected] = React.useState('');
-  const [institutionSelected, setInstitutionSelected] = React.useState('');
-
-  const userStore = useSelector((state: StoreState) => state.user);
-  const commonStore = useSelector((state: StoreState) => state.common);
-  const { country, roles, institution } = userStore;
-  const { countries, profile } = commonStore;
+  const [countrySelected, setCountrySelected] = React.useState("");
+  const [institutionSelected, setInstitutionSelected] = React.useState("");
+  const roles = rolesProfile;
 
   useEffect(() => {
-    let controller = new AbortController();
-    (async () => {
-      try {
-        if(!isLoading && !countries){
-          setIsLoading(true)
-          await dispatch(setCountries())
-          setIsLoading(false)
-        }
-      } catch (e) { 
-        console.log("ERROR", e)
-      }
-    })();
-    return () => controller?.abort();
-  }, [countries]);
+    if (!countries) {
+      dispatch(setCountries());
+    }
+  }, []);
 
-  const setInstitutionList = async (country:string) => {
-    setIsLoading(true)
-    if (profile.userData)
-      await dispatch(setRoles( profile.userToken, profile.userData.id, country))
-    setIsLoading(false)
-  }
+  const setInstitutionList = async (country: string) => {
+    setIsLoading();
+    await dispatch(setRoles(profile.token, profile.id, country));
+    unsetIsLoading();
+  };
+
   useEffect(() => {
-    if(countries && !isLoading && countrySelected !== ''){
-      setInstitutionList(countrySelected)  
+    if (countries && countrySelected !== "") {
+      setInstitutionList(countrySelected);
     }
   }, [countrySelected]);
 
   const handleChangeSelectCountry = (event: any) => {
-    setCountrySelected(String(event.target.value) || '');
+    setCountrySelected(String(event.target.value) || "");
   };
 
   const handleChangeSelectInstitution = (event: any) => {
-    setInstitutionSelected(String(event.target.value) || '');
+    setInstitutionSelected(String(event.target.value) || "");
   };
 
-  const handleOnSubmit = async (e:MouseEvent) => {
+  const handleOnSubmit = async (e: MouseEvent) => {
     e.preventDefault();
     await dispatch(setCountry(countrySelected));
     await dispatch(setInstitution(institutionSelected));
-    props.setOpenDialog(false);
+    onClose();
   };
-  if(!props.open)
-    return <></>
 
-  return(
+  if (!isOpen) return <></>;
+
+  return (
     <>
-        <DialogTitle id="alert-dialog-title" style={{ textAlign: 'center' }}>
-          <Typography component="span" variant="h6" style={{ fontSize: 18 }}>Seleccione donde desea operar</Typography>
-        </DialogTitle>
-        <DialogContent>
-          <form className={classes.form} noValidate>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="max-width">País</InputLabel>
-              <Select value={countrySelected} onChange={handleChangeSelectCountry} >
-                {countries?.data?.map(country => <MenuItem key={country} value={country}>{country}</MenuItem>)}
-              </Select>
-            </FormControl>
+      <DialogTitle id="alert-dialog-title" style={{ textAlign: "center" }}>
+        <Typography component="span" variant="h6" style={{ fontSize: 18 }}>
+          Seleccione donde desea operar
+        </Typography>
+      </DialogTitle>
+      <DialogContent>
+        <form className={classes.form} noValidate>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="max-width">País</InputLabel>
+            <Select
+              value={countrySelected}
+              defaultValue={currentCountry}
+              onChange={handleChangeSelectCountry}
+            >
+              {countries?.data?.map((country) => (
+                <MenuItem key={country} value={country}>
+                  {country}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          {countrySelected != "" && (
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="max-width">Institución</InputLabel>
-              <Select value={institutionSelected} onChange={handleChangeSelectInstitution} >
-                {roles?.map(role => {
-                  if(role){
-                      return <MenuItem key={role.id} value={role.institution.name}>{role.institution.name}</MenuItem>
-                  }
-                })}
-                {roles.length == 0 &&
-                  <MenuItem key={'not-found'} value="">No posee instituciones en {countrySelected}</MenuItem>
-                }
+              <Select
+                value={institutionSelected}
+                onChange={handleChangeSelectInstitution}
+              >
+                {roles && roles?.length > 0 ? (
+                  roles?.map((role) => {
+                    if (role)
+                      return (
+                        <MenuItem key={role.id} value={role.institution.name}>
+                          {role.institution.name}
+                        </MenuItem>
+                      );
+                  })
+                ) : (
+                  <MenuItem key={"not-found"} value="">
+                    No posee instituciones en {countrySelected}
+                  </MenuItem>
+                )}
               </Select>
             </FormControl>
-          </form>
-        </DialogContent>
-        <DialogActions>
-          { country !== '' && institution !== '' &&
-            <Button onClick={() => setOpenDialog(false)} color="primary">
-              Cancel
-            </Button>
-          }
-          <Button onClick={handleOnSubmit} color="primary">
-            Ok
+          )}
+        </form>
+      </DialogContent>
+      <DialogActions>
+        {currentCountry !== "" && currentInstitution !== "" && (
+          <Button onClick={onClose} color="primary">
+            Cancel
           </Button>
-        </DialogActions>
+        )}
+        <Button onClick={handleOnSubmit} color="primary">
+          Ok
+        </Button>
+      </DialogActions>
     </>
   );
-};
+}
