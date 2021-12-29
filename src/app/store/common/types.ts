@@ -18,7 +18,7 @@ export type CommonState = {
   errorMessage: string
   isLoggedIn: boolean
   profile: ProfileType
-  rolesProfile?: [RoleType]
+  rolesProfile?: [RoleType?]
   countries?: CountriesType
   currentCountry: string
   currentInstitution: string

@@ -39,6 +39,7 @@ export const commonReducer = (
         profile: action.payload,
         currentInstitution: "",
         currentCountry: "",
+        rolesProfile: undefined
       };
     case Types.SET_LOGIN:
       return { ...state, isLoggedIn: true, profile: action.payload };

@@ -101,8 +101,8 @@ export const logout = () => {
         token: "",
         currentCountry: "",
         currentInstitution: "",
+        rolesProfile: [],
       },
-      rolesProfile: [],
     });
   };
 };

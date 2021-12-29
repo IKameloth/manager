@@ -22,12 +22,12 @@ import {
   unsetIsLoading,
 } from "@/app/store/common";
 
-type PropsType = {
-  open: boolean;
-  setOpenDialog: (state: boolean) => void;
-};
+interface Props {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
-export default function ScopeSelection(props: PropsType) {
+export default function ScopeSelection({ isOpen, onClose }: Props) {
   const dispatch = useDispatch();
   const classes = SideBar();
 
@@ -36,7 +36,6 @@ export default function ScopeSelection(props: PropsType) {
     currentCountry,
     currentInstitution,
     profile,
-    isLoading,
     countries,
     rolesProfile,
   } = common;
@@ -76,10 +75,10 @@ export default function ScopeSelection(props: PropsType) {
     e.preventDefault();
     await dispatch(setCountry(countrySelected));
     await dispatch(setInstitution(institutionSelected));
-    props.setOpenDialog(false);
+    onClose();
   };
 
-  if (!props.open) return <></>;
+  if (!isOpen) return <></>;
 
   return (
     <>
@@ -94,6 +93,7 @@ export default function ScopeSelection(props: PropsType) {
             <InputLabel htmlFor="max-width">País</InputLabel>
             <Select
               value={countrySelected}
+              defaultValue={currentCountry}
               onChange={handleChangeSelectCountry}
             >
               {countries?.data?.map((country) => (
@@ -131,7 +131,7 @@ export default function ScopeSelection(props: PropsType) {
       </DialogContent>
       <DialogActions>
         {currentCountry !== "" && currentInstitution !== "" && (
-          <Button onClick={() => setOpenDialog(false)} color="primary">
+          <Button onClick={onClose} color="primary">
             Cancel
           </Button>
         )}

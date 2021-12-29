@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { SideBar } from "@/assets/SideBar/Sidebar";
 import {
   Dialog,
@@ -8,14 +8,6 @@ import {
   Drawer,
   Grid,
   Typography,
-  DialogTitle,
-  FormControl,
-  DialogContent,
-  InputLabel,
-  Select,
-  MenuItem,
-  DialogActions,
-  Button,
   styled,
 } from "@material-ui/core";
 import UserMenu from "./UserMenu";
@@ -31,29 +23,32 @@ const StyledDialog = styled(Dialog)(() => ({
   },
 }));
 
-export default function Sidebar({ isSideOpen }: any) {
+interface Props {
+  isOpen: boolean;
+}
+
+export default function Sidebar({ isOpen }: Props) {
   const classes = SideBar();
-  const [openDialog, setOpenDialog] = React.useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
   const { common } = useSelector((state: StoreState) => state);
   const { currentCountry, currentInstitution, rolesProfile, profile } = common;
   const roles = rolesProfile;
   const userName = profile?.name || "Desconocido";
-  const nameLetters = userName
-    .trim()
-    .split(" ")
-    .reduce((acc: any, el: any) => acc + el.charAt(0).toUpperCase(), "")
-    .substring(0, 2);
 
   useEffect(() => {
     if (currentCountry === "" && currentInstitution === "") setOpenDialog(true);
   }, []);
+
+  const handleDialog = () => {
+    setOpenDialog(!openDialog);
+  };
 
   return (
     <Drawer
       className={classes.drawer}
       variant="persistent"
       anchor="left"
-      open={isSideOpen}
+      open={isOpen}
       classes={{
         paper: classes.drawerPaper,
       }}
@@ -65,7 +60,14 @@ export default function Sidebar({ isSideOpen }: any) {
       <Grid container className={classes.container}>
         <Grid item style={{ paddingRight: 10 }}>
           <Avatar style={{ backgroundColor: "#2962FF", width: 48, height: 48 }}>
-            {nameLetters}
+            {userName
+              .trim()
+              .split(" ")
+              .reduce(
+                (acc: any, el: any) => acc + el.charAt(0).toUpperCase(),
+                ""
+              )
+              .substring(0, 2)}
           </Avatar>
         </Grid>
         <Grid item>
@@ -103,11 +105,8 @@ export default function Sidebar({ isSideOpen }: any) {
         </ButtonBase>
       </Grid>
       {openDialog && (
-        <StyledDialog
-          open={openDialog}
-          onClose={() => setOpenDialog(!openDialog)}
-        >
-          <ScopeSelection open={openDialog} setOpenDialog={setOpenDialog} />
+        <StyledDialog open={openDialog} onClose={handleDialog}>
+          <ScopeSelection isOpen={openDialog} onClose={handleDialog} />
         </StyledDialog>
       )}
 
@@ -115,7 +114,9 @@ export default function Sidebar({ isSideOpen }: any) {
       {!!currentCountry.length && !!currentInstitution.length && <UserMenu />}
 
       {/* ADMIN MENU */}
-      {roles?.map((ele) => ele?.name).includes("Admin") && <AdminMenu />}
+      {roles?.map((ele) => ele?.name).includes("Admin") &&
+        !!currentCountry.length &&
+        !!currentInstitution.length && <AdminMenu />}
     </Drawer>
   );
 }

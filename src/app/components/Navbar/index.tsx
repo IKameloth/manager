@@ -91,7 +91,7 @@ export default function Navegation(props: Props) {
         openSync={handleSync}
       />
 
-      <Sidebar isSideOpen={isOpened} />
+      <Sidebar isOpen={isOpened} />
 
       <main
         onClick={() => setIsOpened(false)}
