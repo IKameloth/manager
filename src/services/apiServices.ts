@@ -144,8 +144,11 @@ export class ApiServicesProvider {
   }
 
   // Update User
-  public async updateUser(dni: string, name: string, email: string, password: string) {
+  public async updateUser(dni: string, name?: string, email?: string, password?: string) {
     const res = await this.$httpClient.put(`users/${dni}`, { dni, name, email, password })
+
+    console.log("SERVICES ", res)
+
     const resJson = await res.json()
     return resJson
   }

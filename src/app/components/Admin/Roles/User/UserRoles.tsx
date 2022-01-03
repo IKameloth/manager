@@ -48,7 +48,13 @@ export default function UserRoles({ userId }: Props) {
         btnText="crear rol"
         btnAction={handleCreateRoleModal}
       />
-      {!!userInfo && <UserCard userData={userInfo} />}
+      {!!userInfo && (
+        <Grid item xs={12} md={4}>
+          <Box alignItems="center" justifyContent="center" display="flex">
+            <UserCard userData={userInfo} />
+          </Box>
+        </Grid>
+      )}
       {!!rolesData && (
         <Grid item xs={12} md={8}>
           <Item>
