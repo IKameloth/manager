@@ -22,14 +22,14 @@ const RemoveRole = ({ userId, roleName, institution, country }: Props) => {
       removeRole(userId, roleName, institution, country)
     );
 
-    if ("error" in res) {
-      toast.error("Rol no encontrado ó inválido", {
+    if (typeof res === "boolean") {
+      dispatcher(getAllRolesByUser(userId));
+      toast.success("Rol eliminado con éxito!", {
         position: "top-center",
         duration: 5000,
       });
     } else {
-      dispatcher(getAllRolesByUser(userId));
-      toast.success("Rol eliminado con éxito", {
+      toast.error("Rol no encontrado ó inválido", {
         position: "top-center",
         duration: 5000,
       });
