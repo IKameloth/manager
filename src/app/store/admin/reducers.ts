@@ -18,6 +18,8 @@ export const adminReducer = (state: State = INITIAL_STATE, action: Actions) => {
       return { ...state, rolesList: action.payload };
     case Types.GET_USER:
       return { ...state, user: action.payload };
+    case Types.UPDATE_USER:
+      return { ...state, user: action.payload }
     default:
       return state;
   }

@@ -78,21 +78,21 @@ export const recoverPassword = (dni: string) => {
 
 export const updateUser = (
   dni: string,
-  name: string,
-  email: string,
-  password: string
+  name?: string,
+  email?: string,
+  password?: string
 ) => {
   return async (
     dispatch: Dispatch<AdminActions>
   ): Promise<UpdateUserAction | {}> => {
     try {
       const res = await Services.updateUser(dni, name, email, password);
-
       if (res.error) {
         return dispatch({ type: Type.SET_ERROR_MSG_ADM, payload: res.error });
       }
 
-      return dispatch({ type: Type.UPDATE_USER, payload: res.data });
+      dispatch({ type: Type.UPDATE_USER, payload: res.data });
+      return res.data
     } catch (err) {
       return dispatch({
         type: Type.SET_ERROR_MSG_ADM,

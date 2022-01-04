@@ -176,7 +176,6 @@ const NewRoleModal = ({
                   style={{ color: "#209E25" }}
                   onClick={handleSubmit(onSubmit)}
                   type="submit"
-                  variant="outlined"
                   disabled={isLoading}
                 >
                   {isLoading ? <Loader isSize={25} /> : "Registrar"}
