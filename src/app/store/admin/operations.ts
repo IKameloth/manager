@@ -87,12 +87,12 @@ export const updateUser = (
   ): Promise<UpdateUserAction | {}> => {
     try {
       const res = await Services.updateUser(dni, name, email, password);
-      console.log("OPERATION ", res)
       if (res.error) {
         return dispatch({ type: Type.SET_ERROR_MSG_ADM, payload: res.error });
       }
 
-      return dispatch({ type: Type.UPDATE_USER, payload: res.data });
+      dispatch({ type: Type.UPDATE_USER, payload: res.data });
+      return res.data
     } catch (err) {
       return dispatch({
         type: Type.SET_ERROR_MSG_ADM,

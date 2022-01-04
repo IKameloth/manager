@@ -21,6 +21,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Loader from "@/app/components/Loader";
 import { toast } from "react-hot-toast";
 import { updateUser } from "@/app/store/admin";
+import { EmailReg } from "@/app/helper/Regex";
 
 interface Props {
   isOpen: boolean;
@@ -80,6 +81,7 @@ interface Inputs {
 const EditUserModal = ({ isOpen, onClose, user }: Props) => {
   const dispatcher = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const [actualUser] = useState(user);
 
   const {
     register,
@@ -100,12 +102,18 @@ const EditUserModal = ({ isOpen, onClose, user }: Props) => {
     } else if (!email.trim().length) {
       setError("email", {
         type: "required",
-        message: "El campo Email no puede ir vacio",
+        message: "Debe ingresar un Email válido",
       });
     } else {
-      console.log(name, email);
-      // const res = await dispatcher(updateUser(name, email));
+      const res = await dispatcher(updateUser(user.dni, name.trim(), email));
+      if ("id" in res) {
+        toast.success("Datos actualizados!", { duration: 5000 });
+      } else {
+        toast.success("UPS!, algo salio mal", { duration: 7000 });
+      }
+      onClose();
     }
+    setIsLoading(false);
   };
 
   return (
@@ -169,6 +177,7 @@ const EditUserModal = ({ isOpen, onClose, user }: Props) => {
                       defaultValue={user.email}
                       {...register("email", {
                         maxLength: 50,
+                        pattern: EmailReg,
                       })}
                       error={errors.email ? true : false}
                       helperText={errors.email && errors.email.message}
@@ -182,7 +191,7 @@ const EditUserModal = ({ isOpen, onClose, user }: Props) => {
                 style={{ color: "#209E25" }}
                 onClick={handleSubmit(onSubmit)}
               >
-                Editar
+                {isLoading ? <Loader /> : "Editar"}
               </Button>
             </DialogActions>
           </BootstrapDialog>
