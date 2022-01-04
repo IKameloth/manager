@@ -193,7 +193,7 @@ export const removeRole = (
   ): Promise<RemoveRoleAction | {}> => {
     try {
       const res = await Services.removeRole(userId, name, institution, country);
-      return res;
+      return res.data;
     } catch (err) {
       return dispatch({
         type: Type.SET_ERROR_MSG_ADM,
