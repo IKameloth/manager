@@ -3,25 +3,36 @@ import { Box, Grid, Typography } from "@material-ui/core";
 import { Item } from "@/app/components/Item";
 import UsersTable from "@/app/components/Admin/Roles/User/UsersTable";
 import { useSelector, useDispatch } from "react-redux";
-import { getUsersList } from "@/app/store/admin";
+import { logout } from "@/app/store/common";
+import { cleanAdminState, getUsersList } from "@/app/store/admin";
 import { StoreState } from "@/app/store";
 
 function ShowUsers() {
   const dispatcher = useDispatch();
-  const { admin } = useSelector((state: StoreState) => state);
-  const { usersList } = admin;
+  const { admin, common } = useSelector((state: StoreState) => state);
+  const { usersList, unauthorized } = admin;
+  const { profile } = common;
   const [isLoading, setIsLoading] = useState(false);
   const [dataTable, setDataTable] = useState(usersList);
 
-  useEffect(() => {
+  const getAsyncUserList = () => {
     setIsLoading(true);
-    dispatcher(getUsersList());
+    dispatcher(getUsersList(profile.token));
     setIsLoading(false);
+  };
+
+  useEffect(() => {
+    getAsyncUserList();
   }, []);
 
   useEffect(() => {
     setDataTable(usersList);
   }, [usersList]);
+
+  if (unauthorized) {
+    dispatcher(cleanAdminState());
+    dispatcher(logout());
+  }
 
   return (
     <Grid

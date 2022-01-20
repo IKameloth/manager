@@ -9,10 +9,12 @@ import { useRolesStyle } from "@/assets/Roles";
 import {
   CustomLoadingOverlay,
   QuickSearchToolbar,
-  ShowValidate,
   ShowAvatar,
   ActionButtons,
+  ShowConfirm,
+  ShowStatus,
 } from "@/app/components/Admin";
+import { Capitalize } from "@/app/helper/Capitalize";
 
 interface Props {
   isLoading: boolean;
@@ -34,25 +36,35 @@ const UsersTable = ({ isLoading, data }: Props) => {
       headerName: "Nombre",
       disableColumnMenu: true,
       renderCell: (params: GridCellParams) => (
-        <ShowAvatar name={params.row.name} />
+        <ShowAvatar name={Capitalize(params.row.name)} />
       ),
     },
     {
       field: "dni",
-      width: 285,
+      width: 250,
       align: "left",
       headerName: "Dni",
       disableColumnMenu: true,
-      renderCell: (params: GridCellParams) => params.row.dni,
+      renderCell: (params: GridCellParams) => params.row.dni.toUpperCase(),
     },
     {
       field: "validated",
       width: 200,
       align: "left",
-      headerName: "Validación",
+      headerName: "Cta Verificada",
       disableColumnMenu: true,
       renderCell: (params: GridCellParams) => (
-        <ShowValidate validate={params.row.validated} />
+        <ShowConfirm confirm={params.row.validated} />
+      ),
+    },
+    {
+      field: "status",
+      width: 200,
+      align: "left",
+      headerName: "Estado",
+      disableColumnMenu: true,
+      renderCell: (params: GridCellParams) => (
+        <ShowStatus status={params.row.status} />
       ),
     },
     {

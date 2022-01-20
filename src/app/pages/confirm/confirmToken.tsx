@@ -54,26 +54,26 @@ const ConfirmToken = () => {
 
   const dispatch = useDispatch();
   const { common } = useSelector((state: StoreState) => state);
-  const { isLoggedIn, isLoading } = common;
+  const { isLoggedIn } = common;
 
   const status = useRef("Validando...");
   const [statusToken, setStatusToken] = useState<any>(null);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isRedirect, setIsRedirect] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    dispatch(setIsLoading());
+    setIsLoading(true);
 
     async function ValidateToken() {
       let res = await dispatch(validateTokenConfirm(token));
       setStatusToken(res);
     }
     ValidateToken();
-    dispatch(unsetIsLoading());
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
-    console.log(statusToken);
     if (statusToken?.status === 200) {
       setIsSuccess(true);
       status.current = "Validación Completa";

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Grid,
   TextField,
@@ -32,7 +32,8 @@ const FormLogin = () => {
   const classes = useStyles();
   const dispatcher = useDispatch();
   const { common } = useSelector((state: StoreState) => state);
-  const { isLoading, errorMessage } = common;
+  const { errorMessage } = common;
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const {
     register,
@@ -41,8 +42,8 @@ const FormLogin = () => {
     setError,
   } = useForm<IFormInputs>();
 
-  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
-    dispatcher(setIsLoading());
+  const onSubmit: SubmitHandler<IFormInputs> = (data) => {
+    setIsLoading(true);
     const { dni, password } = data;
 
     if (!dni.trim().length) {
@@ -50,8 +51,8 @@ const FormLogin = () => {
     } else if (!password.trim().length) {
       setError("password", { type: "manual" }, { shouldFocus: true });
     } else {
-      await dispatcher(loginRequest(dni.toUpperCase(), password));
-      dispatcher(unsetIsLoading());
+      dispatcher(loginRequest(dni.toUpperCase(), password));
+      setIsLoading(false);
     }
   };
 
@@ -71,6 +72,8 @@ const FormLogin = () => {
               type="text"
               fullWidth
               variant="outlined"
+              autoComplete="off"
+              autoFocus
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">

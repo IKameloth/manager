@@ -16,7 +16,6 @@ import Img from "@/assets/images/frame.svg";
 import ImgPlus from "@/assets/images/frameplus.svg";
 import { MotionContainer, MotionItemUp } from "@/app/components/Motion";
 import { makeStyles } from "@material-ui/core/styles";
-import { setIsLoading, unsetIsLoading } from "@/app/store/common";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import SetPassView from "./setPass";
 
@@ -55,23 +54,23 @@ const TokenValidation = () => {
   const { token } = useParams<Props>();
 
   const { common } = useSelector((state: StoreState) => state);
-  const { isLoggedIn, isLoading } = common;
+  const { isLoggedIn } = common;
 
   const stepStatus = useRef("Validando...");
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [statusToken, setStatusToken] = useState<any>(null);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isRedirect, setIsRedirect] = useState<boolean>(false);
 
   useEffect(() => {
-    dispatch(setIsLoading());
+    setIsLoading(true);
     async function ValidateToken() {
       let res = await dispatch(validateToken(token));
       setStatusToken(res);
     }
 
     ValidateToken();
-    dispatch(unsetIsLoading());
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {

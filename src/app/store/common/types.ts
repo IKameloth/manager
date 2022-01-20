@@ -1,3 +1,4 @@
+import { InstitutionType } from "@/app/types/InstitutionType";
 import { CountriesType, ProfileType, RoleType } from "src/app/types";
 
 export enum CommonTypes {
@@ -11,15 +12,19 @@ export enum CommonTypes {
   SET_INSTITUTION_PROFILE = "SET_INSTITUTION_PROFILE",
   SET_ROLES_PROFILE = "SET_ROLES_PROFILE",
   SET_COUNTRIES = "SET_COUNTRIES",
-};
+  SET_INSTITUTIONS_LIST = "SET_INSTITUTIONS_LIST",
+  UNAUTHORIZED = "UNAUTHORIZED",
+  GET_SENSOR = "GET_SENSOR",
+}
 
 export type CommonState = {
-  isLoading: boolean
-  errorMessage: string
-  isLoggedIn: boolean
-  profile: ProfileType
-  rolesProfile?: [RoleType?]
-  countries?: CountriesType
-  currentCountry: string
-  currentInstitution: string
+  errorMessage: string;
+  isLoggedIn: boolean;
+  profile: ProfileType;
+  currentCountry: string;
+  currentInstitution: string;
+  rolesProfile?: [RoleType?];
+  countries?: CountriesType;
+  institutions?: [InstitutionType];
+  unauthorized: boolean;
 };

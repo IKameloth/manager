@@ -5,7 +5,6 @@ import {
 } from "./";
 
 const INITIAL_STATE: State = {
-  isLoading: false,
   errorMessage: "",
   isLoggedIn: false,
   profile: {
@@ -15,10 +14,12 @@ const INITIAL_STATE: State = {
     name: "",
     email: "",
     validated: false,
+    status: true,
     token: "",
   },
   currentInstitution: "",
   currentCountry: "",
+  unauthorized: false,
 };
 
 export const commonReducer = (
@@ -39,7 +40,9 @@ export const commonReducer = (
         profile: action.payload,
         currentInstitution: "",
         currentCountry: "",
-        rolesProfile: undefined
+        rolesProfile: undefined,
+        unauthorized: false,
+        errorMessage: "",
       };
     case Types.SET_LOGIN:
       return { ...state, isLoggedIn: true, profile: action.payload };
@@ -51,6 +54,10 @@ export const commonReducer = (
       return { ...state, countries: action.payload };
     case Types.SET_ROLES_PROFILE:
       return { ...state, rolesProfile: action.payload };
+    case Types.SET_INSTITUTIONS_LIST:
+      return { ...state, institutions: action.payload };
+    case Types.UNAUTHORIZED:
+      return { ...state, unauthorized: action.payload };
     default:
       return state;
   }

@@ -11,9 +11,10 @@ import { CustomLoadingOverlay, RemoveRole } from "@/app/components/Admin";
 interface Props {
   isLoading: boolean;
   data: any;
+  token: string;
 }
 
-const RolesTable = ({ isLoading, data }: Props) => {
+const RolesTable = ({ isLoading, data, token }: Props) => {
   const classes = useRolesStyle();
   const dataRows: GridRowsProp = data;
   const [rows, setRows] = useState(dataRows);
@@ -61,6 +62,7 @@ const RolesTable = ({ isLoading, data }: Props) => {
           userId={params.row.user.id}
           institution={params.row.institution.name}
           country={params.row.institution.country}
+          token={token}
         />
       ),
     },

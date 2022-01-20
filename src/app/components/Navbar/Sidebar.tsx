@@ -16,6 +16,7 @@ import RoleNames from "./RoleNames";
 import ScopeSelection from "./ScopeSelection";
 import { useSelector } from "react-redux";
 import { StoreState } from "@/app/store";
+import { Capitalize } from "@/app/helper/Capitalize";
 
 const StyledDialog = styled(Dialog)(() => ({
   "& .MuiPaper-root": {
@@ -71,8 +72,8 @@ export default function Sidebar({ isOpen }: Props) {
           </Avatar>
         </Grid>
         <Grid item>
-          <Typography variant="subtitle1">{userName}</Typography>
-          <RoleNames rolesArr={roles} />
+          <Typography variant="subtitle1">{Capitalize(userName)}</Typography>
+          {roles != undefined && <RoleNames rolesArr={roles} />}
         </Grid>
       </Grid>
 

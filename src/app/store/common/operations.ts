@@ -7,6 +7,7 @@ import {
   SetRolesAction,
 } from "./actions";
 import { ApiServicesProvider } from "../../../services/apiServices";
+import { SetInstitutionsListAction } from ".";
 const $Services = new ApiServicesProvider();
 
 export const setIsLoading = () => {
@@ -54,30 +55,25 @@ export const loginRequest = (userDni: string, password: string) => {
     try {
       const res = await $Services.sendLoginRequest(password, userDni);
 
-      const result = {
-        id: res.user.id,
-        CreatedAt: res.user.CreatedAt,
-        name: res.user.name,
-        email: res.user.email,
-        dni: res.user.dni,
-        validated: res.user.validated,
-        token: res.token,
-      };
-
       if (res.error) {
         return dispatch({
           type: Type.SET_ERROR_MESSAGE,
           payload: res.error,
         });
+      } else {
+        const result = {
+          id: res.user.id,
+          CreatedAt: res.user.CreatedAt,
+          name: res.user.name,
+          email: res.user.email,
+          dni: res.user.dni,
+          validated: res.user.validated,
+          status: res.user.status,
+          token: res.token,
+        };
+
+        return dispatch({ type: Type.SET_LOGIN, payload: result });
       }
-
-      if (!res.user.validated)
-        return dispatch({
-          type: Type.SET_ERROR_MESSAGE,
-          payload: "Debe confirmar su cuenta antes de continuar",
-        });
-
-      return dispatch({ type: Type.SET_LOGIN, payload: result });
     } catch (err) {
       return dispatch({
         type: Type.SET_ERROR_MESSAGE,
@@ -99,6 +95,7 @@ export const logout = () => {
         email: "",
         validated: false,
         token: "",
+        status: true,
         currentCountry: "",
         currentInstitution: "",
         rolesProfile: [],
@@ -107,14 +104,17 @@ export const logout = () => {
   };
 };
 
-export const setCountries = () => {
+export const setCountries = (token: string) => {
   return async (
     dispatch: Dispatch<CommonActions>
   ): Promise<SetCountriesAction | false | {}> => {
     try {
-      const resp = await $Services.getCountries();
+      const resp = await $Services.getCountries(token);
 
       if (resp.error) {
+        if (resp.status === 401) {
+          dispatch({ type: Type.UNAUTHORIZED, payload: true });
+        }
         return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: resp.error });
       }
 
@@ -128,11 +128,36 @@ export const setCountries = () => {
   };
 };
 
-export const setRoles = (token: string, userID: string, country: string) => {
+// GET LIST INSTITUTIONS
+export const setInstitList = (country: string, token: string) => {
+  return async (
+    dispatch: Dispatch<CommonActions>
+  ): Promise<SetInstitutionsListAction | {}> => {
+    try {
+      const resp = await $Services.getInstitutions(country, token);
+
+      if (resp.error) {
+        if (resp.status === 401) {
+          dispatch({ type: Type.UNAUTHORIZED, payload: true });
+        }
+        return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: resp });
+      }
+
+      return dispatch({ type: Type.SET_INSTITUTIONS_LIST, payload: resp.data });
+    } catch (err) {
+      return dispatch({
+        type: Type.SET_ERROR_MESSAGE,
+        payload: "Imposible conectar con servicios de Autentia",
+      });
+    }
+  };
+};
+
+export const setRoles = (userID: string, country: string, token: string) => {
   return async (
     dispatch: Dispatch<CommonActions>
   ): Promise<SetRolesAction | false | {}> => {
-    const response = await $Services.getRoles(userID, country);
+    const response = await $Services.getRoles(userID, country, token);
     if (response.data)
       return dispatch({ type: Type.SET_ROLES_PROFILE, payload: response.data });
     return [];
