@@ -88,8 +88,9 @@ const BootstrapDialogTitle = (props: DialogTitleProps) => {
 const NewUserModal = ({ isOpen, closeModal }: Props) => {
   const dispatcher = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const { admin } = useSelector((state: StoreState) => state);
+  const { admin, common } = useSelector((state: StoreState) => state);
   const { errorMessage } = admin;
+  const { profile } = common;
 
   const {
     register,
@@ -109,10 +110,10 @@ const NewUserModal = ({ isOpen, closeModal }: Props) => {
     } else if (!email.trim().length) {
       setError("email", { type: "manual" }, { shouldFocus: true });
     } else {
-      const res = await dispatcher(createUser(name, dni, email));
+      const res = await dispatcher(createUser(name, dni, email, profile.token));
 
       if ("id" in res) {
-        dispatcher(getUsersList());
+        dispatcher(getUsersList(profile.token));
         toast.success("Usuario registrado", { duration: 7000 }) && closeModal();
       }
     }

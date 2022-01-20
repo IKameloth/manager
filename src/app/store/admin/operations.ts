@@ -10,18 +10,22 @@ import {
   AdminActions,
   ConfirmAccountAction,
   GetAllRolesByUser,
+  CleanAdminStateAction,
 } from "./actions";
 import { AssignRoleAction, RemoveRoleAction } from ".";
 
 const Services = new ApiServicesProvider();
 
-export const getUsersList = () => {
+export const getUsersList = (token: string) => {
   return async (
     dispatch: Dispatch<AdminActions>
-  ): Promise<GetUsersListAction | {}> => {
-    const resp = await Services.getUsers();
+  ): Promise<GetUsersListAction> => {
+    const resp = await Services.getUsers(token);
 
     if (resp.error) {
+      if (resp.status === 401) {
+        dispatch({ type: Type.UNAUTHORIZED, payload: true });
+      }
       dispatch({ type: Type.SET_ERROR_MSG_ADM, payload: resp.error });
     }
 
@@ -29,13 +33,21 @@ export const getUsersList = () => {
   };
 };
 
-export const createUser = (name: string, dni: string, email: string) => {
+export const createUser = (
+  name: string,
+  dni: string,
+  email: string,
+  token: string
+) => {
   return async (
     dispatch: Dispatch<AdminActions>
   ): Promise<CreateUserAction | {}> => {
-    const res = await Services.postUser(name, dni, email);
+    const res = await Services.postUser(name, dni, email, token);
 
     if (res.error) {
+      if (res.status === 401) {
+        dispatch({ type: Type.UNAUTHORIZED, payload: true });
+      }
       return dispatch({
         type: Type.SET_ERROR_MSG_ADM,
         payload: "Usuario ya se encuentra registrado",
@@ -46,9 +58,14 @@ export const createUser = (name: string, dni: string, email: string) => {
   };
 };
 
-export const getUser = (dni: string) => {
+export const getUser = (dni: string, token: string) => {
   return async (dispatch: Dispatch<AdminActions>): Promise<GetUserAction> => {
-    const res = await Services.getUser(dni);
+    const res = await Services.getUser(dni, token);
+
+    if (res.status === 401) {
+      dispatch({ type: Type.UNAUTHORIZED, payload: true });
+    }
+
     if (res.data) {
       return dispatch({ type: Type.GET_USER, payload: res.data });
     } else {
@@ -78,6 +95,7 @@ export const recoverPassword = (dni: string) => {
 
 export const updateUser = (
   dni: string,
+  token: string,
   name?: string,
   email?: string,
   password?: string
@@ -86,13 +104,41 @@ export const updateUser = (
     dispatch: Dispatch<AdminActions>
   ): Promise<UpdateUserAction | {}> => {
     try {
-      const res = await Services.updateUser(dni, name, email, password);
+      const res = await Services.updateUser(dni, token, name, email, password);
       if (res.error) {
+        if (res.status === 401) {
+          dispatch({ type: Type.UNAUTHORIZED, payload: true });
+        }
         return dispatch({ type: Type.SET_ERROR_MSG_ADM, payload: res.error });
       }
 
       dispatch({ type: Type.UPDATE_USER, payload: res.data });
-      return res.data
+      return res.data;
+    } catch (err) {
+      return dispatch({
+        type: Type.SET_ERROR_MSG_ADM,
+        payload: "Ocurrió un problema, intentelo de nuevo más tarde",
+      });
+    }
+  };
+};
+
+export const banUser = (dni: string, status: boolean, token: string) => {
+  return async (
+    dispatch: Dispatch<AdminActions>
+  ): Promise<UpdateUserAction | {}> => {
+    try {
+      const res = await Services.banUser(dni, status, token);
+
+      if (res.error) {
+        if (res.status === 401) {
+          dispatch({ type: Type.UNAUTHORIZED, payload: true });
+        }
+        return dispatch({ type: Type.SET_ERROR_MSG_ADM, payload: res.error });
+      }
+
+      dispatch({ type: Type.UPDATE_USER, payload: res.data });
+      return res.data;
     } catch (err) {
       return dispatch({
         type: Type.SET_ERROR_MSG_ADM,
@@ -136,6 +182,9 @@ export const userConfirm = (password: string, token: string) => {
       const res = await Services.confirmUser(password, token);
 
       if (res.error) {
+        if (res.status === 401) {
+          dispatch({ type: Type.UNAUTHORIZED, payload: true });
+        }
         return dispatch({ type: Type.SET_ERROR_MSG_ADM, payload: res.error });
       }
 
@@ -149,11 +198,14 @@ export const userConfirm = (password: string, token: string) => {
   };
 };
 
-export const getAllRolesByUser = (userId: string) => {
+export const getAllRolesByUser = (userId: string, token: string) => {
   return async (
     dispatch: Dispatch<AdminActions>
   ): Promise<GetAllRolesByUser> => {
-    const resp = await Services.getRolesByUserId(userId);
+    const resp = await Services.getRolesByUserId(userId, token);
+    if (resp.status === 401) {
+      dispatch({ type: Type.UNAUTHORIZED, payload: true });
+    }
     return dispatch({ type: Type.GET_ROLES_BY_USER, payload: resp });
   };
 };
@@ -162,14 +214,24 @@ export const assignRole = (
   dni: string,
   role: string,
   institution: string,
-  country: string
+  country: string,
+  token: string
 ) => {
   return async (
     dispatch: Dispatch<AdminActions>
   ): Promise<AssignRoleAction | {}> => {
     try {
-      const res = await Services.assignNewRole(dni, role, institution, country);
+      const res = await Services.assignNewRole(
+        dni,
+        role,
+        institution,
+        country,
+        token
+      );
       if (res.error) {
+        if (res.status === 401) {
+          dispatch({ type: Type.UNAUTHORIZED, payload: true });
+        }
         return dispatch({ type: Type.SET_ERROR_MSG_ADM, payload: res.error });
       }
       return dispatch({ type: Type.GET_USER, payload: res.data });
@@ -186,13 +248,25 @@ export const removeRole = (
   userId: string,
   name: string,
   institution: string,
-  country: string
+  country: string,
+  token: string
 ) => {
   return async (
     dispatch: Dispatch<AdminActions>
   ): Promise<RemoveRoleAction | {}> => {
     try {
-      const res = await Services.removeRole(userId, name, institution, country);
+      const res = await Services.removeRole(
+        userId,
+        name,
+        institution,
+        country,
+        token
+      );
+
+      if (res.status === 401) {
+        dispatch({ type: Type.UNAUTHORIZED, payload: true });
+      }
+
       return res.data;
     } catch (err) {
       return dispatch({
@@ -200,5 +274,13 @@ export const removeRole = (
         payload: "Imposible conectar con los servicios de Autentia",
       });
     }
+  };
+};
+
+export const cleanAdminState = () => {
+  return (dispatch: Dispatch): CleanAdminStateAction => {
+    return dispatch({
+      type: Type.CLEAN_ADMIN_STATE,
+    });
   };
 };

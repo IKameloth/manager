@@ -6,6 +6,7 @@ import {
 
 const INITIAL_STATE: State = {
   errorMessage: "",
+  unauthorized: false,
 };
 
 export const adminReducer = (state: State = INITIAL_STATE, action: Actions) => {
@@ -19,7 +20,18 @@ export const adminReducer = (state: State = INITIAL_STATE, action: Actions) => {
     case Types.GET_USER:
       return { ...state, user: action.payload };
     case Types.UPDATE_USER:
-      return { ...state, user: action.payload }
+      return { ...state, user: action.payload };
+    case Types.CLEAN_ADMIN_STATE:
+      return {
+        ...state,
+        usersList: undefined,
+        rolesList: undefined,
+        user: undefined,
+        errorMessage: "",
+        unauthorized: false,
+      };
+    case Types.UNAUTHORIZED:
+      return { ...state, unauthorized: action.payload };
     default:
       return state;
   }

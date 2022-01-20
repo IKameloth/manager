@@ -17,9 +17,7 @@ import {
   setCountries,
   setCountry,
   setInstitution,
-  setIsLoading,
   setRoles,
-  unsetIsLoading,
 } from "@/app/store/common";
 
 interface Props {
@@ -40,21 +38,21 @@ export default function ScopeSelection({ isOpen, onClose }: Props) {
     rolesProfile,
   } = common;
 
-  const [openDialog, setOpenDialog] = React.useState(false);
   const [countrySelected, setCountrySelected] = React.useState("");
   const [institutionSelected, setInstitutionSelected] = React.useState("");
+  const [countryList, setCountryList] = React.useState(countries?.data);
   const roles = rolesProfile;
 
   useEffect(() => {
-    if (!countries) {
-      dispatch(setCountries());
-    }
+    dispatch(setCountries(profile.token));
   }, []);
 
-  const setInstitutionList = async (country: string) => {
-    setIsLoading();
-    await dispatch(setRoles(profile.token, profile.id, country));
-    unsetIsLoading();
+  useEffect(() => {
+    setCountryList(countries?.data);
+  }, [countries]);
+
+  const setInstitutionList = (country: string) => {
+    dispatch(setRoles(profile.id, country, profile.token));
   };
 
   useEffect(() => {
@@ -71,10 +69,10 @@ export default function ScopeSelection({ isOpen, onClose }: Props) {
     setInstitutionSelected(String(event.target.value) || "");
   };
 
-  const handleOnSubmit = async (e: MouseEvent) => {
+  const handleOnSubmit = (e: MouseEvent) => {
     e.preventDefault();
-    await dispatch(setCountry(countrySelected));
-    await dispatch(setInstitution(institutionSelected));
+    dispatch(setCountry(countrySelected));
+    dispatch(setInstitution(institutionSelected));
     onClose();
   };
 
@@ -96,11 +94,17 @@ export default function ScopeSelection({ isOpen, onClose }: Props) {
               defaultValue={currentCountry}
               onChange={handleChangeSelectCountry}
             >
-              {countries?.data?.map((country) => (
-                <MenuItem key={country} value={country}>
-                  {country}
+              {countryList != undefined && countryList.length > 0 ? (
+                countryList.map((country) => (
+                  <MenuItem key={country} value={country}>
+                    {country}
+                  </MenuItem>
+                ))
+              ) : (
+                <MenuItem key={"not-found"} value="">
+                  No posee Países disponibles
                 </MenuItem>
-              ))}
+              )}
             </Select>
           </FormControl>
           {countrySelected != "" && (

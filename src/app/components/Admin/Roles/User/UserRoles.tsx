@@ -3,11 +3,13 @@ import { StoreState } from "@/app/store";
 import { useSelector, useDispatch } from "react-redux";
 import UserCard from "./UserCard";
 import NewRoleModal from "../NewRoleModal";
-import { getAllRolesByUser, getUser } from "@/app/store/admin";
+import { getAllRolesByUser } from "@/app/store/admin";
 import TitleBar from "../TitleBar";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { Item } from "@/app/components/Item";
 import RolesTable from "./RoleTable";
+import { setCountries, setInstitList } from "@/app/store/common/operations";
+import Loader from "@/app/components/Loader";
 
 interface Props {
   userId: string;
@@ -16,28 +18,36 @@ interface Props {
 export default function UserRoles({ userId }: Props) {
   const dispatcher = useDispatch();
   const { admin, common } = useSelector((state: StoreState) => state);
-  const { rolesList, user } = admin;
-  const { currentCountry, currentInstitution } = common;
+  const { rolesList } = admin;
+  const { institutions, countries, profile, currentCountry } = common;
 
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [rolesData, setRolesData] = useState(rolesList);
-  const [userInfo, setUserInfo] = useState(user);
+  const [isLoading, setIsLoading] = useState(false);
+  const [userInfo, setUserInfo] = useState({});
+
+  const getAllDataUser = () => {
+    setIsLoading(true);
+    dispatcher(getAllRolesByUser(userId, profile.token));
+    dispatcher(setCountries(profile.token));
+    dispatcher(setInstitList(currentCountry, profile.token));
+    setIsLoading(false);
+  };
 
   useEffect(() => {
-    dispatcher(getUser(userId));
-    dispatcher(getAllRolesByUser(userId));
+    getAllDataUser();
   }, []);
 
   useEffect(() => {
     setRolesData(rolesList);
   }, [rolesList]);
 
-  useEffect(() => {
-    setUserInfo(user);
-  }, [user]);
-
   const handleCreateRoleModal = () => {
     setIsOpenModal(!isOpenModal);
+  };
+
+  const handleUserInfo = (userData: any) => {
+    setUserInfo(userData);
   };
 
   return (
@@ -48,36 +58,50 @@ export default function UserRoles({ userId }: Props) {
         btnText="crear rol"
         btnAction={handleCreateRoleModal}
       />
-      {!!userInfo && (
-        <Grid item xs={12} md={4}>
-          <Box alignItems="center" justifyContent="center" display="flex">
-            <UserCard userData={userInfo} />
-          </Box>
-        </Grid>
-      )}
-      {!!rolesData && (
-        <Grid item xs={12} md={8}>
-          <Item>
-            {!rolesData?.length ? (
-              <Box alignItems="center" justifyContent="center" display="flex">
-                <Typography variant="subtitle1">
-                  No se encuentran registros
-                </Typography>
-              </Box>
-            ) : (
-              <RolesTable isLoading={false} data={rolesData} />
-            )}
-          </Item>
-        </Grid>
-      )}
+      <Grid item xs={12} md={4}>
+        <Box alignItems="center" justifyContent="center" display="flex">
+          <UserCard
+            userID={userId}
+            token={profile.token}
+            returnUser={handleUserInfo}
+          />
+        </Box>
+      </Grid>
+      <Grid item xs={12} md={8}>
+        <Item>
+          {isLoading ? (
+            <Box
+              alignItems="center"
+              justifyContent="center"
+              display="flex"
+              height={455}
+            >
+              <Loader />
+            </Box>
+          ) : !rolesData?.length ? (
+            <Box alignItems="center" justifyContent="center" display="flex">
+              <Typography variant="subtitle1">
+                No se encuentran registros
+              </Typography>
+            </Box>
+          ) : (
+            <RolesTable
+              isLoading={isLoading}
+              data={rolesData}
+              token={profile.token}
+            />
+          )}
+        </Item>
+      </Grid>
       {isOpenModal && (
         <NewRoleModal
           isOpen={isOpenModal}
-          country={currentCountry}
-          institution={currentInstitution}
-          userDni={userInfo?.dni}
-          userId={userId}
+          countryList={countries}
+          institList={institutions}
+          userInfo={userInfo}
           onCloseModal={handleCreateRoleModal}
+          rolesData={rolesData}
+          token={profile.token}
         />
       )}
     </>

@@ -13,7 +13,7 @@ import FooterContent from "@/app/components/Login/Footer";
 
 const RecoverPass = () => {
   const classes = useStyles();
-  const { common, admin } = useSelector((state: StoreState) => state);
+  const { common } = useSelector((state: StoreState) => state);
   const { isLoggedIn } = common;
   const viewMobile = useMediaQuery("(max-width:425px)"); // mobile
   const viewTablet = useMediaQuery("(max-width:959px)"); // tablet

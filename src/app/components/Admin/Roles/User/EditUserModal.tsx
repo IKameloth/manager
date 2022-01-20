@@ -27,6 +27,7 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   user: any;
+  token: string;
 }
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -78,10 +79,9 @@ interface Inputs {
   email: string;
 }
 
-const EditUserModal = ({ isOpen, onClose, user }: Props) => {
+const EditUserModal = ({ isOpen, onClose, user, token }: Props) => {
   const dispatcher = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const [actualUser] = useState(user);
 
   const {
     register,
@@ -105,7 +105,9 @@ const EditUserModal = ({ isOpen, onClose, user }: Props) => {
         message: "Debe ingresar un Email válido",
       });
     } else {
-      const res = await dispatcher(updateUser(user.dni, name.trim(), email));
+      const res = await dispatcher(
+        updateUser(user.dni, token, name.trim(), email)
+      );
       if ("id" in res) {
         toast.success("Datos actualizados!", { duration: 5000 });
       } else {

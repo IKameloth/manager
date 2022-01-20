@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, Switch, Route, Redirect } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import { ProtectedRoute } from "./components/ProtectedRoute";
+import { ProtectedRoute } from "./routes/ProtectedRoute";
+import RequireRole from "./routes/RequireRole";
 
 const HealthCheck = React.lazy(() => import("./pages/healthCheck"));
 const Home = React.lazy(() => import("./pages/home"));
@@ -18,6 +19,7 @@ const ValidateAccountToken = React.lazy(
 );
 const RecoverPass = React.lazy(() => import("./pages/recover/recoverPass"));
 const NotFound = React.lazy(() => import("./pages/notFound/index"));
+const ShowSensor = React.lazy(() => import("./pages/sensors/MainSensor"));
 
 export default function App() {
   const location = useLocation();
@@ -37,6 +39,7 @@ export default function App() {
   return (
     <React.Suspense fallback={null}>
       <Switch location={location} key={key}>
+        {/* Gral Route */}
         <Route path="/healthz" render={() => <HealthCheck />} />
         <Route exact path="/login" render={() => <Login />} />
         <Route exact path="/recover" render={() => <RecoverPass />} />
@@ -50,21 +53,27 @@ export default function App() {
           path="/recovery/:token"
           render={() => <TokenValidation />}
         />
+
         <Navbar>
           <Route exact path="/" render={() => <Home />} />
           <Route exact path="/home" render={() => <Home />} />
-          <ProtectedRoute exact path="/roles" render={() => <Roles />} />
-          <ProtectedRoute
-            exact
-            path="/roles/:userId"
-            render={() => <RolesDetail />}
-          />
-          <ProtectedRoute exact path="/people" render={() => <People />} />
-          <ProtectedRoute
-            exact
-            path="/institutions"
-            render={() => <Institutions />}
-          />
+
+          <ProtectedRoute exact path="/sensor" render={() => <ShowSensor />} />
+          {/* AdminRoute */}
+          <RequireRole>
+            <ProtectedRoute exact path="/roles" render={() => <Roles />} />
+            <ProtectedRoute
+              exact
+              path="/roles/:userId"
+              render={() => <RolesDetail />}
+            />
+            <ProtectedRoute exact path="/people" render={() => <People />} />
+            <ProtectedRoute
+              exact
+              path="/institutions"
+              render={() => <Institutions />}
+            />
+          </RequireRole>
         </Navbar>
         <Route path="*" render={() => <NotFound />} />
       </Switch>

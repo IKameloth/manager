@@ -12,11 +12,13 @@ export enum AdminTypes {
   CONFIRM_USER = "CONFIRM_USER",
   GET_ROLES_BY_USER = "GET_ROLES_BY_USER",
   CLEAN_ADMIN_STATE = "CLEAN_ADMIN_STATE",
+  UNAUTHORIZED = "UNAUTHORIZED",
 }
 
 export type AdminState = {
   usersList?: [UserType?];
   rolesList?: [RoleType?];
-  user?: UserType
+  user?: UserType;
   errorMessage: string;
+  unauthorized?: boolean;
 };

@@ -4,7 +4,6 @@ import { Box, Grid, Typography } from "@material-ui/core";
 import NotFoundImage from "@/assets/images/not-found.svg";
 
 const NotFound = () => {
-  console.log("404");
   return (
     <Grid container spacing={2}>
       <MotionContainer>

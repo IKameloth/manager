@@ -8,4 +8,5 @@ export type ProfileType = {
   dni: string;
   validated: boolean;
   token: string;
+  status: boolean;
 };

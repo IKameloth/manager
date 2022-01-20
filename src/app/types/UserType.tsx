@@ -10,4 +10,5 @@ export type UserType = {
   email: string;
   validated: boolean;
   roles?: [RoleType];
+  status: boolean;
 };

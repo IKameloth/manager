@@ -51,7 +51,15 @@ export interface GetAllRolesByUser extends Action<Type.GET_ROLES_BY_USER> {
   payload: [RoleType?];
 }
 
+export interface CleanAdminStateAction extends Action<Type.CLEAN_ADMIN_STATE> {}
+
+export interface UnauthorizedAction extends Action<Type.UNAUTHORIZED> {
+  payload: boolean;
+}
+
 export type AdminActions =
+  | UnauthorizedAction
+  | CleanAdminStateAction
   | GetAllRolesByUser
   | ConfirmAccountAction
   | CreateUserAction

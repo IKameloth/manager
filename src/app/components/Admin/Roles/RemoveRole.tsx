@@ -11,19 +11,26 @@ interface Props {
   userId: string;
   institution: string;
   country: string;
+  token: string;
 }
 
-const RemoveRole = ({ userId, roleName, institution, country }: Props) => {
+const RemoveRole = ({
+  userId,
+  roleName,
+  institution,
+  country,
+  token,
+}: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatcher = useDispatch();
 
   const handleRemove = async () => {
     let res = await dispatcher(
-      removeRole(userId, roleName, institution, country)
+      removeRole(userId, roleName, institution, country, token)
     );
 
     if (typeof res === "boolean") {
-      dispatcher(getAllRolesByUser(userId));
+      dispatcher(getAllRolesByUser(userId, token));
       toast.success("Rol eliminado con éxito!", {
         position: "top-center",
         duration: 5000,

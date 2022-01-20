@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { StoreState } from "src/app/store";
 import { useHomeStyles } from "../../../assets/Home";
 import Section from "@/app/components/Section";
+import { Capitalize } from "@/app/helper/Capitalize";
 
 export default function Home() {
   const classes = useHomeStyles();
@@ -26,7 +27,9 @@ export default function Home() {
             <Grid container className={classes.container} spacing={2}>
               <Grid item xs>
                 <Typography variant="h4">Bienvenido</Typography>
-                <Typography variant="h6">{profile?.name}</Typography>
+                <Typography variant="h6">
+                  {Capitalize(profile?.name)}
+                </Typography>
                 <Typography variant="body1" style={{ marginTop: "6px" }}>
                   Recuerda seleccionar el país y la institución donde necesites
                   operar.
