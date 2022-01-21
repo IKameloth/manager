@@ -27,10 +27,6 @@ export const commonReducer = (
   action: Actions
 ) => {
   switch (action.type) {
-    case Types.SET_IS_LOADING:
-      return { ...state, isLoading: true };
-    case Types.UNSET_IS_LOADING:
-      return { ...state, isLoading: false };
     case Types.SET_ERROR_MESSAGE:
       return { ...state, errorMessage: action.payload };
     case Types.LOGOUT:

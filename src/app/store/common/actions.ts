@@ -4,10 +4,6 @@ import { ProfileType } from "@/app/types/ProfileType";
 import { CountriesType, RoleType } from "@/app/types";
 import { InstitutionType } from "@/app/types/InstitutionType";
 
-export interface SetIsLoadingAction extends Action<Type.SET_IS_LOADING> {}
-
-export interface UnsetIsLoadingAction extends Action<Type.UNSET_IS_LOADING> {}
-
 export interface SetLoginAction extends Action<Type.SET_LOGIN> {
   payload: ProfileType;
 }
@@ -53,8 +49,6 @@ export type CommonActions =
   | SetCountryAction
   | SetRolesAction
   | SetCountriesAction
-  | SetIsLoadingAction
-  | UnsetIsLoadingAction
   | SetErrorMessageAction
   | SetLoginAction
   | LogoutAction;

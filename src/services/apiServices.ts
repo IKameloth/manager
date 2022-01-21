@@ -222,7 +222,6 @@ export class ApiServicesProvider {
   // Validate User Token
   public async validateToken(token: string) {
     const res = await this.$httpClient.post("users/validate", { token });
-    console.log(res);
     if (res.status === 404) {
       return { error: "Token expirado o invalido", status: res.status };
     }

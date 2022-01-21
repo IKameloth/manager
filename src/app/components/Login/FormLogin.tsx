@@ -11,15 +11,10 @@ import { MotionRightItem } from "../Motion";
 import { useStyles } from "@/assets/login";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  loginRequest,
-  setErrorMessage,
-  setIsLoading,
-  unsetIsLoading,
-} from "@/app/store/common/operations";
+import { loginRequest, setErrorMessage } from "@/app/store/common/operations";
 import { DniReg } from "@/app/helper/Regex";
 import Loader from "@/app/components/Loader";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { StoreState } from "@/app/store";
 import ErrorAlert from "../ErrorAlert";
 
@@ -42,7 +37,7 @@ const FormLogin = () => {
     setError,
   } = useForm<IFormInputs>();
 
-  const onSubmit: SubmitHandler<IFormInputs> = (data) => {
+  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     setIsLoading(true);
     const { dni, password } = data;
 
@@ -51,9 +46,12 @@ const FormLogin = () => {
     } else if (!password.trim().length) {
       setError("password", { type: "manual" }, { shouldFocus: true });
     } else {
-      dispatcher(loginRequest(dni.toUpperCase(), password));
-      setIsLoading(false);
+      let res: any = await dispatcher(
+        loginRequest(dni.toUpperCase(), password)
+      );
+      if (res.type != "SET_ERROR_MESSAGE") return <Redirect to="/" />;
     }
+    setIsLoading(false);
   };
 
   const handleCloseError = () => {
