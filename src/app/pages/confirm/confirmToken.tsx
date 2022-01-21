@@ -16,7 +16,6 @@ import Img from "@/assets/images/frame.svg";
 import ImgPlus from "@/assets/images/frameplus.svg";
 import { MotionContainer, MotionItemUp } from "@/app/components/Motion";
 import { makeStyles } from "@material-ui/core/styles";
-import { setIsLoading, unsetIsLoading } from "@/app/store/common";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import SetPassView from "../recover/setPass";
 

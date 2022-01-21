@@ -124,10 +124,22 @@ const NewRoleModal = ({
         message: "Debe seleccionar un País",
       });
     } else {
-      const institutionExists: [string] = rolesData.map(
-        (item: any) => item.institution.name
+      const arrExists: [{ instit: string; country: string }] = rolesData.map(
+        (item: any) => {
+          return {
+            instit: item.institution.name,
+            country: item.institution.country,
+          };
+        }
       );
-      const result = institutionExists.includes(institSelected);
+
+      const actualObj: any = {
+        instit: institSelected,
+        country: countrySelected,
+      };
+      const result = arrExists.some((item: any) =>
+        Object.keys(item).every((p: any) => item[p] === actualObj[p])
+      );
 
       if (userInfo.dni && !result) {
         await dispatcher(
@@ -144,9 +156,12 @@ const NewRoleModal = ({
         (await dispatcher(getAllRolesByUser(userInfo.id, token))) &&
           onCloseModal();
       } else {
-        toast.error(`Usuario ya posee un Rol en ${institSelected}`, {
-          duration: 4000,
-        });
+        toast.error(
+          `Usuario ya posee un Rol en ${institSelected} ${countrySelected}`,
+          {
+            duration: 4000,
+          }
+        );
       }
     }
     setIsLoading(false);

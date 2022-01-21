@@ -6,23 +6,9 @@ import {
   SetLoginAction,
   SetRolesAction,
 } from "./actions";
-import { ApiServicesProvider } from "../../../services/apiServices";
+import { ApiServicesProvider } from "@/services/apiServices";
 import { SetInstitutionsListAction } from ".";
 const $Services = new ApiServicesProvider();
-
-export const setIsLoading = () => {
-  return (dispatch: Dispatch<CommonActions>): CommonActions =>
-    dispatch({
-      type: Type.SET_IS_LOADING,
-    });
-};
-
-export const unsetIsLoading = () => {
-  return (dispatch: Dispatch<CommonActions>): CommonActions =>
-    dispatch({
-      type: Type.UNSET_IS_LOADING,
-    });
-};
 
 export const setErrorMessage = (errorMessage: string) => {
   return (dispatch: Dispatch<CommonActions>): CommonActions =>
@@ -169,8 +155,6 @@ export default {
   setInstitution,
   setRoles,
   setCountries,
-  setIsLoading,
-  unsetIsLoading,
   setErrorMessage,
   loginRequest,
   logout,

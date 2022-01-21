@@ -15,9 +15,9 @@ function ShowUsers() {
   const [isLoading, setIsLoading] = useState(false);
   const [dataTable, setDataTable] = useState(usersList);
 
-  const getAsyncUserList = () => {
+  const getAsyncUserList = async () => {
     setIsLoading(true);
-    dispatcher(getUsersList(profile.token));
+    await dispatcher(getUsersList(profile.token));
     setIsLoading(false);
   };
 

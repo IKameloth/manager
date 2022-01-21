@@ -113,7 +113,7 @@ const NewUserModal = ({ isOpen, closeModal }: Props) => {
       const res = await dispatcher(createUser(name, dni, email, profile.token));
 
       if ("id" in res) {
-        dispatcher(getUsersList(profile.token));
+        await dispatcher(getUsersList(profile.token));
         toast.success("Usuario registrado", { duration: 7000 }) && closeModal();
       }
     }

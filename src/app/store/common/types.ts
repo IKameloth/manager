@@ -2,8 +2,6 @@ import { InstitutionType } from "@/app/types/InstitutionType";
 import { CountriesType, ProfileType, RoleType } from "src/app/types";
 
 export enum CommonTypes {
-  SET_IS_LOADING = "SET_IS_LOADING",
-  UNSET_IS_LOADING = "UNSET_IS_LOADING",
   SET_ERROR_MESSAGE = "SET_ERROR_MESSAGE",
   LOGOUT = "LOGOUT",
   SET_LOGIN = "SET_LOGIN",
