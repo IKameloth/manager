@@ -20,6 +20,7 @@ const ValidateAccountToken = React.lazy(
 const RecoverPass = React.lazy(() => import("./pages/recover/recoverPass"));
 const NotFound = React.lazy(() => import("./pages/notFound/index"));
 const ShowSensor = React.lazy(() => import("./pages/sensors/MainSensor"));
+const RolesList = React.lazy(() => import("./pages/users/RolesList"));
 
 export default function App() {
   const location = useLocation();
@@ -59,6 +60,7 @@ export default function App() {
           <Route exact path="/home" render={() => <Home />} />
 
           <ProtectedRoute exact path="/sensor" render={() => <ShowSensor />} />
+          <ProtectedRoute exact path="/users/roles" render={() => <RolesList />} />
           {/* AdminRoute */}
           <RequireRole>
             <ProtectedRoute exact path="/roles" render={() => <Roles />} />

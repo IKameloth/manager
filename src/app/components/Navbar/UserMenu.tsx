@@ -57,7 +57,7 @@ export default function UserMenu() {
             </ListItem>
           </Link>
 
-          <Link to="/example2" className={classes.linkStyled}>
+          <Link to="/users/roles" className={classes.linkStyled}>
             <ListItem button className={classes.nested}>
               <ListItemIcon>
                 <FiberManualRecordIcon style={{ height: 6 }} />

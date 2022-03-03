@@ -6,9 +6,10 @@ import {
   SetLoginAction,
   SetRolesAction,
 } from "./actions";
-import { ApiServicesProvider } from "@/services/apiServices";
-import { SetInstitutionsListAction } from ".";
+import { ApiServicesProvider, UsersServicesProvider } from "@/services"
+import { SetInstitutionsListAction, SetUserListAction } from "."
 const $Services = new ApiServicesProvider();
+const $Users = new UsersServicesProvider();
 
 export const setErrorMessage = (errorMessage: string) => {
   return (dispatch: Dispatch<CommonActions>): CommonActions =>
@@ -136,6 +137,24 @@ export const setInstitList = (country: string, token: string) => {
         payload: "Imposible conectar con servicios de Autentia",
       });
     }
+  };
+};
+
+export const setUsersList = (token: string, country: string, institution: string, offset?: number) => {
+  return async (
+    dispatch: Dispatch<CommonActions>
+  ): Promise<SetUserListAction> => {
+    const resp = await $Users.getUsersList(token, country, institution, offset);
+    console.log("RES", resp)
+    if (resp.error) {
+      if (resp.status === 401) {
+        dispatch({ type: Type.UNAUTHORIZED, payload: true });
+      }
+      dispatch({ type: Type.SET_ERROR_MESSAGE, payload: resp.error });
+      return dispatch({ type: Type.SET_USERS_LIST, payload: {data: []} });
+    }
+    console.log("SEND USER LIST", resp)
+    return dispatch({ type: Type.SET_USERS_LIST, payload: resp });
   };
 };
 
