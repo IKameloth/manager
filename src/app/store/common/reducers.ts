@@ -20,6 +20,9 @@ const INITIAL_STATE: State = {
   currentInstitution: "",
   currentCountry: "",
   unauthorized: false,
+  usersList: {
+    data: []
+  }
 };
 
 export const commonReducer = (
@@ -52,6 +55,8 @@ export const commonReducer = (
       return { ...state, rolesProfile: action.payload };
     case Types.SET_INSTITUTIONS_LIST:
       return { ...state, institutions: action.payload };
+    case Types.SET_USERS_LIST:
+      return { ...state, usersList: action.payload };
     case Types.UNAUTHORIZED:
       return { ...state, unauthorized: action.payload };
     default:
