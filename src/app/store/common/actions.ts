@@ -1,7 +1,7 @@
 import { Action } from "redux";
 import { CommonTypes as Type } from "./types";
 import { ProfileType } from "@/app/types/ProfileType";
-import { CountriesType, RoleType } from "@/app/types";
+import { CountriesType, RoleType, SensorType } from "@/app/types";
 import { InstitutionType } from "@/app/types/InstitutionType";
 
 export interface SetLoginAction extends Action<Type.SET_LOGIN> {
@@ -42,6 +42,14 @@ export interface UnauthorizedAction extends Action<Type.UNAUTHORIZED> {
   payload: boolean;
 }
 
+export interface GetSensorAction extends Action<Type.GET_SENSOR> {
+  payload: SensorType
+}
+
+export interface CreateSensorAction extends Action<Type.CREATE_SENSOR> {
+  payload: SensorType
+}
+
 export type CommonActions =
   | UnauthorizedAction
   | SetInstitutionsListAction
@@ -51,4 +59,6 @@ export type CommonActions =
   | SetCountriesAction
   | SetErrorMessageAction
   | SetLoginAction
-  | LogoutAction;
+  | LogoutAction
+  | GetSensorAction
+  | CreateSensorAction;

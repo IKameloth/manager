@@ -13,6 +13,7 @@ export enum CommonTypes {
   SET_INSTITUTIONS_LIST = "SET_INSTITUTIONS_LIST",
   UNAUTHORIZED = "UNAUTHORIZED",
   GET_SENSOR = "GET_SENSOR",
+  CREATE_SENSOR = "CREATE_SENSOR",
 }
 
 export type CommonState = {
