@@ -6,10 +6,17 @@ import {
   SetLoginAction,
   SetRolesAction,
 } from "./actions";
-import { ApiServicesProvider, UsersServicesProvider } from "@/services"
-import { SetInstitutionsListAction, SetUserListAction } from "."
-const $Services = new ApiServicesProvider();
+import { ApiServicesProvider, SensorServicesProvider, UsersServicesProvider } from "@/services"
+import {
+  GetSensorAction,
+  CreateSensorAction,
+  SetInstitutionsListAction,
+  SetUserListAction
+} from ".";
+
 const $Users = new UsersServicesProvider();
+const $Services = new ApiServicesProvider();
+const $SensorService = new SensorServicesProvider();
 
 export const setErrorMessage = (errorMessage: string) => {
   return (dispatch: Dispatch<CommonActions>): CommonActions =>
@@ -115,7 +122,6 @@ export const setCountries = (token: string) => {
   };
 };
 
-// GET LIST INSTITUTIONS
 export const setInstitList = (country: string, token: string) => {
   return async (
     dispatch: Dispatch<CommonActions>
@@ -169,6 +175,60 @@ export const setRoles = (userID: string, country: string, token: string) => {
   };
 };
 
+// GET SENSOR
+export const getSensor = (
+  serial: string,
+  country: string,
+  technology: string,
+  token: string
+) => {
+  return async (
+    dispatch: Dispatch<CommonActions>
+  ): Promise<GetSensorAction | {}> => {
+    const response = await $SensorService.getSensor(
+      serial,
+      country,
+      technology,
+      token
+    );
+
+    if (response.error) {
+      return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: response.error });
+    }
+
+    if (response.data.Code === "") {
+      return false
+    }
+
+    return response.data
+  };
+};
+
+// CREATE SENSOR
+export const createSensor = (
+  serial: string,
+  country: string,
+  technology: string,
+  token: string
+) => {
+  return async (
+    dispatch: Dispatch<CommonActions>
+  ): Promise<CreateSensorAction | false | {}> => {
+    const resp = await $SensorService.createSensor(
+      serial,
+      country,
+      technology,
+      token
+    );
+
+    if (resp.error) {
+      dispatch({ type: Type.SET_ERROR_MESSAGE, payload: resp });
+    }
+
+    return dispatch({ type: Type.CREATE_SENSOR, payload: resp });
+  };
+};
+
 export default {
   setCountry,
   setInstitution,
@@ -177,4 +237,6 @@ export default {
   setErrorMessage,
   loginRequest,
   logout,
+  getSensor,
+  createSensor,
 };

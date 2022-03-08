@@ -23,7 +23,6 @@ import AddIcon from "@material-ui/icons/Add";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import BuildIcon from "@material-ui/icons/Build";
 import ExtensionIcon from "@material-ui/icons/Extension";
-import { Visibility } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) => ({
   centered: {
