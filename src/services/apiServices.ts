@@ -185,18 +185,19 @@ export class ApiServicesProvider {
   // Update User
   public async updateUser(
     dni: string,
+    status: boolean,
     token: string,
     name?: string,
     email?: string,
-    password?: string
+    password?: string,
   ) {
     const res = await this.$httpClient.put(
       `users/${dni}`,
       {
-        dni,
         name,
         email,
         password,
+        status,
       },
       { headers: { Authorization: token } }
     );

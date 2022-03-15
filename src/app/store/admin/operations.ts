@@ -95,16 +95,17 @@ export const recoverPassword = (dni: string) => {
 
 export const updateUser = (
   dni: string,
+  status: boolean,
   token: string,
   name?: string,
   email?: string,
-  password?: string
+  password?: string,
 ) => {
   return async (
     dispatch: Dispatch<AdminActions>
   ): Promise<UpdateUserAction | {}> => {
     try {
-      const res = await Services.updateUser(dni, token, name, email, password);
+      const res = await Services.updateUser(dni, status, token, name, email, password);
       if (res.error) {
         if (res.status === 401) {
           dispatch({ type: Type.UNAUTHORIZED, payload: true });
