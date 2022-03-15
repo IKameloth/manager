@@ -87,34 +87,17 @@ const EditUserModal = ({ isOpen, onClose, user, token }: Props) => {
     register,
     formState: { errors },
     handleSubmit,
-    setError,
   } = useForm<Inputs>({ mode: "onChange" });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setIsLoading(true);
     const { name, email } = data;
+    const { dni, status } = user;
 
-    if (!name.trim().length) {
-      setError("name", {
-        type: "required",
-        message: "El campo Nombre no puede ir vacio",
-      });
-    } else if (!email.trim().length) {
-      setError("email", {
-        type: "required",
-        message: "Debe ingresar un Email válido",
-      });
-    } else {
-      const res = await dispatcher(
-        updateUser(user.dni, token, name.trim(), email)
-      );
-      if ("id" in res) {
-        toast.success("Datos actualizados!", { duration: 5000 });
-      } else {
-        toast.success("UPS!, algo salio mal", { duration: 7000 });
-      }
-      onClose();
-    }
+    const resp = await dispatcher(updateUser(dni, status, token, name, email));
+    ("id" in resp) && toast.success("Datos actualizados!", { duration: 5000 });
+    onClose();
+
     setIsLoading(false);
   };
 
@@ -164,7 +147,11 @@ const EditUserModal = ({ isOpen, onClose, user, token }: Props) => {
                       variant="outlined"
                       defaultValue={user.name}
                       {...register("name", {
+                        required: true,
                         maxLength: 40,
+                        validate: {
+                          required: (value) => !!value.trim().length,
+                        },
                       })}
                       error={errors.name ? true : false}
                       helperText={errors.name && errors.name.message}
@@ -178,6 +165,7 @@ const EditUserModal = ({ isOpen, onClose, user, token }: Props) => {
                       variant="outlined"
                       defaultValue={user.email}
                       {...register("email", {
+                        required: true,
                         maxLength: 50,
                         pattern: EmailReg,
                       })}
