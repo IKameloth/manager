@@ -6,12 +6,16 @@ import {
   SetLoginAction,
   SetRolesAction,
 } from "./actions";
-import { ApiServicesProvider, SensorServicesProvider, UsersServicesProvider } from "@/services"
+import {
+  ApiServicesProvider,
+  SensorServicesProvider,
+  UsersServicesProvider,
+} from "@/services";
 import {
   GetSensorAction,
   CreateSensorAction,
   SetInstitutionsListAction,
-  SetUserListAction
+  SetUserListAction,
 } from ".";
 
 const $Users = new UsersServicesProvider();
@@ -146,20 +150,25 @@ export const setInstitList = (country: string, token: string) => {
   };
 };
 
-export const setUsersList = (token: string, country: string, institution: string, offset?: number) => {
+export const setUsersList = (
+  token: string,
+  country: string,
+  institution: string,
+  offset?: number
+) => {
   return async (
     dispatch: Dispatch<CommonActions>
   ): Promise<SetUserListAction> => {
     const resp = await $Users.getUsersList(token, country, institution, offset);
-    console.log("RES", resp)
+    console.log("RES", resp);
     if (resp.error) {
       if (resp.status === 401) {
         dispatch({ type: Type.UNAUTHORIZED, payload: true });
       }
       dispatch({ type: Type.SET_ERROR_MESSAGE, payload: resp.error });
-      return dispatch({ type: Type.SET_USERS_LIST, payload: {data: []} });
+      return dispatch({ type: Type.SET_USERS_LIST, payload: { data: [] } });
     }
-    console.log("SEND USER LIST", resp)
+    console.log("SEND USER LIST", resp);
     return dispatch({ type: Type.SET_USERS_LIST, payload: resp });
   };
 };
@@ -193,21 +202,24 @@ export const getSensor = (
     );
 
     if (response.error) {
-      return dispatch({ type: Type.SET_ERROR_MESSAGE, payload: response.error });
+      return dispatch({
+        type: Type.SET_ERROR_MESSAGE,
+        payload: response.error,
+      });
     }
 
-    if (response.data.Code === "") {
-      return false
-    }
-
-    return response.data
+    return response
   };
 };
 
 // CREATE SENSOR
 export const createSensor = (
   serial: string,
+  institution: string,
   country: string,
+  location: string,
+  locationCode: string,
+  logonType: number,
   technology: string,
   token: string
 ) => {
@@ -216,7 +228,11 @@ export const createSensor = (
   ): Promise<CreateSensorAction | false | {}> => {
     const resp = await $SensorService.createSensor(
       serial,
+      institution,
       country,
+      location,
+      locationCode,
+      logonType,
       technology,
       token
     );
