@@ -19,7 +19,7 @@ const ValidateAccountToken = React.lazy(
 );
 const RecoverPass = React.lazy(() => import("./pages/recover/recoverPass"));
 const NotFound = React.lazy(() => import("./pages/notFound/index"));
-const ShowSensor = React.lazy(() => import("./pages/sensors/MainSensor"));
+const ShowSensor = React.lazy(() => import("./pages/sensor"));
 const RolesList = React.lazy(() => import("./pages/users/RolesList"));
 
 export default function App() {
