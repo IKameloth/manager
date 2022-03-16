@@ -6,20 +6,21 @@ import {
   GridRowsProp,
 } from "@material-ui/data-grid";
 import { useRolesStyle } from "@/assets/Roles";
-import { CustomLoadingOverlay, RemoveRole } from "@/app/components/Admin";
+import CustomLoadingOverlay from './CustomLoading'
+import RemoveRole from './RemoveRole'
 import { UsersListType } from "@/app/types";
+import { List, ListItem, ListItemText } from "@material-ui/core";
 
 interface Props {
-  isLoading: boolean;
-  usersList: any;
-  changePage: (offset: number) => void;
+  isLoading: boolean
+  usersList: any
+  changePage: (page: number, offset: number) => void
 }
 
 const UsersTable = ({ isLoading, usersList, changePage }: Props) => {
   const classes = useRolesStyle();
   const dataRows: GridRowsProp = usersList.data;
   const [rows, setRows] = useState(dataRows);
-  console.log("ROWS", rows, usersList)
   const [pageSize, setPageSize] = useState<number>(10);
   const columns: GridColDef[] = [
     {
@@ -42,11 +43,24 @@ const UsersTable = ({ isLoading, usersList, changePage }: Props) => {
     },
     {
       field: "roles",
-      width: 200,
+      width: 400,
       align: "left",
       headerName: "Roles",
       disableColumnMenu: true,
-      renderCell: (params: GridCellParams) => params.row.roles.map((role:any) => role.name),
+      renderCell: (params: GridCellParams) => {
+        return (
+          <List>
+            {params.row.roles.map((role:any) => {
+              return(
+                <ListItem
+                  key={role.name + Math.random()} >
+                    <ListItemText primary={role.name} />
+                    <RemoveRole userDNI={params.row.dni} roleName={role} />
+                </ListItem>
+              )})}
+          </List>
+        )
+      },
     }
   ];
 
@@ -64,7 +78,6 @@ const UsersTable = ({ isLoading, usersList, changePage }: Props) => {
 
   return (
     <DataGrid
-      rowHeight={50}
       className={classes.table}
       disableSelectionOnClick
       components={{
@@ -78,7 +91,10 @@ const UsersTable = ({ isLoading, usersList, changePage }: Props) => {
       onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
       rowsPerPageOptions={[10]}
       paginationMode="server"
-      onPageChange={() => changePage(usersList.offset)}
+      onPageChange={(page) => {
+        console.log("PAGE",page)
+        changePage(page, usersList.offset)
+      }}
       rowCount={usersList.total}
     />
   );

@@ -11,7 +11,8 @@ import {
   GetSensorAction,
   CreateSensorAction,
   SetInstitutionsListAction,
-  SetUserListAction
+  SetUserListAction,
+  RemoveAutentiaRoleAction
 } from ".";
 
 const $Users = new UsersServicesProvider();
@@ -151,7 +152,6 @@ export const setUsersList = (token: string, country: string, institution: string
     dispatch: Dispatch<CommonActions>
   ): Promise<SetUserListAction> => {
     const resp = await $Users.getUsersList(token, country, institution, offset);
-    console.log("RES", resp)
     if (resp.error) {
       if (resp.status === 401) {
         dispatch({ type: Type.UNAUTHORIZED, payload: true });
@@ -159,7 +159,6 @@ export const setUsersList = (token: string, country: string, institution: string
       dispatch({ type: Type.SET_ERROR_MESSAGE, payload: resp.error });
       return dispatch({ type: Type.SET_USERS_LIST, payload: {data: []} });
     }
-    console.log("SEND USER LIST", resp)
     return dispatch({ type: Type.SET_USERS_LIST, payload: resp });
   };
 };
@@ -172,6 +171,39 @@ export const setRoles = (userID: string, country: string, token: string) => {
     if (response.data)
       return dispatch({ type: Type.SET_ROLES_PROFILE, payload: response.data });
     return [];
+  };
+};
+
+export const removeAutentiaRole = (
+  userDNI: string,
+  name: string,
+  institution: string,
+  country: string,
+  token: string
+) => {
+  return async (
+    dispatch: Dispatch<CommonActions>
+  ): Promise<RemoveAutentiaRoleAction | {}> => {
+    try {
+      const res = await $Services.removeRole(
+        userDNI,
+        name,
+        institution,
+        country,
+        token
+      );
+
+      if (res.status === 401) {
+        dispatch({ type: Type.UNAUTHORIZED, payload: true });
+      }
+
+      return res.data;
+    } catch (err) {
+      return dispatch({
+        type: Type.SET_ERROR_MESSAGE,
+        payload: "Imposible conectar con los servicios de Autentia",
+      });
+    }
   };
 };
 
@@ -239,4 +271,5 @@ export default {
   logout,
   getSensor,
   createSensor,
+  removeAutentiaRole,
 };

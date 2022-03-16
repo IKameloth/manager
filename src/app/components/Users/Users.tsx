@@ -11,7 +11,7 @@ function Users() {
   const { common } = useSelector((state: StoreState) => state)
   const { usersList, profile, currentCountry, currentInstitution } = common
   const [isLoading, setIsLoading] = useState(true)
-  const [dataTable, setDataTable] = useState(usersList)
+  const [pages, setPages] = useState([0])
 
     const getAsyncUserList = async () => {
         setIsLoading(true)
@@ -23,9 +23,16 @@ function Users() {
         getAsyncUserList()
     }, [currentCountry, currentInstitution])
 
-    const changePage = async (offset:number) => {
+    const changePage = async (page: number, offset: number) => {
         setIsLoading(true)
-        await dispatcher(setUsersList(profile.token, currentCountry, currentInstitution, offset))
+        if(pages.length - 1 > page){
+          await dispatcher(setUsersList(profile.token, currentCountry, currentInstitution, pages[page]))
+        }else{
+          let pagesArr = pages
+          pagesArr.push(offset)
+          setPages(pagesArr)
+          await dispatcher(setUsersList(profile.token, currentCountry, currentInstitution, offset))
+        }
         setIsLoading(false)
     }
 
