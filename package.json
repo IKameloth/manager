@@ -18,6 +18,7 @@
     "i18next-xhr-backend": "^3.2.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-helmet": "^6.1.0",
     "react-hook-form": "^7.19.3",
     "react-hot-toast": "^2.1.1",
     "react-i18next": "^11.7.3",
@@ -33,7 +34,7 @@
   },
   "scripts": {
     "start": "NODE_ENV=production webpack server --open --config webpack.prod.js",
-    "dev": "webpack server --open --config webpack.dev.js",
+    "dev": "webpack server --config webpack.dev.js",
     "build": "NODE_ENV=production webpack --config webpack.prod.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -54,6 +55,8 @@
     ]
   },
   "devDependencies": {
+    "@bazel/ibazel": "^0.15.10",
+    "@types/react-helmet": "^6.1.5",
     "@types/react-redux": "^7.1.16",
     "@types/react-router-dom": "^5.1.7",
     "@types/redux": "^3.6.0",
