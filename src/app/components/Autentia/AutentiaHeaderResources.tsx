@@ -2,7 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet";
 
 export const AutentiaHeaderResources = () => {
-  const basePath = "/public/assets/js/";
+  const basePath = "/assets/js/";
   return (
     <Helmet>
       <script src={basePath + "jquery.js"}></script>
