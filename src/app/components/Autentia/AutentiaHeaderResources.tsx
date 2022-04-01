@@ -2,8 +2,8 @@ import React from "react";
 import { Helmet } from "react-helmet";
 
 export const AutentiaHeaderResources = () => {
-  const basePath = "/assets/js/";
-  const path = process.env.NODE_ENV != "development" ? "/public" + basePath : basePath;
+  const path = "/assets/js/";
+  //const path = process.env.NODE_ENV != "development" ? "/public" + basePath : basePath;
 
   return (
     <Helmet>

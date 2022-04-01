@@ -57,6 +57,11 @@ module.exports = {
         }
       },
       {
+        test: /\.(js)$/,
+        exclude: /node_modules/,
+        use: ['file-loader?name=[name].[ext]'] // ?name=[name].[ext] is only necessary to preserve the original file name
+      },
+      {
         test: /\.(json)$/i,
         loader: 'file-loader',
         options: {

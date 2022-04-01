@@ -19,7 +19,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import { MotionContainer, MotionItemUp } from "@/app/components/Motion";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {
-  AutentiaHeaderResources,
+  //AutentiaHeaderResources,
   autentiaTrxCaller,
 } from "@/app/components/Autentia";
 import { TrxList } from "@/app/helper/TrxList";
@@ -75,7 +75,6 @@ export default function People() {
 
   return (
     <>
-      <AutentiaHeaderResources />
       <Container>
         <Section>
           <Grid container spacing={8}>
