@@ -36,9 +36,7 @@ export const autentiaTrxCaller = ({ trxName, options }: Props) => {
         options.output,
         true,
         token,
-        function (response: any) {
-          callBack(response);
-        }
+        callBack
       );
     } catch (err) {
       reject(err);

@@ -1,4 +1,4 @@
-import React, { MouseEvent, useEffect } from "react";
+import React, { ChangeEventHandler, MouseEvent, useEffect } from "react";
 import { SideBar } from "@/assets/SideBar/Sidebar";
 import {
   Typography,
@@ -24,6 +24,8 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
+
+type ChangeEventType = React.ChangeEvent<{name?:string,value: unknown}>
 
 export default function ScopeSelection({ isOpen, onClose }: Props) {
   const dispatch = useDispatch();
@@ -61,11 +63,11 @@ export default function ScopeSelection({ isOpen, onClose }: Props) {
     }
   }, [countrySelected]);
 
-  const handleChangeSelectCountry = (event: any) => {
+  const handleChangeSelectCountry = (event: ChangeEventType) => {
     setCountrySelected(String(event.target.value) || "");
   };
 
-  const handleChangeSelectInstitution = (event: any) => {
+  const handleChangeSelectInstitution = (event: ChangeEventType) => {
     setInstitutionSelected(String(event.target.value) || "");
   };
 

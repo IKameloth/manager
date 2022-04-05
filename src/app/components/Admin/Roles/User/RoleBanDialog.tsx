@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch } from "react";
 import {
   Button,
   Dialog,
@@ -13,6 +13,7 @@ import { AnimatePresence } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { banUser } from "@/app/store/admin";
 import { toast } from "react-hot-toast";
+import { UserType } from "@/app/types";
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiPaper-root": {
@@ -23,7 +24,7 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  user: any;
+  user?: UserType;
   token: string;
 }
 
@@ -31,14 +32,21 @@ export default function RoleBanDialog({ isOpen, onClose, user, token }: Props) {
   const dispatch = useDispatch();
 
   const handleBanUser = async () => {
-    const resp: any = await dispatch(banUser(user.dni, !user.status, token));
-    if ("status" in resp) {
-      resp.status === true
-        ? toast.success("Usuario habilitado")
-        : toast.success("Usuario Deshabilitado");
+    if(user){
+      const resp: any = await dispatch(banUser(user.dni, !user.status, token));
+      if ("status" in resp) {
+        resp.status === true
+          ? toast.success("Usuario habilitado")
+          : toast.success("Usuario Deshabilitado");
+      }
     }
     onClose();
   };
+
+  if(!user){
+    onClose();
+    return <></>
+  }
 
   return (
     <>

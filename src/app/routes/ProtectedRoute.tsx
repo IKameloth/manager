@@ -1,11 +1,18 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Redirect, Route } from "react-router-dom";
-import { StoreState } from "../store";
+import { Redirect, Route, RouteComponentProps } from "react-router-dom";
+import { StoreState } from "@/app/store";
 import { cleanAdminState } from "../store/admin";
 import { logout } from "../store/common";
 
-export const ProtectedRoute = ({ render, role, ...other }: any) => {
+type ProtectedProps = {
+  render: ((props: RouteComponentProps<any>) => React.ReactNode);
+  role?: string
+  exact: boolean
+  path: string
+}
+
+export const ProtectedRoute = ({ render, role, ...other }: ProtectedProps) => {
   const dispatcher = useDispatch();
   const { common } = useSelector((state: StoreState) => state);
   const { currentCountry, currentInstitution, profile, unauthorized } = common;

@@ -39,16 +39,16 @@ const indexStyle = makeStyles((theme) => ({
 }));
 
 interface Props {
-  children: any;
+  children: Element | React.ReactNode;
 }
 
-export default function Navegation(props: Props) {
+export default function Navegation({children}: Props) {
   const dispatch = useDispatch();
   const { common, admin } = useSelector((state: StoreState) => state);
   const { isLoggedIn, profile } = common;
   const { unauthorized } = admin;
 
-  const content = props.children;
+  const content = children;
   const classes = indexStyle();
   const [isOpened, setIsOpened] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

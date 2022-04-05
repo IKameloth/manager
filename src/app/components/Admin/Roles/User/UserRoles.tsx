@@ -1,22 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { StoreState } from "@/app/store";
-import { useSelector, useDispatch } from "react-redux";
-import UserCard from "./UserCard";
-import NewRoleModal from "../NewRoleModal";
-import { getAllRolesByUser } from "@/app/store/admin";
-import TitleBar from "../TitleBar";
-import { Box, Grid, Typography } from "@material-ui/core";
-import { Item } from "@/app/components/Item";
-import RolesTable from "./RoleTable";
-import { setCountries, setInstitList } from "@/app/store/common/operations";
-import Loader from "@/app/components/Loader";
+import React, { useState, useEffect } from "react"
+import { StoreState } from "@/app/store"
+import { useSelector, useDispatch } from "react-redux"
+import UserCard from "./UserCard"
+import NewRoleModal from "../NewRoleModal"
+import { getAllRolesByUser } from "@/app/store/admin"
+import TitleBar from "../TitleBar"
+import { Box, Grid, Typography } from "@material-ui/core"
+import { Item } from "@/app/components/Item"
+import RolesTable from "./RoleTable"
+import { setCountries, setInstitList } from "@/app/store/common/operations"
+import Loader from "@/app/components/Loader"
+import { UserType } from "@/app/types"
 
 interface Props {
-  userId: string;
+  userId: string
 }
 
 export default function UserRoles({ userId }: Props) {
-  const dispatcher = useDispatch();
+  const dispatcher = useDispatch()
   const { admin, common } = useSelector((state: StoreState) => state);
   const { rolesList } = admin;
   const { institutions, countries, profile, currentCountry } = common;
@@ -46,8 +47,8 @@ export default function UserRoles({ userId }: Props) {
     setIsOpenModal(!isOpenModal);
   };
 
-  const handleUserInfo = (userData: any) => {
-    setUserInfo(userData);
+  const handleUserInfo = (userData?: UserType) => {
+    userData && setUserInfo(userData);
   };
 
   return (

@@ -22,11 +22,12 @@ import Loader from "@/app/components/Loader";
 import { toast } from "react-hot-toast";
 import { updateUser } from "@/app/store/admin";
 import { EmailReg } from "@/app/helper/Regex";
+import { UserType } from "@/app/types";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  user: any;
+  user?: UserType;
   token: string;
 }
 
@@ -90,17 +91,22 @@ const EditUserModal = ({ isOpen, onClose, user, token }: Props) => {
   } = useForm<Inputs>({ mode: "onChange" });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    setIsLoading(true);
-    const { name, email } = data;
-    const { dni, status } = user;
-
-    const resp = await dispatcher(updateUser(dni, status, token, name, email));
-    ("id" in resp) && toast.success("Datos actualizados!", { duration: 5000 });
-    onClose();
-
-    setIsLoading(false);
+    if(user){
+      setIsLoading(true);
+      const { name, email } = data;
+      const { dni, status } = user;
+  
+      const resp = await dispatcher(updateUser(dni, status, token, name, email));
+      ("id" in resp) && toast.success("Datos actualizados!", { duration: 5000 });
+      onClose();
+  
+      setIsLoading(false);
+    }
   };
-
+  if(!user){
+    onClose();
+    return <></>
+  }
   return (
     <Modal
       aria-labelledby="transition-modal-title"

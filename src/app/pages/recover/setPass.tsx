@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Grid, Typography, useMediaQuery } from "@material-ui/core";
 import { Redirect } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { StoreState } from "@/app/store/";
+import { StoreState } from "@/app/store";
 import { Footer, useStyles } from "@/assets/login/recover";
 import Logo from "../../../assets/images/autentia-logo.svg";
 import HandImg from "@/assets/images/hand.svg";
@@ -49,7 +49,7 @@ const SetPassView = ({ token, onSuccess }: Props) => {
   );
 };
 
-const AutentiaTitle = (mobile: any) => (
+const AutentiaTitle = (mobile?: object) => (
   <Grid item xs>
     <Box>
       <Typography variant="h3">Autentia</Typography>

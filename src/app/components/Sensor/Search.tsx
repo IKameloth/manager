@@ -10,7 +10,7 @@ import {
   IconButtonProps,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from '@material-ui/core/styles'
 import { MotionContainer, MotionItemUp } from "../Motion";
 import { useDispatch } from "react-redux";
 import { createSensor, getSensor, setErrorMessage } from "@/app/store/common";
@@ -61,12 +61,13 @@ interface ExpandMoreProps extends IconButtonProps {
 const ExpandMore = styled((props: ExpandMoreProps) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
-})(({ theme, expand }: any) => ({
+})(({ theme, expand }) => ({
   transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
   marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
+  // TODO: Transitions not exists in default theme
+  //transition: theme.transitions.create("transform", {
+  //  duration: theme.transitions.duration.shortest,
+  //}),
 }));
 
 export default function SearchSensor({ token, country, anyError }: Props) {

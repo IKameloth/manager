@@ -47,7 +47,7 @@ function Users() {
         justifyContent: "center",
       }}
     >
-      <Item>
+      <Item delay={1}>
         {!usersList.data.length ? (
           <Box alignItems="center" justifyContent="center" display="flex">
             <Typography variant="subtitle1">

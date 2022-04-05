@@ -11,7 +11,7 @@ const dotenvPlugin = new DotenvPlugin({ path: path.resolve(__dirname, '.env')})
 module.exports = {
   entry: {
     main: './src/index.tsx',
-    store: './src/app/store/index.tsx'
+    store: './src/app/store/index.ts'
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
@@ -22,7 +22,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.(tsx|ts)?$/,
         loader: 'ts-loader',
       },
       {

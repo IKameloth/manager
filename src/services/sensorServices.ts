@@ -1,10 +1,15 @@
 import environment from "@/config/environment";
 
+type Headers = {
+  "Content-type"?: string
+  "Authorization"?: string
+}
+
 export class SensorServicesProvider {
   // ONLY GET SENSOR SERVICES
   private get $httpClient() {
     return {
-      get(targetUrl: string, options?: { headers?: any }) {
+      get(targetUrl: string, options?: { headers?: Headers }) {
         const requestOptions = {
           method: "GET",
           headers: {
@@ -15,7 +20,7 @@ export class SensorServicesProvider {
 
         return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions);
       },
-      post(targetUrl: string, payload: unknown, options?: { headers?: any }) {
+      post(targetUrl: string, payload: unknown, options?: { headers?: Headers }) {
         const requestOptions = {
           method: "POST",
           headers: {

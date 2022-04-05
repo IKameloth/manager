@@ -7,16 +7,17 @@ import {
 } from "@material-ui/data-grid";
 import { useRolesStyle } from "@/assets/Roles";
 import { CustomLoadingOverlay, RemoveRole } from "@/app/components/Admin";
+import { RoleType } from "@/app/types";
 
 interface Props {
-  isLoading: boolean;
-  data: any;
-  token: string;
+  isLoading: boolean
+  data: [RoleType]
+  token: string
 }
 
 const RolesTable = ({ isLoading, data, token }: Props) => {
   const classes = useRolesStyle();
-  const dataRows: GridRowsProp = data;
+  const dataRows = data;
   const [rows, setRows] = useState(dataRows);
   const [pageSize, setPageSize] = useState<number>(5);
 
@@ -75,9 +76,7 @@ const RolesTable = ({ isLoading, data, token }: Props) => {
   }, [dataRows]);
 
   useEffect(() => {
-    if (rows.length === 0) {
-      setRows(rows);
-    }
+    setRows(rows)
   }, []);
 
   return (
