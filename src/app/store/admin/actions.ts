@@ -48,7 +48,7 @@ export interface ConfirmAccountAction extends Action<Type.CONFIRM_USER> {
 }
 
 export interface GetAllRolesByUser extends Action<Type.GET_ROLES_BY_USER> {
-  payload: [RoleType?];
+  payload: [RoleType];
 }
 
 export interface CleanAdminStateAction extends Action<Type.CLEAN_ADMIN_STATE> {}

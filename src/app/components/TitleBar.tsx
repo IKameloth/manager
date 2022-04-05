@@ -34,7 +34,7 @@ interface Props {
   subTitle: string;
   btnText: string;
   btnAction: () => void;
-  icon: any;
+  icon: React.ReactElement;
 }
 
 const TitleBar = ({ title, subTitle, btnText, btnAction, icon }: Props) => {

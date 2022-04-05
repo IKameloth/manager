@@ -24,6 +24,7 @@ import Loader from "@/app/components/Loader";
 import { useSelector, useDispatch } from "react-redux";
 import { StoreState } from "@/app/store";
 import { getUser } from "@/app/store/admin";
+import { UserType } from "@/app/types";
 
 const useStyles = makeStyles((theme: Theme) => ({
   centered: {
@@ -68,7 +69,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface Props {
   userID: string;
   token: string;
-  returnUser: (userData: any) => void;
+  returnUser: (userData?: UserType) => void;
 }
 
 export default function UserCard({ userID, token, returnUser }: Props) {

@@ -1,7 +1,12 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
-const Section = ({ children, delay = 0 }: any) => (
+interface ItemProp {
+    children: Element | React.ReactNode
+    delay?: number
+}
+
+const Section = ({ children, delay = 0 }: ItemProp) => (
     <motion.div
         initial={{ y: 10, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}

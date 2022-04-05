@@ -1,7 +1,11 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
-export const MotionContainer = ({ children }: any) => {
+interface ParentElement {
+    children: React.ReactNode
+}
+
+export const MotionContainer = ({ children }: ParentElement) => {
     const container = {
         hidden: { opacity: 1, scale: 0 },
         visible: {
@@ -21,7 +25,7 @@ export const MotionContainer = ({ children }: any) => {
     )
 }
 
-export const MotionItemUp = ({children}: any) => {
+export const MotionItemUp = ({children}: ParentElement) => {
     const item = {
         hidden: { y: 20, opacity: 0 },
         visible: {
@@ -37,7 +41,7 @@ export const MotionItemUp = ({children}: any) => {
     )
 }
 
-export const MotionRightContainer = ({children}: any) => {
+export const MotionRightContainer = ({children}: ParentElement) => {
     const container = {
         hidden: { x: -10, opacity: 0 },
         visible: {
@@ -59,7 +63,7 @@ export const MotionRightContainer = ({children}: any) => {
     )
 }
 
-export const MotionRightItem = ({children}: any) => {
+export const MotionRightItem = ({children}: ParentElement) => {
     const item = {
         hidden: { x: -20, opacity: 0 },
         visible: { x: 0, opacity: 1 }
@@ -68,7 +72,7 @@ export const MotionRightItem = ({children}: any) => {
     return <motion.div variants={item}>{children}</motion.div>
 }
 
-export const MotionLeftContainer = ({children}: any) => {
+export const MotionLeftContainer = ({children}: ParentElement) => {
     const container = {
         hidden: { x: 10, opacity: 0 },
         visible: {
@@ -90,7 +94,7 @@ export const MotionLeftContainer = ({children}: any) => {
     )
 }
 
-export const MotionLeftItem = ({children}: any) => {
+export const MotionLeftItem = ({children}: ParentElement) => {
     const item = {
         hidden: { x: 20, opacity: 0 },
         visible: { x: 0, opacity: 1 }

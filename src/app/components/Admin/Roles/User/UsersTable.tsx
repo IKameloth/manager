@@ -123,7 +123,7 @@ const UsersTable = ({ isLoading, data }: Props) => {
       componentsProps={{
         toolbar: {
           value: searchText,
-          onChange: (e: any) => requestSearch(e.target.value),
+          onChange: (e: React.ChangeEvent<HTMLInputElement>) => requestSearch(e.target.value),
           clearSearch: () => requestSearch(""),
         },
       }}

@@ -1,10 +1,11 @@
 import React from "react";
 import { Redirect, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { StoreState } from "../store";
+import { StoreState } from "@/app/store";
+import { RoleType } from "../types";
 
 interface Props {
-  children: any;
+  children: React.ReactNode;
 }
 
 const RequireRole = (props: Props) => {

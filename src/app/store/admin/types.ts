@@ -16,9 +16,9 @@ export enum AdminTypes {
 }
 
 export type AdminState = {
-  usersList?: [UserType?];
-  rolesList?: [RoleType?];
-  user?: UserType;
-  errorMessage: string;
-  unauthorized?: boolean;
+  usersList?: [UserType?]
+  rolesList?: [RoleType]
+  user?: UserType
+  errorMessage: string
+  unauthorized?: boolean
 };

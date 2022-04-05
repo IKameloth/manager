@@ -65,7 +65,7 @@ export default function Sidebar({ isOpen }: Props) {
               .trim()
               .split(" ")
               .reduce(
-                (acc: any, el: any) => acc + el.charAt(0).toUpperCase(),
+                (acc: string, el: string) => acc + el.charAt(0).toUpperCase(),
                 ""
               )
               .substring(0, 2)}
@@ -73,7 +73,9 @@ export default function Sidebar({ isOpen }: Props) {
         </Grid>
         <Grid item>
           <Typography variant="subtitle1">{Capitalize(userName)}</Typography>
-          {roles != undefined && <RoleNames rolesArr={roles} />}
+          {roles != undefined && 
+            <RoleNames rolesArr={roles} />
+          }
         </Grid>
       </Grid>
 

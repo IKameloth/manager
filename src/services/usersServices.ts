@@ -1,9 +1,14 @@
 import environment from "../config/environment";
 
+type Headers = {
+  "Content-type"?: string
+  "Authorization"?: string
+}
+
 export class UsersServicesProvider {
   private get $httpClient() {
     return {
-      post(targetUrl: string, payload: unknown, options?: { headers?: any }) {
+      post(targetUrl: string, payload: unknown, options?: { headers?: Headers }) {
         const requestOptions = {
           method: "POST",
           headers: {
@@ -15,7 +20,7 @@ export class UsersServicesProvider {
 
         return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions);
       },
-      put(targetUrl: string, payload: unknown, options?: { headers?: any }) {
+      put(targetUrl: string, payload: unknown, options?: { headers?: Headers }) {
         const requestOptions = {
           method: "PUT",
           headers: {
@@ -27,7 +32,7 @@ export class UsersServicesProvider {
 
         return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions);
       },
-      get(targetUrl: string, options?: { headers?: any }) {
+      get(targetUrl: string, options?: { headers?: Headers }) {
         const requestOptions = {
           method: "GET",
           headers: {
@@ -38,7 +43,7 @@ export class UsersServicesProvider {
 
         return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions);
       },
-      delete(targetUrl: string, payload: unknown, options?: { headers?: any }) {
+      delete(targetUrl: string, payload: unknown, options?: { headers?: Headers }) {
         const requestOptions = {
           method: "DELETE",
           headers: {

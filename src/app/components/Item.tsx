@@ -13,7 +13,12 @@ const ItemStyled = styled(Paper)(({ theme }) => ({
     boxShadow: '0px 9px 18px rgba(0, 0, 0, 0.18), 0px 5.5px 5px rgba(0, 0, 0, 0.24)'
 }));
 
-export const Item = ({ children, delay = 0 }: any) => (
+interface ItemProp {
+    children: React.ReactNode
+    delay?: number
+}
+
+export const Item = ({ children, delay = 0 }: ItemProp) => (
     <ItemStyled>
         <motion.div 
             initial={{ y: 10, opacity: 0 }}

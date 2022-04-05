@@ -25,15 +25,16 @@ import { useDispatch } from "react-redux";
 import { assignRole, getAllRolesByUser } from "@/app/store/admin";
 import Loader from "../../Loader";
 import toast from "react-hot-toast";
+import { CountriesType, InstitutionType, RoleType, UserType } from "@/app/types";
 
-interface Props {
-  isOpen: boolean;
-  countryList: any;
-  institList: any;
-  userInfo: any;
-  onCloseModal: () => void;
-  rolesData: any;
-  token: string;
+type Props = {
+  isOpen: boolean
+  countryList?: CountriesType
+  institList?: [InstitutionType]
+  userInfo?: UserType | {}
+  onCloseModal: () => void
+  rolesData?: [RoleType?]
+  token: string
 }
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -81,10 +82,15 @@ const BootstrapDialogTitle = (props: DialogTitleProps) => {
   );
 };
 
-interface IFormInput {
+type IFormInput = {
   roleSelected: string;
   institSelected: string;
   countrySelected: string;
+}
+
+type InstitutionListType = {
+  instit: string
+  country: string 
 }
 
 const NewRoleModal = ({
@@ -124,44 +130,49 @@ const NewRoleModal = ({
         message: "Debe seleccionar un País",
       });
     } else {
-      const arrExists: [{ instit: string; country: string }] = rolesData.map(
-        (item: any) => {
-          return {
-            instit: item.institution.name,
-            country: item.institution.country,
-          };
-        }
-      );
-
-      const actualObj: any = {
-        instit: institSelected,
-        country: countrySelected,
-      };
-      const result = arrExists.some((item: any) =>
-        Object.keys(item).every((p: any) => item[p] === actualObj[p])
-      );
-
-      if (userInfo.dni && !result) {
-        await dispatcher(
-          assignRole(
-            userInfo.dni,
-            roleSelected,
-            institSelected,
-            countrySelected,
-            token
-          )
-        );
-
-        toast.success("Rol registrado", { duration: 4000 });
-        (await dispatcher(getAllRolesByUser(userInfo.id, token))) &&
-          onCloseModal();
-      } else {
-        toast.error(
-          `Usuario ya posee un Rol en ${institSelected} ${countrySelected}`,
-          {
-            duration: 4000,
+      if(rolesData && userInfo){
+        const arrExists: (InstitutionListType | undefined)[] = rolesData.map(
+          (item) => {
+            if(item){
+              return {
+                instit: item.institution.name,
+                country: item.institution.country,
+              };
+            }
           }
         );
+        const actualObj: InstitutionListType = {
+          instit: institSelected,
+          country: countrySelected,
+        };
+        const result = arrExists.some((item: InstitutionListType | undefined) => {
+          if(item){
+            return item.country === actualObj.country && item.instit === actualObj.instit
+          }
+        }
+        );
+        if ('dni' in userInfo && !result) {
+          await dispatcher(
+            assignRole(
+              userInfo.dni,
+              roleSelected,
+              institSelected,
+              countrySelected,
+              token
+            )
+          );
+  
+          toast.success("Rol registrado", { duration: 4000 });
+          (await dispatcher(getAllRolesByUser(userInfo.id, token))) &&
+            onCloseModal();
+        } else {
+          toast.error(
+            `Usuario ya posee un Rol en ${institSelected} ${countrySelected}`,
+            {
+              duration: 4000,
+            }
+          );
+        }
       }
     }
     setIsLoading(false);
@@ -204,7 +215,7 @@ const NewRoleModal = ({
                     {...register("roleSelected")}
                     error={errors.roleSelected ? true : false}
                   >
-                    {AvailableRoles.map((item: any) => (
+                    {AvailableRoles.map((item: string) => (
                       <MenuItem key={item} value={item}>
                         {item}
                       </MenuItem>
@@ -231,7 +242,7 @@ const NewRoleModal = ({
                     {...register("institSelected")}
                     error={errors.institSelected ? true : false}
                   >
-                    {institList.map((item: any) => (
+                    {institList && institList.map((item: InstitutionType) => (
                       <MenuItem key={item.id} value={item.name}>
                         {item.name}
                       </MenuItem>
@@ -258,7 +269,7 @@ const NewRoleModal = ({
                     {...register("countrySelected")}
                     error={errors.countrySelected ? true : false}
                   >
-                    {countryList.data.map((item: any) => (
+                    {countryList && countryList.data?.map((item: string) => (
                       <MenuItem key={item} value={item}>
                         {item}
                       </MenuItem>

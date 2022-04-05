@@ -34,6 +34,7 @@ import ApartmentIcon from "@material-ui/icons/Apartment";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import EditIcon from "@material-ui/icons/Edit";
 import AddIcon from "@material-ui/icons/Add";
+import { SensorType } from "@/app/types";
 
 const useStyles = makeStyles(() => ({
   card: {
@@ -58,7 +59,7 @@ interface IForm {
 }
 
 interface Props {
-  data?: any;
+  data?: SensorType;
   title: string;
   onSubmit: (data: IForm) => void;
 }
@@ -76,10 +77,10 @@ export default function FormRegisterSensor({
     handleSubmit,
   } = useForm<IForm>({
     defaultValues: {
-      serial: sensorData?.Code,
-      institution: sensorData?.Institution,
-      location: sensorData?.Location,
-      locationCode: sensorData?.LocationCode,
+      serial: sensorData?.code,
+      institution: sensorData?.institution,
+      location: sensorData?.location,
+      locationCode: sensorData?.locationCode,
     }
   });
 
@@ -223,7 +224,7 @@ export default function FormRegisterSensor({
                     id="registerAt"
                     label="Fecha de Registro"
                     type="text"
-                    defaultValue={sensorData?.RegisterAt}
+                    defaultValue={sensorData?.registerAt}
                     endAdornment={
                       <InputAdornment position="end">
                         <AccessTimeIcon />
@@ -242,7 +243,7 @@ export default function FormRegisterSensor({
                   label="Tipo Logon"
                   fullWidth
                   variant="outlined"
-                  defaultValue={!!sensorData ? sensorData?.LogonType : 1}
+                  defaultValue={!!sensorData ? sensorData?.logonType : 1}
                   {...register("logonType", {
                     required: true,
                     valueAsNumber: true,
@@ -278,7 +279,7 @@ export default function FormRegisterSensor({
                     row
                     aria-labelledby="row-radio-buttons-group-label"
                     name="row-radio-buttons-group"
-                    defaultValue={sensorData?.Technology}
+                    defaultValue={sensorData?.technology}
                   >
                     <FormControlLabel
                       value="UareU"

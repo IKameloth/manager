@@ -92,8 +92,8 @@ const UsersTable = ({ isLoading, usersList, changePage }: Props) => {
       rowsPerPageOptions={[10]}
       paginationMode="server"
       onPageChange={(page) => {
-        console.log("PAGE",page)
-        changePage(page, usersList.offset)
+        if(usersList.offset)
+          changePage(page, usersList.offset)
       }}
       rowCount={usersList.total}
     />
