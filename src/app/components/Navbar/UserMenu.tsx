@@ -107,12 +107,21 @@ export default function UserMenu() {
 
       <Collapse in={openEnrollList} timeout="auto" unmountOnExit>
         <List component="div" disablePadding style={{ width: 230 }}>
-          <Link to="/example1" className={classes.linkStyled}>
+          <Link to="/enrollment" className={classes.linkStyled}>
             <ListItem button className={classes.nested}>
               <ListItemIcon>
                 <FiberManualRecordIcon style={{ height: 6 }} />
               </ListItemIcon>
-              <ListItemText primary="Example" />
+              <ListItemText primary="Enrolar" />
+            </ListItem>
+          </Link>
+
+          <Link to="/reenrollment" className={classes.linkStyled}>
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <FiberManualRecordIcon style={{ height: 6 }} />
+              </ListItemIcon>
+              <ListItemText primary="Re-Enrolar" />
             </ListItem>
           </Link>
         </List>

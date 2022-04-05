@@ -11,6 +11,8 @@ const Roles = React.lazy(() => import("./pages/roles"));
 const RolesDetail = React.lazy(() => import("./pages/roles/RolesDetail"));
 const People = React.lazy(() => import("./pages/people"));
 const Institutions = React.lazy(() => import("./pages/institutions"));
+const Enrollment = React.lazy(() => import("./pages/enrollment/Enrollment"));
+const ReEnrollment = React.lazy(() => import("./pages/enrollment/ReEnrollment"));
 const TokenValidation = React.lazy(
   () => import("./pages/recover/tokenValidation")
 );
@@ -61,6 +63,8 @@ export default function App() {
 
           <ProtectedRoute exact path="/sensor" render={() => <ShowSensor />} />
           <ProtectedRoute exact path="/users/roles" render={() => <RolesList />} />
+          <ProtectedRoute exact path="/enrollment" render={() => <Enrollment />} />
+          <ProtectedRoute exact path="/reenrollment" render={() => <ReEnrollment />} />
           {/* AdminRoute */}
           <RequireRole>
             <ProtectedRoute exact path="/roles" render={() => <Roles />} />

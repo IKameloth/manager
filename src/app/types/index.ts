@@ -5,6 +5,7 @@ import { UserType } from "./UserType";
 import { UsersListType } from "./UsersListType";
 import { InstitutionType } from "./InstitutionType";
 import { SensorType } from "./SensorType";
+import { EnrollmentDataType } from "./EnrollmentDataType";
 
 export type {
   UserType,
@@ -14,4 +15,5 @@ export type {
   RoleType,
   InstitutionType,
   SensorType,
+  EnrollmentDataType,
 };
