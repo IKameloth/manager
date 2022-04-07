@@ -8,19 +8,22 @@ import App from "./app/App";
 import theme from "./assets/theme";
 import { PersistGate } from "redux-persist/integration/react";
 import { Toaster } from "react-hot-toast";
+import { UIProvider } from "./app/context/ui";
 
 const container = document.getElementById("root");
 
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Router>
-          <Toaster position="top-center" reverseOrder={true} />
-          <App />
-        </Router>
-      </PersistGate>
-    </Provider>
-  </ThemeProvider>,
+  <Provider store={store}>
+    <UIProvider>
+      <ThemeProvider theme={theme}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Router>
+            <Toaster position="top-center" reverseOrder={true} />
+            <App />
+          </Router>
+        </PersistGate>
+      </ThemeProvider>
+    </UIProvider>
+  </Provider>,
   container
 );

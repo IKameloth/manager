@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useContext, FC } from "react";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
 import { StoreState } from "../../store";
 import { makeStyles } from "@material-ui/core";
-import { Redirect } from "react-router-dom";
+import { Redirect, useLocation } from "react-router-dom";
 import Appbar from "./Appbar";
 import Sidebar from "./Sidebar";
 import { logout } from "../../store/common/operations";
 import { cleanAdminState } from "@/app/store/admin";
+import { UIContext } from "@/app/context/ui";
 
 const indexStyle = makeStyles((theme) => ({
   root: {
@@ -38,19 +39,16 @@ const indexStyle = makeStyles((theme) => ({
   },
 }));
 
-interface Props {
-  children: Element | React.ReactNode;
-}
-
-export default function Navegation({children}: Props) {
+const Navegation: FC = ({ children }) => {
+  const location = useLocation();
+  const { isOpenMenu, toggleMenu } = useContext(UIContext);
   const dispatch = useDispatch();
   const { common, admin } = useSelector((state: StoreState) => state);
   const { isLoggedIn, profile } = common;
   const { unauthorized } = admin;
 
-  const content = children;
   const classes = indexStyle();
-  const [isOpened, setIsOpened] = useState(false);
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);
 
@@ -67,10 +65,6 @@ export default function Navegation({children}: Props) {
     dispatch(logout());
   };
 
-  const handleSidebar = () => {
-    setIsOpened(!isOpened);
-  };
-
   if (!isLoggedIn) return <Redirect to="/login" />;
 
   if (unauthorized || !profile.status) {
@@ -79,28 +73,33 @@ export default function Navegation({children}: Props) {
     return <Redirect to="/login" />;
   }
 
+  useEffect(() => {
+    location.pathname === "/" ? toggleMenu(true) : toggleMenu(false);
+  }, [location]);
+
   return (
     <div className={classes.root}>
       <Appbar
-        isSideOpen={isOpened}
+        isSideOpen={isOpenMenu}
         openMenu={openMenu}
         anchorEl={anchorEl}
-        onSideChange={handleSidebar}
+        onSideChange={() => toggleMenu(!isOpenMenu)}
         onClickMenu={handleClickMenu}
         onCloseMenu={handleCloseMenu}
         onLogout={handleLogout}
       />
-      <Sidebar isOpen={isOpened} />
+      <Sidebar isOpen={isOpenMenu} />
 
       <main
-        onClick={() => setIsOpened(false)}
         className={clsx(classes.content, {
-          [classes.contentShift]: isOpened,
+          [classes.contentShift]: isOpenMenu,
         })}
       >
         <div className={classes.drawerHeader} />
-        {content}
+        {children}
       </main>
     </div>
   );
-}
+};
+
+export default Navegation;
