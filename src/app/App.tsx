@@ -62,7 +62,7 @@ export default function App() {
           <Route exact path="/home" render={() => <Home />} />
 
           <ProtectedRoute exact path="/sensor" render={() => <ShowSensor />} />
-          <ProtectedRoute exact path="/users/roles" render={() => <RolesList />} />
+          <ProtectedRoute exact path="/users/roles/:operation?" render={() => <RolesList />} />
           <ProtectedRoute exact path="/enrollment" render={() => <Enrollment />} />
           <ProtectedRoute exact path="/reenrollment" render={() => <ReEnrollment />} />
           {/* AdminRoute */}

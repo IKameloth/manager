@@ -5,8 +5,13 @@ import UsersTable from "./UsersTable"
 import { useSelector, useDispatch } from "react-redux"
 import { StoreState } from "@/app/store"
 import { setUsersList } from "@/app/store/common"
+import Loader from '@/app/components/Loader'
 
-function Users() {
+type UserProps = {
+  setAddRole: (addRole: boolean) => void
+}
+
+const Users = ({setAddRole}:UserProps) => {
   const dispatcher = useDispatch()
   const { common } = useSelector((state: StoreState) => state)
   const { usersList, profile, currentCountry, currentInstitution } = common
@@ -36,6 +41,12 @@ function Users() {
         setIsLoading(false)
     }
 
+    if(isLoading){
+      return(
+        <Loader />
+      )
+    }
+
   return (
     <Grid
       item
@@ -55,7 +66,7 @@ function Users() {
             </Typography>
           </Box>
         ) : (
-          <UsersTable changePage={changePage} isLoading={isLoading} usersList={usersList} />
+          <UsersTable setAddRole={setAddRole} token={profile.token} changePage={changePage} isLoading={isLoading} usersList={usersList} />
         )}
       </Item>
     </Grid>

@@ -8,6 +8,7 @@ import {
 } from "./actions";
 import {
   ApiServicesProvider,
+  AutentiaRoleServicesProvider,
   SensorServicesProvider,
   UsersServicesProvider,
 } from "@/services";
@@ -16,12 +17,14 @@ import {
   CreateSensorAction,
   SetInstitutionsListAction,
   SetUserListAction,
-  RemoveAutentiaRoleAction
+  RemoveAutentiaRoleAction,
+  addAutentiaRoleAction
 } from ".";
 
 const $Users = new UsersServicesProvider();
 const $Services = new ApiServicesProvider();
 const $SensorService = new SensorServicesProvider();
+const $AutentiaServices = new AutentiaRoleServicesProvider();
 
 export const setErrorMessage = (errorMessage: string) => {
   return (dispatch: Dispatch<CommonActions>): CommonActions =>
@@ -184,7 +187,7 @@ export const setRoles = (userID: string, country: string, token: string) => {
 };
 
 export const removeAutentiaRole = (
-  userDNI: string,
+  dni: string,
   name: string,
   institution: string,
   country: string,
@@ -194,8 +197,41 @@ export const removeAutentiaRole = (
     dispatch: Dispatch<CommonActions>
   ): Promise<RemoveAutentiaRoleAction | {}> => {
     try {
-      const res = await $Services.removeRole(
-        userDNI,
+      const res = await $AutentiaServices.removeRole(
+        dni,
+        name,
+        institution,
+        country,
+        token
+      );
+
+      if (res.status === 401) {
+        dispatch({ type: Type.UNAUTHORIZED, payload: true });
+      }
+
+      return res.data;
+    } catch (err) {
+      return dispatch({
+        type: Type.SET_ERROR_MESSAGE,
+        payload: "Imposible conectar con los servicios de Autentia",
+      });
+    }
+  };
+};
+
+export const addAutentiaRole = (
+  dni: string,
+  name: string,
+  institution: string,
+  country: string,
+  token: string
+) => {
+  return async (
+    dispatch: Dispatch<CommonActions>
+  ): Promise<addAutentiaRoleAction | {}> => {
+    try {
+      const res = await $AutentiaServices.addAutentiaRole(
+        dni,
         name,
         institution,
         country,

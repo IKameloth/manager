@@ -54,7 +54,16 @@ export interface CreateSensorAction extends Action<Type.CREATE_SENSOR> {
 
 export interface RemoveAutentiaRoleAction extends Action<Type.REMOVE_AUTENTIA_ROLE> {
   payload: {
-    userId: string
+    dni: string
+    role: string
+    institution: string
+    country: string
+  }
+}
+
+export interface addAutentiaRoleAction extends Action<Type.ADD_AUTENTIA_ROLE> {
+  payload: {
+    dni: string
     role: string
     institution: string
     country: string
@@ -76,3 +85,4 @@ export type CommonActions =
   | GetSensorAction
   | CreateSensorAction
   | RemoveAutentiaRoleAction
+  | addAutentiaRoleAction

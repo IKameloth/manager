@@ -20,7 +20,7 @@ const RemoveRole = ({
   const dispatcher = useDispatch();
 
   const { common } = useSelector((state: StoreState) => state)
-  const { usersList, profile, currentCountry, currentInstitution } = common
+  const { profile, currentCountry, currentInstitution } = common
   const handleRemove = async () => {
     let res = await dispatcher(
       removeAutentiaRole(userDNI, roleName, currentInstitution, currentCountry, common.profile.token)

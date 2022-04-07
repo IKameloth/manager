@@ -16,6 +16,7 @@ export enum CommonTypes {
   GET_SENSOR = "GET_SENSOR",
   CREATE_SENSOR = "CREATE_SENSOR",
   REMOVE_AUTENTIA_ROLE = "REMOVE_AUTENTIA_ROLE",
+  ADD_AUTENTIA_ROLE = "ADD_AUTENTIA_ROLE",
 }
 
 export type CommonState = {
