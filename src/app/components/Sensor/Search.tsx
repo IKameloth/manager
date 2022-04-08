@@ -1,3 +1,4 @@
+import React, { useEffect, useState, FC } from "react";
 import {
   Box,
   Card,
@@ -9,15 +10,13 @@ import {
   IconButton,
   IconButtonProps,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles'
 import { MotionContainer, MotionItemUp } from "../Motion";
 import { useDispatch } from "react-redux";
-import { createSensor, getSensor, setErrorMessage } from "@/app/store/common";
+import { createSensor, getSensor } from "@/app/store/common";
 import { styled } from "@material-ui/styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import FormGetSensor from "./FormGet";
-import ErrorAlert from "../ErrorAlert";
 import FormRegisterSensor from "./FormRegister";
 
 const useStyles = makeStyles(() => ({
@@ -42,7 +41,6 @@ const useStyles = makeStyles(() => ({
 interface Props {
   token: string;
   country: string;
-  anyError: string;
 }
 
 type Sensor = {
@@ -61,16 +59,12 @@ interface ExpandMoreProps extends IconButtonProps {
 const ExpandMore = styled((props: ExpandMoreProps) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
-})(({ theme, expand }) => ({
+})(({ expand }) => ({
   transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
   marginLeft: "auto",
-  // TODO: Transitions not exists in default theme
-  //transition: theme.transitions.create("transform", {
-  //  duration: theme.transitions.duration.shortest,
-  //}),
 }));
 
-export default function SearchSensor({ token, country, anyError }: Props) {
+const SearchSensor: FC<Props> = ({ token, country }) => {
   const dispatcher = useDispatch();
   const classes = useStyles();
   const [isExpanded, setIsExpaded] = useState<boolean>(false);
@@ -79,7 +73,7 @@ export default function SearchSensor({ token, country, anyError }: Props) {
   useEffect(() => setIsExpaded(true), []);
 
   const handleExpandClick = () => setIsExpaded(!isExpanded);
-  const handleCloseError = () => dispatcher(setErrorMessage(""));
+  // const handleCloseError = () => dispatcher(setErrorMessage(""));
 
   const handleSubmit = async (serial: string, tech: string) => {
     setSensor(undefined);
@@ -142,13 +136,6 @@ export default function SearchSensor({ token, country, anyError }: Props) {
             </Card>
           </MotionContainer>
         </Grid>
-        {!!anyError && (
-          <ErrorAlert
-            onOpen={!!anyError}
-            message={anyError}
-            onClose={handleCloseError}
-          />
-        )}
       </Box>
       <Grid item xs={12} sm={12} md={12} lg={12}>
         <MotionContainer>
@@ -160,3 +147,5 @@ export default function SearchSensor({ token, country, anyError }: Props) {
     </>
   );
 }
+
+export default SearchSensor

@@ -17,7 +17,6 @@ import {
   Radio,
   RadioGroup,
   Select,
-  Theme,
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
@@ -80,8 +79,8 @@ export default function FormRegisterSensor({
       serial: sensorData?.code,
       institution: sensorData?.institution,
       location: sensorData?.location,
-      locationCode: sensorData?.locationCode,
-    }
+      locationCode: sensorData?.location_code,
+    },
   });
 
   const onSubmitRegister: SubmitHandler<IForm> = async (data) => {
@@ -92,7 +91,7 @@ export default function FormRegisterSensor({
   };
 
   return (
-    <Card className={classes.card}>
+    <Card>
       <CardHeader title={title} />
       <CardContent>
         <MotionItemUp>
@@ -114,7 +113,10 @@ export default function FormRegisterSensor({
                       <CodeIcon />
                     </InputAdornment>
                   }
-                  {...register("serial", { required: true, validate: { required: (value) => !!value.trim().length } }) }
+                  {...register("serial", {
+                    required: true,
+                    validate: { required: (value) => !!value.trim().length },
+                  })}
                 />
                 <FormHelperText>
                   {errors.serial && errors.serial.type === "required" && (
@@ -224,7 +226,7 @@ export default function FormRegisterSensor({
                     id="registerAt"
                     label="Fecha de Registro"
                     type="text"
-                    defaultValue={sensorData?.registerAt}
+                    defaultValue={sensorData?.register_at}
                     endAdornment={
                       <InputAdornment position="end">
                         <AccessTimeIcon />
@@ -243,7 +245,7 @@ export default function FormRegisterSensor({
                   label="Tipo Logon"
                   fullWidth
                   variant="outlined"
-                  defaultValue={!!sensorData ? sensorData?.logonType : 1}
+                  defaultValue={!!sensorData ? sensorData?.logon_type : 1}
                   {...register("logonType", {
                     required: true,
                     valueAsNumber: true,

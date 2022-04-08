@@ -3,6 +3,7 @@ import { useLocation, Switch, Route, Redirect } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import RequireRole from "./routes/RequireRole";
+import { SearchSensor } from '@/app/pages/sensor';
 
 const HealthCheck = React.lazy(() => import("./pages/healthCheck"));
 const Home = React.lazy(() => import("./pages/home"));
@@ -21,7 +22,6 @@ const ValidateAccountToken = React.lazy(
 );
 const RecoverPass = React.lazy(() => import("./pages/recover/recoverPass"));
 const NotFound = React.lazy(() => import("./pages/notFound/index"));
-const ShowSensor = React.lazy(() => import("./pages/sensor"));
 const RolesList = React.lazy(() => import("./pages/users/RolesList"));
 
 export default function App() {
@@ -61,7 +61,7 @@ export default function App() {
           <Route exact path="/" render={() => <Home />} />
           <Route exact path="/home" render={() => <Home />} />
 
-          <ProtectedRoute exact path="/sensor" render={() => <ShowSensor />} />
+          <ProtectedRoute exact path="/sensor" render={() => <SearchSensor />} />
           <ProtectedRoute exact path="/users/roles" render={() => <RolesList />} />
           <ProtectedRoute exact path="/enrollment" render={() => <Enrollment />} />
           <ProtectedRoute exact path="/reenrollment" render={() => <ReEnrollment />} />
