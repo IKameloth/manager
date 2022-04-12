@@ -20,7 +20,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/styles";
 import { MotionItemUp } from "../Motion";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Loader from "../Loader";
@@ -34,19 +33,6 @@ import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import EditIcon from "@material-ui/icons/Edit";
 import AddIcon from "@material-ui/icons/Add";
 import { SensorType } from "@/app/types";
-
-const useStyles = makeStyles(() => ({
-  card: {
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#ffffff",
-    borderRadius: "10px",
-    display: "flex",
-    flexDirection: "column",
-    boxShadow:
-      "0px 9px 18px rgba(0, 0, 0, 0.18), 0px 5.5px 5px rgba(0, 0, 0, 0.24)",
-  },
-}));
 
 interface IForm {
   serial: string;
@@ -68,7 +54,6 @@ export default function FormRegisterSensor({
   title,
   onSubmit,
 }: Props) {
-  const classes = useStyles();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,

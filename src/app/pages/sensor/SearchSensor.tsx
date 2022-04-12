@@ -17,10 +17,19 @@ import {
 import FormGetSensor from "@/app/components/Sensor/FormGet";
 import FormRegisterSensor from "@/app/components/Sensor/FormRegister";
 import { StoreState } from "@/app/store";
-import { getSensor } from "@/app/store/common";
+import { createSensor, getSensor } from "@/app/store/common";
 import { SensorType } from "@/app/types";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+
+type IForm = {
+  serial: string;
+  institution: string;
+  location: string;
+  locationCode: string;
+  logonType: number;
+  technology: string;
+};
 
 export const SearchSensor: FC = () => {
   const dispatcher = useDispatch();
@@ -43,8 +52,29 @@ export const SearchSensor: FC = () => {
     }
   };
 
-  const handleEditSensor = () => {
-    console.log("edit submit");
+  const handleEditSensor = async ({
+    serial,
+    institution,
+    location,
+    locationCode,
+    logonType,
+    technology,
+  }: IForm) => {
+    console.log("edit submit", sensor);
+    const res = await dispatcher(
+      createSensor(
+        serial,
+        institution,
+        currentCountry,
+        location,
+        locationCode,
+        logonType,
+        technology,
+        profile.token
+      )
+    );
+
+    console.log(res)
   };
 
   return (
