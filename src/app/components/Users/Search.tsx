@@ -13,11 +13,11 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import { MotionContainer, MotionItemUp } from "../Motion";
 import { useDispatch } from "react-redux";
-import { createSensor, getSensor } from "@/app/store/common";
+import { createSensor, getSensor, searchUser } from "@/app/store/common";
 import { styled } from "@material-ui/styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import FormGetSensor from "./FormGet";
-import FormRegisterSensor from "./FormRegister";
+import FormGet from "./FormGet";
+import FormView from "./FormView";
 
 const useStyles = makeStyles(() => ({
   centered: {
@@ -39,8 +39,9 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface Props {
-  token: string;
-  country: string;
+  token: string
+  country: string
+  institution: string
 }
 
 type Sensor = {
@@ -64,23 +65,22 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   marginLeft: "auto",
 }));
 
-const SearchSensor: FC<Props> = ({ token, country }) => {
+const Search = ({ token, country, institution }: Props) => {
   const dispatcher = useDispatch();
   const classes = useStyles();
   const [isExpanded, setIsExpaded] = useState<boolean>(false);
-  const [sensor, setSensor] = useState<any>();
+  const [person, setPerson] = useState<any>();
 
   useEffect(() => setIsExpaded(true), []);
 
   const handleExpandClick = () => setIsExpaded(!isExpanded);
-  // const handleCloseError = () => dispatcher(setErrorMessage(""));
 
-  const handleSubmit = async (serial: string, tech: string) => {
-    setSensor(undefined);
-    const resp = await dispatcher(getSensor(serial, country, tech, token));
+  const handleSubmit = async (dni: string) => {
+    setPerson(undefined);
+    const resp = await dispatcher(searchUser(token, country, institution, dni));
     if ("Code" in resp) {
       setIsExpaded(false);
-      setSensor(resp);
+      setPerson(resp);
     }
   };
 
@@ -113,11 +113,11 @@ const SearchSensor: FC<Props> = ({ token, country }) => {
         <Grid item xs={12} sm={6} md={8} lg={4}>
           <MotionContainer>
             <Card className={classes.card}>
-              <CardHeader title="Consultar Sensor" />
+              <CardHeader title="Buscar Usuario" />
               <Collapse in={isExpanded} timeout="auto" unmountOnExit>
                 <CardContent className={classes.centered}>
                   <MotionItemUp>
-                    <FormGetSensor onSubmit={handleSubmit} />
+                    <FormGet onSubmit={handleSubmit} />
                   </MotionItemUp>
                 </CardContent>
               </Collapse>
@@ -137,15 +137,9 @@ const SearchSensor: FC<Props> = ({ token, country }) => {
           </MotionContainer>
         </Grid>
       </Box>
-      <Grid item xs={12} sm={12} md={12} lg={12}>
-        <MotionContainer>
-          {!!sensor && (
-            <FormRegisterSensor title="Detalles del Sensor" data={sensor} onSubmit={handleSubmitRegister} />
-          )}
-        </MotionContainer>
-      </Grid>
+      
     </>
   );
 }
 
-export default SearchSensor
+export default Search

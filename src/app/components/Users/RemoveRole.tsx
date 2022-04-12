@@ -22,22 +22,17 @@ const RemoveRole = ({
   const { common } = useSelector((state: StoreState) => state)
   const { profile, currentCountry, currentInstitution } = common
   const handleRemove = async () => {
-    let res = await dispatcher(
+    await dispatcher(
       removeAutentiaRole(userDNI, roleName, currentInstitution, currentCountry, common.profile.token)
     );
-
-    if (typeof res === "boolean") {
-      await dispatcher(setUsersList(profile.token, currentCountry, currentInstitution))
-      toast.success("Rol eliminado con éxito!", {
-        position: "top-center",
-        duration: 5000,
-      });
-    } else {
-      toast.error("Rol no encontrado ó inválido", {
-        position: "top-center",
-        duration: 5000,
-      });
-    }
+    
+    // TODO: Add component for messages
+    await dispatcher(setUsersList(profile.token, currentCountry, currentInstitution))
+    toast.success("Rol eliminado con éxito!", {
+      position: "top-center",
+      duration: 5000,
+    });
+    
     setIsOpen(false);
   };
 

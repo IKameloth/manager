@@ -49,7 +49,7 @@ interface Props {
   onSubmit: (data: IForm) => void;
 }
 
-export default function FormRegisterSensor({
+export default function FormView({
   data: sensorData,
   title,
   onSubmit,

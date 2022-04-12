@@ -25,6 +25,7 @@ const UsersTable = ({ isLoading, usersList, changePage, setAddRole }: Props) => 
   const classes = useRolesStyle();
   const dataRows: GridRowsProp = usersList.data;
   const [rows, setRows] = useState(dataRows);
+  const [currentPage, setCurrentPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
   const [selectedUser, setSelectedUser] = useState<GridRowData>();
   const [openRoleTable, setOpenRoleTable] = useState<boolean>(false);
@@ -99,9 +100,12 @@ const UsersTable = ({ isLoading, usersList, changePage, setAddRole }: Props) => 
       rowsPerPageOptions={[10]}
       paginationMode="server"
       onPageChange={(page) => {
-        if(usersList.offset)
+        if(usersList.offset){
           changePage(page, usersList.offset)
+        }
+        setCurrentPage(2)
       }}
+      page={currentPage}
       rowCount={usersList.total}
     />
   );

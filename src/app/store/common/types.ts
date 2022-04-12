@@ -1,5 +1,5 @@
 import { InstitutionType } from "@/app/types/InstitutionType";
-import { CountriesType, ProfileType, RoleType, UsersListType } from "src/app/types";
+import { AutentiaUserType, CountriesType, ProfileType, RoleType, UsersListType } from "src/app/types";
 
 export enum CommonTypes {
   SET_ERROR_MESSAGE = "SET_ERROR_MESSAGE",
@@ -17,6 +17,7 @@ export enum CommonTypes {
   CREATE_SENSOR = "CREATE_SENSOR",
   REMOVE_AUTENTIA_ROLE = "REMOVE_AUTENTIA_ROLE",
   ADD_AUTENTIA_ROLE = "ADD_AUTENTIA_ROLE",
+  SEARCH_AUTENTIA_USER = "SEARCH_AUTENTIA_USER",
 }
 
 export type CommonState = {
@@ -30,4 +31,5 @@ export type CommonState = {
   institutions?: [InstitutionType]
   unauthorized: boolean
   usersList: UsersListType
+  autentiaUser?: AutentiaUserType
 };

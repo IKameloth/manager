@@ -57,22 +57,4 @@ export class UsersServicesProvider {
       },
     };
   }
-
-  // GET USERS LIST
-  public async getUsersList(token: string, country: string, institution: string, offset?: number) {
-    const limit = 10
-    if(!offset){
-      offset = 0
-    }
-    const resp = await this.$httpClient.get(`autentia/roles?institution=${institution}&country=${country}&limit=${limit}&offset=${offset}`, {
-      headers: { Authorization: token },
-    });
-
-    if (resp.status != 200) {
-      return { error: resp.statusText, status: resp.status };
-    }
-
-    const respJson = await resp.json();
-    return respJson;
-  }
 }

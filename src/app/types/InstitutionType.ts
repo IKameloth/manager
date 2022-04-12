@@ -1,6 +1,6 @@
 export type InstitutionType = {
   id: string
-  Dni: string
+  dni: string
   name: string
   country: string
   nemo: string

@@ -57,6 +57,8 @@ export const commonReducer = (
       return { ...state, institutions: action.payload };
     case Types.SET_USERS_LIST:
       return { ...state, usersList: action.payload };
+    case Types.SEARCH_AUTENTIA_USER:
+      return { ...state, autentiaUser: action.payload };
     case Types.UNAUTHORIZED:
       return { ...state, unauthorized: action.payload };
     default:

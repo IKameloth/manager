@@ -15,7 +15,7 @@ const RequireRole = (props: Props) => {
   const location = useLocation();
 
   const res = rolesProfile?.map((role) => role?.name === "Admin")[0];
-  const paths = ["/roles", "/people", "/institutions"];
+  const paths = ["/roles", "/people", "/institutions", "/sensor"];
 
   if (!currentCountry.length && !currentInstitution.length)
     return <Redirect to="/" />;

@@ -49,6 +49,14 @@ export default function UserMenu() {
       <Collapse in={openUserList} timeout="auto" unmountOnExit>
         <List component="div" disablePadding style={{ width: 230 }}>
 
+          <Link to="/users/search" className={classes.linkStyled}>
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <FiberManualRecordIcon style={{ height: 6 }} />
+              </ListItemIcon>
+              <ListItemText primary="Buscar" />
+            </ListItem>
+          </Link>
           <Link to="/users/roles" className={classes.linkStyled}>
             <ListItem button className={classes.nested}>
               <ListItemIcon>

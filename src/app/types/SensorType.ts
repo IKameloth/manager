@@ -1,20 +1,16 @@
-// LIKE CGI RESPONSE
 export type SensorType = {
-    technology: string,
-    code: string,
-    externalCode: string,
-    institution: string,
-    location: string,
-    locationCode: string,
-    description: string,
-    registerAt: string,
-    logonType: number,
-    logonDNI: string,
-    lastOperator: string,
-    dateFrom: string,
-    dateTo: string,
-    result: {
-        error: string,
-        detail: string
-    }
+    code: string;
+    date_from: string;
+    date_to: string;
+    description: string;
+    external_code: string;
+    institution: string;
+    last_operator: string;
+    location: string;
+    location_code: string;
+    logon_dni: string;
+    logon_type: number;
+    register_at: Date;
+    technology: string;
+    result: { error: string; glosa: string };
 }
