@@ -19,10 +19,10 @@ import CloseIcon from "@material-ui/icons/Close";
 import { useDispatch } from "react-redux";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Loader from "@/app/components/Loader";
-import { toast } from "react-hot-toast";
 import { updateUser } from "@/app/store/admin";
 import { EmailReg } from "@/app/helper/Regex";
 import { UserType } from "@/app/types";
+import Alerts from "@/app/components/Alerts";
 
 interface Props {
   isOpen: boolean;
@@ -97,7 +97,7 @@ const EditUserModal = ({ isOpen, onClose, user, token }: Props) => {
       const { dni, status } = user;
   
       const resp = await dispatcher(updateUser(dni, status, token, name, email));
-      ("id" in resp) && toast.success("Datos actualizados!", { duration: 5000 });
+      ("id" in resp) && Alerts({ message: "Datos actualizados!", timer: 5000, icon: "success" });
       onClose();
   
       setIsLoading(false);

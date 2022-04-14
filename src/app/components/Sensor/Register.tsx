@@ -1,10 +1,10 @@
 import { Grid } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
 import { MotionContainer } from "../Motion";
 import FormRegisterSensor from "./FormRegister";
 import { useDispatch } from "react-redux";
 import { createSensor, setErrorMessage } from "@/app/store/common/operations";
-import ErrorAlert from "../ErrorAlert";
+import Alerts from "../Alerts";
 
 interface Props {
   token: string;
@@ -52,13 +52,6 @@ export default function RegisterSensor({ token, country, anyError }: Props) {
           />
         </MotionContainer>
       </Grid>
-      {!!anyError && (
-        <ErrorAlert
-          message={anyError}
-          onClose={handleCloseError}
-          onOpen={!!anyError}
-        />
-      )}
     </>
   );
 }

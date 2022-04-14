@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Modal,
@@ -27,8 +27,7 @@ import {
 import { Fingerprint, Person, Email } from "@material-ui/icons";
 import Loader from "../../../Loader";
 import { MotionContainer, MotionItemUp } from "../../../Motion";
-import toast from "react-hot-toast";
-import ErrorAlert from "../../../ErrorAlert";
+import Alerts from "@/app/components/Alerts";
 
 interface Props {
   isOpen: boolean;
@@ -99,6 +98,17 @@ const NewUserModal = ({ isOpen, closeModal }: Props) => {
     setError,
   } = useForm<FormInputs>();
 
+  useEffect(() => {
+    if (errorMessage){
+      closeModal();
+      Alerts({
+        message: errorMessage,
+        icon: "error",
+      }); 
+    };
+    handleCloseError();
+  }, [errorMessage]);
+
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     setIsLoading(true);
     const { name, dni, email } = data;
@@ -114,7 +124,12 @@ const NewUserModal = ({ isOpen, closeModal }: Props) => {
 
       if ("id" in res) {
         await dispatcher(getUsersList(profile.token));
-        toast.success("Usuario registrado", { duration: 7000 }) && closeModal();
+        Alerts({
+          message: "Usuario registrado",
+          timer: 7000,
+          icon: "success",
+        });
+        closeModal();
       }
     }
     setIsLoading(false);
@@ -253,13 +268,6 @@ const NewUserModal = ({ isOpen, closeModal }: Props) => {
           </BootstrapDialog>
         </Container>
       </Modal>
-      {errorMessage && (
-        <ErrorAlert
-          onOpen={!!errorMessage}
-          onClose={handleCloseError}
-          message={errorMessage}
-        />
-      )}
     </MotionContainer>
   );
 };

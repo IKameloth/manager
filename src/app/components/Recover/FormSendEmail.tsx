@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useStyles } from "@/assets/login/recover";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,10 +14,9 @@ import { Fingerprint } from "@material-ui/icons";
 import Loader from "../Loader";
 import { Link } from "react-router-dom";
 import { DniReg } from "@/app/helper/Regex";
-import toast from "react-hot-toast";
 import { recoverPassword, setErrorMsg } from "@/app/store/admin";
 import { StoreState } from "@/app/store";
-import ErrorAlert from "../ErrorAlert";
+import Alerts from "../Alerts";
 
 interface FormInput {
   dni: string;
@@ -38,6 +37,16 @@ const FormSendEmail = () => {
     resetField,
   } = useForm<FormInput>();
 
+  useEffect(() => {
+    if (errorMessage){
+      Alerts({
+        message: errorMessage,
+        icon: "error",
+      }); 
+    };
+    handleCloseError();
+  }, [errorMessage]);
+
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
     setIsLoading(true);
     const { dni } = data;
@@ -48,8 +57,10 @@ const FormSendEmail = () => {
       let res = await dispatcher(recoverPassword(dni.toUpperCase()));
 
       if (typeof res === "string") {
-        toast.success("Se ha enviado un email de recuperación", {
-          duration: 7000,
+        Alerts({
+          message: "Se ha enviado un email de recuperación",
+          timer: 7000,
+          icon: "success",
         });
       }
       setIsLoading(false);
@@ -110,13 +121,6 @@ const FormSendEmail = () => {
           </Grid>
         </form>
       </MotionRightItem>
-      {errorMessage && (
-        <ErrorAlert
-          onOpen={!!errorMessage}
-          onClose={handleCloseError}
-          message={errorMessage}
-        />
-      )}
     </Grid>
   );
 };
