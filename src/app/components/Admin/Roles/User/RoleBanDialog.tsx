@@ -55,75 +55,73 @@ export default function RoleBanDialog({ isOpen, onClose, user, token }: Props) {
   }
 
   return (
-    <>
-      <AnimatePresence>
-        <StyledDialog
-          open={isOpen}
-          onClose={onClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <div style={{ width: 250 }}>
-            <DialogTitle
-              id="alert-dialog-title"
-              style={{ textAlign: "center" }}
+    <AnimatePresence>
+      <StyledDialog
+        open={isOpen}
+        onClose={onClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <div style={{ width: 250 }}>
+          <DialogTitle
+            id="alert-dialog-title"
+            style={{ textAlign: "center" }}
+          >
+            {user.status ? (
+              <Typography
+                component="span"
+                variant="h6"
+                style={{ fontSize: 18 }}
+              >
+                Desactivar cuenta
+              </Typography>
+            ) : (
+              <Typography
+                component="span"
+                variant="h6"
+                style={{ fontSize: 18 }}
+              >
+                Reactivar cuenta
+              </Typography>
+            )}
+          </DialogTitle>
+          <DialogContent dividers>
+            <DialogContentText
+              id="alert-dialog-description"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
-              {user.status ? (
-                <Typography
-                  component="span"
-                  variant="h6"
-                  style={{ fontSize: 18 }}
-                >
-                  Desactivar cuenta
-                </Typography>
-              ) : (
-                <Typography
-                  component="span"
-                  variant="h6"
-                  style={{ fontSize: 18 }}
-                >
-                  Reactivar cuenta
-                </Typography>
-              )}
-            </DialogTitle>
-            <DialogContent dividers>
-              <DialogContentText
-                id="alert-dialog-description"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
+              <Typography
+                component="span"
+                variant="body2"
+                style={{ color: "#000000" }}
               >
-                <Typography
-                  component="span"
-                  variant="body2"
-                  style={{ color: "#000000" }}
-                >
-                  {user.name}
-                </Typography>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  style={{ color: "#000000" }}
-                >
-                  {user.dni}
-                </Typography>
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions style={{ justifyContent: "center" }}>
-              <Button
-                onClick={handleBanUser}
-                autoFocus
-                style={{ color: `${user.status ? "#FF0000" : "#209E25"}` }}
+                {user.name}
+              </Typography>
+              <Typography
+                component="span"
+                variant="body2"
+                style={{ color: "#000000" }}
               >
-                {user.status ? "Desactivar" : "Activar"}
-              </Button>
-            </DialogActions>
-          </div>
-        </StyledDialog>
-      </AnimatePresence>
-    </>
+                {user.dni}
+              </Typography>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions style={{ justifyContent: "center" }}>
+            <Button
+              onClick={handleBanUser}
+              autoFocus
+              style={{ color: `${user.status ? "#FF0000" : "#209E25"}` }}
+            >
+              {user.status ? "Desactivar" : "Activar"}
+            </Button>
+          </DialogActions>
+        </div>
+      </StyledDialog>
+    </AnimatePresence>
   );
 }
