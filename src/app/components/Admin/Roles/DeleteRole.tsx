@@ -8,7 +8,7 @@ import {
   DialogTitle,
   styled,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiPaper-root": {

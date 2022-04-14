@@ -2,14 +2,15 @@ import React from "react";
 import {
   Button,
   Grid,
-  makeStyles,
   Paper,
   Typography,
   useMediaQuery,
-} from "@material-ui/core";
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import { MotionItemUp } from "@/app/components/Motion";
+import theme from "@/assets/theme";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   paper: {
     padding: theme.spacing(1),
     margin: "auto",

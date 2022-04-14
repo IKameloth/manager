@@ -1,6 +1,6 @@
 import React from "react";
 import { useRolesStyle } from "@/assets/Roles";
-import { Avatar } from "@material-ui/core";
+import { Avatar } from "@mui/material";
 
 interface userProps {
   name: string;

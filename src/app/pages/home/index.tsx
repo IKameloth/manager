@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Typography, Grid, Paper } from "@material-ui/core";
+import { Container, Typography, Grid, Paper } from "@mui/material";
 import { useSelector } from "react-redux";
 import { StoreState } from "src/app/store";
 import { useHomeStyles } from "../../../assets/Home";

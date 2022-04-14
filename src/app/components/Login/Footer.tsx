@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@mui/material";
 import Logo from "@/assets/images/autentia-logo.svg";
 import { Footer } from "@/assets/login";
 import { MotionRightItem } from "../Motion";

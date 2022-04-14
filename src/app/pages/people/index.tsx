@@ -12,10 +12,10 @@ import {
   Grid,
   InputLabel,
   OutlinedInput,
-} from "@material-ui/core";
+} from "@mui/material";
 import Section from "@/app/components/Section";
 import { TitleBar } from "@/app/components/Admin";
-import SearchIcon from "@material-ui/icons/Search";
+import SearchIcon from "@mui/icons-material/Search";
 import { MotionContainer, MotionItemUp } from "@/app/components/Motion";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {

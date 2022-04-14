@@ -1,14 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { AppBar, Menu, Toolbar } from "@material-ui/core";
+import { AppBar, Menu, Toolbar } from "@mui/material";
 import { navigationBar } from "@/assets/SideBar/NavigationBar";
 import clsx from "clsx";
-import IconButton from "@material-ui/core/IconButton";
-import MoreIcon from "@material-ui/icons/MoreVert";
-import MenuItem from "@material-ui/core/MenuItem";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import MenuIcon from "@material-ui/icons/Menu";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import IconButton from "@mui/material/IconButton";
+import MoreIcon from "@mui/icons-material/MoreVert";
+import MenuItem from "@mui/material/MenuItem";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import MenuIcon from "@mui/icons-material/Menu";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 interface Props {
   isSideOpen: boolean;

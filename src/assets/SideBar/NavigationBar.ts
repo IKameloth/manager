@@ -1,7 +1,8 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
+import theme from "../theme";
 import Logo from "../images/autentia-logo.svg";
 
-export const navigationBar = makeStyles((theme) => ({
+export const navigationBar = makeStyles(() => ({
 appBar: {
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['margin', 'width'], {

@@ -1,6 +1,6 @@
-import { IconButton, TextField } from "@material-ui/core";
-import SearchIcon from '@material-ui/icons/Search';
-import ClearIcon from "@material-ui/icons/Clear";
+import { IconButton, TextField } from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from "@mui/icons-material/Clear";
 import React from "react";
 
 interface SearchTool {

@@ -1,6 +1,6 @@
 import React from "react";
 import { MotionContainer } from "@/app/components/Motion";
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Box, Grid, Typography } from "@mui/material";
 import NotFoundImage from "@/assets/images/not-found.svg";
 
 const NotFound = () => {

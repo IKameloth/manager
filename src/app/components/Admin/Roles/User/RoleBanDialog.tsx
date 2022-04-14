@@ -8,7 +8,7 @@ import {
   DialogTitle,
   styled,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { useDispatch } from "react-redux";
 import { banUser } from "@/app/store/admin";
 import { UserType } from "@/app/types";

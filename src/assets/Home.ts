@@ -1,7 +1,8 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
+import theme from "./theme";
 import HomeImg from "../assets/images/home-img.svg";
 
-export const useHomeStyles = makeStyles((theme) => ({
+export const useHomeStyles = makeStyles(() => ({
   paper: {
     padding: theme.spacing(1),
     maxWidth: '800px',

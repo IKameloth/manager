@@ -1,6 +1,6 @@
-import { FormControlLabel, IconButton } from "@material-ui/core";
+import { FormControlLabel, IconButton } from "@mui/material";
 import React, { useState } from "react";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import DeleteRole from "./DeleteRole";
 import { useDispatch, useSelector } from "react-redux";
 import { StoreState } from "@/app/store";

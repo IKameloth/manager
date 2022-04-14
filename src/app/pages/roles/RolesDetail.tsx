@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { Container, Grid, Box } from "@material-ui/core";
+import { Container, Grid, Box } from "@mui/material";
 import Section from "@/app/components/Section";
 import { MotionContainer } from "@/app/components/Motion";
 import UserRoles from "@/app/components/Admin/Roles/User/UserRoles";

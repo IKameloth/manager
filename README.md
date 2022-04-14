@@ -105,10 +105,10 @@ AUTENTIA-ADMIN/
 <summary>:package: Dependencies</summary>
 
 ```json
-"@material-ui/core": "^4.12.3",
-"@material-ui/data-grid": "^4.0.0-alpha.37",
-"@material-ui/icons": "^4.11.2",
-"@material-ui/lab": "^4.0.0-alpha.60",
+"@mui/material": "^4.12.3",
+"@mui/data-grid": "^4.0.0-alpha.37",
+"@mui/icons": "^4.11.2",
+"@mui/lab": "^4.0.0-alpha.60",
 "@tanem/react-nprogress": "^3.0.47",
 "@testing-library/jest-dom": "^4.2.4",
 "@testing-library/react": "^9.3.2",

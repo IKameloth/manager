@@ -2,15 +2,16 @@ import React from "react";
 import {
   Button,
   Grid,
-  makeStyles,
   Paper,
   Typography,
   useMediaQuery,
-} from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import AddIcon from "@mui/icons-material/Add";
 import { MotionItemUp } from "../../Motion";
+import theme from "@/assets/theme";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   paper: {
     padding: theme.spacing(1),
     margin: "auto",
@@ -37,8 +38,7 @@ interface Props {
   btnAction: () => void;
 }
 
-const TitleBar = (props: Props) => {
-  const { title, subTitle, btnText, btnAction } = props;
+const TitleBar = ({ title, subTitle, btnText, btnAction }: Props) => {
   const classes = useStyles();
   const viewMobile = useMediaQuery("(max-width:425px)");
   return (
