@@ -17,8 +17,8 @@ import { createSensor, getSensor, setErrorMessage } from "@/app/store/common";
 import { styled } from "@material-ui/styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import FormGetSensor from "./FormGet";
-import ErrorAlert from "../ErrorAlert";
 import FormRegisterSensor from "./FormRegister";
+import Alerts from "../Alerts";
 
 const useStyles = makeStyles(() => ({
   centered: {
@@ -76,7 +76,16 @@ export default function SearchSensor({ token, country, anyError }: Props) {
   const [isExpanded, setIsExpaded] = useState<boolean>(false);
   const [sensor, setSensor] = useState<any>();
 
-  useEffect(() => setIsExpaded(true), []);
+  useEffect(() => {
+    setIsExpaded(true)
+    if (anyError){
+      Alerts({
+        message: anyError,
+        icon: "error",
+      }); 
+    };
+    handleCloseError();
+  }, [anyError]);
 
   const handleExpandClick = () => setIsExpaded(!isExpanded);
   const handleCloseError = () => dispatcher(setErrorMessage(""));
@@ -142,13 +151,6 @@ export default function SearchSensor({ token, country, anyError }: Props) {
             </Card>
           </MotionContainer>
         </Grid>
-        {!!anyError && (
-          <ErrorAlert
-            onOpen={!!anyError}
-            message={anyError}
-            onClose={handleCloseError}
-          />
-        )}
       </Box>
       <Grid item xs={12} sm={12} md={12} lg={12}>
         <MotionContainer>

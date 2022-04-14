@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   TextField,
@@ -16,7 +16,7 @@ import { DniReg } from "@/app/helper/Regex";
 import Loader from "@/app/components/Loader";
 import { Link, Redirect } from "react-router-dom";
 import { StoreState } from "@/app/store";
-import ErrorAlert from "../ErrorAlert";
+import Alerts from "../Alerts";
 
 interface IFormInputs {
   dni: string;
@@ -36,6 +36,16 @@ const FormLogin = () => {
     handleSubmit,
     setError,
   } = useForm<IFormInputs>();
+
+  useEffect(() => {
+    if (errorMessage){
+      Alerts({
+        message: errorMessage,
+        icon: "error",
+      }); 
+    };
+    handleCloseError();
+  }, [errorMessage]);
 
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     setIsLoading(true);
@@ -134,13 +144,6 @@ const FormLogin = () => {
           </Grid>
         </form>
       </MotionRightItem>
-      {errorMessage && (
-        <ErrorAlert
-          onOpen={!!errorMessage}
-          onClose={handleCloseError}
-          message={errorMessage}
-        />
-      )}
     </Grid>
   );
 };

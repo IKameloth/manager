@@ -8,7 +8,6 @@ import Logo from "../../../assets/images/autentia-logo.svg";
 import HandImg from "@/assets/images/hand.svg";
 import { MotionItemUp } from "@/app/components/Motion";
 import FormRegisterPass from "@/app/components/Recover/FormRegisterPass";
-import ErrorAlert from "@/app/components/ErrorAlert";
 
 interface Props {
   token: string;
