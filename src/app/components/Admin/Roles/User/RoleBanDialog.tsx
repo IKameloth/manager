@@ -9,7 +9,6 @@ import {
   styled,
   Typography,
 } from "@material-ui/core";
-import { AnimatePresence } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { banUser } from "@/app/store/admin";
 import { UserType } from "@/app/types";
@@ -55,7 +54,7 @@ export default function RoleBanDialog({ isOpen, onClose, user, token }: Props) {
   }
 
   return (
-    <AnimatePresence>
+    <>
       <StyledDialog
         open={isOpen}
         onClose={onClose}
@@ -122,6 +121,6 @@ export default function RoleBanDialog({ isOpen, onClose, user, token }: Props) {
           </DialogActions>
         </div>
       </StyledDialog>
-    </AnimatePresence>
+    </>
   );
 }
