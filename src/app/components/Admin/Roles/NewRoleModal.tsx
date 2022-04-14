@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import {
   Button,
   Backdrop,
@@ -54,7 +54,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export interface DialogTitleProps {
   id: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
   onClose: () => void;
 }
 

@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { motion } from 'framer-motion'
 
 interface ParentElement {
-    children: React.ReactNode
+    children: ReactNode
 }
 
 export const MotionContainer = ({ children }: ParentElement) => {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { Paper } from '@material-ui/core';
 import { styled } from '@material-ui/core';
 import { motion } from 'framer-motion'
@@ -14,7 +14,7 @@ const ItemStyled = styled(Paper)(({ theme }) => ({
 }));
 
 interface ItemProp {
-    children: React.ReactNode
+    children: ReactNode
     delay?: number
 }
 
