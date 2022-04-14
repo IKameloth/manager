@@ -12,8 +12,8 @@ import {
 import { AnimatePresence } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { banUser } from "@/app/store/admin";
-import { toast } from "react-hot-toast";
 import { UserType } from "@/app/types";
+import Alerts from "@/app/components/Alerts";
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiPaper-root": {
@@ -36,8 +36,14 @@ export default function RoleBanDialog({ isOpen, onClose, user, token }: Props) {
       const resp: any = await dispatch(banUser(user.dni, !user.status, token));
       if ("status" in resp) {
         resp.status === true
-          ? toast.success("Usuario habilitado")
-          : toast.success("Usuario Deshabilitado");
+          ? Alerts({
+            message: "Usuario habilitado",
+            icon: "success",
+          })
+          : Alerts({
+            message: "Usuario Deshabilitado",
+            icon: "success",
+          });
       }
     }
     onClose();

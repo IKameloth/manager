@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import DeleteRole from "./DeleteRole";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-hot-toast";
 import { StoreState } from "@/app/store";
 import { setUsersList, removeAutentiaRole } from "@/app/store/common";
+import Alerts from "../Alerts";
 
 interface Props {
   roleName: string;
@@ -28,14 +28,16 @@ const RemoveRole = ({
 
     if (typeof res === "boolean") {
       await dispatcher(setUsersList(profile.token, currentCountry, currentInstitution))
-      toast.success("Rol eliminado con éxito!", {
-        position: "top-center",
-        duration: 5000,
+      Alerts({
+        message: "Rol eliminado con éxito!",
+        timer: 5000,
+        icon: "success",
       });
     } else {
-      toast.error("Rol no encontrado ó inválido", {
-        position: "top-center",
-        duration: 5000,
+      Alerts({
+        message: "Rol no encontrado ó inválido",
+        timer: 5000,
+        icon: "error",
       });
     }
     setIsOpen(false);
