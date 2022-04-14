@@ -8,9 +8,9 @@ import {
   InputAdornment,
   TextField,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { MotionRightItem } from "../Motion";
-import { Fingerprint } from "@material-ui/icons";
+import { Fingerprint } from "@mui/icons-material";
 import Loader from "../Loader";
 import { Link } from "react-router-dom";
 import { DniReg } from "@/app/helper/Regex";

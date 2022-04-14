@@ -4,12 +4,11 @@ import {
   GridCellParams,
   GridColDef,
   GridRowsProp,
-} from "@material-ui/data-grid";
+} from "@mui/x-data-grid";
 import { useRolesStyle } from "@/assets/Roles";
 import CustomLoadingOverlay from './CustomLoading'
 import RemoveRole from './RemoveRole'
-import { UsersListType } from "@/app/types";
-import { List, ListItem, ListItemText } from "@material-ui/core";
+import { List, ListItem, ListItemText } from "@mui/material";
 
 interface Props {
   isLoading: boolean
@@ -84,6 +83,7 @@ const UsersTable = ({ isLoading, usersList, changePage }: Props) => {
         LoadingOverlay: CustomLoadingOverlay,
       }}
       loading={isLoading}
+      autoHeight={true}
       rows={rows}
       getRowId={row => row.dni}
       columns={columns}

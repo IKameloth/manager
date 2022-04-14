@@ -1,7 +1,8 @@
-import { Box } from '@material-ui/core';
-import { makeStyles, styled } from '@material-ui/core/styles';
+import { Box } from '@mui/material';
+import { makeStyles, styled } from '@mui/styles';
+import theme from "../theme";
 
-export const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles(() => ({
   root: {
     height: '100vh',
     backgroundColor: "#F7F9FC"

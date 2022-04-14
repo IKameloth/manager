@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Card,
@@ -8,14 +9,13 @@ import {
   Grid,
   IconButton,
   IconButtonProps,
-} from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { makeStyles } from '@material-ui/core/styles'
+} from "@mui/material";
+import { makeStyles } from '@mui/styles'
 import { MotionContainer, MotionItemUp } from "../Motion";
 import { useDispatch } from "react-redux";
 import { createSensor, getSensor, setErrorMessage } from "@/app/store/common";
-import { styled } from "@material-ui/styles";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { styled } from "@mui/styles";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FormGetSensor from "./FormGet";
 import FormRegisterSensor from "./FormRegister";
 import Alerts from "../Alerts";

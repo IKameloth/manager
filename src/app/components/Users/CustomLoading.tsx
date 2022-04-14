@@ -1,6 +1,6 @@
 import React from "react";
-import { LinearProgress } from "@material-ui/core";
-import { GridOverlay } from "@material-ui/data-grid";
+import { LinearProgress } from "@mui/material";
+import { GridOverlay } from "@mui/x-data-grid";
 import { useRolesStyle } from "@/assets/Roles";
 
 export default function CustomLoadingOverlay() {

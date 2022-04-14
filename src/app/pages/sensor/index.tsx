@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import TitleBar from "@/app/components/TitleBar";
 import Section from "@/app/components/Section";
-import { Container, Grid } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import SearchIcon from "@material-ui/icons/Search";
+import { Container, Grid } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
 import { StoreState } from "@/app/store";
 import SearchSensor from "@/app/components/Sensor/Search";

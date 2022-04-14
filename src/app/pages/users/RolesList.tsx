@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Container, Grid } from "@material-ui/core";
+import { Box, Container, Grid } from "@mui/material";
 import { TitleBar, NewUserModal } from "@/app/components/Admin";
 import Section from "@/app/components/Section";
 import { Users } from "@/app/components/Users";

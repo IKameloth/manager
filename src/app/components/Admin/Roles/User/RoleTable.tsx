@@ -3,8 +3,7 @@ import {
   DataGrid,
   GridCellParams,
   GridColDef,
-  GridRowsProp,
-} from "@material-ui/data-grid";
+} from "@mui/x-data-grid";
 import { useRolesStyle } from "@/assets/Roles";
 import { CustomLoadingOverlay, RemoveRole } from "@/app/components/Admin";
 import { RoleType } from "@/app/types";

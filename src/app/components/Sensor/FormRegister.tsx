@@ -19,21 +19,21 @@ import {
   Select,
   Theme,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@mui/styles";
 import { MotionItemUp } from "../Motion";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Loader from "../Loader";
 import { LogonTypes } from "@/app/helper/LogonTypes";
 
-import LocationOnIcon from "@material-ui/icons/LocationOn";
-import ExtensionIcon from "@material-ui/icons/Extension";
-import CodeIcon from "@material-ui/icons/Code";
-import ApartmentIcon from "@material-ui/icons/Apartment";
-import AccessTimeIcon from "@material-ui/icons/AccessTime";
-import EditIcon from "@material-ui/icons/Edit";
-import AddIcon from "@material-ui/icons/Add";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import ExtensionIcon from "@mui/icons-material/Extension";
+import CodeIcon from "@mui/icons-material/Code";
+import ApartmentIcon from "@mui/icons-material/Apartment";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 import { SensorType } from "@/app/types";
 
 const useStyles = makeStyles(() => ({

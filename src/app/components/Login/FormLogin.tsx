@@ -5,8 +5,8 @@ import {
   Button,
   Typography,
   InputAdornment,
-} from "@material-ui/core";
-import { Fingerprint, VpnKey } from "@material-ui/icons";
+} from "@mui/material";
+import { Fingerprint, VpnKey } from "@mui/icons-material";
 import { MotionRightItem } from "../Motion";
 import { useStyles } from "@/assets/login";
 import { useForm, SubmitHandler } from "react-hook-form";

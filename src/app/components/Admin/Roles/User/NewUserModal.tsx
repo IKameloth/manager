@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import {
   Button,
   Modal,
@@ -13,8 +13,7 @@ import {
   DialogContent,
   DialogActions,
   InputAdornment,
-} from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+} from "@mui/material";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { DniReg, EmailReg } from "@/app/helper/Regex";
 import { useSelector, useDispatch } from "react-redux";
@@ -24,7 +23,7 @@ import {
   getUsersList,
   setErrorMsg,
 } from "@/app/store/admin/operations";
-import { Fingerprint, Person, Email } from "@material-ui/icons";
+import { Fingerprint, Person, Email, Close as CloseIcon } from "@mui/icons-material";
 import Loader from "../../../Loader";
 import { MotionContainer, MotionItemUp } from "../../../Motion";
 import Alerts from "@/app/components/Alerts";
@@ -50,7 +49,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 interface DialogTitleProps {
   id: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
   onClose: () => void;
 }
 

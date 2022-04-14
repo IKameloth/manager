@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Box, Grid, Typography } from "@mui/material";
 import { Item } from "@/app/components/Item";
 import UsersTable from "@/app/components/Admin/Roles/User/UsersTable";
 import { useSelector, useDispatch } from "react-redux";

@@ -4,7 +4,7 @@ import {
   GridCellParams,
   GridColDef,
   GridRowsProp,
-} from "@material-ui/data-grid";
+} from "@mui/x-data-grid";
 import { useRolesStyle } from "@/assets/Roles";
 import {
   CustomLoadingOverlay,

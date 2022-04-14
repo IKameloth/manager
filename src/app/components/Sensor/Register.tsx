@@ -1,4 +1,4 @@
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import React, { useEffect } from "react";
 import { MotionContainer } from "../Motion";
 import FormRegisterSensor from "./FormRegister";

@@ -13,11 +13,11 @@ import {
   IconButton,
   Theme,
   Box,
-} from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
-import NotInterestedIcon from "@material-ui/icons/NotInterested";
-import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
-import { makeStyles } from "@material-ui/styles";
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import NotInterestedIcon from "@mui/icons-material/NotInterested";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { makeStyles } from "@mui/styles";
 import EditUserModal from "./EditUserModal";
 import RoleBanDialog from "./RoleBanDialog";
 import Loader from "@/app/components/Loader";

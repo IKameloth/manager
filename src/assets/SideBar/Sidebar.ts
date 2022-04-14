@@ -1,8 +1,9 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
+import theme from "../theme";
 
 const drawerWidth = 330;
 
-export const SideBar = makeStyles((theme) => ({
+export const SideBar = makeStyles(() => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,

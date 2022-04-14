@@ -1,12 +1,12 @@
 import React from "react";
 import { MenuStyled } from "@/assets/SideBar/Menu";
 import { Link } from "react-router-dom";
-import { ExpandLess, ExpandMore } from "@material-ui/icons";
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-import FolderSharedIcon from '@material-ui/icons/FolderShared';
-import PersonIcon from '@material-ui/icons/Person';
-import BusinessIcon from '@material-ui/icons/Business';
-import { Collapse, Grid, List, ListItem, ListItemIcon, ListItemText, Typography } from "@material-ui/core";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import FolderSharedIcon from '@mui/icons-material/FolderShared';
+import PersonIcon from '@mui/icons-material/Person';
+import BusinessIcon from '@mui/icons-material/Business';
+import { Collapse, Grid, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
 
 export default function AdminMenu() {
   const classes = MenuStyled();

@@ -6,7 +6,7 @@ import {
   Typography,
   useMediaQuery,
   Button,
-} from "@material-ui/core";
+} from "@mui/material";
 import { useParams, Link, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { StoreState } from "@/app/store/";
@@ -15,11 +15,11 @@ import { validateToken } from "@/app/store/admin";
 import Img from "@/assets/images/frame.svg";
 import ImgPlus from "@/assets/images/frameplus.svg";
 import { MotionContainer, MotionItemUp } from "@/app/components/Motion";
-import { makeStyles } from "@material-ui/core/styles";
-import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
+import { makeStyles } from "@mui/styles";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import SetPassView from "./setPass";
-
-const useStyles = makeStyles((theme) => ({
+import theme from "@/assets/theme";
+const useStyles = makeStyles(() => ({
   root: {
     height: "100vh",
     backgroundColor: "#F7F9FC",

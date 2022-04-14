@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import Loader from "@/app/components/Loader";
-import { Visibility, VisibilityOff } from "@material-ui/icons";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { MotionItemUp } from "../Motion";
 import {
   Box,
@@ -11,12 +11,12 @@ import {
   InputAdornment,
   TextField,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import { useStyles } from "@/assets/login/recover";
 import { userConfirm } from "@/app/store/admin";
 import { setErrorMessage } from "@/app/store/common";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import Alerts from "../Alerts";
 
 interface FormInputs {
