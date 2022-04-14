@@ -13,7 +13,7 @@ interface Props {
 
 const Alerts = async ({ title, message, icon, timer}: Props) => {
   await MySwal.fire({
-    title: {title},
+    title: title,
     html: message,
     icon: icon,
     timer: timer,
