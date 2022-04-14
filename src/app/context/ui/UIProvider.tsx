@@ -1,4 +1,4 @@
-import React, { FC, useReducer } from "react";
+import React, { ReactNode, useReducer } from "react";
 import { UIContext, uiReducer } from "./";
 
 export interface UIState {
@@ -9,7 +9,11 @@ const UI_INIT_STATE: UIState = {
   isOpenMenu: true
 };
 
-export const UIProvider: FC = ({ children }) => {
+type Props = {
+  children: ReactNode
+}
+
+export const UIProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(uiReducer, UI_INIT_STATE);
 
   const toggleMenu = (isToggle: boolean) => {
