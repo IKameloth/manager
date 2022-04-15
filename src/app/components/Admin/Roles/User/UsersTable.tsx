@@ -110,6 +110,7 @@ const UsersTable = ({ isLoading, data }: Props) => {
       rowHeight={50}
       className={classes.table}
       disableSelectionOnClick
+      autoHeight={true}
       components={{
         Toolbar: QuickSearchToolbar,
         LoadingOverlay: CustomLoadingOverlay,

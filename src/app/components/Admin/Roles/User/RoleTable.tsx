@@ -83,6 +83,7 @@ const RolesTable = ({ isLoading, data, token }: Props) => {
       rowHeight={50}
       className={classes.table}
       disableSelectionOnClick
+      autoHeight={true}
       components={{
         LoadingOverlay: CustomLoadingOverlay,
       }}
