@@ -16,8 +16,8 @@ import {
   InputLabel,
   FormHelperText,
   FormControl,
-} from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { MotionItemUp } from "../../Motion";
 import { AvailableRoles } from "@/app/helper/AvailableRoles";

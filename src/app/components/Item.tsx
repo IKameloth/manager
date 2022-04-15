@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react'
-import { Paper } from '@material-ui/core';
-import { styled } from '@material-ui/core';
+import { Paper, styled } from '@mui/material';
 import { motion } from 'framer-motion'
 
 const ItemStyled = styled(Paper)(({ theme }) => ({

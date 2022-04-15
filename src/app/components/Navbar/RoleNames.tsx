@@ -1,6 +1,6 @@
 import React from 'react';
-import LocalOfferIcon from '@material-ui/icons/LocalOffer';
-import { Chip } from '@material-ui/core';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import { Chip } from '@mui/material';
 import { RoleType } from '@/app/types';
 
 export default function RoleNames(props: { rolesArr: [RoleType?] }) {

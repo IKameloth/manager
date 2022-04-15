@@ -9,13 +9,13 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
-} from "@material-ui/core";
-import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
-import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
-import HowToRegIcon from "@material-ui/icons/HowToReg";
-import TouchAppIcon from "@material-ui/icons/TouchApp";
-import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
-import { ExpandLess, ExpandMore } from "@material-ui/icons";
+} from "@mui/material";
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
+import TouchAppIcon from "@mui/icons-material/TouchApp";
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
 export default function UserMenu() {
   const classes = MenuStyled();

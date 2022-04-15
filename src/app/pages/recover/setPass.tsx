@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid, Typography, useMediaQuery } from "@material-ui/core";
+import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
 import { Redirect } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { StoreState } from "@/app/store";

@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, MouseEvent, useEffect } from "react";
+import React, { MouseEvent, ReactNode, useEffect } from "react";
 import { SideBar } from "@/assets/SideBar/Sidebar";
 import {
   Typography,
@@ -10,7 +10,8 @@ import {
   MenuItem,
   DialogActions,
   Button,
-} from "@material-ui/core";
+  SelectChangeEvent,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { StoreState } from "@/app/store";
 import {
@@ -63,11 +64,11 @@ export default function ScopeSelection({ isOpen, onClose }: Props) {
     }
   }, [countrySelected]);
 
-  const handleChangeSelectCountry = (event: ChangeEventType) => {
+  const handleChangeSelectCountry = (event: SelectChangeEvent<string>, child: ReactNode) => {
     setCountrySelected(String(event.target.value) || "");
   };
 
-  const handleChangeSelectInstitution = (event: ChangeEventType) => {
+  const handleChangeSelectInstitution = (event: SelectChangeEvent<string>, child: ReactNode) => {
     setInstitutionSelected(String(event.target.value) || "");
   };
 

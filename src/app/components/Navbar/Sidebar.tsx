@@ -9,7 +9,7 @@ import {
   Grid,
   Typography,
   styled,
-} from "@material-ui/core";
+} from "@mui/material";
 import UserMenu from "./UserMenu";
 import AdminMenu from "./AdminMenu";
 import RoleNames from "./RoleNames";

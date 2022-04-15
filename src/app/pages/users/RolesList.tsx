@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
-import { Box, Container, Grid } from "@material-ui/core"
+import { Box, Container, Grid } from "@mui/material"
 import TitleBar from '@/app/components/TitleBar'
 import Section from "@/app/components/Section"
 import { Users, AddRole } from "@/app/components/Users"
-import AddIcon from "@material-ui/icons/Add"
-import SearchIcon from "@material-ui/icons/Search"
+import AddIcon from "@mui/icons-material/Add"
+import SearchIcon from "@mui/icons-material/Search"
 import { useParams } from "react-router-dom"
 
 type PageParams = {

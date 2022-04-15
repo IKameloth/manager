@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import { CardActions, Grid, IconButton } from "@material-ui/core";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { CardActions, Grid, IconButton } from "@mui/material";
 
 interface Props {
   path: string;

@@ -1,19 +1,15 @@
 import React from "react";
 import {
-  Button,
   Grid,
-  Icon,
-  makeStyles,
   Paper,
-  SvgIconTypeMap,
   Typography,
   useMediaQuery,
-} from "@material-ui/core";
+} from "@mui/material";
 import { MotionItemUp } from "@/app/components/Motion";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
-import { OverridableComponent } from "@material-ui/core/OverridableComponent";
+import { makeStyles } from "@mui/styles";
+import theme from "@/assets/theme";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   paper: {
     padding: theme.spacing(1),
     margin: "auto",

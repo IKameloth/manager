@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../store";
 import { Redirect } from "react-router";
-import { Paper, Grid, useMediaQuery } from "@material-ui/core";
+import { Paper, Grid, useMediaQuery } from "@mui/material";
 import { useStyles } from "../../../assets/login";
 import LoginImage from "@/assets/images/img-login.svg";
 import LoginImagePlus from "@/assets/images/img-login-2.svg";

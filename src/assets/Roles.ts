@@ -1,6 +1,6 @@
-import { makeStyles } from "@material-ui/core";
-
-export const useRolesStyle = makeStyles((theme) => ({
+import { makeStyles } from "@mui/styles";
+import theme from "./theme";
+export const useRolesStyle = makeStyles(() => ({
   table: {
     border: "none",
     height: 620,

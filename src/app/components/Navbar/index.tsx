@@ -1,16 +1,17 @@
-import React, { useEffect, useContext, FC, ReactNode } from "react";
+import React, { useEffect, useContext, ReactNode } from "react";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
 import { StoreState } from "../../store";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
 import { Redirect, useLocation } from "react-router-dom";
 import Appbar from "./Appbar";
 import Sidebar from "./Sidebar";
 import { logout } from "../../store/common/operations";
 import { cleanAdminState } from "@/app/store/admin";
 import { UIContext } from "@/app/context/ui";
+import theme from "@/assets/theme";
 
-const indexStyle = makeStyles((theme) => ({
+const indexStyle = makeStyles(() => ({
   root: {
     display: "flex",
     backgroundColor: theme.palette.background.default,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, styled, Typography } from "@material-ui/core";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, styled, Typography } from "@mui/material";
 import { MotionItemUp } from '../Motion';
 import Loader from '../Loader';
 
