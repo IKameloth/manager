@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import {
   Button,
   Backdrop,
@@ -24,8 +24,8 @@ import { AvailableRoles } from "@/app/helper/AvailableRoles";
 import { useDispatch } from "react-redux";
 import { assignRole, getAllRolesByUser } from "@/app/store/admin";
 import Loader from "../../Loader";
-import toast from "react-hot-toast";
 import { CountriesType, InstitutionType, RoleType, UserType } from "@/app/types";
+import Alerts from '@/app/components/Alerts';
 
 type Props = {
   isOpen: boolean
@@ -54,7 +54,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export interface DialogTitleProps {
   id: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
   onClose: () => void;
 }
 
@@ -161,17 +161,19 @@ const NewRoleModal = ({
               token
             )
           );
-  
-          toast.success("Rol registrado", { duration: 4000 });
+          Alerts({
+            message: 'Rol registrado',
+            timer: 4000,
+            icon: 'success',
+          });
           (await dispatcher(getAllRolesByUser(userInfo.id, token))) &&
             onCloseModal();
         } else {
-          toast.error(
-            `Usuario ya posee un Rol en ${institSelected} ${countrySelected}`,
-            {
-              duration: 4000,
-            }
-          );
+          Alerts({
+            message: `Usuario ya posee un Rol en ${institSelected} ${countrySelected}`,
+            timer: 4000,
+            icon: 'error',
+          });
         }
       }
     }

@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import DeleteRole from "./DeleteRole";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-hot-toast";
 import { StoreState } from "@/app/store";
 import { setUsersList, removeAutentiaRole } from "@/app/store/common";
+import Alerts from "../Alerts";
 
 interface Props {
   roleName: string;
@@ -22,17 +22,24 @@ const RemoveRole = ({
   const { common } = useSelector((state: StoreState) => state)
   const { profile, currentCountry, currentInstitution } = common
   const handleRemove = async () => {
-    await dispatcher(
+    const res = await dispatcher(
       removeAutentiaRole(userDNI, roleName, currentInstitution, currentCountry, common.profile.token)
     );
-    
-    // TODO: Add component for messages
-    await dispatcher(setUsersList(profile.token, currentCountry, currentInstitution))
-    toast.success("Rol eliminado con éxito!", {
-      position: "top-center",
-      duration: 5000,
-    });
-    
+
+    if (typeof res === "boolean") {
+      await dispatcher(setUsersList(profile.token, currentCountry, currentInstitution))
+      Alerts({
+        message: "Rol eliminado con éxito!",
+        timer: 5000,
+        icon: "success",
+      });
+    } else {
+      Alerts({
+        message: "Rol no encontrado ó inválido",
+        timer: 5000,
+        icon: "error",
+      });
+    }
     setIsOpen(false);
   };
 

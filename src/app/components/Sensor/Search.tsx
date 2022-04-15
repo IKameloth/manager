@@ -18,6 +18,7 @@ import { styled } from "@material-ui/styles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import FormGetSensor from "./FormGet";
 import FormRegisterSensor from "./FormRegister";
+import Alerts from "../Alerts";
 
 const useStyles = makeStyles(() => ({
   centered: {
@@ -69,8 +70,6 @@ const SearchSensor: FC<Props> = ({ token, country }) => {
   const classes = useStyles();
   const [isExpanded, setIsExpaded] = useState<boolean>(false);
   const [sensor, setSensor] = useState<any>();
-
-  useEffect(() => setIsExpaded(true), []);
 
   const handleExpandClick = () => setIsExpaded(!isExpanded);
   // const handleCloseError = () => dispatcher(setErrorMessage(""));

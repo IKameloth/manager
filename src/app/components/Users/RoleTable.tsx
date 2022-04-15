@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Modal,
@@ -30,7 +30,7 @@ import { Fingerprint, Person, Email } from "@material-ui/icons";
 import Loader from "../Loader";
 import { MotionContainer, MotionItemUp } from "../Motion";
 import toast from "react-hot-toast";
-import ErrorAlert from "../ErrorAlert";
+import Alerts from "../Alerts";
 import { RoleType } from "@/app/types";
 import RemoveRole from "./RemoveRole";
 import { DataGrid, GridCellParams, GridColDef, GridRowData } from "@material-ui/data-grid";
@@ -97,6 +97,15 @@ const RoleTable = ({ isOpen, closeModal, user, setAddRole }: Props) => {
   const handleCloseError = () => {
     dispatcher(setErrorMsg(""));
   };
+
+  useEffect(()=> {
+    if(errorMessage !== '')
+      Alerts({
+        message: errorMessage,
+        icon: "error",
+      });
+  },[errorMessage])
+
   const dataRows = user.roles;
 
   const columns: GridColDef[] = [
@@ -171,13 +180,6 @@ const RoleTable = ({ isOpen, closeModal, user, setAddRole }: Props) => {
             </DialogActions>
           </BootstrapDialog>
       </Modal>
-      {errorMessage && (
-        <ErrorAlert
-          onOpen={!!errorMessage}
-          onClose={handleCloseError}
-          message={errorMessage}
-        />
-      )}
     </MotionContainer>
   );
 };

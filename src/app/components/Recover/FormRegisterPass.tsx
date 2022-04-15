@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import toast from "react-hot-toast";
 import Loader from "@/app/components/Loader";
-import ErrorAlert from "@/app/components/ErrorAlert";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { MotionItemUp } from "../Motion";
 import {
@@ -19,6 +17,7 @@ import { useStyles } from "@/assets/login/recover";
 import { userConfirm } from "@/app/store/admin";
 import { setErrorMessage } from "@/app/store/common";
 import { AnimatePresence, motion } from "framer-motion";
+import Alerts from "../Alerts";
 
 interface FormInputs {
   password: string;
@@ -41,6 +40,16 @@ const FormRegisterPass = ({ token, onSuccess, onError }: Props) => {
   const handleCloseError = () => {
     dispatcher(setErrorMessage(""));
   };
+
+  useEffect(() => {
+    if (onError){
+      Alerts({
+        message: onError,
+        icon: "error",
+      }); 
+    };
+    handleCloseError();
+  }, [onError]);
 
   const {
     register,
@@ -75,9 +84,10 @@ const FormRegisterPass = ({ token, onSuccess, onError }: Props) => {
       let res = await dispatcher(userConfirm(password, token));
 
       if (typeof res === "string") {
-        toast.success("Contraseña registrada", {
-          duration: 5000,
-          position: "top-left",
+        Alerts({
+          message: "Contraseña registrada",
+          timer: 5000,
+          icon: "success",
         });
 
         return onSuccess();
@@ -188,13 +198,6 @@ const FormRegisterPass = ({ token, onSuccess, onError }: Props) => {
           </Grid>
         </form>
       </MotionItemUp>
-      {onError && (
-        <ErrorAlert
-          onOpen={!!onError}
-          onClose={handleCloseError}
-          message={onError}
-        />
-      )}
     </Grid>
   );
 };

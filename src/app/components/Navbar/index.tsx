@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, FC } from "react";
+import React, { useEffect, useContext, FC, ReactNode } from "react";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
 import { StoreState } from "../../store";
@@ -39,7 +39,11 @@ const indexStyle = makeStyles((theme) => ({
   },
 }));
 
-const Navegation: FC = ({ children }) => {
+type Props = {
+  children: ReactNode
+}
+
+const Navegation = ({ children }: Props) => {
   const location = useLocation();
   const { isOpenMenu, toggleMenu } = useContext(UIContext);
   const dispatch = useDispatch();

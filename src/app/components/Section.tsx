@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { motion } from 'framer-motion'
 
 interface ItemProp {
-    children: Element | React.ReactNode
+    children: ReactNode
     delay?: number
 }
 

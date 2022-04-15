@@ -7,12 +7,11 @@ import Loader from "../Loader";
 import { useDispatch } from "react-redux";
 import { DniRegCl, DniRegCol } from "@/app/helper/Regex";
 import { StoreState } from "@/app/store";
-import ErrorAlert from "../ErrorAlert";
 import { EnrollmentDataType } from "@/app/types";
 import { useSelector } from "react-redux";
 import { TrxList } from "@/app/helper/TrxList";
 import { AutentiaHeaderResources, autentiaTrxCaller} from "@/app/components/Autentia";
-import toast from "react-hot-toast";
+import Alerts from '@/app/components/Alerts';
   
 const useStyles = makeStyles((theme: Theme) => ({
     centered: {
@@ -52,7 +51,6 @@ export default function FormReEnrollment({ isMinimized }: Props) {
     const [expanded, setExpanded] = useState(false);
     const { common } = useSelector((state: StoreState) => state);
     const [dniReg, setDniReg] = useState<RegExp>();
-    const [errorMessage, setErrorMessage] = useState<string>("");
     const [trxName, setTrxName] = useState<string>("");
     const { currentCountry, profile, currentInstitution } = common;
 
@@ -111,18 +109,22 @@ export default function FormReEnrollment({ isMinimized }: Props) {
                     let ErcDesc = data.ParamsGet.ErcDesc;
                     let ercText = data.ParamsGet.ercText;
                     if (erc === 0 && Erc === 0) {
-                        toast.success("DNI Re Enrolado", { duration: 4000 });
+                        Alerts({
+                            title: "Enrolamiento",
+                            message: ErcDesc,
+                            icon: "success",
+                        });
                     } else {
-                        setErrorMessage(ErcDesc);
+                        Alerts({
+                            title: "Enrolamiento",
+                            message: ErcDesc,
+                            icon: "error",
+                        });
                     };
                 })
                 .catch((err) => console.log("error ", err));
         };
         setIsLoading(false);
-    };
-    
-    const handleCloseError = () => {
-        setErrorMessage('');
     };
 
     return (
@@ -187,13 +189,6 @@ export default function FormReEnrollment({ isMinimized }: Props) {
                 </Collapse>
             </Card>
             </MotionContainer>
-            {errorMessage && (
-                <ErrorAlert
-                onOpen={!!errorMessage}
-                onClose={handleCloseError}
-                message={errorMessage}
-                />
-            )}
         </Grid>
         </Box>
         </>
