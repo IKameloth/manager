@@ -11,9 +11,9 @@ import {
   OutlinedInput,
   Radio,
   RadioGroup,
-} from "@material-ui/core";
+} from "@mui/material";
 import Loader from "../Loader";
-import SearchIcon from "@material-ui/icons/Search";
+import SearchIcon from "@mui/icons-material/Search";
 
 interface Props {
   onSubmit: (dni: string) => void

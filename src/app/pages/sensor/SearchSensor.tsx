@@ -13,14 +13,14 @@ import {
   Container,
   Grid,
   IconButton,
-} from "@material-ui/core";
+} from "@mui/material";
 import FormGetSensor from "@/app/components/Sensor/FormGet";
 import FormRegisterSensor from "@/app/components/Sensor/FormRegister";
 import { StoreState } from "@/app/store";
 import { createSensor, getSensor } from "@/app/store/common";
 import { SensorType } from "@/app/types";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 type IForm = {
   serial: string;

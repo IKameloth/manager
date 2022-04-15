@@ -15,8 +15,9 @@ import {
   InputAdornment,
   List,
   ListItem,
-} from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import { Fingerprint, Person, Email } from "@mui/icons-material";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { DniReg, EmailReg } from "@/app/helper/Regex";
 import { useSelector, useDispatch } from "react-redux";
@@ -26,14 +27,13 @@ import {
   getUsersList,
   setErrorMsg,
 } from "@/app/store/admin/operations";
-import { Fingerprint, Person, Email } from "@material-ui/icons";
 import Loader from "../Loader";
 import { MotionContainer, MotionItemUp } from "../Motion";
 import toast from "react-hot-toast";
 import Alerts from "../Alerts";
 import { RoleType } from "@/app/types";
 import RemoveRole from "./RemoveRole";
-import { DataGrid, GridCellParams, GridColDef, GridRowData } from "@material-ui/data-grid";
+import { DataGrid, GridCellParams, GridColDef, GridRowData } from "@mui/x-data-grid";
 import CustomLoadingOverlay from "./CustomLoading";
 import { useRolesStyle } from "@/assets/Roles";
 

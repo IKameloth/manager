@@ -14,14 +14,14 @@ import {
   DialogActions,
   InputAdornment,
   Box,
-  makeStyles,
   Card,
   CardHeader,
   CardActions,
   Fab,
-} from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
-import AddIcon from "@material-ui/icons/Add";
+} from "@mui/material";
+import { makeStyles } from '@mui/styles';
+import CloseIcon from "@mui/icons-material/Close";
+import AddIcon from "@mui/icons-material/Add";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { DniReg, EmailReg } from "@/app/helper/Regex";
 import { useSelector, useDispatch } from "react-redux";
@@ -29,11 +29,11 @@ import { StoreState } from "@/app/store";
 import {
   addAutentiaRole
 } from "@/app/store/common/operations";
-import { Fingerprint, Person, Email } from "@material-ui/icons";
+import { Fingerprint, Person, Email } from "@mui/icons-material";
 import Loader from "../Loader";
 import { MotionContainer, MotionItemUp } from "../Motion";
 import toast from "react-hot-toast";
-import ErrorAlert from "../ErrorAlert";
+import Alerts from "../Alerts";
 
 
 interface DialogTitleProps {

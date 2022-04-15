@@ -42,6 +42,7 @@ const useStyles = makeStyles(() => ({
 interface Props {
   token: string;
   country: string;
+  anyError?: string;
 }
 
 type Sensor = {

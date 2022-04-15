@@ -3,7 +3,7 @@ import { useLocation, Switch, Route, Redirect } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import RequireRole from "./routes/RequireRole";
-import { SearchSensor } from '@/app/pages/sensor';
+import { SearchSensor } from '@/app/pages/sensor/SearchSensor';
 
 
 const HealthCheck = React.lazy(() => import("./pages/healthCheck"));
