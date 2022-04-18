@@ -1,17 +1,7 @@
 import React, { useState } from "react";
 import {
-  Button,
-  Modal,
   TextField,
-  Typography,
-  styled,
   Grid,
-  Container,
-  Dialog,
-  DialogTitle,
-  IconButton,
-  DialogContent,
-  DialogActions,
   InputAdornment,
   Box,
   Card,
@@ -20,27 +10,18 @@ import {
   Fab,
 } from "@mui/material";
 import { makeStyles } from '@mui/styles';
-import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { DniReg, EmailReg } from "@/app/helper/Regex";
+import { DniReg } from "@/app/helper/Regex";
 import { useSelector, useDispatch } from "react-redux";
 import { StoreState } from "@/app/store";
 import {
   addAutentiaRole
 } from "@/app/store/common/operations";
-import { Fingerprint, Person, Email } from "@mui/icons-material";
+import { Fingerprint, Person } from "@mui/icons-material";
 import Loader from "../Loader";
 import { MotionContainer, MotionItemUp } from "../Motion";
-import toast from "react-hot-toast";
 import Alerts from "../Alerts";
-
-
-interface DialogTitleProps {
-  id: string;
-  children?: React.ReactNode;
-  onClose: () => void;
-}
 
 interface FormInputs {
   name: string;
@@ -71,7 +52,6 @@ const AddRole = () => {
   const dispatcher = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const { admin, common } = useSelector((state: StoreState) => state);
-  const { errorMessage } = admin;
   const { profile, currentCountry, currentInstitution } = common;
   const classes = useStyles();
 
@@ -157,7 +137,7 @@ const AddRole = () => {
                                   InputProps={{
                                   endAdornment: (
                                       <InputAdornment position="end">
-                                      <Email />
+                                      <Person />
                                       </InputAdornment>
                                   ),
                                   }}

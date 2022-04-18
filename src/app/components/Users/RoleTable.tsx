@@ -2,36 +2,22 @@ import React, { useEffect, useState } from "react";
 import {
   Button,
   Modal,
-  TextField,
-  Typography,
   styled,
-  Grid,
-  Container,
   Dialog,
   DialogTitle,
   IconButton,
   DialogContent,
   DialogActions,
-  InputAdornment,
-  List,
-  ListItem,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { Fingerprint, Person, Email } from "@mui/icons-material";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { DniReg, EmailReg } from "@/app/helper/Regex";
 import { useSelector, useDispatch } from "react-redux";
 import { StoreState } from "@/app/store";
 import {
-  createUser,
-  getUsersList,
   setErrorMsg,
 } from "@/app/store/admin/operations";
 import Loader from "../Loader";
 import { MotionContainer, MotionItemUp } from "../Motion";
-import toast from "react-hot-toast";
 import Alerts from "../Alerts";
-import { RoleType } from "@/app/types";
 import RemoveRole from "./RemoveRole";
 import { DataGrid, GridCellParams, GridColDef, GridRowData } from "@mui/x-data-grid";
 import CustomLoadingOverlay from "./CustomLoading";
@@ -90,13 +76,8 @@ const BootstrapDialogTitle = ({ children, onClose, ...other }: DialogTitleProps)
 const RoleTable = ({ isOpen, closeModal, user, setAddRole }: Props) => {
   const dispatcher = useDispatch();
   const classes = useRolesStyle();
-  const [isLoading, setIsLoading] = useState(false);
   const { admin, common } = useSelector((state: StoreState) => state);
   const { errorMessage } = admin;
-
-  const handleCloseError = () => {
-    dispatcher(setErrorMsg(""));
-  };
 
   useEffect(()=> {
     if(errorMessage !== '')
@@ -153,29 +134,25 @@ const RoleTable = ({ isOpen, closeModal, user, setAddRole }: Props) => {
                 <DataGrid
                     className={classes.modalTable}
                     rowHeight={50}
+                    autoHeight={true}
                     disableSelectionOnClick
                     components={{
                         LoadingOverlay: CustomLoadingOverlay,
                     }}
                     getRowId={(row) => row.name}
                     columns={columns}
-                    loading={isLoading}
                     rowsPerPageOptions={[10, 20, 100]}
                     rows={dataRows}
                     />
             </DialogContent>
             <DialogActions>
               <MotionItemUp>
-                {isLoading ? (
-                  <Loader />
-                ) : (
-                  <Button color="primary" onClick={() => {
-                        closeModal()
-                        setAddRole(true)
-                  }}>
-                    Agregar rol
-                  </Button>
-                )}
+                <Button color="primary" onClick={() => {
+                      closeModal()
+                      setAddRole(true)
+                }}>
+                  Agregar rol
+                </Button>
               </MotionItemUp>
             </DialogActions>
           </BootstrapDialog>
