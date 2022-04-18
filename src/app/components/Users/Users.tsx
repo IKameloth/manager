@@ -30,7 +30,6 @@ const Users = ({setAddRole}:UserProps) => {
 
     const changePage = async (page: number, offset: number) => {
         setIsLoading(true)
-        console.log(page, pages)
         if(pages.length - 1 > page){
           await dispatcher(setUsersList(profile.token, currentCountry, currentInstitution, pages[page]))
         }else{

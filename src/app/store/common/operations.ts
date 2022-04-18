@@ -192,9 +192,10 @@ export const searchUser = (
       }
       dispatch({ type: Type.SET_ERROR_MESSAGE, payload: resp.error });
     }
-    return dispatch({ type: Type.SEARCH_AUTENTIA_USER, payload: resp });
+    return dispatch({ type: Type.SEARCH_AUTENTIA_USER, payload: resp.data });
   };
 };
+
 
 export const setRoles = (userID: string, country: string, token: string) => {
   return async (

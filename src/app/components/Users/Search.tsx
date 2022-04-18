@@ -12,11 +12,13 @@ import {
 } from "@mui/material";
 import { makeStyles, styled } from '@mui/styles'
 import { MotionContainer, MotionItemUp } from "../Motion";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createSensor, getSensor, searchUser } from "@/app/store/common";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FormGet from "./FormGet";
 import FormView from "./FormView";
+import { AutentiaUserType } from "@/app/types";
+import { StoreState } from "@/app/store";
 
 const useStyles = makeStyles(() => ({
   centered: {
@@ -66,39 +68,20 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 
 const Search = ({ token, country, institution }: Props) => {
   const dispatcher = useDispatch();
+  const { common } = useSelector((state: StoreState) => state)
+  const { autentiaUser } = common
   const classes = useStyles();
   const [isExpanded, setIsExpaded] = useState<boolean>(false);
-  const [person, setPerson] = useState<any>();
 
   useEffect(() => setIsExpaded(true), []);
 
   const handleExpandClick = () => setIsExpaded(!isExpanded);
 
   const handleSubmit = async (dni: string) => {
-    setPerson(undefined);
     const resp = await dispatcher(searchUser(token, country, institution, dni));
     if ("Code" in resp) {
       setIsExpaded(false);
-      setPerson(resp);
     }
-  };
-
-  const handleSubmitRegister = async (data: Sensor) => {
-    console.log(data)
-    const resp = await dispatcher(
-      createSensor(
-        data.serial,
-        data.institution,
-        country,
-        data.location,
-        data.locationCode,
-        data.logonType,
-        data.technology,
-        token
-      )
-    );
-
-    console.log(resp)
   }
 
   return (
@@ -136,7 +119,13 @@ const Search = ({ token, country, institution }: Props) => {
           </MotionContainer>
         </Grid>
       </Box>
-      
+      <Grid item xs={12} sm={12} md={12} lg={12}>
+        <MotionContainer>
+          {!!autentiaUser && (
+            <FormView title="Detalle del Usuario" data={autentiaUser}  />
+          )}
+        </MotionContainer>
+      </Grid>
     </>
   );
 }

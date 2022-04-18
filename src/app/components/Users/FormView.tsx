@@ -17,6 +17,7 @@ import {
   Radio,
   RadioGroup,
   Select,
+  TextField,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -32,7 +33,10 @@ import ApartmentIcon from "@mui/icons-material/Apartment";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-import { SensorType } from "@/app/types";
+import { AutentiaUserType } from "@/app/types";
+import { useHistory } from "react-router-dom";
+import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
+import RemoveRole from "./RemoveRole";
 
 interface IForm {
   serial: string;
@@ -44,37 +48,46 @@ interface IForm {
 }
 
 interface Props {
-  data?: SensorType;
+  data?: AutentiaUserType;
   title: string;
-  onSubmit: (data: IForm) => void;
 }
 
 export default function FormView({
-  data: sensorData,
-  title,
-  onSubmit,
+  data,
+  title
 }: Props) {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm<IForm>({
-    defaultValues: {
-      serial: sensorData?.code,
-      institution: sensorData?.institution,
-      location: sensorData?.location,
-      locationCode: sensorData?.location_code,
+  const columns: GridColDef[] = [
+    { 
+      field: 'name', 
+      headerName: 'Rol',
+      width: 150
     },
-  });
-
-  const onSubmitRegister: SubmitHandler<IForm> = async (data) => {
-    setIsLoading(true);
-    onSubmit(data);
-
-    setIsLoading(false);
-  };
-
+    {
+      field: 'institution',
+      headerName: 'Institución',
+      width: 150
+    },
+    {
+      field: 'institution_dni',
+      headerName: 'DNI Institución',
+      width: 150
+    },
+    {
+      field: "delete",
+      width: 100,
+      align: "center",
+      headerAlign: "left",
+      headerName: "Remover",
+      filterable: false,
+      sortable: false,
+      disableColumnMenu: true,
+      renderCell: (params: GridCellParams) => <RemoveRole roleName={params.row.name} userDNI={data? data.dni: ''} />,
+    },
+  ];
+  const history = useHistory()
+  if(!data){
+    return <Card>Usuario no encontrado</Card>
+  }
   return (
     <Card>
       <CardHeader title={title} />
@@ -82,231 +95,38 @@ export default function FormView({
         <MotionItemUp>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6} md={6} lg={6}>
-              <FormControl
-                variant="outlined"
-                fullWidth
-                error={errors.serial ? true : false}
-              >
-                <InputLabel htmlFor="code">Serial</InputLabel>
-                <OutlinedInput
-                  id="code"
-                  label="Serial"
-                  type="text"
-                  disabled={!!sensorData}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <CodeIcon />
-                    </InputAdornment>
-                  }
-                  {...register("serial", {
-                    required: true,
-                    validate: { required: (value) => !!value.trim().length },
-                  })}
-                />
-                <FormHelperText>
-                  {errors.serial && errors.serial.type === "required" && (
-                    <span>Campo requerido</span>
-                  )}
-                </FormHelperText>
-              </FormControl>
+              <TextField id="name-basic" label="Nombre" variant="filled" disabled value={data?.name} />
             </Grid>
             <Grid item xs={12} sm={6} md={6} lg={6}>
-              <FormControl
-                variant="outlined"
-                fullWidth
-                error={errors.institution ? true : false}
-              >
-                <InputLabel htmlFor="institution">Institución</InputLabel>
-                <OutlinedInput
-                  id="institution"
-                  label="institution"
-                  type="text"
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <ApartmentIcon />
-                    </InputAdornment>
-                  }
-                  {...register("institution", {
-                    required: true,
-                    validate: { required: (value) => !!value.trim().length },
-                  })}
-                />
-                <FormHelperText>
-                  {errors.institution && errors.serial?.type === "required" && (
-                    <span>Campo requrerido</span>
-                  )}
-                </FormHelperText>
-              </FormControl>
+              <TextField id="dni-basic" label="DNI" variant="filled" disabled value={data?.dni} />
             </Grid>
             <Grid item xs={12} sm={6} md={6} lg={6}>
-              <FormControl
-                variant="outlined"
-                fullWidth
-                error={errors.location ? true : false}
-              >
-                <InputLabel htmlFor="location">Ubicación</InputLabel>
-                <OutlinedInput
-                  id="location"
-                  label="location"
-                  type="text"
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <LocationOnIcon />
-                    </InputAdornment>
-                  }
-                  {...register("location", {
-                    required: true,
-                    validate: { required: (value) => !!value.trim().length },
-                  })}
-                />
-                <FormHelperText>
-                  {errors.location && errors.location?.type === "required" && (
-                    <span>Campo requerido</span>
-                  )}
-                </FormHelperText>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6} md={6} lg={6}>
-              <FormControl
-                variant="outlined"
-                fullWidth
-                error={errors.locationCode ? true : false}
-              >
-                <InputLabel htmlFor="LocationCode">
-                  Código de ubicación
-                </InputLabel>
-                <OutlinedInput
-                  id="LocationCode"
-                  label="Código de ubicación"
-                  type="text"
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <LocationOnIcon />
-                    </InputAdornment>
-                  }
-                  {...register("locationCode", {
-                    required: true,
-                    validate: { required: (value) => !!value.trim().length },
-                  })}
-                />
-                <FormHelperText>
-                  {errors.locationCode &&
-                    errors.locationCode.type === "required" && (
-                      <span>Campo requerido</span>
-                    )}
-                </FormHelperText>
-              </FormControl>
-            </Grid>
-            {!!sensorData && (
-              <Grid item xs={12} sm={6} md={6} lg={6}>
-                <FormControl
-                  variant="outlined"
-                  fullWidth
-                  disabled={!!sensorData}
-                >
-                  <InputLabel htmlFor="registerAt">
-                    Fecha de Registro
-                  </InputLabel>
-                  <OutlinedInput
-                    id="registerAt"
-                    label="Fecha de Registro"
-                    type="text"
-                    defaultValue={sensorData?.register_at}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <AccessTimeIcon />
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-              </Grid>
-            )}
-            <Grid item xs={12} sm={6} md={6} lg={6}>
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel htmlFor="LogonType">Tipo Logon</InputLabel>
-                <Select
-                  labelId="logonType"
-                  id="logonType"
-                  label="Tipo Logon"
-                  fullWidth
-                  variant="outlined"
-                  defaultValue={!!sensorData ? sensorData?.logon_type : 1}
-                  {...register("logonType", {
-                    required: true,
-                    valueAsNumber: true,
-                    pattern: /[0-9]{1}/,
-                  })}
-                  error={errors.logonType ? true : false}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <ExtensionIcon />
-                    </InputAdornment>
-                  }
-                >
-                  {LogonTypes.map((item) => (
-                    <MenuItem key={item.key} value={item.value}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-                <FormHelperText>
-                  {errors.logonType && errors.logonType.type === "required" && (
-                    <span>Campo requerido</span>
-                  )}
-                </FormHelperText>
-              </FormControl>
+              <TextField id="email-basic" label="E-mail" variant="filled" disabled value={data?.email} />
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              <Box display="flex" alignItems="center" justifyContent="center">
-                <FormControl variant="outlined" error={!!errors.technology}>
-                  <FormLabel id="row-radio-buttons-group-label">
-                    <Typography variant="h5">Tecnología</Typography>
-                  </FormLabel>
-                  <RadioGroup
-                    row
-                    aria-labelledby="row-radio-buttons-group-label"
-                    name="row-radio-buttons-group"
-                    defaultValue={sensorData?.technology}
-                  >
-                    <FormControlLabel
-                      value="UareU"
-                      control={<Radio />}
-                      label="UareU"
-                      {...register("technology", { required: true })}
-                    />
-                    <FormControlLabel
-                      value="UareU-gold"
-                      control={<Radio />}
-                      label="UareU-gold"
-                      {...register("technology", { required: true })}
-                    />
-                  </RadioGroup>
-                  <FormHelperText>
-                    {errors.technology &&
-                      errors.technology.type === "required" && (
-                        <span>Campo requerido</span>
-                      )}
-                  </FormHelperText>
-                </FormControl>
-              </Box>
+              <DataGrid
+                rows={data.roles}
+                autoHeight={true}
+                columns={columns}
+                getRowId={(row) => row.name}
+                pageSize={5}
+                rowsPerPageOptions={[5]}
+                disableSelectionOnClick
+              />
             </Grid>
           </Grid>
         </MotionItemUp>
       </CardContent>
       <CardActions style={{ padding: 16, justifyContent: "center" }}>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <Fab
-            variant="extended"
-            color="primary"
-            size="medium"
-            onClick={handleSubmit(onSubmitRegister)}
-          >
-            {!!sensorData ? <EditIcon /> : <AddIcon />}
-            {!!sensorData ? "Editar" : "Registrar"}
-          </Fab>
-        )}
+        <Fab
+          variant="extended"
+          color="primary"
+          size="medium"
+          onClick={() => history.replace('/users/roles/add')}
+        >
+          <AddIcon />
+          Agregar Rol
+        </Fab>
       </CardActions>
     </Card>
   );

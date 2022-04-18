@@ -93,8 +93,13 @@ const AddRole = () => {
     } else {
       const res = await dispatcher(addAutentiaRole(dni, name, currentInstitution, currentCountry, profile.token));
 
-      if ("id" in res) {
-        toast.success("Rol asignado con éxito", { duration: 7000 })
+      if ("status" in res) {
+        Alerts({
+          title: "Asignado!",
+          icon: 'success',
+          message: "Rol asignado con éxito",
+          timer: 7000
+        })
       }
     }
     setIsLoading(false);
