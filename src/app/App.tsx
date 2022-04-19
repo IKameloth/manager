@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, Switch, Route, Redirect } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import { useLocation, Switch, Route } from "react-router-dom";
+import Navbar from "./components/Navbar/Navbar";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import RequireRole from "./routes/RequireRole";
 import { SearchSensor, RegisterSensor } from "@/app/pages/sensor";
