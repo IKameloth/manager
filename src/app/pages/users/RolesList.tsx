@@ -1,15 +1,29 @@
-import React, { useState } from "react";
-import { Box, Container, Grid } from "@mui/material";
-import { TitleBar, NewUserModal } from "@/app/components/Admin";
-import Section from "@/app/components/Section";
-import { Users } from "@/app/components/Users";
+import React, { useEffect, useState } from "react"
+import { Box, Container, Grid } from "@mui/material"
+import TitleBar from '@/app/components/TitleBar'
+import Section from "@/app/components/Section"
+import { Users, AddRole } from "@/app/components/Users"
+import AddIcon from "@mui/icons-material/Add"
+import SearchIcon from "@mui/icons-material/Search"
+import { useParams } from "react-router-dom"
+
+type PageParams = {
+  operation?: string
+}
 
 export default function RoleList() {
-  const [openModal, setOpenModal] = useState(false);
+  let { operation } = useParams<PageParams>();
+  const [addRole, setAddRole] = useState(false);
 
   const handleModal = () => {
-    setOpenModal(!openModal);
-  };
+    setAddRole(!addRole)
+  }
+
+  useEffect(() => {
+    if(operation !== undefined){
+      setAddRole(true)
+    }
+  },[operation])
 
   return (
     <Container>
@@ -17,17 +31,18 @@ export default function RoleList() {
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={8}>
             <TitleBar
-              title="usuarios"
-              subTitle="administración y control de usuarios"
-              btnText="crear usuario"
+              title="Usuarios y roles de Autentia"
+              subTitle="administración de roles de usuarios de Autentia"
+              btnText={addRole?"Listar Roles":"Agregar Rol"}
+              icon={addRole? <SearchIcon /> : <AddIcon />}
               btnAction={handleModal}
             />
-            <Users />
+            {addRole
+              ? <AddRole />
+              : <Users setAddRole={setAddRole} />
+            }
           </Grid>
         </Box>
-        {openModal && (
-          <NewUserModal isOpen={openModal} closeModal={handleModal} />
-        )}
       </Section>
     </Container>
   );

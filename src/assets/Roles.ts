@@ -3,7 +3,42 @@ import theme from "./theme";
 export const useRolesStyle = makeStyles(() => ({
   table: {
     border: "none",
-    height: 455,
+    height: 620,
+    maxWidth: 900,
+    "& .MuiDataGrid-columnsContainer": {
+      padding: "10px",
+      color: "rgba(0, 0, 0, 0.55)",
+    },
+    "& .MuiDataGrid-iconSeparator": {
+      display: "none",
+    },
+    "& .MuiFormControl-root": {
+      width: 180,
+      height: 36,
+      padding: "6px 9px 6px 8px",
+      borderRadius: 10,
+      marginTop: theme.spacing(1),
+      color: "#1A75FF",
+    },
+    "& .MuiDataGrid-footerContainer": {
+      justifyContent: "center",
+    },
+    "& .MuiTablePagination-root": {
+      color: "rgba(0, 0, 0, 0.55)",
+    },
+    "& .MuiDataGrid-columnHeaderDraggableContainer": {
+      width: "auto",
+    },
+    "& .MuiDataGrid-columnSeparator": {
+      display: "none",
+    },
+    "& .MuiDataGrid-main": {
+      marginTop: theme.spacing(1),
+    },
+  },
+  modalTable: {
+    border: "none",
+    height: 320,
     maxWidth: 900,
     "& .MuiDataGrid-columnsContainer": {
       padding: "10px",

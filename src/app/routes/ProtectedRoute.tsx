@@ -12,24 +12,21 @@ type ProtectedProps = {
   path: string
 }
 
-export const ProtectedRoute = ({ render, role, ...other }: ProtectedProps) => {
+export const ProtectedRoute = ({ render, role, path, exact, ...other }: ProtectedProps) => {
   const dispatcher = useDispatch();
   const { common } = useSelector((state: StoreState) => state);
   const { currentCountry, currentInstitution, profile, unauthorized } = common;
-
   if (unauthorized || !profile.status) {
     dispatcher(cleanAdminState());
     dispatcher(logout());
     return <Redirect to="/" />;
   }
-
   if (!currentCountry.length && !currentInstitution.length)
     return <Redirect to="/" />;
-
   return (
     <Route
       {...other}
-      render={(props) => <Route {...props} render={render} />}
+      render={(props) => <Route {...props} exact={exact} path={path} render={render} />}
     />
   );
 };

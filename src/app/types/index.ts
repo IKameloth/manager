@@ -2,12 +2,13 @@ import { CountriesType } from "./CountriesType";
 import { ProfileType } from "./ProfileType";
 import { RoleType } from "./RoleType";
 import { UserType } from "./UserType";
-import { UsersListType } from "./UsersListType";
+import { AutentiaUserType, UsersListType } from "./UsersListType";
 import { InstitutionType } from "./InstitutionType";
 import { SensorType } from "./SensorType";
 import { EnrollmentDataType } from "./EnrollmentDataType";
 
 export type {
+  AutentiaUserType,
   UserType,
   UsersListType,
   CountriesType,

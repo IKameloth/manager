@@ -54,7 +54,7 @@ export class SensorServicesProvider {
     }
 
     const respJson = await resp.json();
-    if (respJson.data.Code === "")
+    if (respJson.data.code === "")
       return { error: "Sensor no encontrado", status: 404 };
 
     return respJson.data;

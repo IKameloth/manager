@@ -33,9 +33,9 @@ const useStyles = makeStyles(() => ({
 interface Props {
   title: string;
   subTitle: string;
-  btnText: string;
-  btnAction: () => void;
-  icon: React.ReactElement;
+  btnText?: string;
+  btnAction?: () => void;
+  icon?: React.ReactElement;
 }
 
 const TitleBar = ({ title, subTitle, btnText, btnAction, icon }: Props) => {
@@ -67,16 +67,18 @@ const TitleBar = ({ title, subTitle, btnText, btnAction, icon }: Props) => {
               </Grid>
             </Grid>
             <Grid item style={{ marginTop: viewMobile ? "10px" : "0px" }}>
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                startIcon={icon}
-                style={{ borderRadius: 20 }}
-                onClick={btnAction}
-              >
-                {btnText}
-              </Button>
+              {btnText && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  startIcon={icon}
+                  style={{ borderRadius: 20 }}
+                  onClick={btnAction}
+                >
+                  {btnText}
+                </Button>
+              )}
             </Grid>
           </Grid>
         </Grid>

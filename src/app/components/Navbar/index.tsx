@@ -73,8 +73,7 @@ const Navegation = ({ children }: Props) => {
   if (!isLoggedIn) return <Redirect to="/login" />;
 
   if (unauthorized || !profile.status) {
-    dispatch(cleanAdminState());
-    dispatch(logout());
+    handleLogout()
     return <Redirect to="/login" />;
   }
 
