@@ -1,7 +1,9 @@
 import { Dispatch } from "redux";
 import { CommonTypes as Type } from "./types";
 import {
+  AddAutentiaRoleAction,
   CommonActions,
+  SearchUserAction,
   SetCountriesAction,
   SetLoginAction,
   SetRolesAction,
@@ -10,7 +12,6 @@ import {
   ApiServicesProvider,
   AutentiaRoleServicesProvider,
   SensorServicesProvider,
-  UsersServicesProvider,
 } from "@/services";
 import {
   GetSensorAction,
@@ -18,11 +19,8 @@ import {
   SetInstitutionsListAction,
   SetUserListAction,
   RemoveAutentiaRoleAction,
-  AddAutentiaRoleAction,
-  SearchUserAction
 } from ".";
 
-const $Users = new UsersServicesProvider();
 const $Services = new ApiServicesProvider();
 const $SensorService = new SensorServicesProvider();
 const $AutentiaRoleServices = new AutentiaRoleServicesProvider();
@@ -164,7 +162,12 @@ export const setUsersList = (
   return async (
     dispatch: Dispatch<CommonActions>
   ): Promise<SetUserListAction> => {
-    const resp = await $AutentiaRoleServices.getUsersList(token, country, institution, offset);
+    const resp = await $AutentiaRoleServices.getUsersList(
+      token,
+      country,
+      institution,
+      offset
+    );
     if (resp.error) {
       if (resp.status === 401) {
         dispatch({ type: Type.UNAUTHORIZED, payload: true });
@@ -180,12 +183,17 @@ export const searchUser = (
   token: string,
   country: string,
   institution: string,
-  dni: string,
+  dni: string
 ) => {
   return async (
     dispatch: Dispatch<CommonActions>
   ): Promise<SearchUserAction> => {
-    const resp = await $AutentiaRoleServices.searchUser(token, country, institution, dni);
+    const resp = await $AutentiaRoleServices.searchUser(
+      token,
+      country,
+      institution,
+      dni
+    );
     if (resp.error) {
       if (resp.status === 401) {
         dispatch({ type: Type.UNAUTHORIZED, payload: true });
@@ -195,7 +203,6 @@ export const searchUser = (
     return dispatch({ type: Type.SEARCH_AUTENTIA_USER, payload: resp.data });
   };
 };
-
 
 export const setRoles = (userID: string, country: string, token: string) => {
   return async (
@@ -298,7 +305,7 @@ export const getSensor = (
       });
     }
 
-    return response
+    return response;
   };
 };
 
@@ -308,20 +315,18 @@ export const createSensor = (
   institution: string,
   country: string,
   location: string,
-  locationCode: string,
   logonType: number,
   technology: string,
   token: string
 ) => {
   return async (
     dispatch: Dispatch<CommonActions>
-  ): Promise<CreateSensorAction | false | {}> => {
+  ): Promise<CreateSensorAction | boolean | {}> => {
     const resp = await $SensorService.createSensor(
       serial,
       institution,
       country,
       location,
-      locationCode,
       logonType,
       technology,
       token
@@ -331,7 +336,7 @@ export const createSensor = (
       dispatch({ type: Type.SET_ERROR_MESSAGE, payload: resp });
     }
 
-    return dispatch({ type: Type.CREATE_SENSOR, payload: resp });
+    return resp.status;
   };
 };
 

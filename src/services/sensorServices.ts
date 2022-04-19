@@ -1,9 +1,9 @@
 import environment from "@/config/environment";
 
 type Headers = {
-  "Content-type"?: string
-  "Authorization"?: string
-}
+  "Content-type"?: string;
+  Authorization?: string;
+};
 
 export class SensorServicesProvider {
   // ONLY GET SENSOR SERVICES
@@ -20,7 +20,11 @@ export class SensorServicesProvider {
 
         return fetch(`${environment.API_URI}/${targetUrl}`, requestOptions);
       },
-      post(targetUrl: string, payload: unknown, options?: { headers?: Headers }) {
+      post(
+        targetUrl: string,
+        payload: unknown,
+        options?: { headers?: Headers }
+      ) {
         const requestOptions = {
           method: "POST",
           headers: {
@@ -66,29 +70,28 @@ export class SensorServicesProvider {
     institution: string,
     country: string,
     location: string,
-    locationCode: string,
     logonType: number,
     technology: string,
     token: string
   ) {
     const resp = await this.$httpClient.post(
-      `sensors/{${serial}}`,
+      "autentia/sensors",
       {
-        institution,
-        country,
+        code: serial,
         location,
-        locationCode,
-        logonType,
+        country,
+        institution,
         technology,
+        logon: logonType.toString(),
       },
       { headers: { Authorization: token } }
     );
 
-    if (resp.status != 201) {
+    if (resp.status != 200) {
       return { error: resp.statusText, status: resp.status };
     }
 
     const respJson = await resp.json();
-    return respJson;
+    return respJson.data;
   }
 }
