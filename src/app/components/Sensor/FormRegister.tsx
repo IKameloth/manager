@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Box,
   Card,
@@ -19,26 +20,22 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
-import { MotionItemUp } from "../Motion";
-import { useForm, SubmitHandler } from "react-hook-form";
-import Loader from "../Loader";
-import { LogonTypes } from "@/app/helper/LogonTypes";
-
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import ExtensionIcon from "@mui/icons-material/Extension";
 import CodeIcon from "@mui/icons-material/Code";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { MotionItemUp } from "../Motion";
 import { SensorType } from "@/app/types";
+import { LogonTypes } from "@/app/helper/LogonTypes";
+import Loader from "../Loader";
 
 interface IForm {
   serial: string;
   institution: string;
   location: string;
-  locationCode: string;
   logonType: number;
   technology: string;
 }
@@ -47,31 +44,33 @@ interface Props {
   data?: SensorType;
   title: string;
   onSubmit: (data: IForm) => void;
+  currentInstitution?: string;
 }
 
 export default function FormRegisterSensor({
   data: sensorData,
   title,
   onSubmit,
+  currentInstitution,
 }: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
     handleSubmit,
+    reset,
   } = useForm<IForm>({
     defaultValues: {
-      serial: sensorData?.code,
-      institution: sensorData?.institution,
-      location: sensorData?.location,
-      locationCode: sensorData?.location_code,
+      serial: sensorData?.code || "",
+      institution: sensorData?.institution || currentInstitution,
+      location: sensorData?.location || "",
     },
   });
 
   const onSubmitRegister: SubmitHandler<IForm> = async (data) => {
     setIsLoading(true);
     onSubmit(data);
-
+    reset();
     setIsLoading(false);
   };
 
@@ -93,6 +92,7 @@ export default function FormRegisterSensor({
                   label="Serial"
                   type="text"
                   disabled={!!sensorData}
+                  autoFocus={!sensorData}
                   endAdornment={
                     <InputAdornment position="end">
                       <CodeIcon />
@@ -112,6 +112,7 @@ export default function FormRegisterSensor({
             </Grid>
             <Grid item xs={12} sm={6} md={6} lg={6}>
               <FormControl
+                disabled={true}
                 variant="outlined"
                 fullWidth
                 error={errors.institution ? true : false}
@@ -167,33 +168,32 @@ export default function FormRegisterSensor({
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6} md={6} lg={6}>
-              <FormControl
-                variant="outlined"
-                fullWidth
-                error={errors.locationCode ? true : false}
-              >
-                <InputLabel htmlFor="LocationCode">
-                  Código de ubicación
-                </InputLabel>
-                <OutlinedInput
-                  id="LocationCode"
-                  label="Código de ubicación"
-                  type="text"
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <LocationOnIcon />
-                    </InputAdornment>
-                  }
-                  {...register("locationCode", {
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel htmlFor="LogonType">Tipo Logon</InputLabel>
+                <Select
+                  labelId="logonType"
+                  id="logonType"
+                  label="Tipo Logon"
+                  fullWidth
+                  variant="outlined"
+                  defaultValue={!!sensorData ? sensorData?.logon_type : 1}
+                  {...register("logonType", {
                     required: true,
-                    validate: { required: (value) => !!value.trim().length },
+                    valueAsNumber: true,
+                    pattern: /[0-9]{1}/,
                   })}
-                />
+                  error={errors.logonType ? true : false}
+                >
+                  {LogonTypes.map((item) => (
+                    <MenuItem key={item.key} value={item.value}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </Select>
                 <FormHelperText>
-                  {errors.locationCode &&
-                    errors.locationCode.type === "required" && (
-                      <span>Campo requerido</span>
-                    )}
+                  {errors.logonType && errors.logonType.type === "required" && (
+                    <span>Campo requerido</span>
+                  )}
                 </FormHelperText>
               </FormControl>
             </Grid>
@@ -221,41 +221,6 @@ export default function FormRegisterSensor({
                 </FormControl>
               </Grid>
             )}
-            <Grid item xs={12} sm={6} md={6} lg={6}>
-              <FormControl variant="outlined" fullWidth>
-                <InputLabel htmlFor="LogonType">Tipo Logon</InputLabel>
-                <Select
-                  labelId="logonType"
-                  id="logonType"
-                  label="Tipo Logon"
-                  fullWidth
-                  variant="outlined"
-                  defaultValue={!!sensorData ? sensorData?.logon_type : 1}
-                  {...register("logonType", {
-                    required: true,
-                    valueAsNumber: true,
-                    pattern: /[0-9]{1}/,
-                  })}
-                  error={errors.logonType ? true : false}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <ExtensionIcon />
-                    </InputAdornment>
-                  }
-                >
-                  {LogonTypes.map((item) => (
-                    <MenuItem key={item.key} value={item.value}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-                <FormHelperText>
-                  {errors.logonType && errors.logonType.type === "required" && (
-                    <span>Campo requerido</span>
-                  )}
-                </FormHelperText>
-              </FormControl>
-            </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12}>
               <Box display="flex" alignItems="center" justifyContent="center">
                 <FormControl variant="outlined" error={!!errors.technology}>

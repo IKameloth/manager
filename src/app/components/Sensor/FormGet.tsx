@@ -16,7 +16,7 @@ import Loader from "../Loader";
 import SearchIcon from "@mui/icons-material/Search";
 
 interface Props {
-  onSubmit: (sensor: string, tech: string) => void
+  onSubmit: (sensor: string, tech: string) => void;
 }
 
 interface IForm {
@@ -24,7 +24,7 @@ interface IForm {
   tech: string;
 }
 
-const FormGetSensor = ({onSubmit}: Props) => {
+const FormGetSensor = ({ onSubmit }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
@@ -35,7 +35,7 @@ const FormGetSensor = ({onSubmit}: Props) => {
   const sendForm: SubmitHandler<IForm> = (data) => {
     setIsLoading(true);
     const { serial, tech } = data;
-    onSubmit(serial.trim(), tech)
+    onSubmit(serial.trim(), tech);
     setIsLoading(false);
   };
 
@@ -52,10 +52,15 @@ const FormGetSensor = ({onSubmit}: Props) => {
           label="Ingresar serial"
           type="text"
           autoFocus
-          {...register("serial", {required: true, validate: { required: (value) => !!value.trim().length} })}
+          {...register("serial", {
+            required: true,
+            validate: { required: (value) => !!value.trim().length },
+          })}
         />
         <FormHelperText id="serial-error">
-          {errors.serial && errors.serial.type === "required" && <span>Campo requerido</span>}
+          {errors.serial && errors.serial.type === "required" && (
+            <span>Campo requerido</span>
+          )}
         </FormHelperText>
       </FormControl>
 
@@ -67,16 +72,20 @@ const FormGetSensor = ({onSubmit}: Props) => {
             value="UareU"
             control={<Radio />}
             label="UareU"
-            {...register("tech", {required: true})}
+            {...register("tech", { required: true })}
           />
           <FormControlLabel
             value="UareU-gold"
             control={<Radio />}
             label="UareU-gold"
-            {...register("tech", {required: true})}
+            {...register("tech", { required: true })}
           />
         </RadioGroup>
-        <FormHelperText>{errors.tech && errors.tech.type === "required" && <span>Campo requerido</span>}</FormHelperText>
+        <FormHelperText>
+          {errors.tech && errors.tech.type === "required" && (
+            <span>Campo requerido</span>
+          )}
+        </FormHelperText>
       </FormControl>
       <CardActions style={{ padding: 16, justifyContent: "center" }}>
         {isLoading ? (

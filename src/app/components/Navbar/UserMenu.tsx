@@ -154,7 +154,15 @@ export default function UserMenu() {
               <ListItemIcon>
                 <FiberManualRecordIcon style={{ height: 6 }} />
               </ListItemIcon>
-              <ListItemText primary="Administrar Sensor" />
+              <ListItemText primary="Consultar lector" />
+            </ListItem>
+          </Link>
+          <Link to="/sensor/register" className={classes.linkStyled}>
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <FiberManualRecordIcon style={{ height: 6 }} />
+              </ListItemIcon>
+              <ListItemText primary="Registrar lector" />
             </ListItem>
           </Link>
         </List>

@@ -8,18 +8,17 @@ interface Props {
   children: ReactNode;
 }
 
-const RequireRole = ({children}: Props) => {
+const RequireRole = ({ children }: Props) => {
   const { common } = useSelector((state: StoreState) => state);
   const { currentCountry, currentInstitution, rolesProfile } = common;
   const location = useLocation();
   // TODO: Review correct validation of role
-  let res = false
+  let res = false;
   rolesProfile?.map((role) => {
-    if(role?.name === "Admin")
-      res = true
+    if (role?.name === "Admin") res = true;
   });
   const paths = ["/roles", "/people", "/institutions"];
-  
+
   if (!currentCountry.length && !currentInstitution.length)
     return <Redirect to="/" />;
 

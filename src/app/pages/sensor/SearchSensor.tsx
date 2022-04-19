@@ -1,37 +1,39 @@
 import React, { FC, useState } from "react";
 import { MotionContainer, MotionItemUp } from "@/app/components/Motion";
-import TitleBar from "@/app/components/TitleBar";
 import { useDispatch, useSelector } from "react-redux";
-import toast from "react-hot-toast";
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  Collapse,
-  Container,
-  Grid,
-  IconButton,
-} from "@mui/material";
-import FormGetSensor from "@/app/components/Sensor/FormGet";
-import FormRegisterSensor from "@/app/components/Sensor/FormRegister";
+import { useHistory } from "react-router-dom";
 import { StoreState } from "@/app/store";
 import { createSensor, getSensor } from "@/app/store/common";
 import { SensorType } from "@/app/types";
+import {
+  Container,
+  Grid,
+  Box,
+  Card,
+  CardHeader,
+  Collapse,
+  CardContent,
+  CardActions,
+  IconButton,
+} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import AddIcon from "@mui/icons-material/Add";
+import TitleBar from "@/app/components/TitleBar";
+import FormGetSensor from "@/app/components/Sensor/FormGet";
+import FormRegisterSensor from "@/app/components/Sensor/FormRegister";
+import Alerts from "@/app/components/Alerts";
 
 type IForm = {
   serial: string;
   institution: string;
   location: string;
-  locationCode: string;
   logonType: number;
   technology: string;
 };
 
 export const SearchSensor: FC = () => {
+  let history = useHistory();
   const dispatcher = useDispatch();
   const { common } = useSelector((state: StoreState) => state);
   const { currentCountry, profile } = common;
@@ -48,7 +50,11 @@ export const SearchSensor: FC = () => {
       setIsExpaded(false);
       setSensor(res);
     } else {
-      toast.error("Lector no encontrado");
+      Alerts({
+        message: "Lector no encontrado",
+        timer: 4000,
+        icon: "error",
+      });
     }
   };
 
@@ -56,25 +62,35 @@ export const SearchSensor: FC = () => {
     serial,
     institution,
     location,
-    locationCode,
     logonType,
     technology,
   }: IForm) => {
-    console.log("edit submit", sensor);
-    const res = await dispatcher(
+    const res: boolean | {} = await dispatcher(
       createSensor(
         serial,
         institution,
         currentCountry,
         location,
-        locationCode,
         logonType,
         technology,
         profile.token
       )
     );
-
-    console.log(res)
+    if (!!res) {
+      Alerts({
+        message: "Lector actualizado con exito",
+        timer: 4000,
+        icon: "success",
+      });
+      setIsExpaded(true);
+      setSensor(undefined);
+    } else {
+      Alerts({
+        message: "Lector no encontrado o datos incorrectos",
+        timer: 4000,
+        icon: "error",
+      });
+    }
   };
 
   return (
@@ -84,6 +100,9 @@ export const SearchSensor: FC = () => {
           <TitleBar
             title="lectura de huellas"
             subTitle="administración y control de lectores"
+            btnText="Registrar lector"
+            icon={<AddIcon />}
+            btnAction={() => history.push("/sensor/register")}
           />
 
           <Box
@@ -91,6 +110,7 @@ export const SearchSensor: FC = () => {
             justifyContent="center"
             display="flex"
             width="100%"
+            mt="16px"
           >
             <Grid item lg={4}>
               <MotionItemUp>

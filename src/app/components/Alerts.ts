@@ -1,5 +1,4 @@
-import React from "react";
-import Swal , { SweetAlertIcon } from "sweetalert2";
+import Swal, { SweetAlertIcon } from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 const MySwal = withReactContent(Swal);
@@ -11,7 +10,7 @@ interface Props {
   timer?: number;
 }
 
-const Alerts = async ({ title, message, icon, timer}: Props) => {
+const Alerts = async ({ title, message, icon, timer }: Props) => {
   await MySwal.fire({
     title: title,
     html: message,

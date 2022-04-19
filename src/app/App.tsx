@@ -3,8 +3,7 @@ import { useLocation, Switch, Route, Redirect } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import RequireRole from "./routes/RequireRole";
-import { SearchSensor } from '@/app/pages/sensor/SearchSensor';
-
+import { SearchSensor, RegisterSensor } from "@/app/pages/sensor";
 
 const HealthCheck = React.lazy(() => import("./pages/healthCheck"));
 const Home = React.lazy(() => import("./pages/home"));
@@ -14,7 +13,9 @@ const RolesDetail = React.lazy(() => import("./pages/roles/RolesDetail"));
 const People = React.lazy(() => import("./pages/people"));
 const Institutions = React.lazy(() => import("./pages/institutions"));
 const Enrollment = React.lazy(() => import("./pages/enrollment/Enrollment"));
-const ReEnrollment = React.lazy(() => import("./pages/enrollment/ReEnrollment"));
+const ReEnrollment = React.lazy(
+  () => import("./pages/enrollment/ReEnrollment")
+);
 const TokenValidation = React.lazy(
   () => import("./pages/recover/tokenValidation")
 );
@@ -63,11 +64,36 @@ export default function App() {
           <Route exact path="/" render={() => <Home />} />
           <Route exact path="/home" render={() => <Home />} />
 
-          <ProtectedRoute exact path="/sensor" render={() => <SearchSensor />} />
-          <ProtectedRoute exact path="/users/search" render={() => <RolesSearch />} />
-          <ProtectedRoute exact path="/users/roles/:operation?" render={() => <RolesList />} />
-          <ProtectedRoute exact path="/enrollment" render={() => <Enrollment />} />
-          <ProtectedRoute exact path="/reenrollment" render={() => <ReEnrollment />} />
+          <ProtectedRoute
+            exact
+            path="/sensor"
+            render={() => <SearchSensor />}
+          />
+          <ProtectedRoute
+            exact
+            path="/sensor/register"
+            render={() => <RegisterSensor />}
+          />
+          <ProtectedRoute
+            exact
+            path="/users/search"
+            render={() => <RolesSearch />}
+          />
+          <ProtectedRoute
+            exact
+            path="/users/roles/:operation?"
+            render={() => <RolesList />}
+          />
+          <ProtectedRoute
+            exact
+            path="/enrollment"
+            render={() => <Enrollment />}
+          />
+          <ProtectedRoute
+            exact
+            path="/reenrollment"
+            render={() => <ReEnrollment />}
+          />
           {/* AdminRoute */}
           <RequireRole>
             <ProtectedRoute exact path="/roles" render={() => <Roles />} />
