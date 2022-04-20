@@ -90,12 +90,42 @@ export default function UserMenu() {
 
       <Collapse in={openIdentList} timeout="auto" unmountOnExit>
         <List component="div" disablePadding style={{ width: 230 }}>
-          <Link to="/example1" className={classes.linkStyled}>
+          <Link to="/identity/verification" className={classes.linkStyled}>
             <ListItem button className={classes.nested}>
               <ListItemIcon>
                 <FiberManualRecordIcon style={{ height: 6 }} />
               </ListItemIcon>
-              <ListItemText primary="Example" />
+              <ListItemText primary="Verificación" />
+            </ListItem>
+          </Link>
+        </List>
+        <List component="div" disablePadding style={{ width: 230 }}>
+          <Link to="/identity/newdni" className={classes.linkStyled}>
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <FiberManualRecordIcon style={{ height: 6 }} />
+              </ListItemIcon>
+              <ListItemText primary="Cédula Nueva" />
+            </ListItem>
+          </Link>
+        </List>
+        <List component="div" disablePadding style={{ width: 230 }}>
+          <Link to="/identity/olddni" className={classes.linkStyled}>
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <FiberManualRecordIcon style={{ height: 6 }} />
+              </ListItemIcon>
+              <ListItemText primary="Cédula Antigua" />
+            </ListItem>
+          </Link>
+        </List>
+        <List component="div" disablePadding style={{ width: 230 }}>
+          <Link to="/identity/dbdni" className={classes.linkStyled}>
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <FiberManualRecordIcon style={{ height: 6 }} />
+              </ListItemIcon>
+              <ListItemText primary="Cédulas y Base de datos" />
             </ListItem>
           </Link>
         </List>

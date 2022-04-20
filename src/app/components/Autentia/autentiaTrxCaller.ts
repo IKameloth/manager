@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { EnrollmentDataType } from "@/app/types";
-
+import { ParamsGetType } from "@/app/types"
 declare var plgAutentiaJS: any;
 
 type Input = {
@@ -24,10 +23,11 @@ interface Props {
 };
 
 export const autentiaTrxCaller = ({ trxName, options }: Props) => {
-  return new Promise<EnrollmentDataType>((resolve, reject) => {
+  return new Promise<ParamsGetType>((resolve, reject) => {
     const $autentia = new plgAutentiaJS();
     const token = uuidv4();
-    const callBack = (resp: EnrollmentDataType) => resolve(resp);
+    const callBack = (resp: ParamsGetType) => resolve(resp);
+
     try {
       $autentia.Transaccion2(
         trxName,

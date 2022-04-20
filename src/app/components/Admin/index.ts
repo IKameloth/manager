@@ -11,7 +11,6 @@ import UsersTable from "./Roles/User/UsersTable";
 import RolesTable from "./Roles/User/RoleTable";
 import ShowConfirm from "./Roles/User/ShowConfirm";
 import ShowStatus from "./Roles/User/ShowStatus";
-
 export {
   ShowStatus,
   ShowConfirm,
