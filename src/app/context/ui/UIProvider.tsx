@@ -6,12 +6,12 @@ export interface UIState {
 }
 
 const UI_INIT_STATE: UIState = {
-  isOpenMenu: true
+  isOpenMenu: false,
 };
 
 type Props = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 export const UIProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(uiReducer, UI_INIT_STATE);

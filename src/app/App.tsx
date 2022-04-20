@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, Switch, Route } from "react-router-dom";
-import Navbar from "./components/Navbar/Navbar";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import RequireRole from "./routes/RequireRole";
 import { SearchSensor, RegisterSensor } from "@/app/pages/sensor";
+import { AppLayout } from "./components/layouts";
 
 const HealthCheck = React.lazy(() => import("./pages/healthCheck"));
 const Home = React.lazy(() => import("./pages/home"));
@@ -65,7 +65,7 @@ export default function App() {
           render={() => <TokenValidation />}
         />
 
-        <Navbar>
+        <AppLayout>
           <Route exact path="/" render={() => <Home />} />
           <Route exact path="/home" render={() => <Home />} />
 
@@ -134,7 +134,7 @@ export default function App() {
               render={() => <Institutions />}
             />
           </RequireRole>
-        </Navbar>
+        </AppLayout>
         <Route path="*" render={() => <NotFound />} />
       </Switch>
     </React.Suspense>

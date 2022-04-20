@@ -1,7 +1,7 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
+import { UIContext } from "@/app/context/ui";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
@@ -14,6 +14,8 @@ import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 const drawerWidth = 240;
 
@@ -21,11 +23,11 @@ interface Props {
   window?: () => Window;
 }
 
-const Navbar: FC<Props> = ({ window, children }) => {
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+const AppLayout: FC<Props> = ({ window, children }) => {
+  const { isOpenMenu, toggleMenu } = useContext(UIContext);
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    toggleMenu(!isOpenMenu);
   };
 
   const drawer = (
@@ -61,12 +63,10 @@ const Navbar: FC<Props> = ({ window, children }) => {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <CssBaseline />
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          zIndex: (theme) => theme.zIndex.drawer + 1,
         }}
       >
         <Toolbar>
@@ -77,11 +77,21 @@ const Navbar: FC<Props> = ({ window, children }) => {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: "none" } }}
           >
-            <MenuIcon />
+            {isOpenMenu ? <ArrowBackIosNewIcon /> : <MenuIcon />}
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Responsive drawer
+            {/* IMG LOGO */}
+            Autentia-Manager
           </Typography>
+          <Box sx={{ flexGrow: 1 }}></Box>
+          <IconButton
+            color="inherit"
+            aria-label="logout"
+            edge="end"
+            onClick={() => console.log("logout")}
+          >
+            <ExitToAppIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Box
@@ -89,14 +99,13 @@ const Navbar: FC<Props> = ({ window, children }) => {
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
           container={container}
           variant="temporary"
-          open={mobileOpen}
+          open={isOpenMenu}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: "block", sm: "none" },
@@ -137,4 +146,4 @@ const Navbar: FC<Props> = ({ window, children }) => {
   );
 };
 
-export default Navbar;
+export default AppLayout;
