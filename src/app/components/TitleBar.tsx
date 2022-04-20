@@ -67,17 +67,17 @@ const TitleBar = ({ title, subTitle, btnText, btnAction, icon }: Props) => {
               </Grid>
             </Grid>
             <Grid item style={{ marginTop: viewMobile ? "10px" : "0px" }}>
-              {btnText && (
+              {btnText && btnAction && (
                 <Button
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  startIcon={icon}
-                  style={{ borderRadius: 20 }}
-                  onClick={btnAction}
-                >
-                  {btnText}
-                </Button>
+                variant="contained"
+                color="primary"
+                size="large"
+                startIcon={icon}
+                style={{ borderRadius: 20 }}
+                onClick={btnAction}
+              >
+                {btnText}
+              </Button>
               )}
             </Grid>
           </Grid>

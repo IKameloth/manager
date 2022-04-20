@@ -25,6 +25,11 @@ const ValidateAccountToken = React.lazy(
 const RecoverPass = React.lazy(() => import("./pages/recover/recoverPass"));
 const NotFound = React.lazy(() => import("./pages/notFound/index"));
 const RolesList = React.lazy(() => import("./pages/users/RolesList"));
+const Verification = React.lazy(() => import("./pages/identity/verification"));
+const NewDni = React.lazy(() => import("./pages/identity/newDni"));
+const OldDni = React.lazy(() => import("./pages/identity/oldDni"));
+const DbDni = React.lazy(() => import("./pages/identity/dbDni"));
+
 const RolesSearch = React.lazy(() => import("./pages/users/Search"));
 
 export default function App() {
@@ -93,6 +98,26 @@ export default function App() {
             exact
             path="/reenrollment"
             render={() => <ReEnrollment />}
+          />
+          <ProtectedRoute
+            exact
+            path="/identity/verification"
+            render={() => <Verification />}
+          />
+          <ProtectedRoute
+            exact
+            path="/identity/newdni"
+            render={() => <NewDni />}
+          />
+          <ProtectedRoute
+            exact
+            path="/identity/olddni"
+            render={() => <OldDni />}
+          />
+          <ProtectedRoute
+            exact
+            path="/identity/dbdni"
+            render={() => <DbDni />}
           />
           {/* AdminRoute */}
           <RequireRole>
