@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { MenuStyled } from "@/assets/SideBar/Menu";
 import {
   Collapse,
   Grid,
@@ -18,27 +17,18 @@ import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
 export default function UserMenu() {
-  const classes = MenuStyled();
   const [openUserList, setOpenUserList] = React.useState(false);
   const [openIdentList, setOpenIdentList] = React.useState(false);
   const [openEnrollList, setOpenEnrollList] = React.useState(false);
   const [openSensorList, setOpenSensorList] = React.useState(false);
 
   return (
-    <List
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-      className={classes.list}
-    >
-      <Grid className={classes.title}>
+    <List component="nav" aria-labelledby="nested-list-subheader">
+      <Grid>
         <Typography variant="subtitle2">General</Typography>
       </Grid>
 
-      <ListItem
-        button
-        onClick={() => setOpenUserList(!openUserList)}
-        style={{ width: 300 }}
-      >
+      <ListItem button onClick={() => setOpenUserList(!openUserList)}>
         <ListItemIcon>
           <SupervisorAccountIcon />
         </ListItemIcon>
@@ -47,28 +37,27 @@ export default function UserMenu() {
       </ListItem>
 
       <Collapse in={openUserList} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding style={{ width: 230 }}>
-
-          <Link to="/users/search" className={classes.linkStyled}>
-            <ListItem button className={classes.nested}>
+        <List component="div" disablePadding>
+          <Link to="/users/search">
+            <ListItem button>
               <ListItemIcon>
-                <FiberManualRecordIcon style={{ height: 6 }} />
+                <FiberManualRecordIcon />
               </ListItemIcon>
               <ListItemText primary="Buscar" />
             </ListItem>
           </Link>
-          <Link to="/users/roles" className={classes.linkStyled}>
-            <ListItem button className={classes.nested}>
+          <Link to="/users/roles">
+            <ListItem button>
               <ListItemIcon>
-                <FiberManualRecordIcon style={{ height: 6 }} />
+                <FiberManualRecordIcon />
               </ListItemIcon>
               <ListItemText primary="Listar roles" />
             </ListItem>
           </Link>
-          <Link to="/users/roles/add" className={classes.linkStyled}>
-            <ListItem button className={classes.nested}>
+          <Link to="/users/roles/add">
+            <ListItem button>
               <ListItemIcon>
-                <FiberManualRecordIcon style={{ height: 6 }} />
+                <FiberManualRecordIcon />
               </ListItemIcon>
               <ListItemText primary="Agregar Rol" />
             </ListItem>
@@ -76,54 +65,50 @@ export default function UserMenu() {
         </List>
       </Collapse>
 
-      <ListItem
-        button
-        onClick={() => setOpenIdentList(!openIdentList)}
-        style={{ width: 300 }}
-      >
+      <ListItem button onClick={() => setOpenIdentList(!openIdentList)}>
         <ListItemIcon>
           <AssignmentIndIcon />
         </ListItemIcon>
         <ListItemText primary="Identidad" />
-        {openUserList ? <ExpandLess /> : <ExpandMore />}
+        {openIdentList ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
 
       <Collapse in={openIdentList} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding style={{ width: 230 }}>
-          <Link to="/identity/verification" className={classes.linkStyled}>
-            <ListItem button className={classes.nested}>
+        <List component="div" disablePadding>
+          <Link to="/identity/verification">
+            <ListItem button>
               <ListItemIcon>
-                <FiberManualRecordIcon style={{ height: 6 }} />
+                <FiberManualRecordIcon />
               </ListItemIcon>
               <ListItemText primary="Verificación" />
             </ListItem>
           </Link>
         </List>
-        <List component="div" disablePadding style={{ width: 230 }}>
-          <Link to="/identity/newdni" className={classes.linkStyled}>
-            <ListItem button className={classes.nested}>
+        <List component="div" disablePadding>
+          <Link to="/identity/newdni">
+            <ListItem button>
               <ListItemIcon>
-                <FiberManualRecordIcon style={{ height: 6 }} />
+                <FiberManualRecordIcon />
               </ListItemIcon>
               <ListItemText primary="Cédula Nueva" />
             </ListItem>
           </Link>
         </List>
-        <List component="div" disablePadding style={{ width: 230 }}>
-          <Link to="/identity/olddni" className={classes.linkStyled}>
-            <ListItem button className={classes.nested}>
+        <List component="div" disablePadding>
+          <Link to="/identity/olddni">
+            <ListItem button>
               <ListItemIcon>
-                <FiberManualRecordIcon style={{ height: 6 }} />
+                <FiberManualRecordIcon />
               </ListItemIcon>
               <ListItemText primary="Cédula Antigua" />
             </ListItem>
           </Link>
         </List>
-        <List component="div" disablePadding style={{ width: 230 }}>
-          <Link to="/identity/dbdni" className={classes.linkStyled}>
-            <ListItem button className={classes.nested}>
+        <List component="div" disablePadding>
+          <Link to="/identity/dbdni">
+            <ListItem button>
               <ListItemIcon>
-                <FiberManualRecordIcon style={{ height: 6 }} />
+                <FiberManualRecordIcon />
               </ListItemIcon>
               <ListItemText primary="Cédulas y Base de datos" />
             </ListItem>
@@ -131,33 +116,29 @@ export default function UserMenu() {
         </List>
       </Collapse>
 
-      <ListItem
-        button
-        onClick={() => setOpenEnrollList(!openEnrollList)}
-        style={{ width: 300 }}
-      >
+      <ListItem button onClick={() => setOpenEnrollList(!openEnrollList)}>
         <ListItemIcon>
           <HowToRegIcon />
         </ListItemIcon>
         <ListItemText primary="Enrolamiento" />
-        {openUserList ? <ExpandLess /> : <ExpandMore />}
+        {openEnrollList ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
 
       <Collapse in={openEnrollList} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding style={{ width: 230 }}>
-          <Link to="/enrollment" className={classes.linkStyled}>
-            <ListItem button className={classes.nested}>
+        <List component="div" disablePadding>
+          <Link to="/enrollment">
+            <ListItem button>
               <ListItemIcon>
-                <FiberManualRecordIcon style={{ height: 6 }} />
+                <FiberManualRecordIcon />
               </ListItemIcon>
               <ListItemText primary="Enrolar" />
             </ListItem>
           </Link>
 
-          <Link to="/reenrollment" className={classes.linkStyled}>
-            <ListItem button className={classes.nested}>
+          <Link to="/reenrollment">
+            <ListItem button>
               <ListItemIcon>
-                <FiberManualRecordIcon style={{ height: 6 }} />
+                <FiberManualRecordIcon />
               </ListItemIcon>
               <ListItemText primary="Re-Enrolar" />
             </ListItem>
@@ -165,11 +146,7 @@ export default function UserMenu() {
         </List>
       </Collapse>
 
-      <ListItem
-        button
-        onClick={() => setOpenSensorList(!openSensorList)}
-        style={{ width: 300 }}
-      >
+      <ListItem button onClick={() => setOpenSensorList(!openSensorList)}>
         <ListItemIcon>
           <TouchAppIcon />
         </ListItemIcon>
@@ -178,19 +155,19 @@ export default function UserMenu() {
       </ListItem>
 
       <Collapse in={openSensorList} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding style={{ width: 230 }}>
-          <Link to="/sensor" className={classes.linkStyled}>
-            <ListItem button className={classes.nested}>
+        <List component="div" disablePadding>
+          <Link to="/sensor">
+            <ListItem button>
               <ListItemIcon>
-                <FiberManualRecordIcon style={{ height: 6 }} />
+                <FiberManualRecordIcon />
               </ListItemIcon>
               <ListItemText primary="Consultar lector" />
             </ListItem>
           </Link>
-          <Link to="/sensor/register" className={classes.linkStyled}>
-            <ListItem button className={classes.nested}>
+          <Link to="/sensor/register">
+            <ListItem button>
               <ListItemIcon>
-                <FiberManualRecordIcon style={{ height: 6 }} />
+                <FiberManualRecordIcon />
               </ListItemIcon>
               <ListItemText primary="Registrar lector" />
             </ListItem>

@@ -31,7 +31,7 @@ export const Sidebar: FC<Props> = ({ window, drawerWidth }) => {
     window !== undefined ? () => window().document.body : undefined;
 
   const drawer = (
-    <div>
+    <>
       <Toolbar />
       <Divider />
       <List>
@@ -65,46 +65,48 @@ export const Sidebar: FC<Props> = ({ window, drawerWidth }) => {
       <UserMenu />
       {/* ADMIN MENU */}
       <AdminMenu />
-    </div>
+    </>
   );
 
   return (
-    <Box
-      component="nav"
-      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-      aria-label="mailbox folders"
-    >
-      <Drawer
-        container={container}
-        variant="temporary"
-        open={isOpenMenu}
-        onClose={() => toggleMenu(!isOpenMenu)}
-        ModalProps={{
-          keepMounted: true,
-        }}
-        sx={{
-          display: { xs: "block", sm: "none" },
-          "& .MuiDrawer-paper": {
-            boxSizing: "border-box",
-            width: drawerWidth,
-          },
-        }}
+    <>
+      <Box
+        component="nav"
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        aria-label="mailbox folders"
       >
-        {drawer}
-      </Drawer>
-      <Drawer
-        variant="permanent"
-        sx={{
-          display: { xs: "none", sm: "block" },
-          "& .MuiDrawer-paper": {
-            boxSizing: "border-box",
-            width: drawerWidth,
-          },
-        }}
-        open
-      >
-        {drawer}
-      </Drawer>
-    </Box>
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={isOpenMenu}
+          onClose={() => toggleMenu(!isOpenMenu)}
+          ModalProps={{
+            keepMounted: true,
+          }}
+          sx={{
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+        <Drawer
+          variant="permanent"
+          sx={{
+            display: { xs: "none", sm: "block" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
+          }}
+          open
+        >
+          {drawer}
+        </Drawer>
+      </Box>
+    </>
   );
 };

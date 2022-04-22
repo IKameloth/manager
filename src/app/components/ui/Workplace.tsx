@@ -1,4 +1,5 @@
-import React, { forwardRef, ReactElement, Ref, useState } from "react";
+import React, { forwardRef, ReactElement, Ref, useContext } from "react";
+import { UIContext } from "@/app/context/ui";
 import { useSelector } from "react-redux";
 import { TransitionProps } from "@mui/material/transitions";
 import { StoreState } from "../../store/index";
@@ -19,85 +20,6 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 
-export const Workplace = () => {
-  const [open, setOpen] = useState<boolean>(false);
-  const { common } = useSelector((state: StoreState) => state);
-  const { countries, rolesProfile } = common;
-
-  return (
-    <>
-      <Box padding={2}>
-        <Button variant="outlined" onClick={() => setOpen(true)}>
-          Seleccionar donde operar
-        </Button>
-      </Box>
-      {/* DIALOG */}
-      <Dialog
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={() => setOpen(false)}
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle>{"Seleccionar donde operar"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            <form>
-              <Grid container>
-                <Grid item xs={12} mt={2}>
-                  <FormControl variant="outlined" fullWidth>
-                    <InputLabel htmlFor="country">Seleccionar país</InputLabel>
-                    <Select
-                      labelId="country"
-                      id="country"
-                      label="Seleccionar país"
-                      fullWidth
-                      variant="outlined"
-                    >
-                      {countries?.data?.map((country) => (
-                        <MenuItem key={country} value={country}>
-                          {country}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                    <FormHelperText>{/* HELPER TEXT */}</FormHelperText>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} mt={2}>
-                  <FormControl variant="outlined" fullWidth>
-                    <InputLabel htmlFor="institution">
-                      Seleccionar institución
-                    </InputLabel>
-                    <Select
-                      labelId="institution"
-                      id="institution"
-                      label="Seleccionar institución"
-                      fullWidth
-                      variant="outlined"
-                    >
-                      {rolesProfile?.map((role) => (
-                        <MenuItem key={role?.id} value={role?.institution.name}>
-                          {role?.institution.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                    <FormHelperText>{/* HELPER TEXT */}</FormHelperText>
-                  </FormControl>
-                </Grid>
-              </Grid>
-            </form>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions sx={{ justifyContent: "center", mb: 1 }}>
-          <Button variant="outlined" onClick={() => setOpen(false)}>
-            Aceptar
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </>
-  );
-};
-
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
     children: ReactElement<any, any>;
@@ -106,3 +28,80 @@ const Transition = forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+export const Workplace = () => {
+  const { isOpenWorkplace, toggleWorkplace } = useContext(UIContext);
+  const { common } = useSelector((state: StoreState) => state);
+  const { countries, rolesProfile } = common;
+
+  return (
+    <>
+      <Box padding={2}>
+        <Button variant="outlined" onClick={() => toggleWorkplace(true)}>
+          Seleccionar donde operar
+        </Button>
+      </Box>
+      <Dialog
+        TransitionComponent={Transition}
+        open={isOpenWorkplace}
+        onClose={() => toggleWorkplace(false)}
+        aria-describedby="alert-dialog-slide-description"
+        keepMounted
+      >
+        <DialogTitle>Seleccionar donde operar</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description"></DialogContentText>
+          <Grid container>
+            <Grid item xs={12} mt={2}>
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel htmlFor="country">Seleccionar país</InputLabel>
+                <Select
+                  labelId="country"
+                  id="country"
+                  label="Seleccionar país"
+                  fullWidth
+                  variant="outlined"
+                  value={""}
+                >
+                  {countries?.data?.map((country) => (
+                    <MenuItem key={country} value={country}>
+                      {country}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText>{/* HELPER TEXT */}</FormHelperText>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} mt={2}>
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel htmlFor="institution">
+                  Seleccionar institución
+                </InputLabel>
+                <Select
+                  labelId="institution"
+                  id="institution"
+                  label="Seleccionar institución"
+                  fullWidth
+                  variant="outlined"
+                  value={""}
+                >
+                  {rolesProfile?.map((role) => (
+                    <MenuItem key={role?.id} value={role?.institution.name}>
+                      {role?.institution.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText>{/* HELPER TEXT */}</FormHelperText>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: "center", mb: 1 }}>
+          <Button variant="outlined" onClick={() => toggleWorkplace(false)}>
+            Aceptar
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+};

@@ -1,75 +1,93 @@
 import React from "react";
-import { MenuStyled } from "@/assets/SideBar/Menu";
 import { Link } from "react-router-dom";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import FolderSharedIcon from '@mui/icons-material/FolderShared';
-import PersonIcon from '@mui/icons-material/Person';
-import BusinessIcon from '@mui/icons-material/Business';
-import { Collapse, Grid, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import FolderSharedIcon from "@mui/icons-material/FolderShared";
+import PersonIcon from "@mui/icons-material/Person";
+import BusinessIcon from "@mui/icons-material/Business";
+import {
+  Collapse,
+  Grid,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 
 export default function AdminMenu() {
-  const classes = MenuStyled();
   const [openRoleList, setOpenRoleList] = React.useState(false);
   const [openPersonList, setOpenPersonList] = React.useState(false);
   const [openInstitList, setOpenInstitList] = React.useState(false);
 
-  return(
-    <List component="nav" aria-labelledby="nested-list-subheader" className={classes.list}>
-    <Grid className={classes.title}>
-      <Typography variant="subtitle2">Administración</Typography>
-    </Grid>
+  return (
+    <List component="nav" aria-labelledby="nested-list-subheader">
+      <Grid>
+        <Typography variant="subtitle2">Administración</Typography>
+      </Grid>
 
-    <ListItem button onClick={() => setOpenRoleList(!openRoleList)} style={{width: 300}}>
-      <ListItemIcon><FolderSharedIcon /></ListItemIcon>
-      <ListItemText primary="Roles" />
-      {openRoleList ? <ExpandLess /> : <ExpandMore />}
-    </ListItem>
+      <ListItem button onClick={() => setOpenRoleList(!openRoleList)}>
+        <ListItemIcon>
+          <FolderSharedIcon />
+        </ListItemIcon>
+        <ListItemText primary="Roles" />
+        {openRoleList ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
 
-    <Collapse in={openRoleList} timeout="auto" unmountOnExit>
-      <List component="div" disablePadding style={{width: 230}}>
-        <Link to="/roles" className={classes.linkStyled}>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon><FiberManualRecordIcon style={{height: 6}} /></ListItemIcon>
-            <ListItemText primary="Admin Roles" />
-          </ListItem>
-        </Link>
-      </List>
-    </Collapse>
+      <Collapse in={openRoleList} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <Link to="/roles">
+            <ListItem button>
+              <ListItemIcon>
+                <FiberManualRecordIcon />
+              </ListItemIcon>
+              <ListItemText primary="Admin Roles" />
+            </ListItem>
+          </Link>
+        </List>
+      </Collapse>
 
-    <ListItem button onClick={() => setOpenPersonList(!openPersonList)} style={{width: 300}}>
-      <ListItemIcon><PersonIcon /></ListItemIcon>
-      <ListItemText primary="Personas" />
-      {openPersonList ? <ExpandLess /> : <ExpandMore />}
-    </ListItem>
+      <ListItem button onClick={() => setOpenPersonList(!openPersonList)}>
+        <ListItemIcon>
+          <PersonIcon />
+        </ListItemIcon>
+        <ListItemText primary="Personas" />
+        {openPersonList ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
 
-    <Collapse in={openPersonList} timeout="auto" unmountOnExit>
-      <List component="div" disablePadding style={{width: 230}}>
-        <Link to="/people" className={classes.linkStyled}>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon><FiberManualRecordIcon style={{height: 6}} /></ListItemIcon>
-            <ListItemText primary="Buscar" />
-          </ListItem>
-        </Link>
-      </List>
-    </Collapse>
+      <Collapse in={openPersonList} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <Link to="/people">
+            <ListItem button>
+              <ListItemIcon>
+                <FiberManualRecordIcon />
+              </ListItemIcon>
+              <ListItemText primary="Buscar" />
+            </ListItem>
+          </Link>
+        </List>
+      </Collapse>
 
-    <ListItem button onClick={() => setOpenInstitList(!openInstitList)} style={{width: 300}}>
-      <ListItemIcon><BusinessIcon /></ListItemIcon>
-      <ListItemText primary="Instituciones" />
-      {openInstitList ? <ExpandLess /> : <ExpandMore />}
-    </ListItem>
+      <ListItem button onClick={() => setOpenInstitList(!openInstitList)}>
+        <ListItemIcon>
+          <BusinessIcon />
+        </ListItemIcon>
+        <ListItemText primary="Instituciones" />
+        {openInstitList ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
 
-    <Collapse in={openInstitList} timeout="auto" unmountOnExit>
-      <List component="div" disablePadding style={{width: 230}}>
-        <Link to="/institutions" className={classes.linkStyled}>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon><FiberManualRecordIcon style={{height: 6}} /></ListItemIcon>
-            <ListItemText primary="Listar" />
-          </ListItem>
-        </Link>
-      </List>
-    </Collapse>
-  </List>
+      <Collapse in={openInstitList} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <Link to="/institutions">
+            <ListItem button>
+              <ListItemIcon>
+                <FiberManualRecordIcon />
+              </ListItemIcon>
+              <ListItemText primary="Listar" />
+            </ListItem>
+          </Link>
+        </List>
+      </Collapse>
+    </List>
   );
-};
+}
