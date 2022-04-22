@@ -1,8 +1,18 @@
-import React, { forwardRef, ReactElement, Ref, useContext } from "react";
+import React, {
+  FC,
+  forwardRef,
+  ReactElement,
+  Ref,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { UIContext } from "@/app/context/ui";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { TransitionProps } from "@mui/material/transitions";
-import { StoreState } from "../../store/index";
+import { StoreState } from "@/app/store/index";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { setCountries, setInstitList } from "@/app/store/common";
 import MenuItem from "@mui/material/MenuItem";
 import { Grid } from "@mui/material";
 import {
@@ -17,8 +27,10 @@ import {
   InputLabel,
   Select,
   Slide,
+  Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import { ProfileType, RoleType } from "@/app/types";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -29,11 +41,32 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export const Workplace = () => {
-  const { isOpenWorkplace, toggleWorkplace } = useContext(UIContext);
+interface Props {
+  profile: ProfileType;
+}
+
+interface IForm {
+  country: string;
+  institution: string;
+}
+
+export const Workplace: FC<Props> = ({ profile }) => {
+  const dispatcher = useDispatch();
   const { common } = useSelector((state: StoreState) => state);
+  const { isOpenWorkplace, toggleWorkplace } = useContext(UIContext);
+  const [selectedCountry, setSelectedCountry] = useState<string>("");
   const { countries, rolesProfile } = common;
 
+  useEffect(() => {
+    dispatcher(setCountries(profile.token));
+  }, []);
+
+  useEffect(() => {
+    selectedCountry.length > 0 &&
+      dispatcher(setInstitList(selectedCountry, profile.token));
+  }, [selectedCountry]);
+
+  console.log(selectedCountry);
   return (
     <>
       <Box padding={2}>
@@ -61,7 +94,8 @@ export const Workplace = () => {
                   label="Seleccionar país"
                   fullWidth
                   variant="outlined"
-                  value={""}
+                  value={selectedCountry}
+                  onChange={(e) => setSelectedCountry(e.target.value)}
                 >
                   {countries?.data?.map((country) => (
                     <MenuItem key={country} value={country}>
@@ -69,7 +103,7 @@ export const Workplace = () => {
                     </MenuItem>
                   ))}
                 </Select>
-                <FormHelperText>{/* HELPER TEXT */}</FormHelperText>
+                <FormHelperText></FormHelperText>
               </FormControl>
             </Grid>
             <Grid item xs={12} mt={2}>
@@ -83,7 +117,7 @@ export const Workplace = () => {
                   label="Seleccionar institución"
                   fullWidth
                   variant="outlined"
-                  value={""}
+                  defaultValue={""}
                 >
                   {rolesProfile?.map((role) => (
                     <MenuItem key={role?.id} value={role?.institution.name}>
@@ -91,13 +125,13 @@ export const Workplace = () => {
                     </MenuItem>
                   ))}
                 </Select>
-                <FormHelperText>{/* HELPER TEXT */}</FormHelperText>
+                <FormHelperText></FormHelperText>
               </FormControl>
             </Grid>
           </Grid>
         </DialogContent>
         <DialogActions sx={{ justifyContent: "center", mb: 1 }}>
-          <Button variant="outlined" onClick={() => toggleWorkplace(false)}>
+          <Button variant="outlined" onClick={() => console.log("submit")}>
             Aceptar
           </Button>
         </DialogActions>

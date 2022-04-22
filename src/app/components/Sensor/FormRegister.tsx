@@ -56,7 +56,7 @@ export default function FormRegisterSensor({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     handleSubmit,
     reset,
   } = useForm<IForm>({

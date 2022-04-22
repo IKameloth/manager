@@ -1,6 +1,6 @@
-import React, { FC, useContext } from "react";
+import React, { FC, useContext, useEffect } from "react";
 import { UIContext } from "@/app/context/ui";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { StoreState } from "@/app/store/index";
 import {
   Avatar,
@@ -12,10 +12,11 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import RoleNames from "../Navbar/RoleNames";
-import UserMenu from "../Navbar/UserMenu";
-import AdminMenu from "../Navbar/AdminMenu";
+import RoleNames from "./RoleNames";
+import UserMenu from "./UserMenu";
+import AdminMenu from "./AdminMenu";
 import { Workplace } from "./Workplace";
+import { setCountries } from "@/app/store/common";
 
 interface Props {
   window?: () => Window;
@@ -24,6 +25,7 @@ interface Props {
 
 export const Sidebar: FC<Props> = ({ window, drawerWidth }) => {
   const { isOpenMenu, toggleMenu } = useContext(UIContext);
+  const dispatcher = useDispatch();
   const { common } = useSelector((state: StoreState) => state);
   const { profile, rolesProfile } = common;
 
@@ -59,7 +61,7 @@ export const Sidebar: FC<Props> = ({ window, drawerWidth }) => {
       </List>
       <Divider variant="middle" />
       {/* SELECT INSTITUTION */}
-      <Workplace />
+      <Workplace profile={profile} />
       <Divider variant="middle" />
       {/* USER MENU */}
       <UserMenu />

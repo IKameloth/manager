@@ -1,11 +1,15 @@
-import React, { FC } from "react";
+import React, { ReactNode } from "react";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import { Navbar, Sidebar } from "@/app/components/ui";
 
 const drawerWidth = 240;
 
-export const AppLayout: FC = ({ children }) => {
+interface Props {
+  children: ReactNode;
+}
+
+export const AppLayout = ({ children }: Props) => {
   return (
     <Box sx={{ display: "flex" }}>
       {/* NAVBAR */}

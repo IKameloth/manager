@@ -1,3 +1,3 @@
-export * from "./Navbar";
-export * from "./Sidebar";
-export * from "./Workplace";
+export * from "./navbar/Navbar";
+export * from "./navbar/Sidebar";
+export * from "./navbar/Workplace";
