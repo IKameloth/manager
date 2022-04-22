@@ -18,7 +18,7 @@ type IForm = {
   technology: string;
 };
 
-export const RegisterSensor: FC = () => {
+const RegisterSensor: FC = () => {
   let history = useHistory();
   const { common } = useSelector((state: StoreState) => state);
   const { profile, currentCountry, currentInstitution } = common;
@@ -87,3 +87,5 @@ export const RegisterSensor: FC = () => {
     </Container>
   );
 };
+
+export default RegisterSensor;

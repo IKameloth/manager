@@ -14,7 +14,7 @@ import {
   ShowConfirm,
   ShowStatus,
 } from "@/app/components/Admin";
-import { Capitalize } from "@/app/helper/Capitalize";
+import { capitalize } from "@mui/material";
 
 interface Props {
   isLoading: boolean;
@@ -36,7 +36,7 @@ const UsersTable = ({ isLoading, data }: Props) => {
       headerName: "Nombre",
       disableColumnMenu: true,
       renderCell: (params: GridCellParams) => (
-        <ShowAvatar name={Capitalize(params.row.name)} />
+        <ShowAvatar name={capitalize(params.row.name)} />
       ),
     },
     {
@@ -124,7 +124,8 @@ const UsersTable = ({ isLoading, data }: Props) => {
       componentsProps={{
         toolbar: {
           value: searchText,
-          onChange: (e: React.ChangeEvent<HTMLInputElement>) => requestSearch(e.target.value),
+          onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+            requestSearch(e.target.value),
           clearSearch: () => requestSearch(""),
         },
       }}

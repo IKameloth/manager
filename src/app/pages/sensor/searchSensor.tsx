@@ -32,7 +32,7 @@ type IForm = {
   technology: string;
 };
 
-export const SearchSensor: FC = () => {
+const SearchSensor: FC = () => {
   let history = useHistory();
   const dispatcher = useDispatch();
   const { common } = useSelector((state: StoreState) => state);
@@ -160,3 +160,5 @@ export const SearchSensor: FC = () => {
     </Container>
   );
 };
+
+export default SearchSensor;

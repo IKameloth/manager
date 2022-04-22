@@ -8,9 +8,11 @@ const drawerWidth = 240;
 export const AppLayout: FC = ({ children }) => {
   return (
     <Box sx={{ display: "flex" }}>
+      {/* NAVBAR */}
       <Navbar />
+      {/* SIDEBAR */}
       <Sidebar drawerWidth={drawerWidth} />
-      {/* MAIN CONTENT */}
+      {/* CONTENT */}
       <Box
         component="main"
         sx={{

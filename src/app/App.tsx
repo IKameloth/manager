@@ -2,19 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useLocation, Switch, Route } from "react-router-dom";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import RequireRole from "./routes/RequireRole";
-import { SearchSensor, RegisterSensor } from "@/app/pages/sensor";
 import { AppLayout } from "./components/layouts";
 
 const HealthCheck = React.lazy(() => import("./pages/healthCheck"));
 const Home = React.lazy(() => import("./pages/home"));
 const Login = React.lazy(() => import("./pages/login"));
 const Roles = React.lazy(() => import("./pages/roles"));
-const RolesDetail = React.lazy(() => import("./pages/roles/RolesDetail"));
+const RolesDetail = React.lazy(() => import("./pages/roles/rolesDetail"));
 const People = React.lazy(() => import("./pages/people"));
 const Institutions = React.lazy(() => import("./pages/institutions"));
-const Enrollment = React.lazy(() => import("./pages/enrollment/Enrollment"));
+const Enrollment = React.lazy(() => import("./pages/enrollment/enrollment"));
 const ReEnrollment = React.lazy(
-  () => import("./pages/enrollment/ReEnrollment")
+  () => import("./pages/enrollment/reEnrollment")
 );
 const TokenValidation = React.lazy(
   () => import("./pages/recover/tokenValidation")
@@ -24,13 +23,17 @@ const ValidateAccountToken = React.lazy(
 );
 const RecoverPass = React.lazy(() => import("./pages/recover/recoverPass"));
 const NotFound = React.lazy(() => import("./pages/notFound/index"));
-const RolesList = React.lazy(() => import("./pages/users/RolesList"));
+const RolesList = React.lazy(() => import("./pages/users/rolesList"));
 const Verification = React.lazy(() => import("./pages/identity/verification"));
 const NewDni = React.lazy(() => import("./pages/identity/newDni"));
 const OldDni = React.lazy(() => import("./pages/identity/oldDni"));
 const DbDni = React.lazy(() => import("./pages/identity/dbDni"));
+const SearchSensor = React.lazy(() => import("./pages/sensor/searchSensor"));
+const RegisterSensor = React.lazy(
+  () => import("./pages/sensor/registerSensor")
+);
 
-const RolesSearch = React.lazy(() => import("./pages/users/Search"));
+const RolesSearch = React.lazy(() => import("./pages/users/search"));
 
 export default function App() {
   const location = useLocation();

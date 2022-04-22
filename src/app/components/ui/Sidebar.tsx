@@ -15,6 +15,7 @@ import {
 import RoleNames from "../Navbar/RoleNames";
 import UserMenu from "../Navbar/UserMenu";
 import AdminMenu from "../Navbar/AdminMenu";
+import { Workplace } from "./Workplace";
 
 interface Props {
   window?: () => Window;
@@ -58,6 +59,7 @@ export const Sidebar: FC<Props> = ({ window, drawerWidth }) => {
       </List>
       <Divider variant="middle" />
       {/* SELECT INSTITUTION */}
+      <Workplace />
       <Divider variant="middle" />
       {/* USER MENU */}
       <UserMenu />
